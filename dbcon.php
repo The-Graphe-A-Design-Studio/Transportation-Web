@@ -7,7 +7,7 @@
     // define('DB_SERVER', 'localhost');
     // define('DB_USERNAME', 'thegrhmw_rohit');
     // define('DB_PASSWORD', '.2019@TheGraphe');
-    // define('DB_NAME', 'thegrhmw_aatawala');
+    // define('DB_NAME', 'thegrhmw_transpoter');
 
     $hostName = DB_SERVER;
     $dbName = DB_NAME;
