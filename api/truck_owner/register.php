@@ -93,6 +93,8 @@
                             
                             $responseData = ['success' => '1', 'message' => 'OTP sent to your given number. Please verify your number'];
                             echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                            http_response_code(200);
                         } 
                         else
                         {
@@ -130,11 +132,14 @@
 
                 $address = mysqli_real_escape_string($link, $copy_row['t_to_address']);
 
+                date_default_timezone_set("Asia/Kolkata");
+                $date = date('Y-m-d');
+
                 $cust_sql = "INSERT INTO truck_owners (to_name, to_email, to_phone_code, to_phone, to_password, to_city, to_address, to_routes, to_permits,
-                            to_pan, to_bank, to_ifsc) VALUES ('".$copy_row['t_to_name']."', '".$copy_row['t_to_email']."', '".$copy_row['t_to_phone_code']."', 
+                            to_pan, to_bank, to_ifsc, to_registered) VALUES ('".$copy_row['t_to_name']."', '".$copy_row['t_to_email']."', '".$copy_row['t_to_phone_code']."', 
                             '".$copy_row['t_to_phone']."', '".$copy_row['t_to_password']."', '".$copy_row['t_to_city']."', '$address',
                             '".$copy_row['t_to_routes']."', '".$copy_row['t_to_permits']."', '".$copy_row['t_to_pan']."', '".$copy_row['t_to_bank']."', 
-                            '".$copy_row['t_to_ifsc']."')";
+                            '".$copy_row['t_to_ifsc']."', '$date')";
                 $cust_insert = mysqli_query($link, $cust_sql);
 
                 if($cust_insert)
