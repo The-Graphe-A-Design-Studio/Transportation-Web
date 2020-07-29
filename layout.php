@@ -10,7 +10,6 @@
         <!-- Template CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/components.css">
-        <link rel="stylesheet" href="assets/css/google.css">
     ';
 
     $nav_bar =
@@ -57,7 +56,7 @@
                 <ul class="sidebar-menu">
                     <li class="menu-header" style="margin-bottom: 50px"></li>
                     <li class="dashboard"><a class="nav-link" href="dashboard"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
-                    <li class="locations"><a class="nav-link" href="locations"><i class="fas fa-map-marked-alt"></i><span>Branch Locations</span></a></li>
+                    <li class="drivers"><a class="nav-link" href="drivers"><i class="fas fa-truck-moving"></i><span>Drivers</span></a></li>
                     <li class="categories"><a class="nav-link" href="categories"><i class="fas fa-list-ol"></i><span>Categories</span></a></li>
                     <li class="staffs"><a class="nav-link" href="staffs"><i class="fas fa-users"></i><span>Staffs</span></a></li>
                     <li class="customers"><a class="nav-link" href="customers"><i class="fas fa-smile"></i><span>Customers</span></a></li>
@@ -75,13 +74,6 @@
                 Copyright &copy; <script>document.write(new Date().getFullYear());</script> Transporter | Developed by <a href="https://thegraphe.com" target="_blank">The Graphē - A Design Studio</a>
             </div>
         </footer>
-        <div class="gt">
-            <div class="gt__box">
-                <div class="gt__select">
-                    <div id="google_translate_element"></div>
-                </div>
-            </div>
-        </div>
     ';
 
     $en = "en";
@@ -97,8 +89,6 @@
         <script src="assets/js/scripts.js"></script>
         <script src="assets/js/custom.js"></script>
 
-        <!-- Google Translater -->
-        <script src="assets/js/google.js"></script>
     ';
 
 ?>
