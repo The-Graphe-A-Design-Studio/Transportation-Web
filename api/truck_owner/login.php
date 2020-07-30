@@ -8,7 +8,7 @@
     {
         $enc_password = md5($_POST['password']);
          
-        $login_sql = "SELECT * FROM truck_owners WHERE to_phone_code = '".$_POST['phone_code']."' and to_phone = '".$_POST['phone']."' and to_password = '$enc_password'";
+        $login_sql = "SELECT * FROM truck_owners WHERE to_phone_code = '".$_POST['phone_code']."' and to_phone = '".$_POST['phone']."' and to_password = '$enc_password' and to_verified = '1'";
         $result = mysqli_query($link, $login_sql);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $count = mysqli_num_rows($result);
@@ -26,7 +26,7 @@
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'Invalid Phone or Password'];
+            $responseData = ['success' => '0', 'message' => 'Invalid Phone or Password or Admin has not accepted your registration yet'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
