@@ -27,157 +27,196 @@
         $re_r = mysqli_query($link, $re_c);
         $row_c = mysqli_fetch_array($re_r, MYSQLI_ASSOC);
 
-        if($_POST['to_phone_code'] == $row_c['to_phone_code'] && $_POST['to_phone'] == $row_c['to_phone'])
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
-            $up_c = "update truck_owners set to_name = '".$_POST['to_name']."', to_email = '".$_POST['to_email']."', to_phone_code = '".$_POST['to_phone_code']."', 
-                    to_phone = '".$_POST['to_phone']."', to_city = '".$_POST['to_city']."', to_address = '".$_POST['to_address']."', 
-                    to_routes = '".$_POST['to_operating_routes']."', to_permits = '".$_POST['to_state_permits']."', to_pan = '".$_POST['to_pan']."', 
-                    to_bank = '".$_POST['to_bank']."', to_ifsc = '".$_POST['to_ifsc']."' where to_id = '".$_POST['to_id']."'";
+            $responseData = ['success' => '0', 'message' => 'Invalid email format'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
 
-            $run_c = mysqli_query($link, $up_c);
-
-            if($run_c)
-            {
-                $responseData = ['success' => '1', 'message' => 'Profile info updated'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                http_response_code(202);
-            }
-            else
-            {
-                $responseData = ['success' => '0', 'message' => 'Profile info update failed'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                http_response_code(400);
-            }
+            http_response_code(400);
         }
         else
         {
-            if(!empty($_POST['to_name']) && !empty($_POST['to_phone_code']) && !empty($_POST['to_phone']))
+            if($_POST['to_phone_code'] == $row_c['to_phone_code'] && $_POST['to_phone'] == $row_c['to_phone'])
             {
-                // Prepare a select statement
-                $sqlr = "SELECT * FROM customers where to_phone_code = '".$_POST['to_phone_code']."' and to_phone = '".$_POST['to_phone']."'";
-                $checkr = mysqli_query($link, $sqlr);
-                $rowr = mysqli_fetch_array($checkr, MYSQLI_ASSOC);
-                $count = mysqli_num_rows($checkr);
-                if($count >= 1)
+                $up_c = "update truck_owners set to_name = '".$_POST['to_name']."', to_email = '".$_POST['to_email']."', to_phone_code = '".$_POST['to_phone_code']."', 
+                        to_phone = '".$_POST['to_phone']."', to_city = '".$_POST['to_city']."', to_address = '".$_POST['to_address']."', 
+                        to_routes = '".$_POST['to_operating_routes']."', to_permits = '".$_POST['to_state_permits']."', to_pan = '".$_POST['to_pan']."', 
+                        to_bank = '".$_POST['to_bank']."', to_ifsc = '".$_POST['to_ifsc']."' where to_id = '".$_POST['to_id']."'";
+
+                $run_c = mysqli_query($link, $up_c);
+
+                if($run_c)
                 {
-                    $responseData = ['success' => '0', 'message' => 'This Phone Number is already registered'];
+                    $responseData = ['success' => '1', 'message' => 'Profile info updated'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(202);
                 }
                 else
                 {
-                    $name_sql = "update customers set to_name = '".$_POST['to_name']."' where to_id = '".$_POST['to_id']."'";
-                    $name_insert = mysqli_query($link, $name_sql);
+                    $responseData = ['success' => '0', 'message' => 'Profile info update failed'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
 
-                    if($name_insert)
-                    {
-                        // Prepare an insert statement
-                        $rand_no = rand(100000, 999999);
-                        $name = $_POST['to_name'];
-                        $phone_code = $_POST['to_phone_code'];
-                        $phone = $_POST['to_phone'];
-                        $phone_w_code = $_POST['to_phone_code'].$_POST['to_phone'];
+                    http_response_code(400);
+                }
+            }
+            else
+            {
+                $ranto_no = rand(100000, 999999);
 
-                        $mobile_sql = "INSERT INTO mobile_numbers (mobile_number, verification_code) VALUES ('$phone_w_code', '$rand_no')";
-                        $mobile_insert = mysqli_query($link, $mobile_sql);
-                        
-                        if($mobile_insert)
-                        {
-                            
-                            $curl = curl_init();
+                $mobile_sql = "insert into temp_register (t_to_name, t_to_email, t_to_phone_code, t_to_phone, t_to_city, t_to_address, t_to_routes, t_to_permits,
+                                t_to_pan, t_to_bank, t_to_ifsc, t_otp, t_reg_user) values ('$name', '$email', '$phone_code', '$phone', '$city', '$address', '$routes',
+                                '$permits', '$pan', '$bank', '$ifsc', '$ranto_no', '1')";
 
-                            curl_setopt_array($curl, array(
-                            CURLOPT_URL => "https://control.msg91.com/api/sendotp.php?authkey=314319Asz8t1bwU0qU5e27d970P1&mobile=$phone&message=Hello $name, Your verification code for new number is $rand_no.&sender=AATAWALA&country=$phone_code&otp=$rand_no",
-                            CURLOPT_RETURNTRANSFER => true,
-                            CURLOPT_ENCODING => "",
-                            CURLOPT_MAXREDIRS => 10,
-                            CURLOPT_TIMEOUT => 30,
-                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                            CURLOPT_CUSTOMREQUEST => "GET",
-                            CURLOPT_SSL_VERIFYHOST => 0,
-                            CURLOPT_SSL_VERIFYPEER => 0,
-                            CURLOPT_HTTPHEADER => array(
-                                "content-type: application/json"
-                            ),
-                            ));
-                            
-                            $response = curl_exec($curl);
-                            $err = curl_error($curl);
-                            
-                            curl_close($curl);
-                            
-                            $responseData = ['success' => '1', 'message' => 'OTP sent to your given new number. Please verify your number'];
-                            echo json_encode($responseData, JSON_PRETTY_PRINT);
-                        } 
-                        else
-                        {
-                            $responseData = ['success' => '0', 'message' => 'Something went wrong. Please try again'];
-                            echo json_encode($responseData, JSON_PRETTY_PRINT);
-                        }
-                    }
-                    else
-                    {
-                        $responseData = ['success' => '0', 'message' => 'Something went wrong. Please try again'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-                    }
+                $mobile_insert = mysqli_query($link, $mobile_sql);
+                
+                if($mobile_insert)
+                {
+                    $api = '314319Asz8t1bwU0qU5e27d970P1';
+                    $msg = "Your OTP for changing your Phone number is $ranto_no. This OTP will expire in 20 minutes.";
+                    
+                    $curl = curl_init();
+
+                    curl_setopt_array($curl, array(
+                    CURLOPT_URL => "http://control.msg91.com/api/v5/otp?authkey=$api&mobiles=$phone&message=$msg&sender=TRNSPT&country=$phone_code&otp=$ranto_no",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 20,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_HTTPHEADER => array(
+                        "Cookie: PHPSESSID=odd5sg5bulmmhc82a8v81ckbe1"
+                    ),
+                    ));
+
+                    $response = curl_exec($curl);
+
+                    curl_close($curl);
+                    
+                    $responseData = ['success' => '1', 'message' => 'OTP sent to your given number. Please verify your number'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(200);
+                } 
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(400);
                 }
             }
         }
     }
-    elseif(isset($_POST['to_id']) && isset($_POST['phn_code']) && isset($_POST['phn']) && isset($_POST['otp']))
+    elseif(isset($_POST['to_id']) && isset($_POST['phone_number']) && isset($_POST['otp']))
     {
-        
-        $phone = $_POST['phn_code'].$_POST['phn'];
-        
-        // Check input errors before inserting in database
-        if(!empty($_POST['otp']))
+        $otp_sql = "select * from temp_register where t_to_phone = '".$_POST['phone_number']."' and t_otp = '".$_POST['otp']."' and t_reg_user = '1' and t_verified = '0'";
+        $otp_run = mysqli_query($link, $otp_sql);
+        $otp_row = mysqli_fetch_array($otp_run, MYSQLI_ASSOC);
+
+        $t_id = $otp_row['t_id'];
+
+        if($otp_row['t_otp'] === $_POST['otp'])
         {
-            
-            // Prepare an insert statement
-            $otp_sql = "select * from mobile_numbers where mobile_number = '$phone' and verification_code = '".$_POST['otp']."'";
-            $otp_insert = mysqli_query($link, $otp_sql);
-            $row = mysqli_fetch_array($otp_insert, MYSQLI_ASSOC);
+            $verifieto_sql = "update temp_register set t_verified = '1' where t_id = '$t_id'";
+            $verifieto_insert = mysqli_query($link, $verifieto_sql);
 
-            $mobile_id = $row['mobile_id'];
-            
-            if($row['verification_code'] === $_POST['otp'])
+            if($verifieto_insert)
             {
-                $verified_sql = "update mobile_numbers set verified = '1' where mobile_id = $mobile_id";
-                $verified_insert = mysqli_query($link, $verified_sql);
+                $copy_sql = "select * from temp_register where t_id = '$t_id' and t_to_phone = '".$_POST['phone_number']."' and t_otp = '".$_POST['otp']."' and t_reg_user = '1' and t_verified = '1'";
+                $copy_run = mysqli_query($link, $copy_sql);
+                $copy_row = mysqli_fetch_array($copy_run, MYSQLI_ASSOC);
 
-                if($verified_insert)
+                $address = mysqli_real_escape_string($link, $copy_row['t_to_address']);
+
+                $cust_sql = "update truck_owners set to_name = '".$copy_row['t_to_name']."', to_email = '".$copy_row['t_to_email']."', to_phone_code = '".$copy_row['t_to_phone_code']."', 
+                            to_phone = '".$copy_row['t_to_phone']."', to_city = '".$copy_row['t_to_city']."', to_address = '".$copy_row['t_to_address']."', 
+                            to_routes = '".$copy_row['t_to_routes']."', to_permits = '".$copy_row['t_to_permits']."', to_pan = '".$copy_row['t_to_pan']."', 
+                            to_bank = '".$copy_row['t_to_bank']."', to_ifsc = '".$copy_row['t_to_ifsc']."' where to_id = '".$_POST['to_id']."'";
+
+                $cust_insert = mysqli_query($link, $cust_sql);
+
+                if($cust_insert)
                 {
-                    $up_c = "update customers set  to_phone_code = '".$_POST['phn_code']."', to_phone = '".$_POST['phn']."' where to_id = '".$_POST['to_id']."'";
-                    $run_c = mysqli_query($link, $up_c);
+                    $del_sql = "delete from temp_register where t_id = '".$copy_row['t_id']."'";
+                    $del_run = mysqli_query($link, $del_sql);
 
-                    if($run_c)
-                    {
-                        $responseData = ['success' => '1', 'message' => 'Number verified & Info updated'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-                    }
-                    else
-                    {
-                        $responseData = ['success' => '0', 'message' => 'Something went wrong. Please try again'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-                    }
+                    $responseData = ['success' => '1', 'message' => 'OTP verified. Profile info updated'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(200);
                 }
                 else
                 {
-                    $responseData = ['success' => '0', 'message' => 'Something went wrong. Please try again'];
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(400);
                 }
             }
             else
             {
-                $responseData = ['success' => '0', 'message' => 'Wrong OTP'];
+                $responseData = ['success' => '0', 'message' => 'Server error. Try again'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(500);
             }
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'OTP is missing'];
+            $responseData = ['success' => '0', 'message' => 'Wrong OTP'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+    }
+    elseif(isset($_POST['resend_otp']))
+    {
+        $ranto_no = rand(100000, 999999);
+
+        $phone = $_POST['resend_otp'];
+
+        $re_sql = "update temp_register set t_otp = '$ranto_no' where t_to_phone = '$phone' and t_reg_user = '1' and t_verified = '0'";
+        $re_run = mysqli_query($link, $re_sql);
+        
+        if($re_run)
+        {
+            $api = '314319Asz8t1bwU0qU5e27d970P1';
+            $msg = "Your new OTP for changing your Phone number is $ranto_no. This OTP will expire in 20 minutes.";
+            
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://control.msg91.com/api/v5/otp?authkey=$api&mobiles=$phone&message=$msg&sender=TRNSPT&country=91&otp=$ranto_no",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 20,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_HTTPHEADER => array(
+                "Cookie: PHPSESSID=odd5sg5bulmmhc82a8v81ckbe1"
+            ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            
+            $responseData = ['success' => '1', 'message' => 'New OTP sent to your given number. Please verify your number'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(200);
+        } 
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(200);
         }
     }
     elseif(isset($_POST['to_id']) && isset($_POST['curr_password']) && isset($_POST['new_password']) && isset($_POST['cnf_new_password']))
@@ -190,7 +229,7 @@
         {
             $ento_password = md5($curr);
          
-            $ck_sql = "SELECT * FROM customers WHERE to_id = '".$_POST['to_id']."'";
+            $ck_sql = "SELECT * FROM truck_owners WHERE to_id = '".$_POST['to_id']."'";
             $result = mysqli_query($link, $ck_sql);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
@@ -198,36 +237,46 @@
             {
                 $ento_new_password = md5($new);
 
-                $up_p = "update customers set to_password = '$ento_new_password' where to_id = '".$_POST['to_id']."'";
+                $up_p = "update truck_owners set to_password = '$ento_new_password' where to_id = '".$_POST['to_id']."'";
                 $run_p = mysqli_query($link, $up_p);
 
                 if($run_p)
                 {
                     $responseData = ['success' => '1', 'message' => 'Password Updated. Login again'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(200);
                 }
                 else
                 {
-                    $responseData = ['success' => '0', 'message' => 'OTP is missing'];
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(400);
                 }
             }
             else
             {
                 $responseData = ['success' => '0', 'message' => 'Wrong password'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(400);
             }
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'Confirm Password not matched with New Password'];
+            $responseData = ['success' => '0', 'message' => 'Confirm Password does not match New Password'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
         }
     }
     else
     {
         $responseData = ['success' => '0', 'message' => 'Something went wrong'];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+        http_response_code(400);
     }
 
 ?>
