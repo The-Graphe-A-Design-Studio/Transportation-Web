@@ -119,6 +119,275 @@
             }
         }
     }
+    elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_dr_license_edit']))
+    {
+        $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+
+        $file_name1 = $_FILES['trk_dr_license_edit']['name'];
+        $file_size1 = $_FILES['trk_dr_license_edit']['size'];
+        $file_tmp1 = $_FILES['trk_dr_license_edit']['tmp_name'];
+        $file_type1 = $_FILES['trk_dr_license_edit']['type'];
+        
+        if($file_size1 >= 200000)
+        {
+            $responseData = ['success' => '0', 'message' => 'License file size must be less than 200 kb'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+        else
+        {
+            $file_name1 = $_FILES["trk_dr_license_edit"]["name"];
+            $rn1 = explode(".", $file_name1);
+            $extension1 = end($rn1);
+            $new_trk_dr_license = "license.".$extension1;
+
+            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+
+            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            array_map('unlink', glob("$dir/license.*"));
+
+            move_uploaded_file($file_tmp1, $des);
+
+            $d_sql = "update trucks set trk_dr_license = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_run = mysqli_query($link, $d_sql);
+
+            if($d_run)
+            {
+                $responseData = ['success' => '1', 'message' => 'Truck Insurance Updated'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Update failed'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(400);
+            }
+        }
+    }
+    elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_rc_edit']))
+    {
+        $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+
+        $file_name1 = $_FILES['trk_rc_edit']['name'];
+        $file_size1 = $_FILES['trk_rc_edit']['size'];
+        $file_tmp1 = $_FILES['trk_rc_edit']['tmp_name'];
+        $file_type1 = $_FILES['trk_rc_edit']['type'];
+        
+        if($file_size1 >= 200000)
+        {
+            $responseData = ['success' => '0', 'message' => 'RC file size must be less than 200 kb'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+        else
+        {
+            $file_name1 = $_FILES["trk_rc_edit"]["name"];
+            $rn1 = explode(".", $file_name1);
+            $extension1 = end($rn1);
+            $new_trk_dr_license = "rc.".$extension1;
+
+            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+
+            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            array_map('unlink', glob("$dir/rc.*"));
+
+            move_uploaded_file($file_tmp1, $des);
+
+            $d_sql = "update trucks set trk_rc = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_run = mysqli_query($link, $d_sql);
+
+            if($d_run)
+            {
+                $responseData = ['success' => '1', 'message' => 'Truck RC Updated'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Update failed'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(400);
+            }
+        }
+    }
+    elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_insurance_edit']))
+    {
+        $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+
+        $file_name1 = $_FILES['trk_insurance_edit']['name'];
+        $file_size1 = $_FILES['trk_insurance_edit']['size'];
+        $file_tmp1 = $_FILES['trk_insurance_edit']['tmp_name'];
+        $file_type1 = $_FILES['trk_insurance_edit']['type'];
+        
+        if($file_size1 >= 200000)
+        {
+            $responseData = ['success' => '0', 'message' => 'Insurance file size must be less than 200 kb'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+        else
+        {
+            $file_name1 = $_FILES["trk_insurance_edit"]["name"];
+            $rn1 = explode(".", $file_name1);
+            $extension1 = end($rn1);
+            $new_trk_dr_license = "insurance.".$extension1;
+
+            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+
+            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            array_map('unlink', glob("$dir/insurance.*"));
+
+            move_uploaded_file($file_tmp1, $des);
+
+            $d_sql = "update trucks set trk_insurance = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_run = mysqli_query($link, $d_sql);
+
+            if($d_run)
+            {
+                $responseData = ['success' => '1', 'message' => 'Truck Insurance Updated'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Update failed'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(400);
+            }
+        }
+    }
+    elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_road_tax_edit']))
+    {
+        $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+
+        $file_name1 = $_FILES['trk_road_tax_edit']['name'];
+        $file_size1 = $_FILES['trk_road_tax_edit']['size'];
+        $file_tmp1 = $_FILES['trk_road_tax_edit']['tmp_name'];
+        $file_type1 = $_FILES['trk_road_tax_edit']['type'];
+        
+        if($file_size1 >= 200000)
+        {
+            $responseData = ['success' => '0', 'message' => 'Road Tax file size must be less than 200 kb'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+        else
+        {
+            $file_name1 = $_FILES["trk_road_tax_edit"]["name"];
+            $rn1 = explode(".", $file_name1);
+            $extension1 = end($rn1);
+            $new_trk_dr_license = "road_tax.".$extension1;
+
+            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+
+            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            array_map('unlink', glob("$dir/road_tax.*"));
+
+            move_uploaded_file($file_tmp1, $des);
+
+            $d_sql = "update trucks set trk_road_tax = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_run = mysqli_query($link, $d_sql);
+
+            if($d_run)
+            {
+                $responseData = ['success' => '1', 'message' => 'Truck Road Tax Updated'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Update failed'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(400);
+            }
+        }
+    }
+    elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_rto_edit']))
+    {
+        $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+
+        $file_name1 = $_FILES['trk_rto_edit']['name'];
+        $file_size1 = $_FILES['trk_rto_edit']['size'];
+        $file_tmp1 = $_FILES['trk_rto_edit']['tmp_name'];
+        $file_type1 = $_FILES['trk_rto_edit']['type'];
+        
+        if($file_size1 >= 200000)
+        {
+            $responseData = ['success' => '0', 'message' => 'RTO file size must be less than 200 kb'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+        else
+        {
+            $file_name1 = $_FILES["trk_rto_edit"]["name"];
+            $rn1 = explode(".", $file_name1);
+            $extension1 = end($rn1);
+            $new_trk_dr_license = "rto.".$extension1;
+
+            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+
+            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            array_map('unlink', glob("$dir/rto.*"));
+
+            move_uploaded_file($file_tmp1, $des);
+
+            $d_sql = "update trucks set trk_rto = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_run = mysqli_query($link, $d_sql);
+
+            if($d_run)
+            {
+                $responseData = ['success' => '1', 'message' => 'Truck RTO Updated'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Update failed'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(400);
+            }
+        }
+    }
+    elseif(isset($_POST['trk_id']) && isset($_POST['trk_status']))
+    {
+        $d_sql = "update trucks set trk_active = '".$_POST['trk_status']."' where trk_id = '".$_POST['trk_id']."'";
+        $d_run = mysqli_query($link, $d_sql);
+        if($d_run)
+        {
+            $responseData = ['success' => '1', 'message' => 'Truck status updated'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+    }
     elseif(isset($_POST['del_truck_id']))
     {
         $sql = "select * from trucks where trk_id = '".$_POST['del_truck_id']."'";
