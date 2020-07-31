@@ -22,21 +22,103 @@
         
         mysqli_close($link);
     }
-    // elseif(isset($_POST['cu_id']) && isset($_POST['order_id']))
-    // {
-    //     $d_sql = "update orders set order_status = '2' where order_id = '".$_POST['order_id']."'";
-    //     $d_run = mysqli_query($link, $d_sql);
-    //     if($d_run)
-    //     {
-    //         $responseData = ['success' => '1', 'message' => 'Order cancelled'];
-    //         echo json_encode($responseData, JSON_PRETTY_PRINT);
-    //     }
-    //     else
-    //     {
-    //         $responseData = ['success' => '0', 'message' => 'Order cancel failed'];
-    //         echo json_encode($responseData, JSON_PRETTY_PRINT);
-    //     }
-    // }
+    elseif(isset($_POST['trk_id']) && isset($_POST['trk_cat_edit']) && isset($_POST['trk_num_edit']) && isset($_POST['trk_load_edit']) && isset($_POST['trk_dr_name_edit']) && 
+        isset($_POST['trk_dr_phone_code_edit']) && isset($_POST['trk_dr_phone_edit']))
+    {
+        $truck_id = $_POST['trk_id'];
+        $truck_cat_edit = $_POST['trk_cat_edit'];
+        $truck_num_edit = $_POST['trk_num_edit'];
+        $truck_load_edit = $_POST['trk_load_edit'];
+        $truck_driver_name_edit = $_POST['trk_dr_name_edit'];
+        $truck_driver_phone_code_edit = $_POST['trk_dr_phone_code_edit'];
+        $truck_driver_phone_edit = $_POST['trk_dr_phone_edit'];
+
+        $sqle = "SELECT * FROM trucks where trk_id = '$truck_id'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+        
+        if($truck_num_edit == $rowe['trk_num'])
+        {
+            $d_sql = "update trucks set trk_cat = '$truck_cat_edit', trk_load = '$truck_load_edit', trk_dr_name = '$truck_driver_name_edit',
+                        trk_dr_phone_code = '$truck_driver_phone_code_edit', trk_dr_phone = '$truck_driver_phone_edit' where trk_id = '$truck_id'";
+
+            $d_run = mysqli_query($link, $d_sql);
+
+            if($d_run)
+            {
+                $responseData = ['success' => '1', 'message' => 'Truck Details Updated'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+            }
+        }
+        else
+        {
+            $sqlee = "SELECT * FROM trucks where trk_num = '$truck_num_edit'";
+            $checkee = mysqli_query($link, $sqlee);
+            $rowee = mysqli_fetch_array($checkee, MYSQLI_ASSOC);
+            $countee = mysqli_num_rows($checkee);
+            if($countee >= 1)
+            {
+                $responseData = ['success' => '0', 'message' => 'This Truck Number is already registered'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                http_response_code(400);
+            }
+            else
+            {
+                $rc = $rowe['trk_rc'];
+                $rc = str_replace($rowe['trk_num'], $truck_num_edit, $rc);
+                
+                $license = $rowe['trk_dr_license'];
+                $license = str_replace($rowe['trk_num'], $truck_num_edit, $license);
+                
+                $insurance = $rowe['trk_insurance'];
+                $insurance = str_replace($rowe['trk_num'], $truck_num_edit, $insurance);
+
+                $road_tax = $rowe['trk_road_tax'];
+                $road_tax = str_replace($rowe['trk_num'], $truck_num_edit, $road_tax);
+
+                $rto = $rowe['trk_rto'];
+                $rto = str_replace($rowe['trk_num'], $truck_num_edit, $rto);
+                
+                $d_sql = "update trucks set trk_cat = '$truck_cat_edit', trk_num = '$truck_num_edit', trk_load = '$truck_load_edit', 
+                            trk_dr_name = '$truck_driver_name_edit', trk_dr_phone_code = '$truck_driver_phone_code_edit', trk_dr_phone = '$truck_driver_phone_edit',
+                            trk_dr_license = '$license', trk_rc = '$rc', trk_insurance = '$insurance', trk_road_tax = '$road_tax',
+                            trk_rto = '$rto' where trk_id = '$truck_id'";
+                $d_run = mysqli_query($link, $d_sql);
+
+                if($d_run)
+                {
+                    $old_dirname1 = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];
+                    $new_dirname = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$truck_num_edit;
+
+                    if(rename("$old_dirname1", "$new_dirname"))
+                    {
+                        $responseData = ['success' => '1', 'message' => 'Truck Details Updated'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+                        http_response_code(200);
+                    }
+                    else
+                    {
+                        $responseData = ['success' => '0', 'message' => 'Partial update. Rename truck'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                        http_response_code(400);
+                    }
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                }
+            }
+        }
+    }
     elseif(isset($_POST['del_truck_id']))
     {
         $sql = "select * from trucks where trk_id = '".$_POST['del_truck_id']."'";
@@ -123,7 +205,7 @@
                     $file_name = $_FILES["trk_rc"]["name"];
                     $rn = explode(".", $file_name);
                     $extension = end($rn);
-                    $new_trk_rc = $truck_num."_rc.".$extension;
+                    $new_trk_rc = "rc.".$extension;
                     
                     move_uploaded_file($file_tmp,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_rc);
 
@@ -148,7 +230,7 @@
                             $file_name1 = $_FILES["trk_dr_license"]["name"];
                             $rn1 = explode(".", $file_name1);
                             $extension1 = end($rn1);
-                            $new_trk_dr_license = $truck_num."_license.".$extension1;
+                            $new_trk_dr_license = "license.".$extension1;
 
                             move_uploaded_file($file_tmp1,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_dr_license);
 
@@ -173,7 +255,7 @@
                                     $file_name2 = $_FILES["trk_insurance"]["name"];
                                     $rn2 = explode(".", $file_name2);
                                     $extension2 = end($rn2);
-                                    $new_trk_insurance = $truck_num."_insurance.".$extension2;
+                                    $new_trk_insurance = "insurance.".$extension2;
 
                                     move_uploaded_file($file_tmp2,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_insurance);
 
@@ -198,7 +280,7 @@
                                             $file_namefp = $_FILES["trk_road_tax"]["name"];
                                             $rnfp = explode(".", $file_namefp);
                                             $extensionfp = end($rnfp);
-                                            $new_trk_road_tax = $truck_num."_road_tax.".$extensionfp;
+                                            $new_trk_road_tax = "road_tax.".$extensionfp;
 
                                             move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_road_tax);
 
@@ -223,7 +305,7 @@
                                                     $file_namefp = $_FILES["trk_rto"]["name"];
                                                     $rnfp = explode(".", $file_namefp);
                                                     $extensionfp = end($rnfp);
-                                                    $new_trk_rto = $truck_num."_rto.".$extensionfp;
+                                                    $new_trk_rto = "rto.".$extensionfp;
 
                                                     move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_rto);
 
