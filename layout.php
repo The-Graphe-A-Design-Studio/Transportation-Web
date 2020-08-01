@@ -56,7 +56,7 @@
                 <ul class="sidebar-menu">
                     <li class="menu-header" style="margin-bottom: 50px"></li>
                     <li class="dashboard"><a class="nav-link" href="dashboard"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
-                    <li class="drivers"><a class="nav-link" href="drivers"><i class="fas fa-truck-moving"></i><span>Drivers</span></a></li>
+                    <li class="truck_owners"><a class="nav-link" href="truck_owners"><i class="fas fa-truck-moving"></i><span>Truck Owners</span></a></li>
                     <li class="categories"><a class="nav-link" href="categories"><i class="fas fa-list-ol"></i><span>Categories</span></a></li>
                     <li class="staffs"><a class="nav-link" href="staffs"><i class="fas fa-users"></i><span>Staffs</span></a></li>
                     <li class="customers"><a class="nav-link" href="customers"><i class="fas fa-smile"></i><span>Customers</span></a></li>

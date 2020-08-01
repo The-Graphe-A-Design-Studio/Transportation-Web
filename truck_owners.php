@@ -18,14 +18,14 @@
         }
 
         th { 
-            background: #a5ce77; 
+            background: #ff826e; 
             color: #f4f6f9; 
             font-weight: bold;
             }
 
         td, th { 
             padding: 8px; 
-            border: 1px solid #a5ce77; 
+            border: 1px solid #ff826e; 
             text-align: center; 
             font-size: 1.1em;
             }
@@ -184,7 +184,7 @@
                 var start_date = start_datee('s_date');
                 var end_date = end_datee('e_date');
                 $.ajax({
-                    url:"processing/curd_drivers.php",
+                    url:"processing/curd_truck_owners.php",
                     method:"POST",
                     data:{action:action, active:active, inactive:inactive, nothing:nothing, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
@@ -225,7 +225,7 @@
             });
 
 
-            $(".drivers").addClass("active");
+            $(".truck_owners").addClass("active");
         });
     </script>
 </body>
