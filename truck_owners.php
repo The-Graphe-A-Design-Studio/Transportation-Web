@@ -154,7 +154,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <input type="button" id="refresh_btn" value="Refresh" hidden>
                     <div class="row mt-sm-4 filter_data">
 
                     </div>
@@ -216,6 +216,10 @@
             {
                 return $('.e_date').val();
             }
+
+            $('#refresh_btn').on('click',function(){
+                filter_data();
+            });
 
             $('.common_selector').on('keyup change',function(){
                 filter_data();

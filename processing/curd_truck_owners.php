@@ -77,7 +77,7 @@
             '
                 <table>
                     <thead>
-                        <th>Date</th>
+                        <th>Reg. Date</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -86,6 +86,7 @@
                         <th>Routes</th>
                         <th>State Permits</th>
                         <th>View</th>
+                        <th>Accept / Reject</th>
                     </thead>
                     <tbody>
             ';
@@ -98,17 +99,67 @@
                 $output .=
                 '
                     <tr>
-                        <td data-column="Date">'.$date.'</td>
+                        <td data-column="Reg. Date">'.$date.'</td>
                         <td data-column="Name">'.$row['to_name'].'</td>
                         <td data-column="Email"><a href="mailto:'.$row['to_email'].'">'.$row['to_email'].'</td>
                         <td data-column="Phone">+'.$row['to_phone_code'].' '.$row['to_phone'].'</td>
-                        <td data-column="Trucks Own"></td>
+                ';
+
+                $truck = "select count(*) from trucks where trk_owner = '".$row['to_id']."'";
+                $truck_get = mysqli_query($link, $truck);
+                $truck_row = mysqli_fetch_array($truck_get, MYSQLI_ASSOC);
+
+                if($truck_row['count(*)'] == 0)
+                {
+                    $truck_count = "Not added";
+                }
+                else
+                {
+                    $truck_count = $truck_row['count(*)'];
+                }
+
+                $output .=
+                '
+                        <td data-column="Trucks Own">'.$truck_count.'</td>
                         <td data-column="City">'.$row['to_city'].'</td>
                         <td data-column="Routes">'.$row['to_routes'].'</td>
                         <td data-column="State Permits">'.$row['to_permits'].'</td>
                         <td data-column="View">
-                            <a href="truck_owner_profile?owner_id='.$row['to_id'].'" target="_blank"><i class="fas fa-eye"></i></a>
+                            <a href="truck_owner_profile?owner_id='.$row['to_id'].'" target="_blank"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
+                ';
+
+                if($row['to_verified'] == 0)
+                {
+                    $reg =
+                    '
+                        <div style="display: inline-flex">
+                            <form class="to_status">
+                                <input type="text" name="to_id" value="'.$row['to_id'].'" hidden>
+                                <input type="text" name="to_reg" value="1" hidden>
+                                <button type="submit" class="btn btn-success btn-sm" title="Accept"><i class="fas fa-user-check"></i></button>
+                            </form>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <form class="to_status">
+                                <input type="text" name="to_id" value="'.$row['to_id'].'" hidden>
+                                <input type="text" name="to_reg" value="2" hidden>
+                                <button type="submit" class="btn btn-danger btn-sm" title="Reject"><i class="fas fa-user-minus"></i></button>
+                            </form>
+                        </div>
+                    ';
+                }
+                elseif($row['to_verified'] == 1)
+                {
+                    $reg = "Accepted";
+                }
+                else
+                {
+                    $reg = "Rejected";
+                }
+
+                $output .=
+                '
+                        <td data-column="Accept / Reject">'.$reg.'</td>
                     </tr>
                 ';
             }
@@ -117,6 +168,29 @@
             '
                     </tbody>
                 </table>
+            
+                <script>
+                    $(".to_status").submit(function(e)
+                    {
+                        var form_data = $(this).serialize();
+                        // alert(form_data);
+                        var button_content = $(this).find("button[type=submit]");
+                        $.ajax({
+                            url: "processing/curd_truck_owners.php",
+                            data: form_data,
+                            type: "POST",
+                            success: function(data)
+                            {
+                                alert(data);
+                                if(data === "Truck Owner Accepted" || data === "Truck Owner Rejected")
+                                {
+                                    $( "#refresh_btn" ).trigger( "click" );
+                                }
+                            }
+                        });
+                        e.preventDefault();
+                    });
+                </script>
             ';
         }
         else
@@ -130,5 +204,39 @@
         echo $output;
 
     }
-
+    elseif(isset($_POST['to_id']) && isset($_POST['to_reg']))
+	{
+        if($_POST['to_reg'] == 1)
+        {
+            $acc = "update truck_owners set to_verified = '1' where to_id = '".$_POST['to_id']."'";
+            if(mysqli_query($link, $acc))
+            {
+                echo "Truck Owner Accepted";
+            }
+            else
+            {
+                "Server error";
+            }
+        }
+        elseif($_POST['to_reg'] == 2)
+        {
+            $acc = "update truck_owners set to_verified = '2' where to_id = '".$_POST['to_id']."'";
+            if(mysqli_query($link, $acc))
+            {
+                echo "Truck Owner Rejected";
+            }
+            else
+            {
+                "Server error";
+            }
+        }
+		else
+		{
+			echo "Something went wrong";
+		}
+	}
+    else
+    {
+        echo "Server error";
+    }
 ?>
