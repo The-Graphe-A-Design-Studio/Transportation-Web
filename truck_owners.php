@@ -10,88 +10,6 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Dashboard | diva lounge spa</title>
     <?php echo $head_tags; ?>
-    <style>
-        
-        table { 
-        width: 100%; 
-        border-collapse: collapse; 
-        }
-
-        th { 
-            background: #ff826e; 
-            color: #f4f6f9; 
-            font-weight: bold;
-            }
-
-        td, th { 
-            padding: 8px; 
-            border: 1px solid #ff826e; 
-            text-align: center; 
-            font-size: 1.1em;
-            }
-
-        /* 
-        Max width before this PARTICULAR table gets nasty
-        This query will take effect for any screen smaller than 760px
-        and also iPads specifically.
-        */
-        @media 
-        only screen and (max-width: 760px),
-        (min-device-width: 768px) and (max-device-width: 1024px)  {
-
-            table { 
-                width: 100%; 
-            }
-
-            /* Force table to not be like tables anymore */
-            table, thead, tbody, th, td, tr { 
-                display: block; 
-            }
-            
-            /* Hide table headers (but not display: none;, for accessibility) */
-            thead tr { 
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-            
-            tr { border: 1px solid #ccc; }
-            
-            td { 
-                /* Behave  like a "row" */
-                border: none;
-                border-bottom: 1px solid #eee; 
-                position: relative;
-                padding-left: 30%; 
-            }
-
-            .copy-td
-            {
-                padding-left: 0% !important;
-            }
-
-            .form-link
-            {
-                padding-left: 0 !important;
-            }
-
-            td:before { 
-                /* Now like a table header */
-                position: absolute;
-                /* Top/left values mimic padding */
-                top: 6px;
-                left: 6px;
-                padding-right: 10px; 
-                white-space: nowrap;
-                /* Label the data */
-                content: attr(data-column);
-
-                color: #000;
-                font-weight: bold;
-            }
-
-        }
-    </style>
 </head>
 <body>
     <div id="app">
@@ -104,10 +22,10 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header">
-                    <h1>Drivers</h1>
+                    <h1>Truck Owners</h1>
                     <div class="section-header-breadcrumb">
                         <div class="breadcrumb-item active"><a href="dashboard">Dashboard</a></div>
-                        <div class="breadcrumb-item">Drivers</div>
+                        <div class="breadcrumb-item">Truck Owners</div>
                     </div>
                 </div>
 
