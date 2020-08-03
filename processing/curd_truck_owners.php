@@ -82,6 +82,7 @@
             '
                 <table>
                     <thead>
+                        <th>ID</th>
                         <th>Reg. Date</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -104,6 +105,7 @@
                 $output .=
                 '
                     <tr>
+                        <td data-column="ID">'.$row['to_id'].'</td>
                         <td data-column="Reg. Date">'.$date.'</td>
                         <td data-column="Name">'.$row['to_name'].'</td>
                         <td data-column="Email"><a href="mailto:'.$row['to_email'].'">'.$row['to_email'].'</td>
