@@ -15,6 +15,12 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Dashboard | diva lounge spa</title>
     <?php echo $head_tags; ?>
+    <style>
+        td i
+        {
+            font-size: 1.2rem !important;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -30,7 +36,7 @@
                     <h1>Truck Owner Profile</h1>
                     <div class="section-header-breadcrumb">
                         <div class="breadcrumb-item active"><a href="dashboard">Dashboard</a></div>
-                        <div class="breadcrumb-item"><a href="truck_owner">Truck Owners</a></div>
+                        <div class="breadcrumb-item"><a href="truck_owners">Truck Owners</a></div>
                         <div class="breadcrumb-item">Truck Owner Profile</div>
                     </div>
                 </div>
@@ -81,7 +87,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-12 col-lg-6">
+                        <!-- <div class="col-12 col-md-12 col-lg-6">
                             <div class="card">
                                 <form method="post" class="needs-validation" novalidate="">
                                 <div class="card-header">
@@ -117,29 +123,99 @@
                                             <input type="tel" class="form-control" value="">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-12">
-                                            <label>Bio</label>
-                                            <textarea class="form-control summernote-simple">Ujang maman is a superhero name in &lt;b&gt;Indonesia&lt;/b&gt;, especially in my family. He is not a fictional character but an original hero in my family, a hero for his children and for his wife. So, I use the name as a user in this template. Not a tribute, I'm just bored with &lt;b&gt;'John Doe'&lt;/b&gt;.</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group mb-0 col-12">
-                                            <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="remember" class="custom-control-input" id="newsletter">
-                                            <label class="custom-control-label" for="newsletter">Subscribe to newsletter</label>
-                                            <div class="text-muted form-text">
-                                                You will get new information about products, offers and promotions
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="card-footer text-right">
                                     <button class="btn btn-primary">Save Changes</button>
                                 </div>
                                 </form>
                             </div>
+                        </div> -->
+                    </div>
+                    <h2 class="section-title">Truck Owns</h2>
+                    <div class="row mt-sm-4">
+                        <div class="col-12 col-md-12">
+                            <table>
+                                <thead>
+                                    <th>Truck</th>
+                                    <th>Number</th>
+                                    <th>Load (in Tons)</th>
+                                    <th>Driver's Name</th>
+                                    <th>Driver's Phone</th>
+                                    <th>Driver's License</th>
+                                    <th>RC</th>
+                                    <th>Insurance</th>
+                                    <th>Road Tax</th>
+                                    <th>RTO</th>
+                                    <th>Status</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        $truck = "select * from trucks where trk_owner = '$owner'";
+                                        $g_truck = mysqli_query($link, $truck);
+                                        while($r_truck = mysqli_fetch_array($g_truck, MYSQLI_ASSOC))
+                                        {
+                                    ?>
+                                    <tr>
+                                        <td data-column="Truck">
+                                            <?php
+                                                $cat = "select * from truck_cat where trk_cat_id = '".$r_truck['trk_cat']."'";
+                                                $g_cat = mysqli_query($link, $cat);
+                                                $r_cat = mysqli_fetch_array($g_cat, MYSQLI_ASSOC);
+
+                                                echo $r_cat['trk_cat_name'];
+                                            ?>
+                                        </td>
+                                        <td data-column="Number"><?php echo $r_truck['trk_num']; ?></td>
+                                        <td data-column="Load (in Tons)"><?php echo $r_truck['trk_load']; ?></td>
+                                        <td data-column="Driver's Name"><?php echo $r_truck['trk_dr_name']; ?></td>
+                                        <td data-column="Driver's Phone"><?php echo "+".$r_truck['trk_dr_phone_code']." ".$r_truck['trk_dr_phone']; ?></td>
+                                        <td data-column="Driver's License">
+                                            <a href="<?php echo $r_truck['trk_dr_license']; ?>" target="_blank" title="View File"><i class="fas fa-file"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="<?php echo $r_truck['trk_dr_license']; ?>" title="Download File" download="<?php echo $r_truck['trk_num']; ?>_license"><i class="fas fa-file-download"></i></a>
+                                        </td>
+                                        <td data-column="RC">
+                                            <a href="<?php echo $r_truck['trk_rc']; ?>" target="_blank" title="View File"><i class="fas fa-file"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="<?php echo $r_truck['trk_rc']; ?>" title="Download File" download="<?php echo $r_truck['trk_num']; ?>_rc"><i class="fas fa-file-download"></i></a>
+                                        </td>
+                                        <td data-column="Insurance">
+                                            <a href="<?php echo $r_truck['trk_insurance']; ?>" target="_blank" title="View File"><i class="fas fa-file"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="<?php echo $r_truck['trk_insurance']; ?>" title="Download File" download="<?php echo $r_truck['trk_num']; ?>_insurance"><i class="fas fa-file-download"></i></a>
+                                        </td>
+                                        <td data-column="Road Tax">
+                                            <a href="<?php echo $r_truck['trk_road_tax']; ?>" target="_blank" title="View File"><i class="fas fa-file"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="<?php echo $r_truck['trk_road_tax']; ?>" title="Download File" download="<?php echo $r_truck['trk_num']; ?>_road_tax"><i class="fas fa-file-download"></i></a>
+                                        </td>
+                                        <td data-column="RTO">
+                                            <a href="<?php echo $r_truck['trk_rto']; ?>" target="_blank" title="View File"><i class="fas fa-file"></i></a>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <a href="<?php echo $r_truck['trk_rto']; ?>" title="Download File" download="<?php echo $r_truck['trk_num']; ?>_rto"><i class="fas fa-file-download"></i></a>
+                                        </td>
+                                        <td data-column="Status">
+                                            <?php
+                                                if($r_truck['trk_active'] == 1)
+                                                {
+                                            ?>
+                                                <span class="btn btn-sm btn-success">Active</span>
+                                            <?php
+                                                }
+                                                else
+                                                {
+                                            ?>
+                                                <span class="btn btn-sm btn-danger">Inactive</span>
+                                            <?php
+                                                }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                        }
+                                    ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

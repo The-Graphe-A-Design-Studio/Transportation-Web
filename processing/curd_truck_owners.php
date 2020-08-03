@@ -130,7 +130,7 @@
                         <td data-column="Routes">'.$row['to_routes'].'</td>
                         <td data-column="State Permits">'.$row['to_permits'].'</td>
                         <td data-column="View">
-                            <a href="truck_owner_profile?owner_id='.$row['to_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
+                            <a class="btn btn-icon btn-info" href="truck_owner_profile?owner_id='.$row['to_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
                 ';
 
@@ -155,11 +155,11 @@
                 }
                 elseif($row['to_verified'] == 1)
                 {
-                    $reg = "Accepted";
+                    $reg = '<span class="btn btn-sm btn-success">Accepted</span>';
                 }
                 else
                 {
-                    $reg = "Rejected";
+                    $reg = '<span class="btn btn-sm btn-danger">Rejected</span>';
                 }
 
                 $output .=
