@@ -23,6 +23,11 @@
             $query .= "";
         }
 
+        if(isset($_POST["reject"]))
+        {
+            $query .= " AND to_verified = '2'";
+        }
+
         if(!empty($_POST["start_date"]) && empty($_POST["end_date"]))
         {
             $s_date = date_create($_POST["start_date"]);
@@ -125,7 +130,7 @@
                         <td data-column="Routes">'.$row['to_routes'].'</td>
                         <td data-column="State Permits">'.$row['to_permits'].'</td>
                         <td data-column="View">
-                            <a href="truck_owner_profile?owner_id='.$row['to_id'].'" target="_blank"><i class="fas fa-eye" title="View Details"></i></a>
+                            <a href="truck_owner_profile?owner_id='.$row['to_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
                 ';
 

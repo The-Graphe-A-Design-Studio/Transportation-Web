@@ -36,7 +36,7 @@
                             <div class="custom-switches-stacked mt-2" style="flex-direction: row">
                                 <div class="form-group">
                                     <label class="custom-switch">
-                                        <input type="radio" name="option" class="custom-switch-input common_selector nothing" value="1">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector nothing" value="1" checked>
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">All</span>
                                     </label>
@@ -49,6 +49,11 @@
                                         <input type="radio" name="option" class="custom-switch-input common_selector inactive" value="3">
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">Not Registered</span>
+                                    </label>
+                                    <label class="custom-switch">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector rejected" value="4">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Rejected</span>
                                     </label>
                                 </div>
                             </div>
@@ -98,13 +103,14 @@
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
+                var reject = get_filter('rejected');
                 var search = get_key('search_bar');
                 var start_date = start_datee('s_date');
                 var end_date = end_datee('e_date');
                 $.ajax({
                     url:"processing/curd_truck_owners.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, search:search, start_date:start_date, end_date:end_date},
+                    data:{action:action, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
                         $('.filter_data').html(data);
                     }
