@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Dashboard | diva lounge spa</title>
+    <title>Truck Owners | Truck Wale</title>
     <?php echo $head_tags; ?>
 </head>
 <body>
