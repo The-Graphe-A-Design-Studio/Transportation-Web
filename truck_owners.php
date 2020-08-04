@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Truck Owners | Truck Wale</title>
+    <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
 </head>
 <body>

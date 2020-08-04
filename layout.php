@@ -10,7 +10,6 @@
         <!-- Template CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/components.css">
-        <link rel="stylesheet" href="assets/css/table.css">
     ';
 
     $nav_bar =
@@ -57,6 +56,7 @@
                 <ul class="sidebar-menu">
                     <li class="menu-header" style="margin-bottom: 50px"></li>
                     <li class="dashboard"><a class="nav-link" href="dashboard"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
+                    <li class="truck_cat"><a class="nav-link" href="truck_cat"><i class="fas fa-list"></i><span>Truck Categories</span></a></li>
                     <li class="truck_owners"><a class="nav-link" href="truck_owners"><i class="fas fa-truck-moving"></i><span>Truck Owners</span></a></li>
                 </ul>
             </aside>
