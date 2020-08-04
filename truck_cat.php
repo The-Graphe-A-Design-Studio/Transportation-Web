@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Dashboard | Truck Wale</title>
+    <title>Truck Categories | Truck Wale</title>
     <?php echo $head_tags; ?>
 </head>
 <body>
@@ -38,7 +38,7 @@
                                 <div class="profile-widget-description" data-toggle="collapse" data-target="#collapse_add" 
                                     aria-expanded="true" aria-controls="collapse_add" style="cursor: pointer">
                                     <div class="profile-widget-name" style="margin-bottom: 0 !important">
-                                        Add New Staff
+                                        Add New Truck Category
                                         <i class="fas fa-caret-down" style="float: right"></i>
                                     </div>
                                 </div>
@@ -47,13 +47,13 @@
                                         <div class="col-12">
                                             <div class="card" style="box-shadow: none !important; margin-bottom: 0 !important">
                                                 <div class="card-body">
-                                                    <form class="edit_staff">
+                                                    <form class="edit_truck_cat">
                                                         <div class="table-responsive my-table-responsive">
                                                             <table class="table" id="mytable">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td>
-                                                                            <input type="text" class="form-control" name="new_page_staffs[]">
+                                                                            <input type="text" class="form-control" name="new_page_truck_cat[]">
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -78,7 +78,7 @@
                                 <div class="profile-widget-description" data-toggle="collapse" data-target="#collapse_edit" 
                                     aria-expanded="true" aria-controls="collapse_edit" style="cursor: pointer">
                                     <div class="profile-widget-name" style="margin-bottom: 0 !important">
-                                        Edit Staff Details
+                                        Edit Truck Category Details
                                         <i class="fas fa-caret-down" style="float: right"></i>
                                     </div>
                                 </div>
@@ -87,13 +87,13 @@
                                         <div class="col-12">
                                             <div class="card" style="box-shadow: none !important; margin-bottom: 0 !important">
                                                 <div class="card-body">
-                                                    <form class="edit_staff">
+                                                    <form class="edit_truck_cat">
                                                         <div class="table-responsive my-table-responsive">
                                                             <table class="table" id="mytable">
                                                                 <tbody>
                                                                     <?php
                                                                         $i = 1;
-                                                                        $get = "select * from staffs order by st_name";
+                                                                        $get = "select * from truck_cat order by trk_cat_name";
                                                                         $run_get = mysqli_query($link, $get);
                                                                         $count = mysqli_num_rows($run_get);
                                                                         if($count >= 1)
@@ -103,8 +103,8 @@
                                                                     ?>
                                                                     <tr>
                                                                         <td>
-                                                                            <input type="text" class="form-control" name="edit_staff_<?php echo $i; ?>" value="<?php echo $row_get['st_name']; ?>">
-                                                                            <input type="text" name="edit_staff_id_<?php echo $i; ?>" value="<?php echo $row_get['st_id']; ?>" hidden>
+                                                                            <input type="text" class="form-control" name="edit_truck_cat_<?php echo $i; ?>" value="<?php echo $row_get['trk_cat_name']; ?>">
+                                                                            <input type="text" name="edit_truck_cat_id_<?php echo $i; ?>" value="<?php echo $row_get['trk_cat_id']; ?>" hidden>
                                                                         </td>
                                                                     </tr>
                                                                     <?php
@@ -116,7 +116,7 @@
                                                                     ?>
                                                                     <tr>
                                                                         <td class="text-center">
-                                                                            No Staffs found
+                                                                            No Truck Category Found
                                                                         </td>
                                                                     </tr>
                                                                     <?php } ?>
@@ -128,7 +128,7 @@
                                                                 if($count >= 1)
                                                                 {
                                                             ?>
-                                                                <input type="text" name="edit_staff_total" value="<?php echo $i - 1; ?>" hidden>
+                                                                <input type="text" name="edit_truck_cat_total" value="<?php echo $i - 1; ?>" hidden>
                                                                 <button type="submit" class="btn btn-primary btn-lg">Update</button>
                                                             <?php
                                                                 }
@@ -149,7 +149,7 @@
                                 <div class="profile-widget-description" data-toggle="collapse" data-target="#collapse_delete" 
                                     aria-expanded="true" aria-controls="collapse_delete" style="cursor: pointer">
                                     <div class="profile-widget-name" style="margin-bottom: 0 !important">
-                                        Remove Staffs
+                                        Remove Truck Category
                                         <i class="fas fa-caret-down" style="float: right"></i>
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@
                                                         <table class="table" id="mytable">
                                                             <tbody>
                                                                 <?php
-                                                                    $gets = "select * from staffs order by st_name";
+                                                                    $gets = "select * from truck_cat order by trk_cat_name";
                                                                     $run_gets = mysqli_query($link, $gets);
                                                                     $counts = mysqli_num_rows($run_gets);
                                                                     if($counts >= 1)
@@ -172,9 +172,9 @@
                                                                 ?>
                                                                 <tr>
                                                                     <td>
-                                                                        <form class="edit_staff">
-                                                                            <?php echo $row_gets['st_name']; ?>
-                                                                            <input type="text" name="delete_staff_id" value="<?php echo $row_gets['st_id']; ?>" hidden>
+                                                                        <form class="edit_truck_cat">
+                                                                            <?php echo $row_gets['trk_cat_name']; ?>
+                                                                            <input type="text" name="delete_truck_cat_id" value="<?php echo $row_gets['trk_cat_id']; ?>" hidden>
                                                                             <button type="submit" style="float: right" class="btn btn-danger btn-icon btn-md"><i class="fas fa-trash"></i></button>
                                                                         </form>
                                                                     </td>
@@ -187,7 +187,7 @@
                                                                 ?>
                                                                     <tr>
                                                                         <td class="text-center">
-                                                                            No Staff found
+                                                                            No Truck Category Found
                                                                         </td>
                                                                     </tr>
                                                                 <?php
@@ -215,33 +215,29 @@
 
     <?php echo $script_tags; ?>
     <script type="text/javascript">
-        $(".edit_staff").submit(function(e)
+        $(".edit_truck_cat").submit(function(e)
 		{
 			var form_data = $(this).serialize();
 			// alert(form_data);
 			var button_content = $(this).find('button[type=submit]');
 			button_content.addClass("disabled btn-progress");
             $.ajax({
-				url: 'processing/curd_staff.php',
+				url: 'processing/curd_truck_cat.php',
 				data: form_data,
 				type: 'POST',
 				success: function(data)
 				{
                     alert(data);
                     button_content.removeClass("disabled btn-progress");
-					if(data === "New staffs updated" || data === "Staffs details updated" || data === "Staff removed")
+					if(data === "New Truck Categories Added" || data === "Truck Categories Details Updated" || data === "Truck Category Removed")
 					{
-						location.href="staffs";
+						location.href="truck_cat";
 					}
 				}
 			});
 			e.preventDefault();
 		});
 
-        $(document).ready(function()
-        {
-            $(".staffs").addClass("active");
-        });
     </script>
 
     <script>
@@ -260,7 +256,7 @@
             });
         });
     </script>
-    
+
     <script type="text/javascript">
         $(document).ready(function(){
             $(".truck_cat").addClass("active");
