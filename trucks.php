@@ -77,6 +77,22 @@
                                 <input class="form-control common_selector search_bar" placeholder="Search Truck by Number" name="name"/>
                             </div>
                         </div>
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                <label>City</label>
+                                <select class="form-control common_selector city">
+                                    <option value="">All</option>
+                                    <?php
+                                        $branch = "select distinct to_city from truck_owners";
+                                        $get_branch = mysqli_query($link, $branch);
+                                        while($row_branch = mysqli_fetch_array($get_branch, MYSQLI_ASSOC))
+                                        {
+                                    ?>
+                                        <option value="<?php echo $row_branch['to_city']; ?>"><?php echo $row_branch['to_city']; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <input type="button" id="refresh_btn" value="Refresh" hidden>
                     <div class="row mt-sm-4 filter_data">
@@ -106,12 +122,13 @@
                 var nothing = get_filter('nothing');
                 var trip = get_filter('trip');
                 var search = get_key('search_bar');
+                var city = branchw();
                 // var start_date = start_datee('s_date');
                 // var end_date = end_datee('e_date');
                 $.ajax({
                     url:"processing/curd_trucks.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, trip:trip, search:search},
+                    data:{action:action, active:active, inactive:inactive, nothing:nothing, trip:trip, search:search, city:city},
                     success:function(data){
                         $('.filter_data').html(data);
                     }
@@ -132,6 +149,12 @@
                 return $('.search_bar').val();
             }
 
+            function branchw()
+            {
+                return $('.city').find('option:selected').val();
+            }
+
+
             // function start_datee()
             // {
             //     return $('.s_date').val();
@@ -149,6 +172,7 @@
             $('.common_selector').on('keyup change',function(){
                 filter_data();
                 get_key();
+                branchw();
                 // start_datee();
                 // end_datee();
             });
