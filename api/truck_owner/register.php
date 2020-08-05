@@ -54,58 +54,83 @@
                 }
                 else
                 {
-                    if($pass === $cnf_pass)
+
+                    $sqlr = "SELECT * FROM truck_owners where to_pan = '$pan'";
+                    $checkr = mysqli_query($link, $sqlr);
+                    $rowr = mysqli_fetch_array($checkr, MYSQLI_ASSOC);
+                    $count = mysqli_num_rows($checkr);
+                    if($count >= 1)
                     {
-                        $ranto_no = rand(100000, 999999);
-
-                        $enc_p = md5($pass);
-
-                        $mobile_sql = "insert into temp_register (t_to_name, t_to_email, t_to_phone_code, t_to_phone, t_to_password, t_to_city, t_to_address, t_to_routes, t_to_permits,
-                                        t_to_pan, t_to_bank, t_to_ifsc, t_otp) values ('$name', '$email', '$phone_code', '$phone', '$enc_p', '$city', '$address', '$routes',
-                                        '$permits', '$pan', '$bank', '$ifsc', '$ranto_no')";
-
-                        $mobile_insert = mysqli_query($link, $mobile_sql);
-                        
-                        if($mobile_insert)
-                        {
-                            $api = '314319Asz8t1bwU0qU5e27d970P1';
-                            $msg = "Your OTP for Driver registration is $ranto_no. This OTP will expire in 20 minutes.";
-                            
-                            $curl = curl_init();
-
-                            curl_setopt_array($curl, array(
-                            CURLOPT_URL => "http://control.msg91.com/api/v5/otp?authkey=$api&mobiles=$phone&message=$msg&sender=TRNSPT&country=$phone_code&otp=$ranto_no",
-                            CURLOPT_RETURNTRANSFER => true,
-                            CURLOPT_ENCODING => "",
-                            CURLOPT_MAXREDIRS => 10,
-                            CURLOPT_TIMEOUT => 20,
-                            CURLOPT_FOLLOWLOCATION => true,
-                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                            CURLOPT_CUSTOMREQUEST => "POST",
-                            CURLOPT_HTTPHEADER => array(
-                                "Cookie: PHPSESSID=odd5sg5bulmmhc82a8v81ckbe1"
-                            ),
-                            ));
-
-                            $response = curl_exec($curl);
-
-                            curl_close($curl);
-                            
-                            $responseData = ['success' => '1', 'message' => 'OTP sent to your given number. Please verify your number'];
-                            echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                            http_response_code(200);
-                        } 
-                        else
-                        {
-                            $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
-                            echo json_encode($responseData, JSON_PRETTY_PRINT);
-                        }
+                        $responseData = ['success' => '0', 'message' => 'This PAN number is already registered'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
                     }
                     else
                     {
-                        $responseData = ['success' => '0', 'message' => 'Both password must be same'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+                        $sqlr = "SELECT * FROM truck_owners where to_bank = '$bank'";
+                        $checkr = mysqli_query($link, $sqlr);
+                        $rowr = mysqli_fetch_array($checkr, MYSQLI_ASSOC);
+                        $count = mysqli_num_rows($checkr);
+                        if($count >= 1)
+                        {
+                            $responseData = ['success' => '0', 'message' => 'This Bank account number is already registered'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+                        }
+                        else
+                        {
+                            if($pass === $cnf_pass)
+                            {
+                                $ranto_no = rand(100000, 999999);
+
+                                $enc_p = md5($pass);
+
+                                $mobile_sql = "insert into temp_register (t_to_name, t_to_email, t_to_phone_code, t_to_phone, t_to_password, t_to_city, t_to_address, t_to_routes, t_to_permits,
+                                                t_to_pan, t_to_bank, t_to_ifsc, t_otp) values ('$name', '$email', '$phone_code', '$phone', '$enc_p', '$city', '$address', '$routes',
+                                                '$permits', '$pan', '$bank', '$ifsc', '$ranto_no')";
+
+                                $mobile_insert = mysqli_query($link, $mobile_sql);
+                                
+                                if($mobile_insert)
+                                {
+                                    $api = '314319Asz8t1bwU0qU5e27d970P1';
+                                    $msg = "Your OTP for Driver registration is $ranto_no. This OTP will expire in 20 minutes.";
+                                    
+                                    $curl = curl_init();
+
+                                    curl_setopt_array($curl, array(
+                                    CURLOPT_URL => "http://control.msg91.com/api/v5/otp?authkey=$api&mobiles=$phone&message=$msg&sender=TRNSPT&country=$phone_code&otp=$ranto_no",
+                                    CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_ENCODING => "",
+                                    CURLOPT_MAXREDIRS => 10,
+                                    CURLOPT_TIMEOUT => 20,
+                                    CURLOPT_FOLLOWLOCATION => true,
+                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_CUSTOMREQUEST => "POST",
+                                    CURLOPT_HTTPHEADER => array(
+                                        "Cookie: PHPSESSID=odd5sg5bulmmhc82a8v81ckbe1"
+                                    ),
+                                    ));
+
+                                    $response = curl_exec($curl);
+
+                                    curl_close($curl);
+                                    
+                                    $responseData = ['success' => '1', 'message' => 'OTP sent to your given number. Please verify your number'];
+                                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                                    http_response_code(200);
+                                } 
+                                else
+                                {
+                                    $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+                                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                                }
+                            }
+                            else
+                            {
+                                $responseData = ['success' => '0', 'message' => 'Both password must be same'];
+                                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                            }
+                        }
                     }
                 }
             }
