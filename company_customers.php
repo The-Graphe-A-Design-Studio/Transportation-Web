@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Truck Owners | Truck Wale</title>
+    <title>Customers Individual | Truck Wale</title>
     <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
 </head>
@@ -31,6 +31,15 @@
                 </div>
 
                 <div class="section-body">
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="buttons">
+                                <a href="individual_customers" class="btn btn-lg btn-info">Individual</a>
+                                <a href="company_customers" class="btn btn-lg btn-success">Company</a>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
@@ -74,44 +83,14 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <label>Search by Name</label>
-                                <input class="form-control common_selector search_bar" placeholder="Search Driver by Name" name="name"/>
+                                <input class="form-control common_selector search_bar" placeholder="Search by Name" name="name"/>
                             </div>
                         </div>
                     </div>
                     <input type="button" id="refresh_btn" value="Refresh" hidden>
-                    <div class="row mt-sm-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <ul class="nav nav-pills" id="myTab3" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link" id="home-tab3" data-toggle="tab" href="#home3" role="tab" aria-controls="home" aria-selected="false">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab3" data-toggle="tab" href="#profile3" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="contact-tab3" data-toggle="tab" href="#contact3" role="tab" aria-controls="contact" aria-selected="true">Contact</a>
-                                </li>
-                                </ul>
-                                <div class="tab-content" id="myTabContent2">
-                                <div class="tab-pane fade" id="home3" role="tabpanel" aria-labelledby="home-tab3">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur.
-                                </div>
-                                <div class="tab-pane fade" id="profile3" role="tabpanel" aria-labelledby="profile-tab3">
-                                    Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus. Etiam ac vehicula eros, pharetra consectetur dui.
-                                </div>
-                                <div class="tab-pane fade active show" id="contact3" role="tabpanel" aria-labelledby="contact-tab3">
-                                    Vestibulum imperdiet odio sed neque ultricies, ut dapibus mi maximus. Proin ligula massa, gravida in lacinia efficitur, hendrerit eget mauris. Pellentesque fermentum, sem interdum molestie finibus, nulla diam varius leo, nec varius lectus elit id dolor.
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-
-                        </div>
+                    <div class="row mt-sm-4 filter_data">
+                    
+                    </div>
                 </div>
 
             </section>
@@ -130,7 +109,7 @@
         
             function filter_data()
             {
-                var action = 'fetch_data';
+                var action1 = 'fetch_data';
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
@@ -139,9 +118,9 @@
                 var start_date = start_datee('s_date');
                 var end_date = end_datee('e_date');
                 $.ajax({
-                    url:"processing/curd_truck_owners.php",
+                    url:"processing/curd_customers.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
+                    data:{action1:action1, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
                         $('.filter_data').html(data);
                     }
