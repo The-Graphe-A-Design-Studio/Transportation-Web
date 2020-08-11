@@ -28,8 +28,8 @@
         elseif($count == 1 && $row['cu_type'] == 2)
         {
             $responseData = ['success' => '1', 'id' => $row['cu_id'], 'name' => $row['cu_name'], 'email' => $row['cu_email'], 'phone_con_code' => $row['cu_phone_code'],
-            'phone' => $row['cu_phone'], 'city' => $row['cu_city'], 'address' => $row['cu_address'], 'pin code' => $row['cu_pin_code'], 'company name' => $row['cu_co_name'], 
-            'company type' => $row['cu_co_type'], 'company service tax' => $row['cu_co_service_tax'], 'compnay pan number' => $row['cu_co_pan_num'], 
+            'phone' => $row['cu_phone'], 'city' => $row['cu_city'], 'address' => $row['cu_address'], 'pin code' => $row['cu_pin_code'], 'pan number' => $row['cu_pan_num'],
+            'company name' => $row['cu_co_name'], 'company type' => $row['cu_co_type'], 'company service tax' => $row['cu_co_service_tax'], 'compnay pan number' => $row['cu_co_pan_num'], 
             'company website' => $row['cu_co_website'], 'registered on' => $row['cu_registered']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
