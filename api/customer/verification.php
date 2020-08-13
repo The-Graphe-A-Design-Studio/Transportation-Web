@@ -225,7 +225,7 @@
         {
             $encu_password = md5($curr);
          
-            $ck_sql = "SELECT * FROM truck_owners WHERE cu_id = '".$_POST['cu_id']."'";
+            $ck_sql = "SELECT * FROM customers WHERE cu_id = '".$_POST['cu_id']."'";
             $result = mysqli_query($link, $ck_sql);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
@@ -233,7 +233,7 @@
             {
                 $encu_new_password = md5($new);
 
-                $up_p = "update truck_owners set cu_password = '$encu_new_password' where cu_id = '".$_POST['cu_id']."'";
+                $up_p = "update customers set cu_password = '$encu_new_password' where cu_id = '".$_POST['cu_id']."'";
                 $run_p = mysqli_query($link, $up_p);
 
                 if($run_p)
