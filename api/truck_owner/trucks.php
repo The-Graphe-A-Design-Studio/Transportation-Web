@@ -603,7 +603,7 @@
                                                         $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_num, trk_load, trk_dr_name, trk_dr_phone_code, 
                                                                         trk_dr_phone, trk_dr_license, trk_rc, trk_insurance, trk_road_tax, trk_rto) values 
                                                                         ('$truck_owner', '$truck_cat', '$truck_num', '$truck_load', '$truck_driver_name', 
-                                                                        '$truck_driver_phone_code', '$truck_driver_phone', '$rc', '$license', '$insurance', 
+                                                                        '$truck_driver_phone_code', '$truck_driver_phone', $license', '$rc', '$insurance', 
                                                                         '$road_tax', '$rto')";
 
                                                         $mobile_insert = mysqli_query($link, $mobile_sql);
