@@ -88,49 +88,27 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-12 col-md-12 col-lg-6">
-                            <div class="card">
-                                <form method="post" class="needs-validation" novalidate="">
-                                <div class="card-header">
-                                    <h4>Edit Profile</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="form-group col-md-6 col-12">
-                                            <label>First Name</label>
-                                            <input type="text" class="form-control" value="Ujang" required="">
-                                            <div class="invalid-feedback">
-                                            Please fill in the first name
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-md-6 col-12">
-                                            <label>Last Name</label>
-                                            <input type="text" class="form-control" value="Maman" required="">
-                                            <div class="invalid-feedback">
-                                            Please fill in the last name
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-7 col-12">
-                                            <label>Email</label>
-                                            <input type="email" class="form-control" value="ujang@maman.com" required="">
-                                            <div class="invalid-feedback">
-                                            Please fill in the email
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-md-5 col-12">
-                                            <label>Phone</label>
-                                            <input type="tel" class="form-control" value="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer text-right">
-                                    <button class="btn btn-primary">Save Changes</button>
-                                </div>
+                        <div class="col-12 col-md-12 col-lg-6">
+                            <div style="display: inline-flex">
+                                <form class="to_status">
+                                    <input type="text" name="to_id" value="'.$row['to_id'].'" hidden>
+                                    <input type="text" name="to_reg" value="1" hidden>
+                                    <button type="submit" class="btn btn-success btn-lg" title="Accept"><i class="fas fa-user-check"></i></button>
+                                </form>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <form class="to_status">
+                                    <input type="text" name="to_id" value="'.$row['to_id'].'" hidden>
+                                    <input type="text" name="to_reg" value="2" hidden>
+                                    <button type="submit" class="btn btn-warning btn-lg" title="Reject"><i class="fas fa-user-minus"></i></button>
+                                </form>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <form class="to_status">
+                                    <input type="text" name="to_id" value="'.$row['to_id'].'" hidden>
+                                    <input type="text" name="to_reg" value="2" hidden>
+                                    <button type="submit" class="btn btn-danger btn-lg" title="Delete User"><i class="fas fa-trash"></i></button>
                                 </form>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <h2 class="section-title">Truck Owns</h2>
                     <div class="row mt-sm-4">
@@ -229,9 +207,31 @@
     </div>
 
     <?php echo $script_tags; ?>
+    
     <script type="text/javascript">
         $(document).ready(function(){
             $(".truck_owners").addClass("active");
+        });
+    
+        $(".to_status").submit(function(e)
+        {
+            var form_data = $(this).serialize();
+            // alert(form_data);
+            var button_content = $(this).find("button[type=submit]");
+            $.ajax({
+                url: "processing/curd_truck_owners.php",
+                data: form_data,
+                type: "POST",
+                success: function(data)
+                {
+                    alert(data);
+                    if(data === "Truck Owner Accepted" || data === "Truck Owner Rejected")
+                    {
+                        $( "#refresh_btn" ).trigger( "click" );
+                    }
+                }
+            });
+            e.preventDefault();
         });
     </script>
 </body>
