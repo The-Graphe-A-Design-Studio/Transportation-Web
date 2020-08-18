@@ -63,12 +63,20 @@
         {
             $rancu_no = rand(100000, 999999);
 
-            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp) values ('$phone_code', '$phone', '$rancu_no')";
+            date_default_timezone_set("Asia/Kolkata");
+            $date = date('Y-m-d');
+
+            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered) values ('$phone_code', '$phone', '$rancu_no', '$date')";
 
             $mobile_insert = mysqli_query($link, $mobile_sql);
-            
+
             if($mobile_insert)
             {
+                for($i = 1; $i <= 5; $i++)
+                {
+                    mysqli_query($link, "insert into customer_docs (doc_owner_phone, doc_sr_num) values ('$phone', '$i')");
+                }
+
                 $api = '314319Asz8t1bwU0qU5e27d970P1';
                 $msg = "Your OTP is $rancu_no. Do not share OTP. This OTP will expire in 20 minutes.";
                 

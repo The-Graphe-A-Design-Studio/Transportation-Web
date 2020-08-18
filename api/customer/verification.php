@@ -25,11 +25,11 @@
             http_response_code(400);
         }
     }
-    elseif(isset($_POST['resend_otp']))
+    elseif(isset($_POST['resend_otp_on']))
     {
         $ranto_no = rand(100000, 999999);
 
-        $phone = $_POST['resend_otp'];
+        $phone = $_POST['resend_otp_on'];
 
         $re_sql = "update customers set cu_otp = '$ranto_no' where cu_phone = '$phone'";
         $re_run = mysqli_query($link, $re_sql);
