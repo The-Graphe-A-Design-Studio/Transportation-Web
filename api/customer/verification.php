@@ -14,6 +14,9 @@
 
         if($otp_row['cu_otp'] === $_POST['otp'])
         {
+            $active = "update customers set cu_active = 1 where cu_phone = '".$_POST['phone_number']."' and cu_otp = '".$_POST['otp']."'";
+            $set = mysqli_query($link, $active);
+
             $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);

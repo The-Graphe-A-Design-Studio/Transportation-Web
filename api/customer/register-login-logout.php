@@ -114,6 +114,16 @@
             }
         }
     }
+    elseif(isset($_POST['logout_number']))
+    {
+        $inactive = "update customers set cu_active = 0 where cu_phone = '".$_POST['logout_number']."'";
+        $set = mysqli_query($link, $inactive);
+
+        $responseData = ['success' => '1', 'message' => 'User logged out'];
+        echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+        http_response_code(200);
+    }
     else
     {
         $responseData = ['success' => '0', 'message' => 'Something went wrong'];
