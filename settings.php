@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group mb-0">
-                                            <label>Old Password</label>
+                                            <label>Current Password</label>
                                             <input type="text" name="old_pass" class="form-control" required>
                                         </div>
                                         <br>
