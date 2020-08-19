@@ -59,7 +59,7 @@
                     <li class="truck_cat"><a class="nav-link" href="truck_cat"><i class="fas fa-list"></i><span>Truck Categories</span></a></li>
                     <li class="truck_owners"><a class="nav-link" href="truck_owners"><i class="fas fa-crown"></i><span>Truck Owners</span></a></li>
                     <li class="trucks"><a class="nav-link" href="trucks"><i class="fas fa-truck-monster"></i><span>Trucks</span></a></li>
-                    <li class="customers"><a class="nav-link" href="individual_customers"><i class="fas fa-users"></i><span>Customers</span></a></li>
+                    <li class="shippers"><a class="nav-link" href="shippers"><i class="fas fa-users"></i><span>Shippers</span></a></li>
                 </ul>
             </aside>
             

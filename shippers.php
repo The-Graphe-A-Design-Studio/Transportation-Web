@@ -35,8 +35,8 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
                             <div class="buttons">
-                                <a href="individual_customers" class="btn btn-lg btn-info">Individual</a>
-                                <a href="company_customers" class="btn btn-lg btn-success">Company</a>
+                                <a href="individual_customers" class="btn btn-lg btn-success">Individual</a>
+                                <a href="company_customers" class="btn btn-lg btn-info">Company</a>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
         
             function filter_data()
             {
-                var action1 = 'fetch_data';
+                var action = 'fetch_data';
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
@@ -120,7 +120,7 @@
                 $.ajax({
                     url:"processing/curd_customers.php",
                     method:"POST",
-                    data:{action1:action1, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
+                    data:{action:action, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
                         $('.filter_data').html(data);
                     }
@@ -163,7 +163,7 @@
             });
 
 
-            $(".customers").addClass("active");
+            $(".shippers").addClass("active");
         });
     </script>
 </body>
