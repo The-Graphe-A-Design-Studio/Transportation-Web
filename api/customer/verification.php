@@ -17,7 +17,7 @@
             $active = "update customers set cu_active = 1 where cu_phone = '".$_POST['phone_number']."' and cu_otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
-            $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in'];
+            $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'verified' => $otp_row['cu_verified'], 'registered on' => $otp_row['cu_registered']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
         }
