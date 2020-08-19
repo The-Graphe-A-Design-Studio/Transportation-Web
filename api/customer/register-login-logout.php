@@ -72,7 +72,7 @@
 
             if($mobile_insert)
             {
-                for($i = 1; $i <= 5; $i++)
+                for($i = 1; $i <= 6; $i++)
                 {
                     mysqli_query($link, "insert into customer_docs (doc_owner_phone, doc_sr_num) values ('$phone', '$i')");
                 }
