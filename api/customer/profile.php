@@ -250,7 +250,7 @@
 
                 move_uploaded_file($file_tmp1, $des);
 
-                $des1 = "../../assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$selfie;
+                $des1 = "assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$selfie;
 
                 $d_sql = "update customer_docs set doc_location = '$des1' where doc_owner_phone = '".$_POST['cu_phone']."' and doc_sr_num = 4";
                 $d_run = mysqli_query($link, $d_sql);
