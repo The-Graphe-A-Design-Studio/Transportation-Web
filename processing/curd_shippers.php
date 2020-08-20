@@ -115,7 +115,7 @@
                 $output .=
                 '
                         <td data-column="Shipper">
-                            <img alt="shipper_'.$row['cu_phone'].'" src="'.$doc_row['doc_location'].'" style="width: 100px; height: 100px; border-radius: 50%">
+                            <img alt="shipper_selfie_'.$row['cu_phone'].'" src="'.$doc_row['doc_location'].'" style="width: 100px; height: 100px; border-radius: 50%">
                         </td>
                         <td data-column="Phone">+'.$row['cu_phone_code'].' '.$row['cu_phone'].'</td>
                         <td data-column="Company Name">'.$doc_row1['doc_location'].'</td>
@@ -137,6 +137,39 @@
         
         echo $output;
 
+    }
+    elseif(isset($_POST['doc_id']) && isset($_POST['doc_status']))
+    {
+        if($_POST['doc_status'] === '0')
+        {
+            $sql = mysqli_query($link, "update customer_docs set doc_verified = 1 where doc_id = '".$_POST['doc_id']."'");
+
+            if($sql)
+            {
+                echo "Document verified";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
+        }
+        elseif($_POST['doc_status'] === '1')
+        {
+            $sql = mysqli_query($link, "update customer_docs set doc_verified = 0 where doc_id = '".$_POST['doc_id']."'");
+
+            if($sql)
+            {
+                echo "Set to not verified";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
+        }
+        else
+        {
+            echo "Something missing";
+        }
     }
     else
     {
