@@ -34,15 +34,6 @@
 
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
-                            <div class="buttons">
-                                <a href="individual_customers" class="btn btn-lg btn-success">Individual</a>
-                                <a href="company_customers" class="btn btn-lg btn-info">Company</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12 col-md-3">
                             <div class="custom-switches-stacked mt-2" style="flex-direction: row">
                                 <div class="form-group">
                                     <label class="custom-switch">
@@ -82,8 +73,8 @@
                         </div>
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
-                                <label>Search by Name</label>
-                                <input class="form-control common_selector search_bar" placeholder="Search by Name" name="name"/>
+                                <label>Search by Phone Number</label>
+                                <input class="form-control common_selector search_bar" placeholder="Search by Phone (Ex. 96547XXXXX)" name="name"/>
                             </div>
                         </div>
                     </div>
@@ -118,7 +109,7 @@
                 var start_date = start_datee('s_date');
                 var end_date = end_datee('e_date');
                 $.ajax({
-                    url:"processing/curd_customers.php",
+                    url:"processing/curd_shippers.php",
                     method:"POST",
                     data:{action:action, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
