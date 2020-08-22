@@ -70,7 +70,7 @@
             }
         }
     }
-    elseif(isset($_POST['cu_phone']) && !empty($_FILES['cu_address_front']))
+    elseif(isset($_POST['cu_phone']) && isset($_POST['cu_address_type']) && !empty($_FILES['cu_address_front']))
     {
         $sqle = "SELECT customers.*, customer_docs.* FROM customers, customer_docs WHERE customers.cu_phone = '".$_POST['cu_phone']."' AND 
                 customers.cu_phone = customer_docs.doc_owner_phone";
@@ -117,6 +117,9 @@
                 move_uploaded_file($file_tmp1, $des);
 
                 $des1 = "assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$address_front;
+
+                $d_sqlw = "update customers set cu_address_type = '".$_POST['cu_address_type']."' where cu_phone = '".$_POST['cu_phone']."'";
+                $d_runw = mysqli_query($link, $d_sqlw);
 
                 $d_sql = "update customer_docs set doc_location = '$des1' where doc_owner_phone = '".$_POST['cu_phone']."' and doc_sr_num = 2";
                 $d_run = mysqli_query($link, $d_sql);
