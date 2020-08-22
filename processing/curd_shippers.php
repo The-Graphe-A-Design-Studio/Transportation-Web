@@ -66,7 +66,7 @@
         if(isset($_POST['search']))
         {
             $se = $_POST['search'];
-            $query .= " AND cu_phone LIKE '$se%' order by cu_id desc";
+            $query .= " AND cu_phone LIKE '$se%' order by cu_id desc limit 20";
         }
 
         $statement = $connect->prepare($query);

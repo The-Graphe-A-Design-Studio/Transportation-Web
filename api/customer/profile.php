@@ -319,7 +319,7 @@
 
                 $des1 = "assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$office_address;
 
-                $d_sql11 = "update customer_docs set doc_location = '".$_POST['cu_co_name']."' where doc_owner_phone = '".$_POST['cu_phone']."' and doc_sr_num = 5";
+                $d_sql11 = "update customer_docs set doc_location = '".$_POST['cu_co_name']."', doc_verified = 1 where doc_owner_phone = '".$_POST['cu_phone']."' and doc_sr_num = 5";
                 $d_run11 = mysqli_query($link, $d_sql11);
 
                 $d_sql = "update customer_docs set doc_location = '$des1' where doc_owner_phone = '".$_POST['cu_phone']."' and doc_sr_num = 6";
