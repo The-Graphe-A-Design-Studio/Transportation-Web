@@ -14,6 +14,7 @@
     }
     header('Content-Type: application/json');
     echo json_encode($emparray, JSON_PRETTY_PRINT);
+    http_response_code(200);
 
     //close the db connection
     mysqli_close($link);
