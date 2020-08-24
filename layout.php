@@ -56,6 +56,7 @@
                 <ul class="sidebar-menu">
                     <li class="menu-header" style="margin-bottom: 50px"></li>
                     <li class="dashboard"><a class="nav-link" href="dashboard"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
+                    <li class="material_types"><a class="nav-link" href="material_types"><i class="fas fa-truck-loading"></i><span>Material Types</span></a></li>
                     <li class="truck_cat"><a class="nav-link" href="truck_cat"><i class="fas fa-list"></i><span>Truck Categories</span></a></li>
                     <li class="truck_owners"><a class="nav-link" href="truck_owners"><i class="fas fa-crown"></i><span>Truck Owners</span></a></li>
                     <li class="trucks"><a class="nav-link" href="trucks"><i class="fas fa-truck-monster"></i><span>Trucks</span></a></li>
