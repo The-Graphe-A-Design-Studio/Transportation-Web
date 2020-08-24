@@ -70,7 +70,7 @@
             }
         }
     }
-    elseif(isset($_POST['cu_phone']) && isset($_POST['cu_address_type']) && !empty($_FILES['cu_address_front']))
+    elseif(isset($_POST['cu_phone']) && isset($_POST['cu_address_type']) && !empty($_FILES['cu_address_front']) && !empty($_FILES['cu_address_back']))
     {
         $sqle = "SELECT customers.*, customer_docs.* FROM customers, customer_docs WHERE customers.cu_phone = '".$_POST['cu_phone']."' AND 
                 customers.cu_phone = customer_docs.doc_owner_phone";
@@ -126,80 +126,60 @@
 
                 if($d_run)
                 {
-                    $responseData = ['success' => '1', 'message' => 'Address front side uploaded'];
-                    echo json_encode($responseData, JSON_PRETTY_PRINT);
-                    http_response_code(200);
+                    $file_name1 = $_FILES['cu_address_back']['name'];
+                    $file_size1 = $_FILES['cu_address_back']['size'];
+                    $file_tmp1 = $_FILES['cu_address_back']['tmp_name'];
+                    $file_type1 = $_FILES['cu_address_back']['type'];
+                    
+                    if($file_size1 >= 200000)
+                    {
+                        $responseData = ['success' => '0', 'message' => 'Address file size must be less than 200 kb'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                        http_response_code(400);
+                    }
+                    else
+                    {
+                        $file_name1 = $_FILES["cu_address_back"]["name"];
+                        $rn1 = explode(".", $file_name1);
+                        $extension1 = end($rn1);
+                        $address_back = "address_back.".$extension1;
+
+                        $des = "../../assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$address_back;
+                        $dir = "../../assets/documents/shippers/shipper_".$rowe['cu_phone']."/";
+
+                        if(!is_dir($dir))
+                        {
+                            mkdir("../../assets/documents/shippers/shipper_".$rowe['cu_phone']);
+                        }
+
+                        array_map('unlink', glob("$dir/address_back.*"));
+
+                        move_uploaded_file($file_tmp1, $des);
+
+                        $des1 = "assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$address_back;
+
+                        $d_sql = "update customer_docs set doc_location = '$des1' where doc_owner_phone = '".$_POST['cu_phone']."' and doc_sr_num = 3";
+                        $d_run = mysqli_query($link, $d_sql);
+
+                        if($d_run)
+                        {
+                            $responseData = ['success' => '1', 'message' => 'Address uploaded'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+                            http_response_code(200);
+                        }
+                        else
+                        {
+                            $responseData = ['success' => '0', 'message' => 'Address back upload failed'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                            http_response_code(400);
+                        }
+                    }
                 }
                 else
                 {
-                    $responseData = ['success' => '0', 'message' => 'Upload failed'];
-                    echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                    http_response_code(400);
-                }
-            }
-        }
-    }
-    elseif(isset($_POST['cu_phone']) && !empty($_FILES['cu_address_back']))
-    {
-        $sqle = "SELECT customers.*, customer_docs.* FROM customers, customer_docs WHERE customers.cu_phone = '".$_POST['cu_phone']."' AND 
-                customers.cu_phone = customer_docs.doc_owner_phone";
-        $checke = mysqli_query($link, $sqle);
-        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
-        $counte = mysqli_num_rows($checke);
-        if($counte == 0)
-        {
-            $responseData = ['success' => '0', 'message' => 'This number is not registered'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-        }
-        else
-        {
-
-            $file_name1 = $_FILES['cu_address_back']['name'];
-            $file_size1 = $_FILES['cu_address_back']['size'];
-            $file_tmp1 = $_FILES['cu_address_back']['tmp_name'];
-            $file_type1 = $_FILES['cu_address_back']['type'];
-            
-            if($file_size1 >= 200000)
-            {
-                $responseData = ['success' => '0', 'message' => 'Address file size must be less than 200 kb'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                http_response_code(400);
-            }
-            else
-            {
-                $file_name1 = $_FILES["cu_address_back"]["name"];
-                $rn1 = explode(".", $file_name1);
-                $extension1 = end($rn1);
-                $address_back = "address_back.".$extension1;
-
-                $des = "../../assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$address_back;
-                $dir = "../../assets/documents/shippers/shipper_".$rowe['cu_phone']."/";
-
-                if(!is_dir($dir))
-                {
-                    mkdir("../../assets/documents/shippers/shipper_".$rowe['cu_phone']);
-                }
-
-                array_map('unlink', glob("$dir/address_back.*"));
-
-                move_uploaded_file($file_tmp1, $des);
-
-                $des1 = "assets/documents/shippers/shipper_".$rowe['cu_phone']."/".$address_back;
-
-                $d_sql = "update customer_docs set doc_location = '$des1' where doc_owner_phone = '".$_POST['cu_phone']."' and doc_sr_num = 3";
-                $d_run = mysqli_query($link, $d_sql);
-
-                if($d_run)
-                {
-                    $responseData = ['success' => '1', 'message' => 'Address back side uploaded'];
-                    echo json_encode($responseData, JSON_PRETTY_PRINT);
-                    http_response_code(200);
-                }
-                else
-                {
-                    $responseData = ['success' => '0', 'message' => 'Upload failed'];
+                    $responseData = ['success' => '0', 'message' => 'Address front upload failed'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                     http_response_code(400);
