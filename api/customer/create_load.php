@@ -78,7 +78,7 @@
     }
     else
     {
-        $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+        $responseData = ['success' => '0', 'message' => 'Something is missing'];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
 
         http_response_code(400);
