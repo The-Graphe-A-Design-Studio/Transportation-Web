@@ -4,10 +4,11 @@
 
     header('Content-Type: application/json');
     
-    if(isset($_POST['cu_phone_code']) && isset($_POST['cu_phone']))
+    if(isset($_POST['cu_phone_code']) && isset($_POST['cu_phone']) && isset($_POST['cu_token']))
     {
         $phone_code = $_POST['cu_phone_code'];
         $phone = $_POST['cu_phone'];
+        $token = $_POST['cu_token'];
         
         $re_c = "select * from customers where cu_phone = '$phone'";
         $re_r = mysqli_query($link, $re_c);
@@ -17,7 +18,7 @@
         {
             $rancu_no = rand(100000, 999999);
 
-            $mobile_sql = "update customers set cu_otp = '$rancu_no' where cu_phone = '$phone' and cu_id = '".$row_c['cu_id']."'";
+            $mobile_sql = "update customers set cu_otp = '$rancu_no', cu_token = '$token' where cu_phone = '$phone' and cu_id = '".$row_c['cu_id']."'";
 
             $mobile_insert = mysqli_query($link, $mobile_sql);
             
@@ -66,7 +67,7 @@
             date_default_timezone_set("Asia/Kolkata");
             $date = date('Y-m-d');
 
-            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered) values ('$phone_code', '$phone', '$rancu_no', '$date')";
+            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered, cu_token) values ('$phone_code', '$phone', '$rancu_no', '$date', '$token')";
 
             $mobile_insert = mysqli_query($link, $mobile_sql);
 
