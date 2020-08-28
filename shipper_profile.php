@@ -30,6 +30,18 @@
     $doc5 = "select * from customer_docs where doc_owner_phone = '".$row['cu_phone']."' and doc_sr_num = 6";
     $r_doc5 = mysqli_query($link, $doc5);
     $office_address = mysqli_fetch_array($r_doc5, MYSQLI_ASSOC);
+
+    if($pan_card['doc_verified'] == 1 && $address_f['doc_verified'] == 1 && $address_b['doc_verified'] == 1 && $selfie['doc_verified'] == 1 && $com_name['doc_verified'] == 1 && 
+        $office_address['doc_verified'] == 1)
+    {
+        $update = "update customers set cu_verified = 1 where cu_id = '$shipper'";
+        mysqli_query($link, $update);
+    }
+    else
+    {
+        $update = "update customers set cu_verified = 2 where cu_id = '$shipper'";
+        mysqli_query($link, $update);
+    }
 ?>
 
 <!DOCTYPE html>
