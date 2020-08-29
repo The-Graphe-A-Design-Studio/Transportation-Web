@@ -1,6 +1,8 @@
 <?php
     include('session.php');
     include('layout.php');
+    include('FCM/notification.php');
+    
     $shipper = $_GET['shipper_id'];
 
     $sql = "select * from customers where cu_id = '$shipper'";
@@ -35,12 +37,30 @@
         $office_address['doc_verified'] == 1)
     {
         $update = "update customers set cu_verified = 1 where cu_id = '$shipper'";
-        mysqli_query($link, $update);
+        $done = mysqli_query($link, $update);
+        
+        if($done)
+        {
+            $device_id = $row['cu_token'];
+            $title = "Document Verification";
+            $message = "Your all documents are verified";
+
+            $sent = push_notification_android($device_id, $title, $message);
+        }
     }
     else
     {
         $update = "update customers set cu_verified = 2 where cu_id = '$shipper'";
-        mysqli_query($link, $update);
+        $done = mysqli_query($link, $update);
+        
+        if($done)
+        {
+            $device_id = $row['cu_token'];
+            $title = "Document Verification";
+            $message = "Your all documents are not verified";
+
+            $sent = push_notification_android($device_id, $title, $message);
+        }
     }
 ?>
 
