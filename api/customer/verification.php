@@ -17,13 +17,17 @@
             $active = "update customers set cu_active = 1 where cu_phone = '".$_POST['phone_number']."' and cu_otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
+            $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
+            $comp_run = mysqli_query($link, $comp);
+            $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
+
             $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
-                            'shipper phone' => $otp_row['cu_phone'], 'verified' => $otp_row['cu_verified'], 'registered on' => $otp_row['cu_registered']];
+                            'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 'registered on' => $otp_row['cu_registered']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
         }
         else
-        {
+        { 
             $responseData = ['success' => '0', 'message' => 'Wrong OTP'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(400);
