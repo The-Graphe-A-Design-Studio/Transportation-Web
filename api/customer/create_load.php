@@ -27,7 +27,9 @@
         $ex_date = date_create($_POST['expire_date_time']);
         $ex_date = date_format($ex_date, "Y-m-d H:i:s");
 
-        foreach($_POST['source'] as $sources)
+        $all_sources = explode('* ', $_POST['source']);
+
+        foreach($all_sources as $sources)
         {
             if(!empty($sources))
             {
@@ -37,7 +39,9 @@
             }
         }
 
-        foreach($_POST['destination'] as $destinations)
+        $all_destinations = explode('* ', $_POST['destination']);
+
+        foreach($all_destinations as $destinations)
         {
             if(!empty($destinations))
             {
@@ -47,7 +51,9 @@
             }
         }
 
-        foreach($_POST['truck_types'] as $trucks)
+        $all_types = explode('* ', $_POST['truck_types']);
+
+        foreach($all_types as $trucks)
         {
             if(!empty($trucks))
             {
