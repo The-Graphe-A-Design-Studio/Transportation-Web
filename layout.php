@@ -62,6 +62,7 @@
                     <li class="trucks"><a class="nav-link" href="trucks"><i class="fas fa-truck-monster"></i><span>Trucks</span></a></li>
                     <li class="truck_cat"><a class="nav-link" href="truck_cat"><i class="fas fa-list"></i><span>Truck Categories</span></a></li>
                     <li class="material_types"><a class="nav-link" href="material_types"><i class="fas fa-truck-loading"></i><span>Material Types</span></a></li>
+                    <li class="plans"><a class="nav-link" href="subscription_plans"><i class="fas fa-list"></i><span>Subscription Plans</span></a></li>
                 </ul>
             </aside>
             
