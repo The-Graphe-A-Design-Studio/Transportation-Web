@@ -10,7 +10,9 @@
     $emparray = array();
     while($row =mysqli_fetch_assoc($result))
     {
-        $emparray[] = $row;
+        $discount = ( ( ( $row['plan_original_price'] - $row['plan_selling_price'] ) / $row['plan_original_price'] ) * 100 );
+        $emparray[] = ['plan id' => $row['plan_id'], 'plan type' => $row['plan_type'], 'plan original price' => $row['plan_original_price'], 'plan selling price' => $row['plan_selling_price'], 
+                        'plan discount' => $discount.'%', 'plan duration' => $row['plan_duration'].' months'];
     }
     header('Content-Type: application/json');
     echo json_encode($emparray, JSON_PRETTY_PRINT);
