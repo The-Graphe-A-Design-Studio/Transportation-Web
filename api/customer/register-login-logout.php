@@ -67,7 +67,7 @@
             date_default_timezone_set("Asia/Kolkata");
             $date = date('Y-m-d H:i:s');
 
-            $trial_date = date($date,strtotime('+7 day'));
+            $trial_date = date('Y-m-d H:i:s', strtotime($date. ' + 7 days'));
 
             $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered, cu_trial_expire_date, cu_token) values ('$phone_code', '$phone', '$rancu_no', '$date', '$trial_date', '$token')";
 
