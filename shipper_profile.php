@@ -57,7 +57,7 @@
         {
             $device_id = $row['cu_token'];
             $title = "Document Verification";
-            $message = "Your all documents are not verified";
+            $message = "Your documents are not verified";
 
             $sent = push_notification_android($device_id, $title, $message);
         }
