@@ -65,9 +65,11 @@
             $rancu_no = rand(100000, 999999);
 
             date_default_timezone_set("Asia/Kolkata");
-            $date = date('Y-m-d');
+            $date = date('Y-m-d H:i:s');
 
-            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered, cu_token) values ('$phone_code', '$phone', '$rancu_no', '$date', '$token')";
+            $trial_date = date($date,strtotime('+7 day'));
+
+            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered, cu_trial_expire_date, cu_token) values ('$phone_code', '$phone', '$rancu_no', '$date', '$trial_date', '$token')";
 
             $mobile_insert = mysqli_query($link, $mobile_sql);
 
