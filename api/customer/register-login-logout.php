@@ -77,7 +77,14 @@
             {
                 for($i = 1; $i <= 6; $i++)
                 {
-                    mysqli_query($link, "insert into customer_docs (doc_owner_phone, doc_sr_num) values ('$phone', '$i')");
+                    $re_c = "select * from customer_docs where doc_owner_phone = '$phone' and doc_owner_phone = '$i'";
+                    $re_r = mysqli_query($link, $re_c);
+                    $row_c = mysqli_fetch_array($re_r, MYSQLI_ASSOC);
+                    $counte = mysqli_num_rows($re_r);
+                    if($counte == 0)
+                    {
+                        mysqli_query($link, "insert into customer_docs (doc_owner_phone, doc_owner_phone) values ('$phone', '$i')");
+                    }
                 }
 
                 $api = '314319Asz8t1bwU0qU5e27d970P1';
