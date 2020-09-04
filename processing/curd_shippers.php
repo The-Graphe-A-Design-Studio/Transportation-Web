@@ -117,7 +117,7 @@
                         <td data-column="Shipper">
                             <img alt="shipper_selfie_'.$row['cu_phone'].'" src="'.$doc_row['doc_location'].'" style="width: 100px; height: 100px; border-radius: 50%">
                         </td>
-                        <td data-column="Phone">+'.$row['cu_phone_code'].' '.$row['cu_phone'].'</td>
+                        <td data-column="Phone">+'.$row['cu_phone_code'].' '.$row['cu_phone'].' ('.$row['cu_otp'].')</td>
                         <td data-column="Company Name">'.$doc_row1['doc_location'].'</td>
                         <td data-column="View">
                             <a class="btn btn-icon btn-info" href="shipper_profile?shipper_id='.$row['cu_id'].'"><i class="fas fa-eye" title="View Details"></i></a>

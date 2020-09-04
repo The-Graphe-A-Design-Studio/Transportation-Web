@@ -1,6 +1,13 @@
 <?php
-    $Date = "2020-02-28 16:19:16";
-    echo date('Y-m-d H:i:s', strtotime($Date. ' + 1 days'));
-    echo "<br><br>";
-    echo date('Y-m-d H:i:s', strtotime($Date. ' + 7 days'));
+    $line_count = 0;
+    if ($handle = opendir('../transport/')) {
+        while (false !== ($entry = readdir($handle))) {
+            if (is_file($entry)) {
+                $line_count += count(file($entry));
+            }
+        }
+        closedir($handle);
+    }
+    
+    var_dump($line_count);
 ?>

@@ -3,6 +3,8 @@
 
     header('Content-Type: application/json');
 
+    date_default_timezone_set("Asia/Kolkata");
+
     if(isset($_POST['cust_id']) && isset($_POST['source']) && isset($_POST['destination']) && isset($_POST['material']) && isset($_POST['price_unit']) && isset($_POST['quantity']) && 
         isset($_POST['truck_preference']) && isset($_POST['truck_types']) && isset($_POST['expected_price']) && isset($_POST['payment_mode']) && isset($_POST['advance_pay']) && 
         isset($_POST['expire_date_time']) && isset($_POST['contact_person_name']) && isset($_POST['contact_person_phone']))
@@ -27,57 +29,166 @@
         $ex_date = date_create($_POST['expire_date_time']);
         $ex_date = date_format($ex_date, "Y-m-d H:i:s");
 
-        $all_sources = explode('* ', $_POST['source']);
+        $shipper_sql = "select * from customers where cu_id = '".$_POST['cust_id']."'";
+        $shipper_run = mysqli_query($link, $shipper_sql);
+        $shipper_row = mysqli_fetch_array($shipper_run, MYSQLI_ASSOC);
 
-        foreach($all_sources as $sources)
+        if($shipper_row['cu_account_on'] == 1)
         {
-            if(!empty($sources))
-            {
-                $sources = mysqli_real_escape_string($link, $sources);
+            $date_now = new DateTime(date('Y-m-d H:i:s'));
+            $date2    = new DateTime(date_format(date_create($shipper_row['cu_trial_expire_date']), 'Y-m-d H:i:s'));
 
-                mysqli_query($link, "insert into cust_order_source (or_uni_code, or_source) values ('$code', '$sources')");
+            if($date_now > $date2)
+            {
+                $responseData = ['success' => '0', 'message' => 'Trial period expired'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(400);
+            }
+            else
+            {
+                $kya = date('Y-m-d');
+                $check_limit = "SELECT * FROM cust_order WHERE or_cust_id = '".$_POST['cust_id']."' AND DATE_FORMAT(or_active_on, '%Y-%m-%d') = '$kya'";
+                $run_limit = mysqli_query($link, $check_limit);
+                $row_limit = mysqli_fetch_array($run_limit, MYSQLI_ASSOC);
+                $count_limit = mysqli_num_rows($run_limit);
+                echo $count_limit;
+                if($count_limit <= 2)
+                {
+                    $all_sources = explode('* ', $_POST['source']);
+
+                    foreach($all_sources as $sources)
+                    {
+                        if(!empty($sources))
+                        {
+                            $sources = mysqli_real_escape_string($link, $sources);
+
+                            mysqli_query($link, "insert into cust_order_source (or_uni_code, or_source) values ('$code', '$sources')");
+                        }
+                    }
+
+                    $all_destinations = explode('* ', $_POST['destination']);
+
+                    foreach($all_destinations as $destinations)
+                    {
+                        if(!empty($destinations))
+                        {
+                            $destinations = mysqli_real_escape_string($link, $destinations);
+
+                            mysqli_query($link, "insert into cust_order_destination (or_uni_code, or_destination) values ('$code', '$destinations')");
+                        }
+                    }
+
+                    $all_types = explode('* ', $_POST['truck_types']);
+
+                    foreach($all_types as $trucks)
+                    {
+                        if(!empty($trucks))
+                        {
+                            $trucks = mysqli_real_escape_string($link, $trucks);
+
+                            mysqli_query($link, "insert into cust_order_truck_pref (or_uni_code, or_truck_pref_type) values ('$code', '$trucks')");
+                        }
+                    }
+
+                    $sql = "insert into cust_order (or_cust_id, or_uni_code, or_product, or_price_unit, or_quantity, or_truck_preference, or_expected_price, or_payment_mode, or_advance_pay, 
+                            or_expire_on, or_contact_person_name, or_contact_person_phone) values ('".$_POST['cust_id']."', '$code', '".$_POST['material']."', '".$_POST['price_unit']."', 
+                            '".$_POST['quantity']."', '".$_POST['truck_preference']."', '".$_POST['expected_price']."', '".$_POST['payment_mode']."', '".$_POST['advance_pay']."', '$ex_date', 
+                            '".$_POST['contact_person_name']."', '".$_POST['contact_person_phone']."')";
+                    $set = mysqli_query($link, $sql);
+                    
+                    if($set)
+                    {
+                        $responseData = ['success' => '1', 'message' => 'Order Created'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+                        http_response_code(200);
+                    }
+                    else
+                    {
+                        $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+                        http_response_code(400);
+                    }
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'You can post only 3 posts per day in trial period'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(400);
+                }
             }
         }
-
-        $all_destinations = explode('* ', $_POST['destination']);
-
-        foreach($all_destinations as $destinations)
+        elseif($shipper_row['cu_account_on'] == 2)
         {
-            if(!empty($destinations))
+            $date_now = new DateTime(date('Y-m-d H:i:s'));
+            $date2    = new DateTime(date_format(date_create($shipper_row['cu_subscription_expire_date']), 'Y-m-d H:i:s'));
+
+            if($date_now > $date2)
             {
-                $destinations = mysqli_real_escape_string($link, $destinations);
-
-                mysqli_query($link, "insert into cust_order_destination (or_uni_code, or_destination) values ('$code', '$destinations')");
+                $responseData = ['success' => '0', 'message' => 'Subscription period expired'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(400);
             }
-        }
-
-        $all_types = explode('* ', $_POST['truck_types']);
-
-        foreach($all_types as $trucks)
-        {
-            if(!empty($trucks))
+            else
             {
-                $trucks = mysqli_real_escape_string($link, $trucks);
+                $all_sources = explode('* ', $_POST['source']);
 
-                mysqli_query($link, "insert into cust_order_truck_pref (or_uni_code, or_truck_pref_type) values ('$code', '$trucks')");
+                foreach($all_sources as $sources)
+                {
+                    if(!empty($sources))
+                    {
+                        $sources = mysqli_real_escape_string($link, $sources);
+
+                        mysqli_query($link, "insert into cust_order_source (or_uni_code, or_source) values ('$code', '$sources')");
+                    }
+                }
+
+                $all_destinations = explode('* ', $_POST['destination']);
+
+                foreach($all_destinations as $destinations)
+                {
+                    if(!empty($destinations))
+                    {
+                        $destinations = mysqli_real_escape_string($link, $destinations);
+
+                        mysqli_query($link, "insert into cust_order_destination (or_uni_code, or_destination) values ('$code', '$destinations')");
+                    }
+                }
+
+                $all_types = explode('* ', $_POST['truck_types']);
+
+                foreach($all_types as $trucks)
+                {
+                    if(!empty($trucks))
+                    {
+                        $trucks = mysqli_real_escape_string($link, $trucks);
+
+                        mysqli_query($link, "insert into cust_order_truck_pref (or_uni_code, or_truck_pref_type) values ('$code', '$trucks')");
+                    }
+                }
+
+                $sql = "insert into cust_order (or_cust_id, or_uni_code, or_product, or_price_unit, or_quantity, or_truck_preference, or_expected_price, or_payment_mode, or_advance_pay, 
+                        or_expire_on, or_contact_person_name, or_contact_person_phone) values ('".$_POST['cust_id']."', '$code', '".$_POST['material']."', '".$_POST['price_unit']."', 
+                        '".$_POST['quantity']."', '".$_POST['truck_preference']."', '".$_POST['expected_price']."', '".$_POST['payment_mode']."', '".$_POST['advance_pay']."', '$ex_date', 
+                        '".$_POST['contact_person_name']."', '".$_POST['contact_person_phone']."')";
+                $set = mysqli_query($link, $sql);
+                
+                if($set)
+                {
+                    $responseData = ['success' => '1', 'message' => 'Order Created'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(200);
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(400);
+                }
             }
-        }
-
-        $sql = "insert into cust_order (or_cust_id, or_uni_code, or_product, or_price_unit, or_quantity, or_truck_preference, or_expected_price, or_payment_mode, or_advance_pay, 
-                or_expire_on, or_contact_person_name, or_contact_person_phone) values ('".$_POST['cust_id']."', '$code', '".$_POST['material']."', '".$_POST['price_unit']."', 
-                '".$_POST['quantity']."', '".$_POST['truck_preference']."', '".$_POST['expected_price']."', '".$_POST['payment_mode']."', '".$_POST['advance_pay']."', '$ex_date', 
-                '".$_POST['contact_person_name']."', '".$_POST['contact_person_phone']."')";
-        $set = mysqli_query($link, $sql);
-        
-        if($set)
-        {
-            $responseData = ['success' => '1', 'message' => 'Order Created'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+            $responseData = ['success' => '0', 'message' => 'You have no plan. Get subscription'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(400);
         }
