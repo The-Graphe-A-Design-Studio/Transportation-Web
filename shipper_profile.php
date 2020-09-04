@@ -50,7 +50,7 @@
             {
                 $device_id = $row['cu_token'];
                 $title = "Document Verification";
-                $message = "Your all documents are verified";
+                $message = "Your all documents are verified and 7 days trial period started from now";
 
                 $sent = push_notification_android($device_id, $title, $message);
             }
