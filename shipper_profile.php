@@ -33,33 +33,41 @@
     $r_doc5 = mysqli_query($link, $doc5);
     $office_address = mysqli_fetch_array($r_doc5, MYSQLI_ASSOC);
 
-    if($pan_card['doc_verified'] == 1 && $address_f['doc_verified'] == 1 && $address_b['doc_verified'] == 1 && $selfie['doc_verified'] == 1 && $com_name['doc_verified'] == 1 && 
+    if($row['cu_account_on'] == 0)
+    {
+        if($pan_card['doc_verified'] == 1 && $address_f['doc_verified'] == 1 && $address_b['doc_verified'] == 1 && $selfie['doc_verified'] == 1 && $com_name['doc_verified'] == 1 && 
         $office_address['doc_verified'] == 1)
-    {
-        $update = "update customers set cu_verified = 1 where cu_id = '$shipper'";
-        $done = mysqli_query($link, $update);
-        
-        if($done)
         {
-            $device_id = $row['cu_token'];
-            $title = "Document Verification";
-            $message = "Your all documents are verified";
+            date_default_timezone_set("Asia/Kolkata");
+            $date = date('Y-m-d H:i:s');
 
-            $sent = push_notification_android($device_id, $title, $message);
+            $trial_date = date('Y-m-d H:i:s', strtotime($date. ' + 7 days'));
+
+            $update = "update customers set cu_verified = 1, cu_account_on = 1, cu_trial_expire_date = '$trial_date' where cu_id = '$shipper'";
+            $done = mysqli_query($link, $update);
+            
+            if($done)
+            {
+                $device_id = $row['cu_token'];
+                $title = "Document Verification";
+                $message = "Your all documents are verified";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
         }
-    }
-    else
-    {
-        $update = "update customers set cu_verified = 2 where cu_id = '$shipper'";
-        $done = mysqli_query($link, $update);
-        
-        if($done)
+        else
         {
-            $device_id = $row['cu_token'];
-            $title = "Document Verification";
-            $message = "Your documents are not verified";
+            $update = "update customers set cu_verified = 2 where cu_id = '$shipper'";
+            $done = mysqli_query($link, $update);
+            
+            if($done)
+            {
+                $device_id = $row['cu_token'];
+                $title = "Document Verification";
+                $message = "Your documents are not verified";
 
-            $sent = push_notification_android($device_id, $title, $message);
+                $sent = push_notification_android($device_id, $title, $message);
+            }
         }
     }
 ?>
