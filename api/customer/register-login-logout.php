@@ -64,7 +64,10 @@
         {
             $rancu_no = rand(100000, 999999);
 
-            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered, cu_token) values ('$phone_code', '$phone', '$rancu_no', '$date', $token')";
+            date_default_timezone_set("Asia/Kolkata");
+            $date = date('Y-m-d H:i:s');
+
+            $mobile_sql = "insert into customers (cu_phone_code, cu_phone, cu_otp, cu_registered, cu_token) values ('$phone_code', '$phone', '$rancu_no', '$date', '$token')";
 
             $mobile_insert = mysqli_query($link, $mobile_sql);
 
@@ -72,13 +75,12 @@
             {
                 for($i = 1; $i <= 6; $i++)
                 {
-                    $re_c = "select * from customer_docs where doc_owner_phone = '$phone' and doc_owner_phone = '$i'";
-                    $re_r = mysqli_query($link, $re_c);
-                    $row_c = mysqli_fetch_array($re_r, MYSQLI_ASSOC);
-                    $counte = mysqli_num_rows($re_r);
-                    if($counte == 0)
+                    $re_c1 = "select * from customer_docs where doc_owner_phone = '$phone' and doc_sr_num = '$i'";
+                    $re_r1 = mysqli_query($link, $re_c1);
+                    $counte1 = mysqli_num_rows($re_r1);
+                    if($counte1 == 0)
                     {
-                        mysqli_query($link, "insert into customer_docs (doc_owner_phone, doc_owner_phone) values ('$phone', '$i')");
+                        mysqli_query($link, "insert into customer_docs (doc_owner_phone, doc_sr_num) values ('$phone', '$i')");
                     }
                 }
 
