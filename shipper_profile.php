@@ -67,8 +67,8 @@
 
     if($row['cu_verified'] == 1)
     {
-        if($pan_card['doc_verified'] !== 1 && $address_f['doc_verified'] !== 1 && $address_b['doc_verified'] !== 1 && $selfie['doc_verified'] !== 1 && $com_name['doc_verified'] !== 1 && 
-        $office_address['doc_verified'] !== 1)
+        if($pan_card['doc_verified'] != 1 || $address_f['doc_verified'] != 1 || $address_b['doc_verified'] != 1 || $selfie['doc_verified'] != 1 || $com_name['doc_verified'] != 1 
+            || $office_address['doc_verified'] != 1)
         {
             $update = "update customers set cu_verified = 0 where cu_id = '$shipper'";
             $done = mysqli_query($link, $update);
