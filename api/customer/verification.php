@@ -44,15 +44,15 @@
             elseif($otp_row['cu_account_on'] == 2)
             {
                 $date_now = new DateTime(date('Y-m-d H:i:s'));
-                $date2    = new DateTime(date_format(date_create($otp_row['cu_trial_expire_date']), 'Y-m-d H:i:s'));
+                $date2    = new DateTime(date_format(date_create($otp_row['cu_subscription_expire_date']), 'Y-m-d H:i:s'));
                 
                 if($date_now > $date2)
                 {
-                    $trial = 'Trial period expired';
+                    $trial = 'Subscription period expired';
                 }
                 else
                 {
-                    $trial = 'In trial period';
+                    $trial = 'In subscription period';
                 }
 
                 $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
@@ -61,13 +61,23 @@
 
                 $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
                                 'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
-                                'registered on' => $otp_row['cu_registered'], 'trial period upto' => $otp_row['cu_trial_expire_date'], 'trial period status' => $trial];
+                                'registered on' => $otp_row['cu_registered'], 'subscription period upto' => $otp_row['cu_subscription_expire_date'], 'subscription period status' => $trial];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
             }
             else
             {
+                $trial = 'Not on subcsription';
                 
+                $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
+                $comp_run = mysqli_query($link, $comp);
+                $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
+
+                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
+                                'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
+                                'registered on' => $otp_row['cu_registered'], 'subscription period upto' => $trial, 'subscription period status' => $trial];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
             }
         }
         else
