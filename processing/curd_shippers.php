@@ -115,7 +115,7 @@
                 $output .=
                 '
                         <td data-column="Shipper">
-                            <img alt="shipper_selfie_'.$row['cu_phone'].'" src="'.$doc_row['doc_location'].'" style="width: 100px; height: 100px; border-radius: 50%">
+                            <img alt="shipper_selfie_'.$row['cu_phone'].'" src="'.$doc_row['doc_location'].'" style="width: 50px; height: 50px; border-radius: 50%">
                         </td>
                         <td data-column="Phone">+'.$row['cu_phone_code'].' '.$row['cu_phone'].' ('.$row['cu_otp'].')</td>
                         <td data-column="Company Name">'.$doc_row1['doc_location'].'</td>

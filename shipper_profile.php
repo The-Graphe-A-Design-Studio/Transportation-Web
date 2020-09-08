@@ -125,7 +125,7 @@
 
         .card .card-body p img
         {
-            max-height: 180px;
+            max-height: 100px;
         }
     </style>
 </head>
@@ -140,33 +140,150 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header">
-                    <h1>Shipper Profile</h1>
+                    <h1>Shipper Profile ID <?php echo $row['cu_id']; ?></h1>
                     <div class="section-header-breadcrumb">
                         <div class="breadcrumb-item active"><a href="dashboard">Dashboard</a></div>
-                        <div class="breadcrumb-item"><a href="truck_owners">Truck Owners</a></div>
+                        <div class="breadcrumb-item"><a href="shippers">Shippers</a></div>
                         <div class="breadcrumb-item">Shipper Profile</div>
                     </div>
                 </div>
 
                 <div class="section-body">
                     <div class="row">
-                        <div class="col-12 col-md-6 col-lg-4">
-                            <div class="card card-success">
-                                <div class="card-header">
-                                    <h4>Phone Number</h4>
-                                </div>
-                                <div class="card-body">
-                                    <p><?php echo '+'.$row['cu_phone_code'].' '.$row['cu_phone']; ?></code></p>
-                                </div>
-                                <div class="card-header">
-                                    <h4>Company Name</h4>
-                                </div>
-                                <div class="card-body">
-                                    <p><?php echo $com_name['doc_location']; ?></p>
+                        <div class="col-12">
+                            <?php
+                                if($row['cu_account_on'] == 1)
+                                {
+                                    $date_now = new DateTime(date('Y-m-d H:i:s'));
+                                    $date2    = new DateTime(date_format(date_create($row['cu_trial_expire_date']), 'Y-m-d H:i:s'));
+                        
+                                    if($date_now > $date2)
+                                    {
+                                        $expire = date_format(date_create($row['cu_trial_expire_date']), 'd M, Y h:i A');
+                                        $status = "Trial Period Expired";
+                                        $plan = "Trial";
+                                    }
+                                    else
+                                    {
+                                        $expire = date_format(date_create($row['cu_trial_expire_date']), 'd M, Y h:i A');
+                                        $status = "On Trial Period";
+                                        $plan = "Trial";
+                                    }
+                                    $table =
+                                    '
+                                        <table>
+                                            <thead>
+                                                <th>Plan</th>
+                                                <th>Registered On</th>
+                                                <th>Expire Date</th>
+                                                <th>Status</th>
+                                            </thead>
+                                            <tbody>
+                                                <td data-column="Plan">'.$plan.'</td>
+                                                <td data-column="Registered On">'.date_format(date_create($row['cu_registered']), 'd M, Y h:i A').'</td>
+                                                <td data-column="Expire Date">'.$expire.'</td>
+                                                <td data-column="Status">'.$status.'</td>
+                                            </tbody>
+                                        </table>
+                                    ';
+                                }
+                                elseif($row['cu_account_on'] == 2)
+                                {
+                                    $date_now = new DateTime(date('Y-m-d H:i:s'));
+                                    $date2    = new DateTime(date_format(date_create($row['cu_subscription_expire_date']), 'Y-m-d H:i:s'));
+
+                                    if($date_now > $date2)
+                                    {
+                                        $expire = date_format(date_create($row['cu_subscription_expire_date']), 'd M, Y h:i A');
+                                        $status = "Subscription Period Expired";
+                                        $plan = "Subscription";
+                                    }
+                                    else
+                                    {
+                                        $expire = date_format(date_create($row['cu_subscription_expire_date']), 'd M, Y h:i A');
+                                        $status = "On Subscription Period";
+                                        $plan = "Subscription";
+                                    }
+                                    $table =
+                                    '
+                                        <table>
+                                            <thead>
+                                                <th>Plan</th>
+                                                <th>Registered On</th>
+                                                <th>Order ID</th>
+                                                <th>Time Left</th>
+                                                <th>Expire Date</th>
+                                                <th>Status</th>
+                                            </thead>
+                                            <tbody>
+                                                <td data-column="Plan">'.$plan.'</td>
+                                                <td data-column="Registered On">'.date_format(date_create($row['cu_registered']), 'd M, Y h:i A').'</td>
+                                                <td data-column="Order ID">'.$row['cu_subscription_order_id'].'</td>
+                                                <td data-column="Time Left"></td>
+                                                <td data-column="Expire Date">'.$expire.'</td>
+                                                <td data-column="Status">'.$status.'</td>
+                                            </tbody>
+                                        </table>
+                                    ';
+                                }
+                                else
+                                {
+                                    $expire = "Nil";
+                                    $status = "Nil";
+                                }
+                            ?>
+                            <div class="card">
+                                <div class="card-body" style="padding: 1vh !important">
+                                    <?php echo $table; ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-8 col-lg-8" style="display: flex; flex-direction: column">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="buttons text-center">
+                                                <a href="#" class="btn btn-primary">Primary</a>
+                                                <a href="#" class="btn btn-secondary">Secondary</a>
+                                                <a href="#" class="btn btn-info">Info</a>
+                                                <a href="#" class="btn btn-warning">Warning</a>
+                                                <a href="#" class="btn btn-danger">Danger</a>
+                                                <a href="#" class="btn btn-success">Success</a>
+                                                <a href="#" class="btn btn-light">Light</a>
+                                                <a href="#" class="btn btn-dark">Dark</a>
+                                                <a href="#" class="btn">Link</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="card card-success">
+                                        <div class="card-header">
+                                            <h4>Phone Number</h4>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <p><h5><?php echo '+'.$row['cu_phone_code'].' '.$row['cu_phone']; ?></h5></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="card card-success">
+                                        <div class="card-header">
+                                            <h4>Company Name</h4>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <p><h5><?php echo $com_name['doc_location']; ?></h5></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                   
+                        <div class="col-12 col-md-4 col-lg-4">
                             <?php
                                 if($selfie['doc_verified'] == 0)
                                 {
@@ -200,7 +317,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-4">
+                        <div class="col-12 col-md-4 col-lg-3">
                             <?php
                                 if($pan_card['doc_verified'] == 0)
                                 {
@@ -234,7 +351,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-4">
+                        <div class="col-12 col-md-4 col-lg-3">
                             <?php
                                 if($address_f['doc_verified'] == 0)
                                 {
@@ -268,7 +385,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-4">
+                        <div class="col-12 col-md-4 col-lg-3">
                             <?php
                                 if($address_b['doc_verified'] == 0)
                                 {
@@ -302,7 +419,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-4">
+                        <div class="col-12 col-md-4 col-lg-3">
                             <?php
                                 if($office_address['doc_verified'] == 0)
                                 {
