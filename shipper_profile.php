@@ -156,18 +156,31 @@
                                 {
                                     $date_now = new DateTime(date('Y-m-d H:i:s'));
                                     $date2    = new DateTime(date_format(date_create($row['cu_trial_expire_date']), 'Y-m-d H:i:s'));
-                        
+
                                     if($date_now > $date2)
                                     {
                                         $expire = date_format(date_create($row['cu_trial_expire_date']), 'd M, Y h:i A');
                                         $status = "Trial Period Expired";
                                         $plan = "Trial";
+                                        $t_left = "0";
                                     }
                                     else
                                     {
                                         $expire = date_format(date_create($row['cu_trial_expire_date']), 'd M, Y h:i A');
                                         $status = "On Trial Period";
                                         $plan = "Trial";
+
+                                        function dateDiffInDays($date1, $date2)  
+                                        { 
+                                            // Calculating the difference in timestamps 
+                                            $diff = strtotime($date2) - strtotime($date1); 
+                                            
+                                            // 1 day = 24 hours 
+                                            // 24 * 60 * 60 = 86400 seconds 
+                                            return abs(round($diff / 86400)); 
+                                        }
+
+                                        $t_left = dateDiffInDays($date_now, $row['cu_trial_expire_date']);
                                     }
                                     $table =
                                     '
@@ -176,12 +189,14 @@
                                                 <th>Plan</th>
                                                 <th>Registered On</th>
                                                 <th>Expire Date</th>
+                                                <th>Days Left</th>
                                                 <th>Status</th>
                                             </thead>
                                             <tbody>
                                                 <td data-column="Plan">'.$plan.'</td>
                                                 <td data-column="Registered On">'.date_format(date_create($row['cu_registered']), 'd M, Y h:i A').'</td>
                                                 <td data-column="Expire Date">'.$expire.'</td>
+                                                <td data-column="Days Left">'.$t_left.'</td>
                                                 <td data-column="Status">'.$status.'</td>
                                             </tbody>
                                         </table>
@@ -197,12 +212,25 @@
                                         $expire = date_format(date_create($row['cu_subscription_expire_date']), 'd M, Y h:i A');
                                         $status = "Subscription Period Expired";
                                         $plan = "Subscription";
+                                        $t_left = "0";
                                     }
                                     else
                                     {
                                         $expire = date_format(date_create($row['cu_subscription_expire_date']), 'd M, Y h:i A');
                                         $status = "On Subscription Period";
                                         $plan = "Subscription";
+
+                                        function dateDiffInDays($date1, $date2)  
+                                        { 
+                                            // Calculating the difference in timestamps 
+                                            $diff = strtotime($date2) - strtotime($date1); 
+                                            
+                                            // 1 day = 24 hours 
+                                            // 24 * 60 * 60 = 86400 seconds 
+                                            return abs(round($diff / 86400)); 
+                                        }
+
+                                        $t_left = dateDiffInDays($row['cu_subscription_start_date'], $row['cu_subscription_expire_date']);
                                     }
                                     $table =
                                     '
@@ -211,16 +239,18 @@
                                                 <th>Plan</th>
                                                 <th>Registered On</th>
                                                 <th>Order ID</th>
-                                                <th>Time Left</th>
+                                                <th>Start Date</th>
                                                 <th>Expire Date</th>
+                                                <th>Days Left</th>
                                                 <th>Status</th>
                                             </thead>
                                             <tbody>
                                                 <td data-column="Plan">'.$plan.'</td>
                                                 <td data-column="Registered On">'.date_format(date_create($row['cu_registered']), 'd M, Y h:i A').'</td>
                                                 <td data-column="Order ID">'.$row['cu_subscription_order_id'].'</td>
-                                                <td data-column="Time Left"></td>
+                                                <td data-column="Start Date">'.date_format(date_create($row['cu_subscription_start_date']), 'd M, Y h:i A').'</td>
                                                 <td data-column="Expire Date">'.$expire.'</td>
+                                                <td data-column="Days Left">'.$t_left.'</td>
                                                 <td data-column="Status">'.$status.'</td>
                                             </tbody>
                                         </table>
