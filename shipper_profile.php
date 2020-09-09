@@ -125,7 +125,18 @@
 
         .card .card-body p img
         {
-            max-height: 100px;
+            max-height: 80px;
+        }
+
+        .card-header, .card-footer
+        {
+            min-height: 0 !important;
+            padding: 1vh 2vh !important;
+        }
+
+        .card-body
+        {
+            padding: 1vh 0 0 0 !important;
         }
     </style>
 </head>
@@ -277,8 +288,50 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="buttons text-center">
-                                                <a href="#" class="btn btn-primary">Loads</a>
-                                                <a href="#" class="btn btn-primary">Subscription History</a>
+                                                <a href="#" class="btn btn-primary btn-lg">Loads</a>
+                                                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#history">Subscription History</button>
+                        
+                                                <!-- Modal -->
+                                                <div class="mymodal modal fade" id="history" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                    <div class="modal-dialog" role="document" style="max-width: 850px; margin-top: 10vh">
+                                                        <div class="section">
+                                                            <div class="section-header">
+                                                                <h1>Subscription History</h1>
+                                                            </div>
+                                                        </div>
+                                                        <table style="background: #fff">
+                                                            <thead>
+                                                                <th>ID</th>
+                                                                <th>Order ID</th>
+                                                                <th>Payment ID</th>
+                                                                <th>Amount</th>
+                                                                <th>Duration</th>
+                                                                <th>Start On</th>
+                                                                <th>Expire On</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                    $sub = "select * from subscribed_users where subs_user_id = '".$row['cu_id']."' order by subs_id desc";
+                                                                    $run_sub = mysqli_query($link, $sub);
+                                                                    while($row_sub = mysqli_fetch_array($run_sub, MYSQLI_ASSOC))
+                                                                    {
+                                                                ?>
+                                                                    <tr>
+                                                                        <td data-column="ID"><?php echo $row_sub['subs_id']; ?></td>
+                                                                        <td data-column="Order ID"><?php echo $row_sub['razorpay_order_id']; ?></td>
+                                                                        <td data-column="Payment ID"><?php echo $row_sub['razorpay_payment_id']; ?></td>
+                                                                        <td data-column="Amount"><?php echo $row_sub['subs_amount']; ?></td>
+                                                                        <td data-column="Duration"><?php echo $row_sub['subs_duration']; ?> Months</td>
+                                                                        <td data-column="Start On"><?php echo date_format(date_create($row_sub['payment_datetime']), 'd M, Y h:i A'); ?></td>
+                                                                        <td data-column="Expire On"><?php echo date_format(date_create($row_sub['expire_datetime']), 'd M, Y h:i A'); ?></td>
+                                                                    </tr>
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -336,7 +389,13 @@
                                             <input type="text" name="doc_status" value="<?php echo $selfie['doc_verified']; ?>" hidden>
                                             <?php echo $b_selfie; ?>
                                         </form>
-                                        <button class="btn btn-icon btn-info" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#selfie"><i class="fas fa-eye"></i></button>
+                                        <!-- Modal -->
+                                        <div class="mymodal modal fade" id="selfie" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                            <div class="modal-dialog" role="document">
+                                                <img src="<?php echo $selfie['doc_location']; ?>" style="max-width: 100%" alt="shipper_selfie_<?php echo $row['cu_phone']; ?>">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -370,7 +429,13 @@
                                             <input type="text" name="doc_status" value="<?php echo $pan_card['doc_verified']; ?>" hidden>
                                             <?php echo $b_pan_card; ?>
                                         </form>
-                                        <button class="btn btn-icon btn-info" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#pan"><i class="fas fa-eye"></i></button>
+                                        <!-- Modal -->
+                                        <div class="mymodal modal fade" id="pan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                            <div class="modal-dialog" role="document">
+                                                <img src="<?php echo $pan_card['doc_location']; ?>" style="max-width: 100%" alt="shipper_pan_card_<?php echo $row['cu_phone']; ?>">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -404,7 +469,13 @@
                                             <input type="text" name="doc_status" value="<?php echo $address_f['doc_verified']; ?>" hidden>
                                             <?php echo $b_address_f; ?>
                                         </form>
-                                        <button class="btn btn-icon btn-info" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#address_front"><i class="fas fa-eye"></i></button>
+                                        <!-- Modal -->
+                                        <div class="mymodal modal fade" id="address_front" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                            <div class="modal-dialog" role="document">
+                                                <img src="<?php echo $address_f['doc_location']; ?>" style="max-width: 100%" alt="shipper_address_front_<?php echo $row['cu_phone']; ?>">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -438,7 +509,13 @@
                                             <input type="text" name="doc_status" value="<?php echo $address_b['doc_verified']; ?>" hidden>
                                             <?php echo $b_address_b; ?>
                                         </form>
-                                        <button class="btn btn-icon btn-info" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#address_back"><i class="fas fa-eye"></i></button>
+                                        <!-- Modal -->
+                                        <div class="mymodal modal fade" id="address_back" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                            <div class="modal-dialog" role="document">
+                                                <img src="<?php echo $address_b['doc_location']; ?>" style="max-width: 100%" alt="shipper_address_back_<?php echo $row['cu_phone']; ?>">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -472,7 +549,13 @@
                                             <input type="text" name="doc_status" value="<?php echo $office_address['doc_verified']; ?>" hidden>
                                             <?php echo $b_office_address; ?>
                                         </form>
-                                        <button class="btn btn-icon btn-info" title="View"><i class="fas fa-eye"></i></button>
+                                        <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#office_address"><i class="fas fa-eye"></i></button>
+                                        <!-- Modal -->
+                                        <div class="mymodal modal fade" id="office_address" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                            <div class="modal-dialog" role="document">
+                                                <img src="<?php echo $office_address['doc_location']; ?>" style="max-width: 100%" alt="shipper_office_address_<?php echo $row['cu_phone']; ?>">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
