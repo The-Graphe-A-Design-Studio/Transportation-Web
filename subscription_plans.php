@@ -31,7 +31,7 @@
                 </div>
                 <div class="section-body">
                     <div class="row">
-                        <div class="col-sm-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <div class="custom-switches-stacked mt-2" style="flex-direction: row">
                                 <div class="form-group">
                                     <label class="custom-switch">
@@ -53,7 +53,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <div class="form-group">
                                 <label>Plan Type</label>
                                 <select class="form-control common_selector branch">
@@ -64,13 +64,13 @@
                             </div>
                         </div>
                         
-                        <div class="col-sm-12 col-md-6 text-right">
+                        <div class="col-12 col-md-4 text-center">
                             <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal">Add new Subscription Plan</button>
                         
                             <!-- Modal -->
-                            <div class="mymodal modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="mymodal modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                 <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
+                                    <div class="modal-content" style="margin-top: 10vh">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Add new Subscription Plan</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -111,11 +111,10 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="button" id="refresh_btn" value="Refresh" hidden>
                     </div>
-
-                    <input type="button" id="refresh_btn" value="Refresh" hidden>
                     
-                    <div class="row mt-sm-4 filter_data">
+                    <div class="row mt-sm-4 filter_data" style="padding: 3vh 0 2vh 0">
                         
                     </div>
                 </div>

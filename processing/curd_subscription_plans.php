@@ -109,7 +109,7 @@
                         <td data-column="Type">'.$type.'</td>
                         <td data-column="Original Price">₹ '.$row['plan_original_price'].'</td>
                         <td data-column="Selling Price">₹ '.$row['plan_selling_price'].'</td>
-                        <td data-column="Discount">'.$discount.'%</td>
+                        <td data-column="Discount">'.round($discount, 2).'%</td>
                         <td data-column="Duration">'.$row['plan_duration'].' Months</td>
                         <td data-column="Edit">
                             <button class="btn btn-warning btn-md" data-toggle="collapse" data-target="#collapse_'.$row['plan_id'].'" 
