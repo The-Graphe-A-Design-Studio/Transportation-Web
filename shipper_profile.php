@@ -170,17 +170,17 @@
                                         $status = "On Trial Period";
                                         $plan = "Trial";
 
-                                        function dateDiffInDays($date1, $date2)  
+                                        function dateDiffInDays($date11, $date22)  
                                         { 
                                             // Calculating the difference in timestamps 
-                                            $diff = strtotime($date2) - strtotime($date1); 
+                                            $diff = strtotime($date22) - strtotime($date11); 
                                             
                                             // 1 day = 24 hours 
                                             // 24 * 60 * 60 = 86400 seconds 
                                             return abs(round($diff / 86400)); 
                                         }
 
-                                        $t_left = dateDiffInDays($date_now, $row['cu_trial_expire_date']);
+                                        $t_left = dateDiffInDays(date('Y-m-d H:i:s'), $row['cu_trial_expire_date']);
                                     }
                                     $table =
                                     '
@@ -220,17 +220,17 @@
                                         $status = "On Subscription Period";
                                         $plan = "Subscription";
 
-                                        function dateDiffInDays($date1, $date2)  
+                                        function dateDiffInDays($date11, $date22)  
                                         { 
                                             // Calculating the difference in timestamps 
-                                            $diff = strtotime($date2) - strtotime($date1); 
+                                            $diff = strtotime($date22) - strtotime($date11); 
                                             
                                             // 1 day = 24 hours 
                                             // 24 * 60 * 60 = 86400 seconds 
                                             return abs(round($diff / 86400)); 
                                         }
 
-                                        $t_left = dateDiffInDays($row['cu_subscription_start_date'], $row['cu_subscription_expire_date']);
+                                        $t_left = dateDiffInDays(date('Y-m-d H:i:s'), $row['cu_subscription_expire_date']);
                                     }
                                     $table =
                                     '
