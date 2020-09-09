@@ -259,6 +259,7 @@
                                 else
                                 {
                                     $expire = "Nil";
+                                    $t_left = "Nil";
                                     $status = "Nil";
                                 }
                             ?>
@@ -276,15 +277,8 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="buttons text-center">
-                                                <a href="#" class="btn btn-primary">Primary</a>
-                                                <a href="#" class="btn btn-secondary">Secondary</a>
-                                                <a href="#" class="btn btn-info">Info</a>
-                                                <a href="#" class="btn btn-warning">Warning</a>
-                                                <a href="#" class="btn btn-danger">Danger</a>
-                                                <a href="#" class="btn btn-success">Success</a>
-                                                <a href="#" class="btn btn-light">Light</a>
-                                                <a href="#" class="btn btn-dark">Dark</a>
-                                                <a href="#" class="btn">Link</a>
+                                                <a href="#" class="btn btn-primary">Loads</a>
+                                                <a href="#" class="btn btn-primary">Subscription History</a>
                                             </div>
                                         </div>
                                     </div>
