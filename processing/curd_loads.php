@@ -145,7 +145,7 @@
                             Phone - '.$row['or_contact_person_phone'].'
                         </td>
                         <td data-column="View">
-                            <a class="btn btn-icon btn-info" href="shipper_profile?shipper_id='.$row['cu_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
+                            <a class="btn btn-icon btn-info" href="loads_by_id?load_id='.$row['or_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
                     </tr>
                 ';
@@ -162,39 +162,6 @@
         
         echo $output;
 
-    }
-    elseif(isset($_POST['doc_id']) && isset($_POST['doc_status']))
-    {
-        if($_POST['doc_status'] === '0')
-        {
-            $sql = mysqli_query($link, "update customer_docs set doc_verified = 1 where doc_id = '".$_POST['doc_id']."'");
-
-            if($sql)
-            {
-                echo "Document verified";
-            }
-            else
-            {
-                echo "Something went wrong";
-            }
-        }
-        elseif($_POST['doc_status'] === '1')
-        {
-            $sql = mysqli_query($link, "update customer_docs set doc_verified = 0 where doc_id = '".$_POST['doc_id']."'");
-
-            if($sql)
-            {
-                echo "Set to not verified";
-            }
-            else
-            {
-                echo "Something went wrong";
-            }
-        }
-        else
-        {
-            echo "Something missing";
-        }
     }
     else
     {
