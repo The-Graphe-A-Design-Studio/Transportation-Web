@@ -44,17 +44,22 @@
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector active" value="2">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Active</span>
+                                        <span class="custom-switch-description" style="color: green">Active</span>
                                     </label>
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector inactive" value="3">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Expired</span>
+                                        <span class="custom-switch-description" style="color: orange">Hold</span>
                                     </label>
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector cancel" value="4">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Cancelled</span>
+                                        <span class="custom-switch-description" style="color: blue">Cancelled</span>
+                                    </label>
+                                    <label class="custom-switch">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector expired" value="3">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description" style="color: red">Expired</span>
                                     </label>
                                 </div>
                             </div>
@@ -106,13 +111,15 @@
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
+                var cancel = get_filter('cancel');
+                var expired = get_filter('expired');
                 var search = get_key('search_bar');
                 var start_date = start_datee('s_date');
                 var end_date = end_datee('e_date');
                 $.ajax({
                     url:"processing/curd_loads.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, search:search, start_date:start_date, end_date:end_date},
+                    data:{action:action, active:active, inactive:inactive, nothing:nothing, cancel:cancel, expired:expired, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
                         $('.filter_data').html(data);
                     }

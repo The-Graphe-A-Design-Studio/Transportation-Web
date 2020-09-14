@@ -15,7 +15,7 @@
 
         if(isset($_POST["inactive"]))
         {
-            $query .= " AND cust_order.or_status = '0'";
+            $query .= " AND cust_order.or_status = '2'";
         }
 
         if(isset($_POST["nothing"]))
@@ -25,7 +25,12 @@
 
         if(isset($_POST["cancel"]))
         {
-            $query .= " AND cust_order.or_status = '2'";
+            $query .= " AND cust_order.or_status = '3'";
+        }
+
+        if(isset($_POST["expired"]))
+        {
+            $query .= " AND cust_order.or_status = '0'";
         }
 
         if(!empty($_POST["start_date"]) && empty($_POST["end_date"]))
@@ -102,10 +107,27 @@
                 $date = date_create($row['or_active_on']);
                 $date = date_format($date, "d M, Y");
 
+                if($row['or_status'] == 1)
+                {
+                    $live = "border-left: 3px solid green";
+                }
+                elseif($row['or_status'] == 2)
+                {
+                    $live = "border-left: 3px solid orange";
+                }
+                elseif($row['or_status'] == 3)
+                {
+                    $live = "border-left: 3px solid blue";
+                }
+                else
+                {
+                    $live = "border-left: 3px solid red";
+                }
+
                 $output .=
                 '
                     <tr>
-                        <td data-column="ID">'.$row['or_id'].'</td>
+                        <td data-column="ID" style="'.$live.'">'.$row['or_id'].'</td>
                         <td data-column="Reg. Date">'.$date.'</td>
                         <td data-column="Shipper"><a href="shipper_profile?shipper_id='.$row['cu_id'].'">+'.$row['cu_phone_code'].' '.$row['cu_phone'].'</a></td>
                 ';
