@@ -107,7 +107,7 @@
                     <tr>
                         <td data-column="ID">'.$row['or_id'].'</td>
                         <td data-column="Reg. Date">'.$date.'</td>
-                        <td data-column="Shipper">+'.$row['cu_phone_code'].' '.$row['cu_phone'].'</td>
+                        <td data-column="Shipper"><a href="shipper_profile?shipper_id='.$row['cu_id'].'">+'.$row['cu_phone_code'].' '.$row['cu_phone'].'</a></td>
                 ';
 
                 $source = "select * from cust_order_source where or_uni_code = '".$row['or_uni_code']."'";
