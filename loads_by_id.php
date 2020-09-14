@@ -8,6 +8,10 @@
     $g_sql = mysqli_query($link, $sql);
     $row = mysqli_fetch_array($g_sql, MYSQLI_ASSOC);
 
+    $customer = "select * from customers where cu_id = '".$row['or_cust_id']."'";
+    $get_cust = mysqli_query($link, $customer);
+    $row_cust = mysqli_fetch_array($get_cust, MYSQLI_ASSOC);
+
     $truck = "select * from truck_cat where trk_cat_id = '".$row['or_truck_preference']."'";
     $g_truck = mysqli_query($link, $truck);
     $row_truck = mysqli_fetch_array($g_truck, MYSQLI_ASSOC);
@@ -21,6 +25,10 @@
     <title>Loads | Truck Wale</title>
     <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
+    <style>
+        .dates{font-size: 1em; font-weight: 600;}
+        .profile-widget{margin-top: 0 !important;}
+    </style>
 </head>
 <body>
     <div id="app">
@@ -45,7 +53,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card" style="margin-bottom: 0 !important">
                                 <div class="card-body">
                                     <ul class="nav nav-tabs" id="loadTab" role="tablist">
                                         <li class="nav-item">
@@ -57,6 +65,35 @@
                                     </ul>
                                     <div class="tab-content" id="myTab3Content">
                                         <div class="tab-pane fade show active" id="load_details" role="tabpanel" aria-labelledby="load-details">
+                                            <div class="row">
+                                                <div class="col-12 col-lg-4">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name text-center" style="margin-bottom: 0 !important">
+                                                                <b>Active on - </b><?php echo date_format(date_create($row['or_active_on']), 'd M, Y h:i A'); ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-4">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name text-center" style="margin-bottom: 0 !important">
+                                                                <b>Expire on - </b><?php echo date_format(date_create($row['or_expire_on']), 'd M, Y h:i A'); ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-4">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name text-center" style="margin-bottom: 0 !important">
+                                                                <b>Contact Person - </b><?php echo $row['or_contact_person_name'].", ".$row['or_contact_person_phone']; ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-12 col-lg-4">
                                                     <div class="section-body">
@@ -121,9 +158,153 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                <b>Product - </b><?php echo $row['or_product']; ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                <b>Price Unit - </b>
+                                                                <?php
+                                                                    if($row['or_price_unit'] == 1)
+                                                                    {
+                                                                        echo "Tonnage";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        echo "Number of Trucks";
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                <b>Quantity - </b>
+                                                                <?php
+                                                                    if($row['or_price_unit'] == 1)
+                                                                    {
+                                                                        echo $row['or_quantity']." Ton";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        echo $row['or_quantity']." Trucks";
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                <b>Payment Mode - </b>
+                                                                <?php
+                                                                    if($row['or_payment_mode'] == 1)
+                                                                    {
+                                                                        echo "Negotiable";
+                                                                    }
+                                                                    elseif($row['or_payment_mode'] == 2)
+                                                                    {
+                                                                        echo "Advance Pay ( ".$row['or_advance_pay']."% )";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        echo "Full pay after unloading";
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                <b>Expected Price - </b>
+                                                                <?php
+                                                                    if($row['or_price_unit'] == 1)
+                                                                    {
+                                                                        echo $row['or_expected_price']." / Ton";
+                                                                        $show_unit = "Ton";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        echo $row['or_expected_price']." / Truck";
+                                                                        $show_unit = "Truck";
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-3">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                <?php
+                                                                    if($row_cust['cu_account_on'] == 1)
+                                                                    {
+                                                                        if($row['or_admin_expected_price'] == 0)
+                                                                        {
+                                                                            $admin_expected = 
+                                                                            '
+                                                                                <form class="expected">
+                                                                                    <div class="form-group">
+                                                                                        <label>Admin Expected Price (per '.$show_unit.')</label>
+                                                                                        <div class="input-group mb-3">
+                                                                                            <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
+                                                                                            <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
+                                                                                            <div class="input-group-append">
+                                                                                                <button class="btn btn-primary" type="submit">Set</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            ';
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            $admin_expected = 
+                                                                            '
+                                                                                <form class="expected">
+                                                                                    <div class="form-group">
+                                                                                        <label>Admin Expected Price (per '.$show_unit.')</label>
+                                                                                        <div class="input-group mb-3">
+                                                                                            <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
+                                                                                            <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
+                                                                                            <div class="input-group-append">
+                                                                                                <button class="btn btn-primary" type="submit">Update</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            ';
+                                                                        }
+                                                                    }
+                                                                    
+                                                                    echo $admin_expected;
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="load_bidding" role="tabpanel" aria-labelledby="load-bidding">
-                                            Sed sed metus vel lacus hendrerit tempus. Sed efficitur velit tortor, ac efficitur est lobortis quis. Nullam lacinia metus erat, sed fermentum justo rutrum ultrices. Proin quis iaculis tellus. Etiam ac vehicula eros, pharetra consectetur dui. Aliquam convallis neque eget tellus efficitur, eget maximus massa imperdiet. Morbi a mattis velit. Donec hendrerit venenatis justo, eget scelerisque tellus pharetra a.
+                                            Sed sed metus vel lacus hendrerit tempus.
                                         </div>
                                     </div>
                                 </div>
@@ -142,65 +323,31 @@
     <?php echo $script_tags; ?>
 
     <script type="text/javascript">
+        $(".expected").submit(function(e)
+		{
+			var form_data = $(this).serialize();
+			// alert(form_data);
+			var button_content = $(this).find('button[type=submit]');
+			button_content.addClass("disabled btn-progress");
+            $.ajax({
+				url: 'processing/curd_loads.php',
+				data: form_data,
+				type: 'POST',
+				success: function(data)
+				{
+                    alert(data);
+                    button_content.removeClass("disabled btn-progress");
+					if(data === "Admin Expected Price Updated")
+					{
+						location.href="loads_by_id?load_id=<?php echo $load; ?>";
+					}
+				}
+			});
+			e.preventDefault();
+        });
+        
         $(document).ready(function()
         {
-            filter_data();
-        
-            function filter_data()
-            {
-                var action = 'fetch_data';
-                var active = get_filter('active');
-                var inactive = get_filter('inactive');
-                var nothing = get_filter('nothing');
-                var search = get_key('search_bar');
-                var start_date = start_datee('s_date');
-                var end_date = end_datee('e_date');
-                $.ajax({
-                    url:"processing/curd_loads.php",
-                    method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, search:search, start_date:start_date, end_date:end_date},
-                    success:function(data){
-                        $('.filter_data').html(data);
-                    }
-                });
-            }
-            
-            function get_filter(class_name)
-            {
-                var filter = [];
-                $('.'+class_name+':checked').each(function(){
-                    filter.push($(this).val());
-                });
-                return filter;
-            }
-
-            function get_key()
-            {
-                return $('.search_bar').val();
-            }
-
-            function start_datee()
-            {
-                return $('.s_date').val();
-            }
-
-            function end_datee()
-            {
-                return $('.e_date').val();
-            }
-
-            $('#refresh_btn').on('click',function(){
-                filter_data();
-            });
-
-            $('.common_selector').on('keyup change',function(){
-                filter_data();
-                get_key();
-                start_datee();
-                end_datee();
-            });
-
-
             $(".loads").addClass("active");
         });
     </script>

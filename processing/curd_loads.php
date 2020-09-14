@@ -163,6 +163,20 @@
         echo $output;
 
     }
+    elseif(isset($_POST['admin_expected_price']) && isset($_POST['load_id']))
+    {
+        $sql = "update cust_order set or_admin_expected_price = '".$_POST['admin_expected_price']."' where or_id = '".$_POST['load_id']."'";
+        $run_aql = mysqli_query($link, $sql);
+
+        if($run_aql)
+        {
+            echo "Admin Expected Price Updated";
+        }
+        else
+        {
+            echo "Something went wrong";
+        }
+    }
     else
     {
         echo "Server error";
