@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.4
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Sep 11, 2020 at 06:55 AM
--- Server version: 5.6.41-84.1
--- PHP Version: 7.3.6
+-- Host: 127.0.0.1
+-- Generation Time: Sep 14, 2020 at 04:41 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `thegrhmw_transpoter`
+-- Database: `transporter`
 --
 
 -- --------------------------------------------------------
@@ -45,6 +45,30 @@ INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_username`, `admin_pass`) V
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bidding`
+--
+
+CREATE TABLE `bidding` (
+  `bid_id` int(11) NOT NULL,
+  `bid_user_type` int(11) NOT NULL COMMENT '1 - Truck Owner ; 2 - Driver',
+  `bid_user_id` int(11) NOT NULL,
+  `load_id` int(11) NOT NULL,
+  `bid_expected_price` decimal(15,2) NOT NULL,
+  `bid_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Accepted',
+  `bid_default` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bidding`
+--
+
+INSERT INTO `bidding` (`bid_id`, `bid_user_type`, `bid_user_id`, `load_id`, `bid_expected_price`, `bid_status`, `bid_default`) VALUES
+(5, 2, 36, 1, '4564.00', 0, 1),
+(7, 1, 4, 1, '3000.00', 0, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customers`
 --
 
@@ -52,18 +76,18 @@ CREATE TABLE `customers` (
   `cu_id` int(11) NOT NULL,
   `cu_phone_code` tinyint(4) NOT NULL,
   `cu_phone` bigint(20) NOT NULL,
-  `cu_otp` int(11) NOT NULL DEFAULT '0',
-  `cu_address_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1 - Aadhar, 2 - Voter, 3 - Passport, 4 - DL',
-  `cu_verified` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - Default; 1 - Verified; 2 - Rejected',
-  `cu_active` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - Logged out; 1 - Logged in',
+  `cu_otp` int(11) NOT NULL DEFAULT 0,
+  `cu_address_type` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Aadhar, 2 - Voter, 3 - Passport, 4 - DL',
+  `cu_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Default; 1 - Verified; 2 - Rejected',
+  `cu_active` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Logged out; 1 - Logged in',
   `cu_registered` datetime NOT NULL,
-  `cu_account_on` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - Nothing; 1 - On Trial; 2 - On Subscription',
+  `cu_account_on` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Nothing; 1 - On Trial; 2 - On Subscription',
   `cu_trial_expire_date` datetime NOT NULL,
   `cu_subscription_start_date` datetime NOT NULL,
   `cu_subscription_order_id` varchar(255) NOT NULL DEFAULT '0',
   `cu_subscription_expire_date` datetime NOT NULL,
   `cu_token` varchar(255) NOT NULL,
-  `cu_default` tinyint(4) NOT NULL DEFAULT '1'
+  `cu_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -71,7 +95,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`cu_id`, `cu_phone_code`, `cu_phone`, `cu_otp`, `cu_address_type`, `cu_verified`, `cu_active`, `cu_registered`, `cu_account_on`, `cu_trial_expire_date`, `cu_subscription_start_date`, `cu_subscription_order_id`, `cu_subscription_expire_date`, `cu_token`, `cu_default`) VALUES
-(1, 91, 7908024082, 710343, 4, 1, 1, '2020-09-09 17:38:13', 2, '2020-09-16 17:44:04', '2020-09-10 02:57:33', 'order_Fb4zD2ejeURujj', '2021-03-12 02:57:33', 'cxqsIcJURRK79c6xrrv-Nb:APA91bGtJrr1Qia_wodrfeZi9ffh186ANO2he3vLZyk_MCdrapjwAICRPmIx4RhQjK1tvaORUOMcC7WI6KuKhJ3JJNoSdUJ6HVEY_mRq_A7x5VSnuvsUTFG6XOxeMR_hwycqoYVSek5I', 1);
+(1, 91, 7908024082, 710343, 4, 1, 1, '2020-09-09 17:38:13', 1, '2020-09-16 17:44:04', '2020-09-10 02:57:33', 'order_Fb4zD2ejeURujj', '2021-03-12 02:57:33', 'cxqsIcJURRK79c6xrrv-Nb:APA91bGtJrr1Qia_wodrfeZi9ffh186ANO2he3vLZyk_MCdrapjwAICRPmIx4RhQjK1tvaORUOMcC7WI6KuKhJ3JJNoSdUJ6HVEY_mRq_A7x5VSnuvsUTFG6XOxeMR_hwycqoYVSek5I', 1);
 
 -- --------------------------------------------------------
 
@@ -84,7 +108,7 @@ CREATE TABLE `customer_docs` (
   `doc_owner_phone` bigint(20) NOT NULL,
   `doc_sr_num` tinyint(4) NOT NULL COMMENT '1 - Pan Card, 2 - Address Front, 3 - Address Back, 4 - Selfie, 5 - Company Name, 6 - Office Address',
   `doc_location` varchar(200) NOT NULL DEFAULT '',
-  `doc_verified` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - No; 1 - Yes'
+  `doc_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - No; 1 - Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -113,15 +137,23 @@ CREATE TABLE `cust_order` (
   `or_price_unit` tinyint(4) NOT NULL COMMENT '1 - Tonnage; 2 - Truck',
   `or_quantity` smallint(6) NOT NULL,
   `or_truck_preference` tinyint(4) NOT NULL,
-  `or_expected_price` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `or_payment_mode` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Negotiable, 2 - Advance Pay, 3 - To Driver After Unloading',
-  `or_advance_pay` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'in %',
-  `or_active_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `or_expected_price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `or_admin_expected_price` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `or_payment_mode` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Negotiable, 2 - Advance Pay, 3 - To Driver After Unloading',
+  `or_advance_pay` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'in %',
+  `or_active_on` datetime NOT NULL DEFAULT current_timestamp(),
   `or_expire_on` datetime NOT NULL,
   `or_contact_person_name` varchar(100) NOT NULL,
   `or_contact_person_phone` bigint(20) NOT NULL,
-  `or_status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1 - Active; 0 - Expired'
+  `or_status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Active; 0 - Expired; 2 - Hold; 3 - Cancelled'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cust_order`
+--
+
+INSERT INTO `cust_order` (`or_id`, `or_cust_id`, `or_uni_code`, `or_product`, `or_price_unit`, `or_quantity`, `or_truck_preference`, `or_expected_price`, `or_admin_expected_price`, `or_payment_mode`, `or_advance_pay`, `or_active_on`, `or_expire_on`, `or_contact_person_name`, `or_contact_person_phone`, `or_status`) VALUES
+(1, 1, '0zAN1S9', 'Coal', 1, 40, 1, '1500.00', '4500.00', 2, 30, '2020-09-11 13:23:57', '2020-08-30 13:34:53', 'Rohit Singh', 7908024082, 1);
 
 -- --------------------------------------------------------
 
@@ -135,6 +167,14 @@ CREATE TABLE `cust_order_destination` (
   `or_destination` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cust_order_destination`
+--
+
+INSERT INTO `cust_order_destination` (`des_id`, `or_uni_code`, `or_destination`) VALUES
+(1, '0zAN1S9', 'Buxar'),
+(2, '0zAN1S9', 'Delhi');
+
 -- --------------------------------------------------------
 
 --
@@ -147,6 +187,15 @@ CREATE TABLE `cust_order_source` (
   `or_source` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cust_order_source`
+--
+
+INSERT INTO `cust_order_source` (`so_id`, `or_uni_code`, `or_source`) VALUES
+(1, '0zAN1S9', '11/1, Edison Road, Durgapur, West Bengal, 713205'),
+(2, '0zAN1S9', '11/1, Edison Road, Durgapur, West Bengal, 713205'),
+(3, '0zAN1S9', '11/1, Edison Road, Durgapur, West Bengal, 713205');
+
 -- --------------------------------------------------------
 
 --
@@ -158,6 +207,15 @@ CREATE TABLE `cust_order_truck_pref` (
   `or_uni_code` varchar(20) NOT NULL,
   `or_truck_pref_type` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cust_order_truck_pref`
+--
+
+INSERT INTO `cust_order_truck_pref` (`pref_id`, `or_uni_code`, `or_truck_pref_type`) VALUES
+(1, '0zAN1S9', 33),
+(2, '0zAN1S9', 34),
+(3, '0zAN1S9', 35);
 
 -- --------------------------------------------------------
 
@@ -223,7 +281,7 @@ CREATE TABLE `subscribed_users` (
   `razorpay_signature` varchar(255) NOT NULL,
   `payment_datetime` datetime NOT NULL,
   `expire_datetime` datetime NOT NULL,
-  `subs_default` tinyint(4) NOT NULL DEFAULT '1'
+  `subs_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -231,8 +289,8 @@ CREATE TABLE `subscribed_users` (
 --
 
 INSERT INTO `subscribed_users` (`subs_id`, `subs_user_type`, `subs_user_id`, `subs_amount`, `subs_duration`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_datetime`, `expire_datetime`, `subs_default`) VALUES
-(1, 1, 22, 4000.00, 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-10 02:42:06', '2020-12-10 02:42:06', 1),
-(2, 1, 1, 6000.00, 6, 'order_Fb4zD2ejeURujj', 'pay_Fb4zI6kpIQAw8N', '3a32987ec17334ad48aa82852516255d5090e36eb6ae8ef008e79d168d71cd4e', '2020-09-10 02:57:33', '2021-03-12 02:57:33', 1);
+(1, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-10 02:42:06', '2020-12-10 02:42:06', 1),
+(2, 1, 1, '6000.00', 6, 'order_Fb4zD2ejeURujj', 'pay_Fb4zI6kpIQAw8N', '3a32987ec17334ad48aa82852516255d5090e36eb6ae8ef008e79d168d71cd4e', '2020-09-10 02:57:33', '2021-03-12 02:57:33', 1);
 
 -- --------------------------------------------------------
 
@@ -247,8 +305,8 @@ CREATE TABLE `subscription_plans` (
   `plan_original_price` decimal(15,2) NOT NULL,
   `plan_selling_price` decimal(15,2) NOT NULL,
   `plan_duration` tinyint(4) NOT NULL COMMENT 'in Months',
-  `plan_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 - Inactive ; 1 - Active',
-  `plan_reg` tinyint(4) NOT NULL DEFAULT '1'
+  `plan_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Inactive ; 1 - Active',
+  `plan_reg` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -256,10 +314,10 @@ CREATE TABLE `subscription_plans` (
 --
 
 INSERT INTO `subscription_plans` (`plan_id`, `plan_name`, `plan_type`, `plan_original_price`, `plan_selling_price`, `plan_duration`, `plan_status`, `plan_reg`) VALUES
-(4, 'Basic', 1, 6000.00, 4000.00, 3, 1, 1),
-(5, 'Basic', 2, 50000.00, 22000.00, 12, 1, 1),
-(6, 'Medium', 1, 12000.00, 6000.00, 6, 1, 1),
-(7, 'Hard', 1, 50000.00, 30000.00, 12, 1, 1);
+(4, 'Basic', 1, '6000.00', '4000.00', 3, 1, 1),
+(5, 'Basic', 2, '50000.00', '22000.00', 12, 1, 1),
+(6, 'Medium', 1, '12000.00', '6000.00', 6, 1, 1),
+(7, 'Hard', 1, '50000.00', '30000.00', 12, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -282,8 +340,8 @@ CREATE TABLE `temp_register` (
   `t_to_bank` bigint(20) NOT NULL,
   `t_to_ifsc` varchar(20) NOT NULL,
   `t_otp` mediumint(9) NOT NULL,
-  `t_reg_user` tinyint(4) NOT NULL DEFAULT '0',
-  `t_verified` tinyint(4) NOT NULL DEFAULT '0'
+  `t_reg_user` tinyint(4) NOT NULL DEFAULT 0,
+  `t_verified` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -307,8 +365,8 @@ CREATE TABLE `trucks` (
   `trk_road_tax` varchar(200) NOT NULL,
   `trk_rto` varchar(200) NOT NULL,
   `trk_active` tinyint(4) NOT NULL,
-  `trk_on_trip` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1 : On Trip; 0 : Not on Trip',
-  `trk_on` tinyint(4) NOT NULL DEFAULT '1'
+  `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 : On Trip; 0 : Not on Trip',
+  `trk_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -424,9 +482,9 @@ CREATE TABLE `truck_owners` (
   `to_pan` varchar(20) NOT NULL,
   `to_bank` bigint(20) NOT NULL,
   `to_ifsc` varchar(20) NOT NULL,
-  `to_verified` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1 - Accepted; 2 - Rejected',
+  `to_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Accepted; 2 - Rejected',
   `to_registered` date NOT NULL,
-  `to_on` tinyint(4) NOT NULL DEFAULT '1'
+  `to_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -434,7 +492,7 @@ CREATE TABLE `truck_owners` (
 --
 
 INSERT INTO `truck_owners` (`to_id`, `to_name`, `to_email`, `to_phone_code`, `to_phone`, `to_password`, `to_city`, `to_address`, `to_routes`, `to_permits`, `to_pan`, `to_bank`, `to_ifsc`, `to_verified`, `to_registered`, `to_on`) VALUES
-(4, 'dfdfd', 'sjhd@g.com', 91, 7908024082, 'e10adc3949ba59abbe56e057f20f883e', 'Kolkata', 'Kolkata', 'Delhi, Mumbai', 'All India', '547dfr', 12345678945, 'sbin0007503', 2, '2020-08-01', 1),
+(4, 'dfdfd', 'sjhd@g.com', 91, 7908024082, 'e10adc3949ba59abbe56e057f20f883e', 'Kolkata', 'Kolkata', 'Delhi, Mumbai', 'All India', '547dfr', 12345678945, 'sbin0007503', 1, '2020-08-01', 1),
 (5, 'wedecw', 'bsbs@g.com', 91, 9647513679, 'e10adc3949ba59abbe56e057f20f883e', 'Durgapur', '11/1, Edison Road (B-Zone), Durgapur, Paschim Burdwan, West benagl, 713205', 'Delhi, Mumbai', 'All India', '547dfr', 12345678945, 'sbin0007503', 1, '2020-08-02', 1);
 
 --
@@ -446,6 +504,12 @@ INSERT INTO `truck_owners` (`to_id`, `to_name`, `to_email`, `to_phone_code`, `to
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`admin_id`);
+
+--
+-- Indexes for table `bidding`
+--
+ALTER TABLE `bidding`
+  ADD PRIMARY KEY (`bid_id`);
 
 --
 -- Indexes for table `customers`
@@ -542,6 +606,12 @@ ALTER TABLE `admin`
   MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `bidding`
+--
+ALTER TABLE `bidding`
+  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
@@ -557,25 +627,25 @@ ALTER TABLE `customer_docs`
 -- AUTO_INCREMENT for table `cust_order`
 --
 ALTER TABLE `cust_order`
-  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cust_order_destination`
 --
 ALTER TABLE `cust_order_destination`
-  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cust_order_source`
 --
 ALTER TABLE `cust_order_source`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cust_order_truck_pref`
 --
 ALTER TABLE `cust_order_truck_pref`
-  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `material_types`
