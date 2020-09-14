@@ -54,8 +54,37 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card" style="margin-bottom: 0 !important">
+                                <div class="card-body text-right">
+                                    <div class="buttons">
+                                        <?php
+                                            if($row['or_status'] == 2)
+                                            {
+                                                $load_staus = 
+                                                '
+                                                    <form class="expected">
+                                                        <input type="text" name="load_status" value="1" hidden>
+                                                        <input type="text" name="load_id_to_set" value="'.$row['or_id'].'" hidden>
+                                                        <button type="submit" class="btn btn-lg btn-success">Activate Load</button>
+                                                    </form>
+                                                ';
+                                            }
+                                            else
+                                            {
+                                                $load_staus = 
+                                                '
+                                                    <form class="expected">
+                                                        <input type="text" name="load_status" value="2" hidden>
+                                                        <input type="text" name="load_id_to_set" value="'.$row['or_id'].'" hidden>
+                                                        <button type="submit" class="btn btn-lg btn-danger">Deactivate Load</button>
+                                                    </form>
+                                                ';
+                                            }
+                                            echo $load_staus;
+                                        ?>
+                                    </div>
+                                </div>
                                 <div class="card-body">
-                                    <ul class="nav nav-tabs" id="loadTab" role="tablist">
+                                    <ul class="nav nav-tabs" id="loadTab" role="tablist" style="margin-bottom: 2vh">
                                         <li class="nav-item">
                                             <a class="nav-link active" id="load-details" data-toggle="tab" href="#load_details" role="tab" aria-controls="details" aria-selected="true">Details</a>
                                         </li>
@@ -304,7 +333,72 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="load_bidding" role="tabpanel" aria-labelledby="load-bidding">
-                                            Sed sed metus vel lacus hendrerit tempus.
+                                            <div class="row">
+                                                <div class="col-12 col-lg-5">
+                                                    <div class="card card-info">
+                                                        <div class="card-header">
+                                                            <h4>Truck Owners</h4>
+                                                        </div>
+                                                        <div class="card-body" style="padding: 1vh !important;">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <input type="text" class="form-control common_selector search_id" placeholder="Search by ID">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <input type="text" class="form-control common_selector search_num" placeholder="Search by Phone Number">
+                                                                </div>
+                                                            </div>
+                                                            <div class="filter_truck_owners"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card card-info">
+                                                        <div class="card-header">
+                                                            <h4>Drivers</h4>
+                                                        </div>
+                                                        <div class="card-body" style="padding: 1vh !important;">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <input type="text" class="form-control common_selector search_driver_id" placeholder="Search by ID">
+                                                                </div>
+                                                                <div class="form-group col-md-6">
+                                                                    <input type="text" class="form-control common_selector search_driver_num" placeholder="Search by Phone Number">
+                                                                </div>
+                                                            </div>
+                                                            <div class="filter_drivers"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-7">
+                                                    <div class="card card-success">
+                                                        <div class="card-header">
+                                                            <h4>All Bids</h4>
+                                                            <input type="button" id="refresh_btn" value="Refresh" hidden>
+                                                        </div>
+                                                        <div class="card-body" style="padding: 1vh !important;">
+                                                            <div class="custom-switches-stacked mt-2" style="flex-direction: row">
+                                                                <div class="form-group">
+                                                                    <label class="custom-switch">
+                                                                        <input type="radio" name="option" class="custom-switch-input common_selector nothing" value="1" checked>
+                                                                        <span class="custom-switch-indicator"></span>
+                                                                        <span class="custom-switch-description">All</span>
+                                                                    </label>
+                                                                    <label class="custom-switch">
+                                                                        <input type="radio" name="option" class="custom-switch-input common_selector owners" value="2">
+                                                                        <span class="custom-switch-indicator"></span>
+                                                                        <span class="custom-switch-description">Truck Owners</span>
+                                                                    </label>
+                                                                    <label class="custom-switch">
+                                                                        <input type="radio" name="option" class="custom-switch-input common_selector drivers" value="3">
+                                                                        <span class="custom-switch-indicator"></span>
+                                                                        <span class="custom-switch-description">Drivers</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="filter_bid_data"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -337,7 +431,7 @@
 				{
                     alert(data);
                     button_content.removeClass("disabled btn-progress");
-					if(data === "Admin Expected Price Updated")
+					if(data === "Load reset, activate again & Admin Expected Price Updated" || data === "Load Status Updated")
 					{
 						location.href="loads_by_id?load_id=<?php echo $load; ?>";
 					}
@@ -348,6 +442,131 @@
         
         $(document).ready(function()
         {
+            filter_data();
+
+            function filter_data()
+            {
+                var truck_owner_data = 'fetch_data';
+                var search_id = get_key('search_id');
+                var search_num = get_num('search_num');
+                var load_id = "<?php echo $load; ?>";
+                // alert(load_id);
+                $.ajax({
+                    url:"processing/curd_loads.php",
+                    method:"POST",
+                    data:{truck_owner_data:truck_owner_data, search_id: search_id, search_num: search_num, load_id: load_id},
+                    success:function(data){
+                        $('.filter_truck_owners').html(data);
+                    }
+                });
+            }
+
+            function get_key()
+            {
+                return $('.search_id').val();
+            }
+
+            function get_num()
+            {
+                return $('.search_num').val();
+                
+            }
+
+            $('.common_selector').on('keyup change',function(){
+                filter_data();
+                get_key();
+                get_num();
+            });
+
+
+
+
+
+            filter_driver_data();
+
+            function filter_driver_data()
+            {
+                var driver_data = 'fetch_data';
+                var search_driver_id = get_driver_key('search_driver_id');
+                var search_driver_num = get_driver_num('search_driver_num');
+                var load_id = "<?php echo $load; ?>";
+                // alert(load_id);
+                $.ajax({
+                    url:"processing/curd_loads.php",
+                    method:"POST",
+                    data:{driver_data:driver_data, search_driver_id: search_driver_id, search_driver_num: search_driver_num, load_id: load_id},
+                    success:function(data){
+                        $('.filter_drivers').html(data);
+                    }
+                });
+            }
+
+            function get_driver_key()
+            {
+                return $('.search_driver_id').val();
+            }
+
+            function get_driver_num()
+            {
+                return $('.search_driver_num').val();
+                
+            }
+
+            $('.common_selector').on('keyup change',function(){
+                filter_driver_data();
+                get_driver_key();
+                get_driver_num();
+            });
+
+
+
+
+
+
+
+
+            filter_bid_data();
+        
+            function filter_bid_data()
+            {
+                var bidding_data = 'fetch_data';
+                var owners = get_filter('owners');
+                var drivers = get_filter('drivers');
+                var nothing = get_filter('nothing');
+                var load_id = "<?php echo $load; ?>";
+                $.ajax({
+                    url:"processing/curd_loads.php",
+                    method:"POST",
+                    data:{bidding_data:bidding_data, owners:owners, drivers:drivers, nothing:nothing, load_id: load_id},
+                    success:function(data){
+                        $('.filter_bid_data').html(data);
+                    }
+                });
+            }
+            
+            function get_filter(class_name)
+            {
+                var filter = [];
+                $('.'+class_name+':checked').each(function(){
+                    filter.push($(this).val());
+                });
+                return filter;
+            }
+
+            $('#refresh_btn').on('click',function(){
+                filter_bid_data();
+            });
+
+            $('.common_selector').on('keyup change',function(){
+                filter_bid_data();
+            });
+
+            
+            setInterval(function()
+            {
+                filter_bid_data(); 
+            }, 5000);
+            
             $(".loads").addClass("active");
         });
     </script>
