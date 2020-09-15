@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 14, 2020 at 04:41 PM
+-- Generation Time: Sep 15, 2020 at 01:56 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -57,14 +57,6 @@ CREATE TABLE `bidding` (
   `bid_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Accepted',
   `bid_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `bidding`
---
-
-INSERT INTO `bidding` (`bid_id`, `bid_user_type`, `bid_user_id`, `load_id`, `bid_expected_price`, `bid_status`, `bid_default`) VALUES
-(5, 2, 36, 1, '4564.00', 0, 1),
-(7, 1, 4, 1, '3000.00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -148,13 +140,6 @@ CREATE TABLE `cust_order` (
   `or_status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Active; 0 - Expired; 2 - Hold; 3 - Cancelled'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `cust_order`
---
-
-INSERT INTO `cust_order` (`or_id`, `or_cust_id`, `or_uni_code`, `or_product`, `or_price_unit`, `or_quantity`, `or_truck_preference`, `or_expected_price`, `or_admin_expected_price`, `or_payment_mode`, `or_advance_pay`, `or_active_on`, `or_expire_on`, `or_contact_person_name`, `or_contact_person_phone`, `or_status`) VALUES
-(1, 1, '0zAN1S9', 'Coal', 1, 40, 1, '1500.00', '4500.00', 2, 30, '2020-09-11 13:23:57', '2020-08-30 13:34:53', 'Rohit Singh', 7908024082, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -164,16 +149,12 @@ INSERT INTO `cust_order` (`or_id`, `or_cust_id`, `or_uni_code`, `or_product`, `o
 CREATE TABLE `cust_order_destination` (
   `des_id` int(11) NOT NULL,
   `or_uni_code` varchar(20) NOT NULL,
-  `or_destination` varchar(200) NOT NULL
+  `or_destination` varchar(200) NOT NULL,
+  `or_des_lat` decimal(30,10) NOT NULL,
+  `or_des_lng` decimal(30,10) NOT NULL,
+  `or_des_city` varchar(100) NOT NULL,
+  `or_des_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cust_order_destination`
---
-
-INSERT INTO `cust_order_destination` (`des_id`, `or_uni_code`, `or_destination`) VALUES
-(1, '0zAN1S9', 'Buxar'),
-(2, '0zAN1S9', 'Delhi');
 
 -- --------------------------------------------------------
 
@@ -184,17 +165,12 @@ INSERT INTO `cust_order_destination` (`des_id`, `or_uni_code`, `or_destination`)
 CREATE TABLE `cust_order_source` (
   `so_id` int(11) NOT NULL,
   `or_uni_code` varchar(20) NOT NULL,
-  `or_source` varchar(250) NOT NULL
+  `or_source` varchar(250) NOT NULL,
+  `or_source_lat` decimal(30,10) NOT NULL,
+  `or_source_lng` decimal(30,10) NOT NULL,
+  `or_source_city` varchar(100) NOT NULL,
+  `or_source_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cust_order_source`
---
-
-INSERT INTO `cust_order_source` (`so_id`, `or_uni_code`, `or_source`) VALUES
-(1, '0zAN1S9', '11/1, Edison Road, Durgapur, West Bengal, 713205'),
-(2, '0zAN1S9', '11/1, Edison Road, Durgapur, West Bengal, 713205'),
-(3, '0zAN1S9', '11/1, Edison Road, Durgapur, West Bengal, 713205');
 
 -- --------------------------------------------------------
 
@@ -207,15 +183,6 @@ CREATE TABLE `cust_order_truck_pref` (
   `or_uni_code` varchar(20) NOT NULL,
   `or_truck_pref_type` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cust_order_truck_pref`
---
-
-INSERT INTO `cust_order_truck_pref` (`pref_id`, `or_uni_code`, `or_truck_pref_type`) VALUES
-(1, '0zAN1S9', 33),
-(2, '0zAN1S9', 34),
-(3, '0zAN1S9', 35);
 
 -- --------------------------------------------------------
 
@@ -609,7 +576,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bidding`
 --
 ALTER TABLE `bidding`
-  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -627,25 +594,25 @@ ALTER TABLE `customer_docs`
 -- AUTO_INCREMENT for table `cust_order`
 --
 ALTER TABLE `cust_order`
-  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cust_order_destination`
 --
 ALTER TABLE `cust_order_destination`
-  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cust_order_source`
 --
 ALTER TABLE `cust_order_source`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cust_order_truck_pref`
 --
 ALTER TABLE `cust_order_truck_pref`
-  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `material_types`
