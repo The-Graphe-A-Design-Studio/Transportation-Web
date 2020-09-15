@@ -18,12 +18,10 @@
 
     if($row['or_price_unit'] == 1)
     {
-        echo $row['or_expected_price']." / Ton";
         $show_unit = "Ton";
     }
     else
     {
-        echo $row['or_expected_price']." / Truck";
         $show_unit = "Truck";
     }
 ?>

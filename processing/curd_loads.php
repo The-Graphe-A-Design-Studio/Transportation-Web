@@ -154,9 +154,9 @@
                 $output .=
                 '
                         <td data-column="Source & End">
-                            '.$row_source['or_source'].'
+                            '.$row_source['or_source_city'].', '.$row_source['or_source_state'].'
                             <br>to<br>
-                            '.$row_end['or_destination'].'
+                            '.$row_end['or_des_city'].', '.$row_end['or_des_state'].'
                         </td>
                         <td data-column="Product">'.$row['or_product'].'</td>
                         <td data-column="Price Unit">'.$unit.'</td>
@@ -201,16 +201,27 @@
     }
     elseif(isset($_POST['load_status']) && isset($_POST['load_id_to_set']))
     {
-        $sql = "update cust_order set or_status = '".$_POST['load_status']."' where or_id = '".$_POST['load_id_to_set']."'";
-        $run_aql = mysqli_query($link, $sql);
+        $load = "select * from cust_order where or_id = '".$_POST['load_id_to_set']."'";
+        $run_load = mysqli_query($link, $load);
+        $row_load = mysqli_fetch_array($run_load, MYSQLI_ASSOC);
 
-        if($run_aql)
+        if($row_load['or_admin_expected_price'] == 0.00)
         {
-            echo "Load Status Updated";
+            echo "Set Expected Price";
         }
         else
         {
-            echo "Something went wrong";
+            $sql = "update cust_order set or_status = '".$_POST['load_status']."' where or_id = '".$_POST['load_id_to_set']."'";
+            $run_aql = mysqli_query($link, $sql);
+
+            if($run_aql)
+            {
+                echo "Load Status Updated";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
         }
     }
     elseif(isset($_POST['truck_owner_data']) && isset($_POST['load_id']))
