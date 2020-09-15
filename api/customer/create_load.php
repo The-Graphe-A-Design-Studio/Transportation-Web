@@ -11,6 +11,21 @@
 
     date_default_timezone_set("Asia/Kolkata");
 
+    // Checking for older posts
+    $sql = "select * from cust_order";
+    $run = mysqli_query($link, $sql);
+    while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
+    {
+        $date_now = new DateTime(date('Y-m-d H:i:s'));
+        $date2    = new DateTime(date_format(date_create($row['or_expire_on']), 'Y-m-d H:i:s'));
+
+        if($date_now > $date2)
+        {
+            $update = "update cust_order set or_status = 0 where or_id = '".$row['or_id']."'";
+            mysqli_query($link, $update);
+        }
+    }
+
     if(isset($_POST['cust_id']) && isset($_POST['source']) && isset($_POST['destination']) && isset($_POST['material']) && isset($_POST['price_unit']) && isset($_POST['quantity']) && 
         isset($_POST['truck_preference']) && isset($_POST['truck_types']) && isset($_POST['expected_price']) && isset($_POST['payment_mode']) && isset($_POST['advance_pay']) && 
         isset($_POST['expire_date_time']) && isset($_POST['contact_person_name']) && isset($_POST['contact_person_phone']))
