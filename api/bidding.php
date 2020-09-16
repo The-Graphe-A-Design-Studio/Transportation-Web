@@ -1,9 +1,20 @@
 <?php
-    include('../../dbcon.php');
+    include('../dbcon.php');
 
     header('Content-Type: application/json');
 
-    if(isset($_POST['user_type']) && isset($_POST['user_id']) && isset($_POST['load_id']) && isset($_POST['expected_price']))
+    if(isset($_POST['get_user_type']) && isset($_POST['get_user_id']))
+    {
+        $sql = "select * from bidding where bid_user_type = '".$_POST['get_user_type']."' and bid_user_id = '".$_POST['get_user_id']."'";
+        $run = mysqli_query($link, $sql);
+        while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
+        {
+            $responseData[] = ['bid id' => $row['bid_id'], 'load id' => $row['load_id'], 'price' => $row['bid_expected_price']];
+        }
+        echo json_encode($responseData, JSON_PRETTY_PRINT);
+        http_response_code(200);
+    }
+    elseif(isset($_POST['user_type']) && isset($_POST['user_id']) && isset($_POST['load_id']) && isset($_POST['expected_price']))
     {
         $sqle = "SELECT * FROM bidding where bid_user_type = '".$_POST['user_type']."' and bid_user_id = '".$_POST['user_id']."' and load_id = '".$_POST['load_id']."'";
         $checke = mysqli_query($link, $sqle);
@@ -35,6 +46,42 @@
             }
         }
     }
+    elseif(isset($_POST['bid_id']) && isset($_POST['edit_expected_price']))
+    {
+        $sql = "update bidding set bid_expected_price = '".$_POST['edit_expected_price']."', bid_status = 0 where bid_id = '".$_POST['bid_id']."'";
+        $run = mysqli_query($link, $sql);
+
+        if($run)
+        {
+            $responseData[] = ['success' => '1', 'message' => 'Update successful'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData[] = ['success' => '0', 'message' => 'Update unsuccessful'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(400);
+        }
+    }
+    elseif(isset($_POST['delete_bid_id']))
+    {
+        $sql = "delete from bidding where bid_id = '".$_POST['delete_bid_id']."'";
+        $run = mysqli_query($link, $sql);
+
+        if($run)
+        {
+            $responseData[] = ['success' => '1', 'message' => 'Successful'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData[] = ['success' => '0', 'message' => 'Unsuccessful'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(400);
+        }
+    }
     else
     {
         $responseData = ['success' => '0', 'message' => 'Something is missing'];
@@ -42,4 +89,6 @@
 
         http_response_code(206);
     }
+
+    mysqli_close($link);
 ?>
