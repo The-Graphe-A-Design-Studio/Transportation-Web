@@ -335,17 +335,28 @@
     }
     elseif(isset($_POST['owner_id']) && isset($_POST['load_id']) && isset($_POST['owner_bid_price']))
     {
-        $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('1', '".$_POST['owner_id']."', '".$_POST['load_id']."', 
-                '".$_POST['owner_bid_price']."')";
-        $run = mysqli_query($link, $sql);
-
-        if($run)
+        $sqle = "SELECT * FROM bidding where bid_user_type = '1' and bid_user_id = '".$_POST['owner_id']."' and load_id = '".$_POST['load_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+        $counte = mysqli_num_rows($checke);
+        if($counte >= 1)
         {
-            echo "Bid set";
+            echo "Bidding already done";
         }
         else
         {
-            echo "Something went wrong";
+            $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('1', '".$_POST['owner_id']."', '".$_POST['load_id']."', 
+                '".$_POST['owner_bid_price']."')";
+            $run = mysqli_query($link, $sql);
+
+            if($run)
+            {
+                echo "Bid set";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
         }
     }
     elseif(isset($_POST['driver_data']) && isset($_POST['load_id']))
@@ -461,17 +472,28 @@
     }
     elseif(isset($_POST['driver_id']) && isset($_POST['load_id']) && isset($_POST['driver_bid_price']))
     {
-        $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('2', '".$_POST['driver_id']."', '".$_POST['load_id']."', 
-                '".$_POST['driver_bid_price']."')";
-        $run = mysqli_query($link, $sql);
-
-        if($run)
+        $sqle = "SELECT * FROM bidding where bid_user_type = '2' and bid_user_id = '".$_POST['driver_id']."' and load_id = '".$_POST['load_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+        $counte = mysqli_num_rows($checke);
+        if($counte >= 1)
         {
-            echo "Bid set";
+            echo "Bidding already done";
         }
         else
         {
-            echo "Something went wrong";
+            $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('2', '".$_POST['driver_id']."', '".$_POST['load_id']."', 
+                '".$_POST['driver_bid_price']."')";
+            $run = mysqli_query($link, $sql);
+
+            if($run)
+            {
+                echo "Bid set";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
         }
     }
     elseif(isset($_POST["bidding_data"]) && isset($_POST['load_id']))
