@@ -37,7 +37,7 @@
 
                 $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
                                 'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
-                                'registered on' => $otp_row['cu_registered'], 'trial period upto' => $otp_row['cu_trial_expire_date'], 'trial period status' => $trial];
+                                'registered on' => $otp_row['cu_registered'], 'trial period upto' => $otp_row['cu_trial_expire_date'], 'trial period status' => $trial, 'firebase token' => $otp_row['cu_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
             }

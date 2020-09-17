@@ -362,7 +362,7 @@
                                                             <div class="filter_truck_owners"></div>
                                                         </div>
                                                     </div>
-                                                    <div class="card card-info">
+                                                    <!-- <div class="card card-info">
                                                         <div class="card-header">
                                                             <h4>Drivers</h4>
                                                         </div>
@@ -377,7 +377,7 @@
                                                             </div>
                                                             <div class="filter_drivers"></div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="col-12 col-lg-7">
                                                     <div class="card card-success">
