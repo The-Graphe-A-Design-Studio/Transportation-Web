@@ -70,12 +70,34 @@
             }
         }
     }
+    elseif(isset($_POST['to_phone']) && isset($_POST['to_name']) && isset($_POST['to_bank']) && isset($_POST['to_ifsc']))
+    {
+        $sql = "update truck_owners set to_name = '".$_POST['to_name']."', to_bank = '".$_POST['to_bank']."', to_ifsc = '".$_POST['to_ifsc']."' where to_phone = '".$_POST['to_phone']."'";
+        $run = mysqli_query($link, $sql);
+
+        if($run)
+        {
+            $responseData = ['success' => '1', 'message' => 'Details updated'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(400);
+        }
+    }
     else
     {
-        $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+        $responseData = ['success' => '0', 'message' => 'Something is missing'];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
 
         http_response_code(400);
     }
+
+    mysqli_close($link);
 
 ?>
