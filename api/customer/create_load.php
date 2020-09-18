@@ -211,7 +211,33 @@
                     {
                         $sources = mysqli_real_escape_string($link, $sources);
 
-                        mysqli_query($link, "insert into cust_order_source (or_uni_code, or_source) values ('$code', '$sources')");
+                        $coordinates = $geo->getCoordinates("$sources");
+                    
+                        extract($coordinates);
+                        $lat = $latitude;
+                        $lng = $longitude;
+                        
+                        $data = file_get_contents("https://maps.google.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0");
+                        $data = json_decode($data);
+                        $add_array  = $data->results;
+                        $add_array = $add_array[0];
+                        $add_array = $add_array->address_components;
+                        $state = "Not found"; 
+                        $city = "Not found";
+                        foreach ($add_array as $key)
+                        {
+                            if($key->types[0] == 'locality')
+                            {
+                                $city = $key->long_name;
+                            }
+                            if($key->types[0] == 'administrative_area_level_1')
+                            {
+                                $state = $key->long_name;
+                            }
+                        }
+
+                        mysqli_query($link, "insert into cust_order_source (or_uni_code, or_source, or_source_lat, or_source_lng, or_source_city, or_source_state) values 
+                                    ('$code', '$sources', '$lat', '$lng', '$city', '$state')");
                     }
                 }
 
@@ -223,7 +249,33 @@
                     {
                         $destinations = mysqli_real_escape_string($link, $destinations);
 
-                        mysqli_query($link, "insert into cust_order_destination (or_uni_code, or_destination) values ('$code', '$destinations')");
+                        $coordinates = $geo->getCoordinates("$destinations");
+                    
+                        extract($coordinates);
+                        $lat = $latitude;
+                        $lng = $longitude;
+                        
+                        $data = file_get_contents("https://maps.google.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0");
+                        $data = json_decode($data);
+                        $add_array  = $data->results;
+                        $add_array = $add_array[0];
+                        $add_array = $add_array->address_components;
+                        $state = "Not found"; 
+                        $city = "Not found";
+                        foreach ($add_array as $key)
+                        {
+                            if($key->types[0] == 'locality')
+                            {
+                                $city = $key->long_name;
+                            }
+                            if($key->types[0] == 'administrative_area_level_1')
+                            {
+                                $state = $key->long_name;
+                            }
+                        }
+
+                        mysqli_query($link, "insert into cust_order_destination (or_uni_code, or_destination, or_des_lat, or_des_lng, or_des_city, or_des_state) values 
+                                        ('$code', '$destinations', '$lat', '$lng', '$city', '$state')");
                     }
                 }
 
@@ -291,4 +343,6 @@
 
         http_response_code(400);
     }
+
+    mysqli_close($link);
 ?>

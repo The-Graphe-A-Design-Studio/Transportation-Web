@@ -700,45 +700,5 @@
     {
         echo "Server error";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     <td data-column="Edit">
-//     <button class="btn btn-warning btn-md" data-toggle="collapse" data-target="#collapse_'.$row['bid_id'].'" 
-//     aria-expanded="true" aria-controls="collapse_'.$row['bid_id'].'">Edit</button>
-// </td>
-// <tr class="collapse edit_bid" id="collapse_'.$row['bid_id'].'" style="border:2px solid rgb(255, 164, 38);">
-//     <td colspan="7">
-//         <form class="edit-bid-price text-left">
-//             <lable><b>Edit Bid</b></lable>
-//             <div class="input-group mb-3">
-//                 <input type="text" class="form-control" name="edit_bid_price" value="'.$row['bid_expected_price'].'">
-//                 <input type="text" name="bid_id" value="'.$row['bid_id'].'" hidden>
-//                 <div class="input-group-append">
-//                     <button class="btn btn-primary" type="submit">Update</button>
-//                 </div>
-//             </div>
-//         </form>
-//     </td>
-// </tr>
+    
 ?>
