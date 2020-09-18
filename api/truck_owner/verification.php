@@ -17,6 +17,10 @@
             $active = "update truck_owners set to_active = 1 where to_phone = '".$_POST['phone_number']."' and to_otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
+            $comp = "select * from truck_owner_docs where to_doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 1";
+            $comp_run = mysqli_query($link, $comp);
+            $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
+
             if($otp_row['to_account_on'] == 1)
             {
                 $date_now = new DateTime(date('Y-m-d H:i:s'));
@@ -31,8 +35,9 @@
                     $trial = 'In subscription period';
                 }
 
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'truck owner id' => $otp_row['to_id'], 
-                                'truck owner phone country code' => $otp_row['to_phone_code'], 'truck owner phone' => $otp_row['to_phone'], 
+                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'id' => $otp_row['to_id'], 
+                                'phone country code' => $otp_row['to_phone_code'], 'phone' => $otp_row['to_phone'], 'name' => $otp_row['to_name'],
+                                'bank account number' => $otp_row['to_bank'], 'ifsc code' => $otp_row['to_ifsc'], 'pan card' => $comp_row['to_doc_location'],
                                 'registered on' => $otp_row['to_registered'], 'subscription period upto' => $otp_row['to_subscription_expire_date'], 
                                 'subscription period status' => $trial, 'firebase token' => $otp_row['to_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -42,8 +47,9 @@
             {
                 $trial = 'Not on subcsription';
                 
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'truck owner id' => $otp_row['to_id'], 
-                                'truck owner phone country code' => $otp_row['to_phone_code'], 'truck owner phone' => $otp_row['to_phone'], 
+                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'id' => $otp_row['to_id'], 
+                                'phone country code' => $otp_row['to_phone_code'], 'phone' => $otp_row['to_phone'], 'name' => $otp_row['to_name'],
+                                'bank account number' => $otp_row['to_bank'], 'ifsc code' => $otp_row['to_ifsc'], 'pan card' => $comp_row['to_doc_location'],
                                 'registered on' => $otp_row['to_registered'], 'subscription period upto' => $otp_row['to_subscription_expire_date'], 
                                 'subscription period status' => $trial, 'firebase token' => $otp_row['to_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
