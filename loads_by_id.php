@@ -67,7 +67,7 @@
                                 <div class="card-body text-right">
                                     <div class="buttons">
                                         <?php
-                                            if($row['or_status'] == 2)
+                                            if($row['or_status'] == 2 && $row['or_shipper_on'] == 1)
                                             {
                                                 $load_staus = 
                                                 '
@@ -78,7 +78,7 @@
                                                     </form>
                                                 ';
                                             }
-                                            elseif($row['or_status'] == 1)
+                                            elseif($row['or_status'] == 1 && $row['or_shipper_on'] == 1)
                                             {
                                                 $load_staus = 
                                                 '
@@ -136,57 +136,67 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <div class="card profile-widget services-widget">
-                                                        <div class="profile-widget-description">
-                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
-                                                                <?php
-                                                                    if($row_cust['cu_account_on'] == 1)
-                                                                    {
-                                                                        if($row['or_admin_expected_price'] == 0)
-                                                                        {
-                                                                            $admin_expected = 
-                                                                            '
-                                                                                <form class="expected">
-                                                                                    <div class="form-group">
-                                                                                        <label>Admin Expected Price (per '.$show_unit.')</label>
-                                                                                        <div class="input-group mb-3">
-                                                                                            <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
-                                                                                            <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
-                                                                                            <div class="input-group-append">
-                                                                                                <button class="btn btn-primary" type="submit">Set</button>
-                                                                                            </div>
+                                                
+                                                <?php
+                                                    if($row['or_shipper_on'] == 1)
+                                                    {
+                                                        if($row['or_admin_expected_price'] == 0)
+                                                        {
+                                                            $admin_expected = 
+                                                            '
+                                                            <div class="col-12 col-lg-4">
+                                                                <div class="card profile-widget services-widget">
+                                                                    <div class="profile-widget-description">
+                                                                        <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                            <form class="expected">
+                                                                                <div class="form-group">
+                                                                                    <label>Admin Expected Price (per '.$show_unit.')</label>
+                                                                                    <div class="input-group mb-3">
+                                                                                        <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
+                                                                                        <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
+                                                                                        <div class="input-group-append">
+                                                                                            <button class="btn btn-primary" type="submit">Set</button>
                                                                                         </div>
                                                                                     </div>
-                                                                                </form>
-                                                                            ';
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            $admin_expected = 
-                                                                            '
-                                                                                <form class="expected">
-                                                                                    <div class="form-group">
-                                                                                        <label>Admin Expected Price (per '.$show_unit.')</label>
-                                                                                        <div class="input-group mb-3">
-                                                                                            <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
-                                                                                            <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
-                                                                                            <div class="input-group-append">
-                                                                                                <button class="btn btn-primary" type="submit">Update</button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </form>
-                                                                            ';
-                                                                        }
-                                                                    }
-                                                                    
-                                                                    echo $admin_expected;
-                                                                ?>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            ';
+                                                        }
+                                                        else
+                                                        {
+                                                            $admin_expected = 
+                                                            '
+                                                            <div class="col-12 col-lg-4">
+                                                                <div class="card profile-widget services-widget">
+                                                                    <div class="profile-widget-description">
+                                                                        <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                            <form class="expected">
+                                                                                <div class="form-group">
+                                                                                    <label>Admin Expected Price (per '.$show_unit.')</label>
+                                                                                    <div class="input-group mb-3">
+                                                                                        <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
+                                                                                        <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
+                                                                                        <div class="input-group-append">
+                                                                                            <button class="btn btn-primary" type="submit">Update</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            ';
+                                                        }
+                                                    }
+                                                    
+                                                    echo $admin_expected;
+                                                ?>
+                                                
                                             </div>
                                             <div class="row">
                                                 <div class="col-12 col-lg-4">
