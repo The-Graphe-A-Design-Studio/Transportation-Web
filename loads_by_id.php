@@ -78,7 +78,7 @@
                                                     </form>
                                                 ';
                                             }
-                                            else
+                                            elseif($row['or_status'] == 1)
                                             {
                                                 $load_staus = 
                                                 '
@@ -88,6 +88,10 @@
                                                         <button type="submit" class="btn btn-lg btn-danger">Deactivate Load</button>
                                                     </form>
                                                 ';
+                                            }
+                                            else
+                                            {
+                                                $load_staus = '';
                                             }
                                             echo $load_staus;
                                         ?>
@@ -249,7 +253,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
                                                             <div class="profile-widget-name" style="margin-bottom: 0 !important">
@@ -258,7 +262,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
                                                             <div class="profile-widget-name" style="margin-bottom: 0 !important">
@@ -277,7 +281,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                                                <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
                                                             <div class="profile-widget-name" style="margin-bottom: 0 !important">
