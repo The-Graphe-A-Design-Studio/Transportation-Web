@@ -313,18 +313,30 @@
                                                                 <?php
                                                                     $sub = "select * from subscribed_users where subs_user_id = '".$row['cu_id']."' order by subs_id desc";
                                                                     $run_sub = mysqli_query($link, $sub);
-                                                                    while($row_sub = mysqli_fetch_array($run_sub, MYSQLI_ASSOC))
+                                                                    $counte = mysqli_num_rows($run_sub);
+                                                                    if($counte > 0)
+                                                                    {
+                                                                        while($row_sub = mysqli_fetch_array($run_sub, MYSQLI_ASSOC))
+                                                                        {
+                                                                ?>
+                                                                            <tr>
+                                                                                <td data-column="ID"><?php echo $row_sub['subs_id']; ?></td>
+                                                                                <td data-column="Order ID"><?php echo $row_sub['razorpay_order_id']; ?></td>
+                                                                                <td data-column="Payment ID"><?php echo $row_sub['razorpay_payment_id']; ?></td>
+                                                                                <td data-column="Amount"><?php echo $row_sub['subs_amount']; ?></td>
+                                                                                <td data-column="Duration"><?php echo $row_sub['subs_duration']; ?> Months</td>
+                                                                                <td data-column="Start On"><?php echo date_format(date_create($row_sub['payment_datetime']), 'd M, Y h:i A'); ?></td>
+                                                                                <td data-column="Expire On"><?php echo date_format(date_create($row_sub['expire_datetime']), 'd M, Y h:i A'); ?></td>
+                                                                            </tr>
+                                                                <?php
+                                                                        }
+                                                                    }
+                                                                    else
                                                                     {
                                                                 ?>
-                                                                    <tr>
-                                                                        <td data-column="ID"><?php echo $row_sub['subs_id']; ?></td>
-                                                                        <td data-column="Order ID"><?php echo $row_sub['razorpay_order_id']; ?></td>
-                                                                        <td data-column="Payment ID"><?php echo $row_sub['razorpay_payment_id']; ?></td>
-                                                                        <td data-column="Amount"><?php echo $row_sub['subs_amount']; ?></td>
-                                                                        <td data-column="Duration"><?php echo $row_sub['subs_duration']; ?> Months</td>
-                                                                        <td data-column="Start On"><?php echo date_format(date_create($row_sub['payment_datetime']), 'd M, Y h:i A'); ?></td>
-                                                                        <td data-column="Expire On"><?php echo date_format(date_create($row_sub['expire_datetime']), 'd M, Y h:i A'); ?></td>
-                                                                    </tr>
+                                                                            <tr>
+                                                                                <td colspan="7" style="text-align: center">No subscription found</td>
+                                                                            </tr>
                                                                 <?php
                                                                     }
                                                                 ?>
