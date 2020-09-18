@@ -241,7 +241,7 @@
 
                 $sql = "insert into cust_order (or_cust_id, or_uni_code, or_product, or_price_unit, or_quantity, or_truck_preference, or_expected_price, or_payment_mode, or_advance_pay, 
                         or_expire_on, or_contact_person_name, or_contact_person_phone) values ('".$_POST['cust_id']."', '$code', '".$_POST['material']."', '".$_POST['price_unit']."', 
-                        '".$_POST['quantity']."', '".$_POST['truck_preference']."', '".$_POST['expected_price']."', '".$_POST['payment_mode']."', '".$_POST['advance_pay']."', '".date('Y-m-d H:i:s')."', '$ex_date', 
+                        '".$_POST['quantity']."', '".$_POST['truck_preference']."', '".$_POST['expected_price']."', '".$_POST['payment_mode']."', '".$_POST['advance_pay']."', '$date', '$ex_date', 
                         '".$_POST['contact_person_name']."', '".$_POST['contact_person_phone']."')";
                 $set = mysqli_query($link, $sql);
                 
@@ -262,6 +262,24 @@
         else
         {
             $responseData = ['success' => '0', 'message' => 'You have no plan. Get subscription'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(400);
+        }
+    }
+    elseif(isset($_POST['load_id']))
+    {
+        $sql = "update cust_order set or_status = 3 where or_id = '".$_POST['load_id']."'";
+        $run = mysqli_query($link, $sql);
+
+        if($run)
+        {
+            $responseData = ['success' => '1', 'message' => 'Load cancelled'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(400);
         }
