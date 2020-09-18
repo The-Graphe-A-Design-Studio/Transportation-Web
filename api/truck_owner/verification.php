@@ -17,7 +17,7 @@
             $active = "update truck_owners set to_active = 1 where to_phone = '".$_POST['phone_number']."' and to_otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
-            $comp = "select * from truck_owner_docs where to_doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 1";
+            $comp = "select * from truck_owner_docs where to_doc_owner_phone = '".$_POST['phone_number']."' and to_doc_sr_num = 1";
             $comp_run = mysqli_query($link, $comp);
             $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
 
