@@ -72,7 +72,7 @@
                 $run_limit = mysqli_query($link, $check_limit);
                 $row_limit = mysqli_fetch_array($run_limit, MYSQLI_ASSOC);
                 $count_limit = mysqli_num_rows($run_limit);
-                echo $count_limit;
+                // echo $count_limit;
                 if($count_limit <= 2)
                 {
                     $all_sources = explode('* ', $_POST['source']);
