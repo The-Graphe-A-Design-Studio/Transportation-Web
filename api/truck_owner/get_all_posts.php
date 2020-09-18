@@ -105,8 +105,6 @@
                             $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
                             'expected price' => $row['or_admin_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
-
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
             }
             
             if($row_cust['cu_account_on'] == 2)
@@ -115,14 +113,11 @@
                             $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
                             'expected price' => $row['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
-
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
             }
         
         }
-
+        echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);
-        
         mysqli_close($link);
     }
 
