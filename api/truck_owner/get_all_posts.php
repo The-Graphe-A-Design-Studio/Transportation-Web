@@ -34,24 +34,21 @@
         {
 
             $sources = $destinations = $truck_types = array();
-            $i = $j = $k = 1;
-
+            
             $source = "select * from cust_order_source where or_uni_code = '".$row['or_uni_code']."' order by so_id";
             $get_source = mysqli_query($link, $source);
             while($row_source = mysqli_fetch_array($get_source, MYSQLI_ASSOC))
             {
-                $sources[] = ['source '.$i => $row_source['or_source'], 'lat' => $row_source['or_source_lat'], 'lng' => $row_source['or_source_lng'], 
+                $sources[] = ['source' => $row_source['or_source'], 'lat' => $row_source['or_source_lat'], 'lng' => $row_source['or_source_lng'], 
                                 'city' => $row_source['or_source_city'], 'state' => $row_source['or_source_state']];
-                $i++;
             }
 
             $destination = "select * from cust_order_destination where or_uni_code = '".$row['or_uni_code']."' order by des_id";
             $get_destination = mysqli_query($link, $destination);
             while($row_destination = mysqli_fetch_array($get_destination, MYSQLI_ASSOC))
             {
-                $destinations[] = ['destination '.$j => $row_destination['or_destination'], 'lat' => $row_destination['or_des_lat'], 'lng' => $row_destination['or_des_lng'], 
+                $destinations[] = ['destination' => $row_destination['or_destination'], 'lat' => $row_destination['or_des_lat'], 'lng' => $row_destination['or_des_lng'], 
                 'city' => $row_destination['or_des_city'], 'state' => $row_destination['or_des_state']];
-                $j++;
             }
 
             $type = "select cust_order_truck_pref.*, truck_cat_type.* from cust_order_truck_pref, truck_cat_type where cust_order_truck_pref.or_uni_code = '".$row['or_uni_code']."'
@@ -59,8 +56,7 @@
             $get_type = mysqli_query($link, $type);
             while($row_type = mysqli_fetch_array($get_type, MYSQLI_ASSOC))
             {
-                $truck_types[] = ['type '.$k => $row_type['ty_name']];
-                $k++;
+                $truck_types[] = ['type' => $row_type['ty_name']];
             }
 
             $truck = "select * from truck_cat where trk_cat_id = '".$row['or_truck_preference']."'";
