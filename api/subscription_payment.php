@@ -24,8 +24,7 @@
             if($_POST['user_type'] == 1)
             {
                 $shipper = "update customers set cu_account_on = 2, cu_subscription_start_date = '$date', cu_subscription_order_id = '".$_POST['razorpay_order_id']."', 
-                            cu_subscription_expire_date = '$expire_date' 
-                            where cu_id = '".$_POST['user_id']."'";
+                            cu_subscription_expire_date = '$expire_date' where cu_id = '".$_POST['user_id']."'";
                 $run_ship = mysqli_query($link, $shipper);
 
                 if($run_ship)
@@ -43,21 +42,22 @@
             }
             elseif($_POST['user_type'] == 2)
             {
-                // $shipper = "update customers set cu_account_on = 2, cu_subscription_expire_date = '".$_POST['expire_datetime']."' where cu_id = '".$_POST['user_id']."'";
-                // $run_ship = mysqli_query($link, $shipper);
+                $shipper = "update truck_owners set to_account_on = 1, to_subscription_start_date = '$date', to_subscription_order_id = '".$_POST['razorpay_order_id']."', 
+                            to_subscription_expire_date = '".$_POST['expire_datetime']."' where to_id = '".$_POST['user_id']."'";
+                $run_ship = mysqli_query($link, $shipper);
 
-                // if($run_ship)
-                // {
-                //     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
-                //     echo json_encode($responseData, JSON_PRETTY_PRINT);
-                //     http_response_code(200);
-                // }
-                // else
-                // {
-                //     $responseData = ['success' => '0', 'message' => 'Something went wrong'];
-                //     echo json_encode($responseData, JSON_PRETTY_PRINT);
-                //     http_response_code(206);
-                // }
+                if($run_ship)
+                {
+                    $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(200);
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(206);
+                }
             }
             else
             {

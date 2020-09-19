@@ -28,8 +28,8 @@
         }
         else
         {
-            $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('".$_POST['user_type']."', '".$_POST['user_id']."', '".$_POST['load_id']."', 
-                '".$_POST['expected_price']."')";
+            $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
+                    '".$_POST['load_id']."', '".$_POST['expected_price']."')";
             $run = mysqli_query($link, $sql);
 
             if($run)
