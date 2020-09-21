@@ -52,28 +52,40 @@
             http_response_code(400);
         }
     }
-    elseif(isset($_POST['bid_id_accepted_by_shipper']))
+    elseif(isset($_POST['bid_id_for_accepting']))
     {
-        $update = "update bidding set bid_status = 2 where bid_id = '".$_POST['bid_id_accepted_by_shipper']."'";
-        $run = mysqli_query($link, $update);
-
-        if($run)
+        $sql = "select * from bidding where load_id = '".$_POST['load_id']."' and bid_status = 2";
+        $run = mysqli_query($link, $sql);
+        $counte = mysqli_num_rows($run);
+        if($counte >= 1)
         {
-
-            $responseData = ['success' => '1', 'message' => 'Bid accepted'];
+            $responseData = ['success' => '0', 'message' => 'One Bid is already accepted'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
+            http_response_code(400);
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
+            $update = "update bidding set bid_status = 2 where bid_id = '".$_POST['bid_id_for_accepting']."'";
+            $run = mysqli_query($link, $update);
+
+            if($run)
+            {
+
+                $responseData = ['success' => '1', 'message' => 'Bid accepted'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
         }
     }
-    elseif(isset($_POST['bid_id_rejected_by_shipper']))
+    elseif(isset($_POST['bid_id_for_rejecting']))
     {
-        $update = "update bidding set bid_status = 1 where bid_id = '".$_POST['bid_id_rejected_by_shipper']."'";
+        $update = "update bidding set bid_status = 1 where bid_id = '".$_POST['bid_id_for_rejecting']."'";
         $run = mysqli_query($link, $update);
 
         if($run)
@@ -90,9 +102,9 @@
             http_response_code(200);
         }
     }
-    elseif(isset($_POST['bid_id_removed_by_shipper']))
+    elseif(isset($_POST['bid_id_for_removing']))
     {
-        $update = "delete from bidding where bid_id = '".$_POST['bid_id_removed_by_shipper']."'";
+        $update = "delete from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
         $run = mysqli_query($link, $update);
 
         if($run)
