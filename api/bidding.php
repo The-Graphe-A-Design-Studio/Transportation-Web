@@ -34,13 +34,13 @@
 
             if($run)
             {
-                $responseData[] = ['success' => '1', 'message' => 'Successful'];
+                $responseData = ['success' => '1', 'message' => 'Successful'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
             }
             else
             {
-                $responseData[] = ['success' => '0', 'message' => 'Unsuccessful'];
+                $responseData = ['success' => '0', 'message' => 'Unsuccessful'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(400);
             }
@@ -53,13 +53,13 @@
 
         if($run)
         {
-            $responseData[] = ['success' => '1', 'message' => 'Update successful'];
+            $responseData = ['success' => '1', 'message' => 'Update successful'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
         }
         else
         {
-            $responseData[] = ['success' => '0', 'message' => 'Update unsuccessful'];
+            $responseData = ['success' => '0', 'message' => 'Update unsuccessful'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(400);
         }
@@ -71,13 +71,13 @@
 
         if($run)
         {
-            $responseData[] = ['success' => '1', 'message' => 'Successful'];
+            $responseData = ['success' => '1', 'message' => 'Successful'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
         }
         else
         {
-            $responseData[] = ['success' => '0', 'message' => 'Unsuccessful'];
+            $responseData = ['success' => '0', 'message' => 'Unsuccessful'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(400);
         }
