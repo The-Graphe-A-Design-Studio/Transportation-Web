@@ -28,21 +28,47 @@
         }
         else
         {
-            $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
-                    '".$_POST['load_id']."', '".$_POST['expected_price']."')";
-            $run = mysqli_query($link, $sql);
+            $sqlee1 = "SELECT * FROM cust_order where or_id = '".$_POST['load_id']."'";
+            $checkee1 = mysqli_query($link, $sqlee1);
+            $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
 
-            if($run)
+            if($rowee1['or_shipper_on'] == 2)
             {
-                $responseData = ['success' => '1', 'message' => 'Successful'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(200);
+                $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price, bid_status) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
+                    '".$_POST['load_id']."', '".$_POST['expected_price']."', 1)";
+                $run = mysqli_query($link, $sql);
+
+                if($run)
+                {
+                    $responseData = ['success' => '1', 'message' => 'Successful'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(200);
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Unsuccessful'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(400);
+                }
             }
             else
             {
-                $responseData = ['success' => '0', 'message' => 'Unsuccessful'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(400);
+                $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
+                    '".$_POST['load_id']."', '".$_POST['expected_price']."')";
+                $run = mysqli_query($link, $sql);
+
+                if($run)
+                {
+                    $responseData = ['success' => '1', 'message' => 'Successful'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(200);
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Unsuccessful'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(400);
+                }
             }
         }
     }
