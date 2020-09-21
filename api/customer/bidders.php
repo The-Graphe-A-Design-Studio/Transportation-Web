@@ -52,9 +52,9 @@
             http_response_code(400);
         }
     }
-    elseif(isset($_POST['bid_id_for_accepting']))
+    elseif(isset($_POST['load_id_for_accepting']) && isset($_POST['bid_id_for_accepting']))
     {
-        $sql = "select * from bidding where load_id = '".$_POST['load_id']."' and bid_status = 2";
+        $sql = "select * from bidding where load_id = '".$_POST['load_id_for_accepting']."' and bid_status = 2";
         $run = mysqli_query($link, $sql);
         $counte = mysqli_num_rows($run);
         if($counte >= 1)
