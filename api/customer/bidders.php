@@ -52,14 +52,61 @@
             http_response_code(400);
         }
     }
-    elseif(isset($_POST['bid_id']) && isset($_POST['bid_accept']))
+    elseif(isset($_POST['bid_id_accepted_by_shipper']))
     {
-        $update = "update bidding set bid_status = '".$_POST['bid_accept']."' where bid_id = '".$_POST['bid_id']."'";
+        $update = "update bidding set bid_status = 2 where bid_id = '".$_POST['bid_id_accepted_by_shipper']."'";
         $run = mysqli_query($link, $update);
 
         if($run)
         {
-            
+
+            $responseData = ['success' => '1', 'message' => 'Bid accepted'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+    }
+    elseif(isset($_POST['bid_id_rejected_by_shipper']))
+    {
+        $update = "update bidding set bid_status = 1 where bid_id = '".$_POST['bid_id_rejected_by_shipper']."'";
+        $run = mysqli_query($link, $update);
+
+        if($run)
+        {
+
+            $responseData = ['success' => '1', 'message' => 'Bid rejected'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+    }
+    elseif(isset($_POST['bid_id_removed_by_shipper']))
+    {
+        $update = "delete from bidding where bid_id = '".$_POST['bid_id_removed_by_shipper']."'";
+        $run = mysqli_query($link, $update);
+
+        if($run)
+        {
+
+            $responseData = ['success' => '1', 'message' => 'Bid removed'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
         }
     }
     else
