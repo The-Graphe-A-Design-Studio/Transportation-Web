@@ -193,6 +193,10 @@
                                                             ';
                                                         }
                                                     }
+                                                    else
+                                                    {
+                                                        $admin_expected = '';
+                                                    }
                                                     
                                                     echo $admin_expected;
                                                 ?>
