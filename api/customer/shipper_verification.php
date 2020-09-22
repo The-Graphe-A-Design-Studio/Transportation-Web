@@ -35,9 +35,10 @@
                 $comp_run = mysqli_query($link, $comp);
                 $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
 
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
-                                'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
-                                'registered on' => $otp_row['cu_registered'], 'trial period upto' => $otp_row['cu_trial_expire_date'], 'trial period status' => $trial, 'firebase token' => $otp_row['cu_token']];
+                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'plan type' => '1', 'shipper id' => $otp_row['cu_id'],
+                                'shipper phone country code' => $otp_row['cu_phone_code'], 'shipper phone' => $otp_row['cu_phone'], 
+                                'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 'registered on' => $otp_row['cu_registered'], 
+                                'trial period upto' => $otp_row['cu_trial_expire_date'], 'trial period status' => $trial, 'firebase token' => $otp_row['cu_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
             }
@@ -59,7 +60,7 @@
                 $comp_run = mysqli_query($link, $comp);
                 $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
 
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
+                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'plan type' => '2', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
                                 'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
                                 'registered on' => $otp_row['cu_registered'], 'subscription period upto' => $otp_row['cu_subscription_expire_date'], 'subscription period status' => $trial, 'firebase token' => $otp_row['cu_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
