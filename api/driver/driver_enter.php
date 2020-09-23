@@ -54,7 +54,7 @@
             } 
             else
             {
-                $responseData = ['success' => '0', 'message' => 'This number is not registered. Contact your truck owner.'];
+                $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);
@@ -62,7 +62,7 @@
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+            $responseData = ['success' => '0', 'message' => 'This number is not registered. Contact your truck owner.'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
