@@ -40,6 +40,15 @@
                                         'bidder phone' => '+'.$row_driver['trk_dr_phone_code'].' '.$row_driver['trk_dr_phone']];
                 }
 
+                $loads = "select * from cust_order where or_id = '".$_POST['load_id']."'";
+                $get_loads = mysqli_query($link, $loads);
+                $row_loads = mysqli_fetch_array($get_loads, MYSQLI_ASSOC);
+
+                if($row_loads['or_shipper_on'] == 1)
+                {
+                    $new_price = $row['bid_expected_price'] + ($row['bid_expected_price'] * ($row_loads['or_admin_expected_price']/100));
+                }
+
                 $responseData[] = ['bid id' => $row['bid_id'], 'bidder price' => $row['bid_expected_price'], 'bidder type' => $bidder_type, 'bidder details' => $bidder_detials];
             }
             echo json_encode($responseData, JSON_PRETTY_PRINT);

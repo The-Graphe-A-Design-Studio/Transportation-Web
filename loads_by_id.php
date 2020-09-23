@@ -150,7 +150,7 @@
                                                                         <div class="profile-widget-name" style="margin-bottom: 0 !important">
                                                                             <form class="expected">
                                                                                 <div class="form-group">
-                                                                                    <label>Admin Expected Price (per '.$show_unit.')</label>
+                                                                                    <label>Admin Total Commission (in %)</label>
                                                                                     <div class="input-group mb-3">
                                                                                         <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
                                                                                         <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
@@ -176,7 +176,7 @@
                                                                         <div class="profile-widget-name" style="margin-bottom: 0 !important">
                                                                             <form class="expected">
                                                                                 <div class="form-group">
-                                                                                    <label>Admin Expected Price (per '.$show_unit.')</label>
+                                                                                    <label>Admin Total Commission (in %)</label>
                                                                                     <div class="input-group mb-3">
                                                                                         <input type="text" class="form-control" name="admin_expected_price" value="'.$row['or_admin_expected_price'].'">
                                                                                         <input type="text" name="load_id" value="'.$row['or_id'].'" hidden>
