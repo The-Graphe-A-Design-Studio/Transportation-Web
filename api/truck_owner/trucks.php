@@ -25,11 +25,12 @@
     }
 
     //add truck
-    elseif(isset($_POST['trk_owner']) && isset($_POST['trk_cat']) && isset($_POST['trk_num']) && isset($_POST['trk_dr_name']) && 
-        isset($_POST['trk_dr_phone_code']) && isset($_POST['trk_dr_phone']))
+    elseif(isset($_POST['trk_owner']) && isset($_POST['trk_cat']) && isset($_POST['trk_cat_type']) && isset($_POST['trk_num']) && isset($_POST['trk_dr_name']) && 
+            isset($_POST['trk_dr_phone_code']) && isset($_POST['trk_dr_phone']))
     {
         $truck_owner = $_POST['trk_owner'];
         $truck_cat = $_POST['trk_cat'];
+        $truck_type = $_POST['trk_cat_type'];
         $truck_num = $_POST['trk_num'];
         $truck_driver_name = $_POST['trk_dr_name'];
         $truck_driver_phone_code = $_POST['trk_dr_phone_code'];
@@ -62,18 +63,18 @@
             }
             else
             {
-                $trk_folder = "../../assets/documents/truck_owners/truck_owners_id_".$truck_owner;
+                $trk_folder = "../../assets/documents/truck_owners/truck_owner_id_".$truck_owner;
 
                 if(!is_dir($trk_folder))
                 {
-                    mkdir("../../assets/documents/truck_owners/truck_owners_id_".$truck_owner);
+                    mkdir("../../assets/documents/truck_owners/truck_owner_id_".$truck_owner);
                 }
                 
-                $trk_num_folder = "../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num;
+                $trk_num_folder = "../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num;
 
                 if(!is_dir($trk_num_folder))
                 {
-                    mkdir("../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num);
+                    mkdir("../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num);
                 }
 
                 // Validate RC
@@ -98,7 +99,7 @@
                         $extension = end($rn);
                         $new_trk_rc = "rc.".$extension;
                         
-                        move_uploaded_file($file_tmp,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_rc);
+                        move_uploaded_file($file_tmp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_rc);
 
                         // Validate Insurance
                         if(!empty($_FILES['trk_insurance']))
@@ -123,7 +124,7 @@
                                 $extension2 = end($rn2);
                                 $new_trk_insurance = "insurance.".$extension2;
 
-                                move_uploaded_file($file_tmp2,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_insurance);
+                                move_uploaded_file($file_tmp2,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_insurance);
 
                                 // Validate Road Tax
                                 if(!empty($_FILES['trk_road_tax']))
@@ -148,7 +149,7 @@
                                         $extensionfp = end($rnfp);
                                         $new_trk_road_tax = "road_tax.".$extensionfp;
 
-                                        move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_road_tax);
+                                        move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_road_tax);
 
                                         // Validate RTO
                                         if(!empty($_FILES['trk_rto']))
@@ -173,20 +174,19 @@
                                                 $extensionfp = end($rnfp);
                                                 $new_trk_rto = "rto.".$extensionfp;
 
-                                                move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/".$new_trk_rto);
+                                                move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_rto);
 
-                                                $trk_folder_loc = "assets/documents/truck_owners/truck_owners_id_".$truck_owner."/".$truck_num."/";
+                                                $trk_folder_loc = "assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/";
 
                                                 $rc = $trk_folder_loc.$new_trk_rc;
-                                                $license = $trk_folder_loc.$new_trk_dr_license;
                                                 $insurance = $trk_folder_loc.$new_trk_insurance;
                                                 $road_tax = $trk_folder_loc.$new_trk_road_tax;
                                                 $rto = $trk_folder_loc.$new_trk_rto;
 
-                                                $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_num, trk_dr_name, trk_dr_phone_code, 
-                                                                trk_dr_phone, trk_dr_license, trk_rc, trk_insurance, trk_road_tax, trk_rto) values 
-                                                                ('$truck_owner', '$truck_cat', '$truck_num', $truck_driver_name', 
-                                                                '$truck_driver_phone_code', '$truck_driver_phone', $license', '$rc', '$insurance', 
+                                                $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_cat_type, trk_num, trk_dr_name, trk_dr_phone_code, 
+                                                                trk_dr_phone, trk_rc, trk_insurance, trk_road_tax, trk_rto) values 
+                                                                ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
+                                                                '$truck_driver_phone_code', '$truck_driver_phone', '$rc', '$insurance', 
                                                                 '$road_tax', '$rto')";
 
                                                 $mobile_insert = mysqli_query($link, $mobile_sql);
@@ -318,8 +318,8 @@
 
                 if($d_run)
                 {
-                    $old_dirname1 = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];
-                    $new_dirname = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$truck_num_edit;
+                    $old_dirname1 = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];
+                    $new_dirname = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$truck_num_edit;
 
                     if(rename("$old_dirname1", "$new_dirname"))
                     {
@@ -370,9 +370,9 @@
             $extension1 = end($rn1);
             $new_trk_dr_license = "license.".$extension1;
 
-            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+            $des = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            $dir = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
             array_map('unlink', glob("$dir/license.*"));
 
             move_uploaded_file($file_tmp1, $des);
@@ -422,9 +422,9 @@
             $extension1 = end($rn1);
             $new_trk_dr_license = "rc.".$extension1;
 
-            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+            $des = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            $dir = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
             array_map('unlink', glob("$dir/rc.*"));
 
             move_uploaded_file($file_tmp1, $des);
@@ -474,9 +474,9 @@
             $extension1 = end($rn1);
             $new_trk_dr_license = "insurance.".$extension1;
 
-            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+            $des = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            $dir = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
             array_map('unlink', glob("$dir/insurance.*"));
 
             move_uploaded_file($file_tmp1, $des);
@@ -526,9 +526,9 @@
             $extension1 = end($rn1);
             $new_trk_dr_license = "road_tax.".$extension1;
 
-            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+            $des = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            $dir = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
             array_map('unlink', glob("$dir/road_tax.*"));
 
             move_uploaded_file($file_tmp1, $des);
@@ -578,9 +578,9 @@
             $extension1 = end($rn1);
             $new_trk_dr_license = "rto.".$extension1;
 
-            $des = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+            $des = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $dir = "../../assets/documents/truck_owners/truck_owners_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
+            $dir = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
             array_map('unlink', glob("$dir/rto.*"));
 
             move_uploaded_file($file_tmp1, $des);
@@ -632,7 +632,7 @@
         $result = mysqli_query($link, $sql);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-        $dirname = "../../assets/documents/truck_owners/truck_owners_id_".$row['trk_owner']."/".$row['trk_num'];
+        $dirname = "../../assets/documents/truck_owners/truck_owner_id_".$row['trk_owner']."/".$row['trk_num'];
 
         array_map('unlink', glob("$dirname/*.*"));
         rmdir("$dirname");

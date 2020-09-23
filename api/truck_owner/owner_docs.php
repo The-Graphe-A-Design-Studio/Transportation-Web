@@ -37,19 +37,19 @@
                 $extension1 = end($rn1);
                 $pan_card = "pan_card.".$extension1;
 
-                $des = "../../assets/documents/truck_owners/truck_owner_".$rowe['to_phone']."/".$pan_card;
-                $dir = "../../assets/documents/truck_owners/truck_owner_".$rowe['to_phone']."/";
+                $des = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['to_id']."/".$pan_card;
+                $dir = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['to_id']."/";
 
                 if(!is_dir($dir))
                 {
-                    mkdir("../../assets/documents/truck_owners/truck_owner_".$rowe['to_phone']);
+                    mkdir("../../assets/documents/truck_owners/truck_owner_id_".$rowe['to_id']);
                 }
 
                 array_map('unlink', glob("$dir/pan_card.*"));
 
                 move_uploaded_file($file_tmp1, $des);
 
-                $des1 = "assets/documents/truck_owners/truck_owner_".$rowe['to_phone']."/".$pan_card;
+                $des1 = "assets/documents/truck_owners/truck_owner_id_".$rowe['to_id']."/".$pan_card;
 
                 $d_sql = "update truck_owner_docs set to_doc_location = '$des1' where to_doc_owner_phone = '".$_POST['to_phone']."' and to_doc_sr_num = 1";
                 $d_run = mysqli_query($link, $d_sql);
