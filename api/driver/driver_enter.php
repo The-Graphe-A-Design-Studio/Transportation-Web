@@ -14,7 +14,7 @@
         $re_r = mysqli_query($link, $re_c);
         $row_c = mysqli_fetch_array($re_r, MYSQLI_ASSOC);
         $counte = mysqli_num_rows($re_r);
-        if($counte >= 1)
+        if($counte == 1)
         {
             $rantrk_no = rand(100000, 999999);
 
