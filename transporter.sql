@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2020 at 05:30 PM
+-- Generation Time: Sep 23, 2020 at 02:05 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -82,6 +82,13 @@ CREATE TABLE `customers` (
   `cu_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`cu_id`, `cu_phone_code`, `cu_phone`, `cu_otp`, `cu_address_type`, `cu_verified`, `cu_active`, `cu_registered`, `cu_account_on`, `cu_trial_expire_date`, `cu_subscription_start_date`, `cu_subscription_order_id`, `cu_subscription_expire_date`, `cu_token`, `cu_default`) VALUES
+(1, 91, 7908024082, 688264, 2, 1, 1, '2020-09-18 10:54:55', 2, '2020-09-25 11:09:05', '2020-09-18 16:02:47', 'order_FeSdIWh54gWuSm', '2020-12-18 16:02:47', 'doCWIRkvT5CdsqieHNW9Il:APA91bFXhkuNMNMv5ikG5an3UIR1FJydLhRHN3I9fZ3K5Z0y0Jelr_eYDuJsIOUUUeWNCCKQZCu1hPy5lyaGDcRfcGG19orr3qIN0wgCRis9unx6MCNhItqch1MWhPiaq-5H-FeZ7-gl', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -95,6 +102,18 @@ CREATE TABLE `customer_docs` (
   `doc_location` varchar(200) NOT NULL DEFAULT '',
   `doc_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - No; 1 - Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customer_docs`
+--
+
+INSERT INTO `customer_docs` (`doc_id`, `doc_owner_phone`, `doc_sr_num`, `doc_location`, `doc_verified`) VALUES
+(1, 7908024082, 1, 'assets/documents/shippers/shipper_7908024082/pan_card.jpg', 1),
+(2, 7908024082, 2, 'assets/documents/shippers/shipper_7908024082/address_front.jpg', 1),
+(3, 7908024082, 3, 'assets/documents/shippers/shipper_7908024082/address_back.jpg', 1),
+(4, 7908024082, 4, 'assets/documents/shippers/shipper_7908024082/selfie.jpg', 1),
+(5, 7908024082, 5, 'The Graphe', 1),
+(6, 7908024082, 6, 'assets/documents/shippers/shipper_7908024082/office_address.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -114,7 +133,8 @@ CREATE TABLE `cust_order` (
   `or_admin_expected_price` decimal(15,2) NOT NULL DEFAULT 0.00,
   `or_payment_mode` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Negotiable, 2 - Advance Pay, 3 - To Driver After Unloading',
   `or_advance_pay` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'in %',
-  `or_active_on` datetime NOT NULL DEFAULT current_timestamp(),
+  `or_shipper_on` tinyint(4) NOT NULL COMMENT '1 - Trial; 2 - Subscription',
+  `or_active_on` datetime NOT NULL,
   `or_expire_on` datetime NOT NULL,
   `or_contact_person_name` varchar(100) NOT NULL,
   `or_contact_person_phone` bigint(20) NOT NULL,
@@ -131,8 +151,8 @@ CREATE TABLE `cust_order_destination` (
   `des_id` int(11) NOT NULL,
   `or_uni_code` varchar(20) NOT NULL,
   `or_destination` varchar(200) NOT NULL,
-  `or_des_lat` decimal(30,10) NOT NULL,
-  `or_des_lng` decimal(30,10) NOT NULL,
+  `or_des_lat` decimal(30,8) NOT NULL,
+  `or_des_lng` decimal(30,8) NOT NULL,
   `or_des_city` varchar(100) NOT NULL,
   `or_des_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -147,8 +167,8 @@ CREATE TABLE `cust_order_source` (
   `so_id` int(11) NOT NULL,
   `or_uni_code` varchar(20) NOT NULL,
   `or_source` varchar(250) NOT NULL,
-  `or_source_lat` decimal(30,10) NOT NULL,
-  `or_source_lng` decimal(30,10) NOT NULL,
+  `or_source_lat` decimal(30,8) NOT NULL,
+  `or_source_lng` decimal(30,8) NOT NULL,
   `or_source_city` varchar(100) NOT NULL,
   `or_source_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -245,6 +265,33 @@ CREATE TABLE `subscribed_users` (
   `subs_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `subscribed_users`
+--
+
+INSERT INTO `subscribed_users` (`subs_id`, `subs_user_type`, `subs_user_id`, `subs_amount`, `subs_duration`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_datetime`, `expire_datetime`, `subs_default`) VALUES
+(1, 1, 1, '4000.00', 3, 'order_FeSdIWh54gWuSm', 'pay_FeSdg2wvpJyPLt', '5ceda7415be81001f377b977426f8de2690314117dbfb4a2baa187c4554d6871', '2020-09-18 16:02:47', '2020-12-18 16:02:47', 1),
+(2, 2, 4, '15000.00', 1, 'order_FetTRuX15Stx54', 'pay_FetTxJ3wZOpYT2', '5cfa4da84d46c460a18d4ecf20860bbf1ed580479ad978e2c546bdffbb46b5b7', '2020-09-19 18:18:23', '2020-10-19 18:18:23', 1),
+(3, 2, 4, '15000.00', 1, 'order_FetXCQMuugIJYM', 'pay_FetXaByN1R04P1', '808f090fd747268d69371ecf6ce790304f13f41792667445376fcd0b09abf0db', '2020-09-19 18:21:42', '2020-10-19 18:21:42', 1),
+(4, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:22:50', '2020-12-19 18:22:50', 1),
+(5, 2, 4, '2200.00', 3, 'order_FetaXrYpeivGiw', 'pay_Fetaj11mJcaW0m', '6756e5eee62dcdbd9d81f8b2571730ebb7664a1c66742ce49c328e490e729d9a', '2020-09-19 18:24:41', '2020-12-19 18:24:41', 1),
+(6, 2, 4, '15000.00', 1, 'order_FetcXFvpeY0P0p', 'pay_Fetcj6VzuUDLRk', 'dcb0261693750280ebf71922b93f1955b4cdda65d25d14a0fcbe22a84db7867e', '2020-09-19 18:26:35', '2020-10-19 18:26:35', 1),
+(7, 2, 4, '15000.00', 12, 'order_Feth3Vp0Vt8oph', 'pay_FethFHaE0k7GYc', 'c5894a17009477f2b0bc519611771f483b00fb7f3ecdc21615b21a9a124b4104', '2020-09-19 18:30:51', '2021-09-19 18:30:51', 1),
+(8, 2, 4, '15000.00', 12, 'order_FetideHnp3g0xA', 'pay_Fetir7NbtnWjcr', 'bb9abc114501490c00e04e87b80917b45f154fc407a5503969f244eb06bc05ed', '2020-09-19 18:32:23', '2021-09-19 18:32:23', 1),
+(9, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:34:06', '2020-12-19 18:34:06', 1),
+(10, 2, 4, '15000.00', 12, 'order_FetnAQKQAoUXa2', 'pay_FetnLNbSwuoujm', 'd59c08217e7928a742e2210b041c15db52dc2bb6d52d94281636b4e65e9b391c', '2020-09-19 18:36:37', '2021-09-19 18:36:37', 1),
+(11, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:37:00', '2020-12-19 18:37:00', 1),
+(12, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:37:02', '2020-12-19 18:37:02', 1),
+(13, 2, 4, '2200.00', 3, 'order_FetqsX1IswfmMK', 'pay_Fetr4KbaJrI6dd', 'd6312abdbee86322d8c51b7038c83cd52bf16a48d7f6e4f69b6287965b54526a', '2020-09-19 18:40:11', '2020-12-19 18:40:11', 1),
+(14, 2, 4, '6000.00', 6, 'order_Fets2dnqpAYZYH', 'pay_FetsD5fCuB5y6f', '7d00dadc34b1979a57c38aadcfe1022ea54a1a3880fc0e5ca1d3d1a363df0ae2', '2020-09-19 18:41:13', '2021-03-21 18:41:13', 1),
+(15, 2, 4, '6000.00', 6, 'order_Fetu2Au6EIORY1', 'pay_FetuDsMFoAthZx', '5afe589c36cb1974cc01a6b8adf1a0c6ca312c1c839da8c931039c687362f2f6', '2020-09-19 18:43:08', '2021-03-21 18:43:08', 1),
+(16, 2, 4, '2200.00', 3, 'order_Fetuef6zvM0dNs', 'pay_FetupouaekFMtx', '0fc045d11efebed63e326bc99e0a7d8bc68b0226798b4d24d808b6188fb17c55', '2020-09-19 18:43:42', '2020-12-19 18:43:42', 1),
+(17, 2, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:44:11', '2020-12-19 18:44:11', 1),
+(18, 2, 6, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:02:14', '2020-12-19 19:02:14', 1),
+(19, 2, 6, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:03:47', '2020-12-19 19:03:47', 1),
+(20, 2, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:09:15', '2020-12-19 19:09:15', 1),
+(21, 2, 4, '15000.00', 12, 'order_FeuS6DWYyEoc26', 'pay_FeuSIcel04MoLB', '492881082fe25b9ac9a593115029650fdc8d0a2e191af27593d10dcbaec7913a', '2020-09-19 19:15:28', '2021-09-19 19:15:28', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -268,9 +315,11 @@ CREATE TABLE `subscription_plans` (
 
 INSERT INTO `subscription_plans` (`plan_id`, `plan_name`, `plan_type`, `plan_original_price`, `plan_selling_price`, `plan_duration`, `plan_status`, `plan_reg`) VALUES
 (4, 'Basic', 1, '6000.00', '4000.00', 3, 1, 1),
-(5, 'Basic', 2, '50000.00', '22000.00', 12, 1, 1),
+(5, 'Basic', 2, '5000.00', '2200.00', 3, 1, 1),
 (6, 'Medium', 1, '12000.00', '6000.00', 6, 1, 1),
-(7, 'Hard', 1, '50000.00', '30000.00', 12, 1, 1);
+(7, 'Hard', 1, '50000.00', '30000.00', 12, 1, 1),
+(8, 'Medium', 2, '10000.00', '6000.00', 6, 1, 1),
+(9, 'Hard', 2, '20000.00', '15000.00', 12, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -283,17 +332,19 @@ CREATE TABLE `trucks` (
   `trk_owner` int(11) NOT NULL,
   `trk_cat` tinyint(4) NOT NULL,
   `trk_num` varchar(50) NOT NULL,
-  `trk_load` mediumint(9) NOT NULL,
   `trk_dr_name` varchar(150) NOT NULL,
-  `trk_dr_phone_code` smallint(6) NOT NULL,
+  `trk_dr_phone_code` mediumint(9) NOT NULL,
   `trk_dr_phone` bigint(20) NOT NULL,
-  `trk_dr_license` varchar(200) NOT NULL,
-  `trk_rc` varchar(200) NOT NULL,
-  `trk_insurance` varchar(200) NOT NULL,
-  `trk_road_tax` varchar(200) NOT NULL,
-  `trk_rto` varchar(200) NOT NULL,
+  `trk_otp` smallint(6) NOT NULL,
+  `trk_dr_pic` varchar(200) DEFAULT NULL,
+  `trk_dr_license` varchar(200) DEFAULT NULL,
+  `trk_rc` varchar(200) DEFAULT NULL,
+  `trk_insurance` varchar(200) DEFAULT NULL,
+  `trk_road_tax` varchar(200) DEFAULT NULL,
+  `trk_rto` varchar(200) DEFAULT NULL,
   `trk_active` tinyint(4) NOT NULL,
   `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 : On Trip; 0 : Not on Trip',
+  `trk_dr_token` varchar(250) DEFAULT NULL,
   `trk_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -545,13 +596,13 @@ ALTER TABLE `bidding`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer_docs`
 --
 ALTER TABLE `customer_docs`
-  MODIFY `doc_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `doc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `cust_order`
@@ -593,13 +644,13 @@ ALTER TABLE `material_types`
 -- AUTO_INCREMENT for table `subscribed_users`
 --
 ALTER TABLE `subscribed_users`
-  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `subscription_plans`
 --
 ALTER TABLE `subscription_plans`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `trucks`
