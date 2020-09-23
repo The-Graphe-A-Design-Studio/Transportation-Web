@@ -1,4 +1,10 @@
-// Validate License
+<?php
+
+    include('../../dbcon.php');
+
+    header('Content-Type: application/json');
+
+    // Validate License
     if(!empty($_FILES['trk_dr_license']))
     {
         $file_name1 = $_FILES['trk_dr_license']['name'];
@@ -33,3 +39,5 @@
 
         http_response_code(206);
     }
+
+?>

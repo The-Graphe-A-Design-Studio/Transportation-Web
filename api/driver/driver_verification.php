@@ -6,79 +6,21 @@
 
     if(isset($_POST['phone_number']) && isset($_POST['otp']))
     {
-        $otp_sql = "select * from customers where cu_phone = '".$_POST['phone_number']."' and cu_otp = '".$_POST['otp']."'";
+        $otp_sql = "select * from trucks where trk_dr_phone = '".$_POST['phone_number']."' and trk_otp = '".$_POST['otp']."'";
         $otp_run = mysqli_query($link, $otp_sql);
         $otp_row = mysqli_fetch_array($otp_run, MYSQLI_ASSOC);
 
-        $t_id = $otp_row['cu_id'];
+        $t_id = $otp_row['trk_id'];
 
-        if($otp_row['cu_otp'] === $_POST['otp'])
+        if($otp_row['trk_otp'] === $_POST['otp'])
         {
-            $active = "update customers set cu_active = 1 where cu_phone = '".$_POST['phone_number']."' and cu_otp = '".$_POST['otp']."'";
-            $set = mysqli_query($link, $active);
-
-            if($otp_row['cu_account_on'] == 1)
-            {
-                $date_now = new DateTime(date('Y-m-d H:i:s'));
-                $date2    = new DateTime(date_format(date_create($otp_row['cu_trial_expire_date']), 'Y-m-d H:i:s'));
-                
-                if($date_now > $date2)
-                {
-                    $trial = 'Trial period expired';
-                }
-                else
-                {
-                    $trial = 'In trial period';
-                }
-
-                $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
-                $comp_run = mysqli_query($link, $comp);
-                $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
-
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
-                                'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
-                                'registered on' => $otp_row['cu_registered'], 'trial period upto' => $otp_row['cu_trial_expire_date'], 'trial period status' => $trial, 'firebase token' => $otp_row['cu_token']];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(200);
-            }
-            elseif($otp_row['cu_account_on'] == 2)
-            {
-                $date_now = new DateTime(date('Y-m-d H:i:s'));
-                $date2    = new DateTime(date_format(date_create($otp_row['cu_subscription_expire_date']), 'Y-m-d H:i:s'));
-                
-                if($date_now > $date2)
-                {
-                    $trial = 'Subscription period expired';
-                }
-                else
-                {
-                    $trial = 'In subscription period';
-                }
-
-                $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
-                $comp_run = mysqli_query($link, $comp);
-                $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
-
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
-                                'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
-                                'registered on' => $otp_row['cu_registered'], 'subscription period upto' => $otp_row['cu_subscription_expire_date'], 'subscription period status' => $trial, 'firebase token' => $otp_row['cu_token']];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(200);
-            }
-            else
-            {
-                $trial = 'Not on subcsription';
-                
-                $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
-                $comp_run = mysqli_query($link, $comp);
-                $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
-
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'shipper id' => $otp_row['cu_id'], 'shipper phone country code' => $otp_row['cu_phone_code'], 
-                                'shipper phone' => $otp_row['cu_phone'], 'shipper company name' => $comp_row['doc_location'], 'verified' => $otp_row['cu_verified'], 
-                                'registered on' => $otp_row['cu_registered'], 'subscription period upto' => $trial, 'subscription period status' => $trial, 'firebase token' => $otp_row['cu_token']];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(200);
-            }
+            $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'id' => $otp_row['trk_id'], 'truck owner id' => $otp_row['trk_owner'],
+                            'truck number' => $otp_row['trk_num'], 'driver name' => $otp_row['trk_dr_name'], 'phone country code' => $otp_row['trk_dr_phone_code'], 
+                            'driver phone' => $otp_row['trk_dr_phone'], 'driver pic' => $otp_row['trk_dr_pic'], 'driver license' => $otp_row['trk_dr_license'], 
+                            'truck rc' => $otp_row['trk_rc'], 'truck insurance' => $otp_row['trk_insurance'], 'truck road tax' => $otp_row['trk_road_tax'],
+                            'truck rto passing' => $otp_row['trk_rto'], 'firebase token' => $otp_row['trk_dr_token']];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
         }
         else
         { 
@@ -93,7 +35,7 @@
 
         $phone = $_POST['resend_otp_on'];
 
-        $re_sql = "update customers set cu_otp = '$ranto_no' where cu_phone = '$phone'";
+        $re_sql = "update trucks set trk_otp = '$ranto_no' where trk_dr_phone = '$phone'";
         $re_run = mysqli_query($link, $re_sql);
         
         if($re_run)
