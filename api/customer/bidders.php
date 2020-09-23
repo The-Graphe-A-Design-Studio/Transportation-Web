@@ -49,7 +49,7 @@
                     $new_price = $row['bid_expected_price'] + ($row['bid_expected_price'] * ($row_loads['or_admin_expected_price']/100));
                 }
 
-                $responseData[] = ['bid id' => $row['bid_id'], 'bidder price' => $row['bid_expected_price'], 'bidder type' => $bidder_type, 'bidder details' => $bidder_detials];
+                $responseData[] = ['bid id' => $row['bid_id'], 'bidder price' => "$new_price", 'bidder type' => $bidder_type, 'bidder details' => $bidder_detials];
             }
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);

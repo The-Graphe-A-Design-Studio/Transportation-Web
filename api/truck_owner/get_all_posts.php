@@ -101,7 +101,7 @@
 
                 $responseData[] = ['post id' => $row['or_id'], 'customer id' => $row['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row['or_product'], 
                             $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => $admin_price, 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'expected price' => "$admin_price", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
             }
             

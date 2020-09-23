@@ -77,9 +77,11 @@
 
             if($row_cust['cu_account_on'] == 1)
             {
+                $admin_price = ($row1['or_expected_price'] - ($row1['or_expected_price'] * ($row1['or_admin_expected_price']/100)));
+
                 $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
                             $unit => $row1['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => $row1['or_admin_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'expected price' => "$admin_price", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
             }
             
