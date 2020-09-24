@@ -24,6 +24,7 @@
         td i{font-size: 1.2rem !important;}
         .info{padding: 1vh;}
         .truck-eye{font-size: 1em !important;}
+        .card .card-body p img{max-height: 150px;}
     </style>
 </head>
 <body>
@@ -202,7 +203,7 @@
                                 <div class="card-header">
                                     <h4>PAN Card</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <p>
                                         <img alt="truck_owner_pan_card_<?php echo $row['to_phone']; ?>" src="<?php echo $doc_row['to_doc_location'];?>">
                                     </p>

@@ -49,7 +49,7 @@
             font-size: 1.2rem !important;
         }
 
-        .card .card-body p
+        .card .card-body .truck-info
         {
             text-align: left !important;
             padding-left: 1vh;
@@ -99,7 +99,7 @@
                                     <h4>Truck Owner</h4>
                                 </div>
                                 <div class="card-body">
-                                    <p>
+                                    <p class="truck-info">
                                         <b>Name : </b><a href="truck_owner_profile?owner_id=<?php echo $row_owner['to_id']; ?>"><?php echo $row_owner['to_name']; ?></a>
                                         <br>
                                         <b>Phone : </b><?php echo '+'.$row_owner['to_phone_code'].' '.$row_owner['to_phone']; ?>
@@ -115,7 +115,7 @@
                                     <h4>Truck Details</h4>
                                 </div>
                                 <div class="card-body">
-                                    <p>
+                                    <p class="truck-info">
                                         <b>Number : </b><?php echo $row['trk_num']; ?>
                                         <br>
                                         <b>Category & Type: </b><?php echo $row_cat['trk_cat_name'].', '.$row_type['ty_name']; ?>
@@ -132,7 +132,7 @@
                                 <div class="card-header">
                                     <h4>Driver's Selfie</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <p>
                                         <img alt="driver_selfie_<?php echo $row['trk_dr_phone']; ?>" src="<?php echo $row['trk_dr_pic']; ?>">
                                     </p>
@@ -155,7 +155,7 @@
                                 <div class="card-header">
                                     <h4>Driver's License</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <p>
                                         <img alt="driver_license_<?php echo $row['trk_dr_license']; ?>" src="<?php echo $row['trk_dr_license']; ?>">
                                     </p>
@@ -178,7 +178,7 @@
                                 <div class="card-header">
                                     <h4>Truck RC</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <p>
                                         <img alt="truck_rc_<?php echo $row['trk_num']; ?>" src="<?php echo $row['trk_rc']; ?>">
                                     </p>
@@ -201,7 +201,7 @@
                                 <div class="card-header">
                                     <h4>Truck Road Tax Certificate</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <p>
                                         <img alt="truck_road_tax_<?php echo $row['trk_num']; ?>" src="<?php echo $row['trk_road_tax']; ?>">
                                     </p>
@@ -224,7 +224,7 @@
                                 <div class="card-header">
                                     <h4>Truck Insurance</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <p>
                                         <img alt="truck_insurance_<?php echo $row['trk_num']; ?>" src="<?php echo $row['trk_insurance']; ?>">
                                     </p>
@@ -247,7 +247,7 @@
                                 <div class="card-header">
                                     <h4>Truck RTO Passing</h4>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <p>
                                         <img alt="truck_rto_<?php echo $row['trk_num']; ?>" src="<?php echo $row['trk_rto']; ?>">
                                     </p>
