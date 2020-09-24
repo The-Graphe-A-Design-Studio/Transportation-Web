@@ -221,11 +221,12 @@
                             </div>
                         </div>
                     </div>
-                    <h2 class="section-title">Truck Owns</h2>
+                    <h2 class="section-title">Owner's Trucks</h2>
                     <div class="row mt-sm-4">
                         <div class="col-12 col-md-12">
                             <table>
                                 <thead>
+                                    <th>ID</th>
                                     <th>Category</th>
                                     <th>Type</th>
                                     <th>Number</th>
@@ -238,6 +239,7 @@
                                     <th>Road Tax</th>
                                     <th>RTO</th>
                                     <th>Status</th>
+                                    <th>View</th>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -254,13 +256,14 @@
                                             $r_typ = mysqli_fetch_array($g_typ, MYSQLI_ASSOC);
                                     ?>
                                     <tr>
+                                        <td data-column="ID"><?php echo $r_truck['trk_id']; ?></td>
                                         <td data-column="Category"><?php echo $r_cat['trk_cat_name']; ?></td>
                                         <td data-column="Type"><?php echo $r_typ['ty_name']; ?></td>
                                         <td data-column="Number"><?php echo $r_truck['trk_num']; ?></td>
                                         <td data-column="Driver's Name"><?php echo $r_truck['trk_dr_name']; ?></td>
                                         <td data-column="Driver's Phone"><?php echo "+".$r_truck['trk_dr_phone_code']." ".$r_truck['trk_dr_phone']; ?></td>
                                         <td data-column="Driver's Pic">
-                                            <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#dp"><i class="fas fa-eye truck-eye"></i></button>
+                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#dp"><i class="fas fa-eye truck-eye"></i></button>
                                             <!-- Modal -->
                                             <div class="mymodal modal fade" id="dp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                 <div class="modal-dialog" role="document">
@@ -269,7 +272,7 @@
                                             </div>
                                         </td>
                                         <td data-column="Driver's License">
-                                            <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye truck-eye"></i></button>
+                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye truck-eye"></i></button>
                                             <!-- Modal -->
                                             <div class="mymodal modal fade" id="license" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                 <div class="modal-dialog" role="document">
@@ -278,7 +281,7 @@
                                             </div>
                                         </td>
                                         <td data-column="RC">
-                                            <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#rc"><i class="fas fa-eye truck-eye"></i></button>
+                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rc"><i class="fas fa-eye truck-eye"></i></button>
                                             <!-- Modal -->
                                             <div class="mymodal modal fade" id="rc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                 <div class="modal-dialog" role="document">
@@ -287,7 +290,7 @@
                                             </div>
                                         </td>
                                         <td data-column="Insurance">
-                                            <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#insurance"><i class="fas fa-eye truck-eye"></i></button>
+                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#insurance"><i class="fas fa-eye truck-eye"></i></button>
                                             <!-- Modal -->
                                             <div class="mymodal modal fade" id="insurance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                 <div class="modal-dialog" role="document">
@@ -296,7 +299,7 @@
                                             </div>
                                         </td>
                                         <td data-column="Road Tax">
-                                            <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#road_tax"><i class="fas fa-eye truck-eye"></i></button>
+                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#road_tax"><i class="fas fa-eye truck-eye"></i></button>
                                             <!-- Modal -->
                                             <div class="mymodal modal fade" id="road_tax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                 <div class="modal-dialog" role="document">
@@ -305,7 +308,7 @@
                                             </div>
                                         </td>
                                         <td data-column="RTO">
-                                            <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#rto"><i class="fas fa-eye truck-eye"></i></button>
+                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rto"><i class="fas fa-eye truck-eye"></i></button>
                                             <!-- Modal -->
                                             <div class="mymodal modal fade" id="rto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                 <div class="modal-dialog" role="document">
@@ -328,6 +331,9 @@
                                             <?php
                                                 }
                                             ?>
+                                        </td>
+                                        <td data-column="View">
+                                            <a class="btn btn-icon btn-info" href="truck_profile?truck_id=<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye" title="View Details"></i></a>
                                         </td>
                                     </tr>
                                     <?php
