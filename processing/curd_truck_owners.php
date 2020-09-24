@@ -10,22 +10,17 @@
 
         if(isset($_POST["active"]))
         {
-            $query .= " AND to_verified = '1'";
+            $query .= " AND to_account_on = '1'";
         }
 
         if(isset($_POST["inactive"]))
         {
-            $query .= " AND to_verified = '0'";
+            $query .= " AND to_account_on = '0'";
         }
 
         if(isset($_POST["nothing"]))
         {
             $query .= "";
-        }
-
-        if(isset($_POST["reject"]))
-        {
-            $query .= " AND to_verified = '2'";
         }
 
         if(!empty($_POST["start_date"]) && empty($_POST["end_date"]))
@@ -66,7 +61,7 @@
         if(isset($_POST['search']))
         {
             $se = $_POST['search'];
-            $query .= " AND to_name LIKE '$se%' order by to_id desc";
+            $query .= " AND to_phone LIKE '$se%' order by to_id desc";
         }
 
         $statement = $connect->prepare($query);
@@ -85,14 +80,12 @@
                         <th>ID</th>
                         <th>Reg. Date</th>
                         <th>Name</th>
-                        <th>Email</th>
                         <th>Phone</th>
+                        <th>Bank A/c</th>
+                        <th>IFSC</th>
                         <th>Trucks Own</th>
-                        <th>City</th>
-                        <th>Routes</th>
-                        <th>State Permits</th>
+                        <th>Total Service</th>
                         <th>View</th>
-                        <th>Accept / Reject</th>
                     </thead>
                     <tbody>
             ';
@@ -108,8 +101,9 @@
                         <td data-column="ID">'.$row['to_id'].'</td>
                         <td data-column="Reg. Date">'.$date.'</td>
                         <td data-column="Name">'.$row['to_name'].'</td>
-                        <td data-column="Email"><a href="mailto:'.$row['to_email'].'">'.$row['to_email'].'</td>
                         <td data-column="Phone">+'.$row['to_phone_code'].' '.$row['to_phone'].'</td>
+                        <td data-column="Bank A/c">'.$row['to_bank'].'</td>
+                        <td data-column="IFSC">'.$row['to_ifsc'].'</td>
                 ';
 
                 $truck = "select count(*) from trucks where trk_owner = '".$row['to_id']."'";
@@ -128,47 +122,13 @@
                 $output .=
                 '
                         <td data-column="Trucks Own">'.$truck_count.'</td>
-                        <td data-column="City">'.$row['to_city'].'</td>
-                        <td data-column="Routes">'.$row['to_routes'].'</td>
-                        <td data-column="State Permits">'.$row['to_permits'].'</td>
+                        <td data-column="Total Service"></td>
                         <td data-column="View">
                             <a class="btn btn-icon btn-info" href="truck_owner_profile?owner_id='.$row['to_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
-                ';
-
-                if($row['to_verified'] == 0)
-                {
-                    $reg =
-                    '
-                        <div style="display: inline-flex">
-                            <form class="to_status">
-                                <input type="text" name="to_id" value="'.$row['to_id'].'" hidden>
-                                <input type="text" name="to_reg" value="1" hidden>
-                                <button type="submit" class="btn btn-success btn-sm" title="Accept"><i class="fas fa-user-check"></i></button>
-                            </form>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <form class="to_status">
-                                <input type="text" name="to_id" value="'.$row['to_id'].'" hidden>
-                                <input type="text" name="to_reg" value="2" hidden>
-                                <button type="submit" class="btn btn-danger btn-sm" title="Reject"><i class="fas fa-user-minus"></i></button>
-                            </form>
-                        </div>
-                    ';
-                }
-                elseif($row['to_verified'] == 1)
-                {
-                    $reg = '<span class="btn btn-sm btn-success">Accepted</span>';
-                }
-                else
-                {
-                    $reg = '<span class="btn btn-sm btn-danger">Rejected</span>';
-                }
-
-                $output .=
-                '
-                        <td data-column="Accept / Reject">'.$reg.'</td>
                     </tr>
                 ';
+
             }
 
             $output .=

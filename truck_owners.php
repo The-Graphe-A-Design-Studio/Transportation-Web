@@ -44,17 +44,12 @@
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector active" value="2">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Registered</span>
+                                        <span class="custom-switch-description">On Subscribtion</span>
                                     </label>
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector inactive" value="3">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Not Registered</span>
-                                    </label>
-                                    <label class="custom-switch">
-                                        <input type="radio" name="option" class="custom-switch-input common_selector rejected" value="4">
-                                        <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Rejected</span>
+                                        <span class="custom-switch-description">Not on Subscribtion</span>
                                     </label>
                                 </div>
                             </div>
@@ -73,8 +68,8 @@
                         </div>
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
-                                <label>Search by Name</label>
-                                <input class="form-control common_selector search_bar" placeholder="Search Driver by Name" name="name"/>
+                                <label>Search by Phone</label>
+                                <input class="form-control common_selector search_bar" placeholder="Search by Phone" name="name"/>
                             </div>
                         </div>
                     </div>
@@ -104,14 +99,13 @@
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
-                var reject = get_filter('rejected');
                 var search = get_key('search_bar');
                 var start_date = start_datee('s_date');
                 var end_date = end_datee('e_date');
                 $.ajax({
                     url:"processing/curd_truck_owners.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
+                    data:{action:action, active:active, inactive:inactive, nothing:nothing, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
                         $('.filter_data').html(data);
                     }
