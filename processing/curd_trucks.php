@@ -31,7 +31,7 @@
         if(!empty($_POST['city']))
         {
             $se = $_POST['city'];
-            $query .= " and truck_owners.to_city = '$se'";
+            $query .= " and trucks.trk_cat = '$se'";
         }
 
         if(isset($_POST['search']))
@@ -54,14 +54,16 @@
                 <table>
                     <thead>
                         <th>ID</th>
-                        <th>Truck</th>
-                        <th>Owner</th>
                         <th>Number</th>
-                        <th>Load (in Tons)</th>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Owner</th>
+                        <th>Driver's Pic</th>
                         <th>Driver's Name</th>
                         <th>Driver's Phone</th>
                         <th>Driver's License</th>
                         <th>Status</th>
+                        <th>View</th>
                     </thead>
                     <tbody>
             ";
@@ -73,6 +75,10 @@
                 $r_cat = mysqli_fetch_array($g_cat, MYSQLI_ASSOC);
 
                 $cat_name = $r_cat['trk_cat_name'];
+
+                $typ = "select * from truck_cat_type where ty_id = '".$row['trk_cat_type']."'";
+                $g_typ = mysqli_query($link, $typ);
+                $r_typ = mysqli_fetch_array($g_typ, MYSQLI_ASSOC);
 
                 $owner = "select * from truck_owners where to_id = '".$row['trk_owner']."'";
                 $g_owner = mysqli_query($link, $owner);
@@ -93,18 +99,28 @@
                 '
                     <tr>
                         <td data-column="ID">'.$row['trk_id'].'</td>
-                        <td data-column="Truck">'.$cat_name.'</td>
-                        <td data-column="Owner"><a href="truck_owner_profile?owner_id='.$row['trk_owner'].'">'.$owner_name.'</a></td>
                         <td data-column="Number">'.$row['trk_num'].'</td>
-                        <td data-column="Load (in Tons)">'.$row['trk_load'].'</td>
+                        <td data-column="Category">'.$cat_name.'</td>
+                        <td data-column="Type">'.$r_typ['ty_name'].'</td>
+                        <td data-column="Owner"><a href="truck_owner_profile?owner_id='.$row['trk_owner'].'">'.$owner_name.'</a></td>
+                        <td data-column="Driver Pic">
+                            <img alt="driver_selfie_'.$row['trk_dr_phone'].'" src="'.$row['trk_dr_pic'].'" style="width: 50px; height: 50px; border-radius: 50%">
+                        </td>
                         <td data-column="Driver Name">'.$row['trk_dr_name'].'</td>
                         <td data-column="Driver Phone">+'.$row['trk_dr_phone_code'].' '.$row['trk_dr_phone'].'</td>
                         <td data-column="Driver License">
-                            <a href="'.$row['trk_dr_license'].'" target="_blank" title="View File"><i class="fas fa-file"></i></a>
-                            &nbsp;&nbsp;&nbsp;
-                            <a href="'.$row['trk_dr_license'].'" title="Download File" download="'.$row['trk_dr_license'].'_license"><i class="fas fa-file-download"></i></a>
+                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye" style="font-size: 1em !important;"></i></button>
+                            <!-- Modal -->
+                            <div class="mymodal modal fade" id="license" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                <div class="modal-dialog" role="document">
+                                    <img src="'.$row['trk_dr_license'].'" style="max-width: 100%" alt="truck_driver_license_'.$row['trk_dr_phone'].'">
+                                </div>
+                            </div>
                         </td>
                         <td data-column="Status">'.$sta.'</td>
+                        <td data-column="View">
+                            <a class="btn btn-icon btn-info" href="truck_profile?truck_id='.$row['trk_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
+                        </td>
                     </tr>
                 ';
 

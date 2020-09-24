@@ -79,16 +79,16 @@
                         </div>
                         <div class="col-12 col-md-3">
                             <div class="form-group">
-                                <label>City</label>
+                                <label>Category</label>
                                 <select class="form-control common_selector city">
                                     <option value="">All</option>
                                     <?php
-                                        $branch = "select distinct to_city from truck_owners";
+                                        $branch = "select * from truck_cat";
                                         $get_branch = mysqli_query($link, $branch);
                                         while($row_branch = mysqli_fetch_array($get_branch, MYSQLI_ASSOC))
                                         {
                                     ?>
-                                        <option value="<?php echo $row_branch['to_city']; ?>"><?php echo $row_branch['to_city']; ?></option>
+                                        <option value="<?php echo $row_branch['trk_cat_id']; ?>"><?php echo $row_branch['trk_cat_name']; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
