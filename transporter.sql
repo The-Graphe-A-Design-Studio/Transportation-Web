@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2020 at 02:05 PM
+-- Generation Time: Sep 24, 2020 at 05:43 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -331,20 +331,21 @@ CREATE TABLE `trucks` (
   `trk_id` int(11) NOT NULL,
   `trk_owner` int(11) NOT NULL,
   `trk_cat` tinyint(4) NOT NULL,
+  `trk_cat_type` tinyint(4) NOT NULL,
   `trk_num` varchar(50) NOT NULL,
   `trk_dr_name` varchar(150) NOT NULL,
   `trk_dr_phone_code` mediumint(9) NOT NULL,
   `trk_dr_phone` bigint(20) NOT NULL,
-  `trk_otp` smallint(6) NOT NULL,
-  `trk_dr_pic` varchar(200) DEFAULT NULL,
-  `trk_dr_license` varchar(200) DEFAULT NULL,
-  `trk_rc` varchar(200) DEFAULT NULL,
-  `trk_insurance` varchar(200) DEFAULT NULL,
-  `trk_road_tax` varchar(200) DEFAULT NULL,
-  `trk_rto` varchar(200) DEFAULT NULL,
-  `trk_active` tinyint(4) NOT NULL,
+  `trk_otp` int(11) NOT NULL,
+  `trk_dr_pic` varchar(200) DEFAULT 'Nil',
+  `trk_dr_license` varchar(200) DEFAULT 'Nil',
+  `trk_rc` varchar(200) DEFAULT '',
+  `trk_insurance` varchar(200) DEFAULT '',
+  `trk_road_tax` varchar(200) DEFAULT '',
+  `trk_rto` varchar(200) DEFAULT '',
+  `trk_active` tinyint(4) NOT NULL DEFAULT 0,
   `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 : On Trip; 0 : Not on Trip',
-  `trk_dr_token` varchar(250) DEFAULT NULL,
+  `trk_dr_token` varchar(250) DEFAULT 'Nil',
   `trk_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -467,7 +468,7 @@ CREATE TABLE `truck_owner_docs` (
   `to_doc_owner_phone` bigint(20) NOT NULL,
   `to_doc_sr_num` tinyint(4) NOT NULL,
   `to_doc_location` varchar(200) NOT NULL,
-  `to_doc_verified` tinyint(4) NOT NULL DEFAULT 0
+  `to_doc_verified` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
