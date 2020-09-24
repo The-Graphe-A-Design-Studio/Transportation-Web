@@ -23,10 +23,10 @@
         <div class="main-content">
             <section class="section">
                 <div class="section-header">
-                    <h1>Truck Owners</h1>
+                    <h1>Trucks</h1>
                     <div class="section-header-breadcrumb">
                         <div class="breadcrumb-item active"><a href="dashboard">Dashboard</a></div>
-                        <div class="breadcrumb-item">Truck Owners</div>
+                        <div class="breadcrumb-item">Trucks</div>
                     </div>
                 </div>
 
