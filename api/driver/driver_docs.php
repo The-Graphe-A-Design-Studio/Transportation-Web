@@ -38,7 +38,7 @@
                 
                 $done = move_uploaded_file($file_tmp1,"../../assets/documents/truck_owners/truck_owner_id_".$row['to_id']."/".$row['trk_num']."/".$new_trk_dr_license);
 
-                $dir = "assets/documents/truck_owners/truck_owners_id_".$row['to_id']."/".$row['trk_num']."/".$new_trk_dr_license;
+                $dir = "assets/documents/truck_owners/truck_owner_id_".$row['to_id']."/".$row['trk_num']."/".$new_trk_dr_license;
 
                 if($done)
                 {
@@ -108,7 +108,7 @@
                 
                 $done = move_uploaded_file($file_tmp1,"../../assets/documents/truck_owners/truck_owner_id_".$row['to_id']."/".$row['trk_num']."/".$new_trk_dr_selfie);
 
-                $dir = "assets/documents/truck_owners/truck_owners_id_".$row['to_id']."/".$row['trk_num']."/".$new_trk_dr_selfie;
+                $dir = "assets/documents/truck_owners/truck_owner_id_".$row['to_id']."/".$row['trk_num']."/".$new_trk_dr_selfie;
 
                 if($done)
                 {
