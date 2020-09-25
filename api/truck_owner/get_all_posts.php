@@ -4,21 +4,6 @@
 
     header('Content-Type: application/json');
 
-    // Checking for older posts
-    $sql = "select * from cust_order where or_status <> 4 and or_status <> 5";
-    $run = mysqli_query($link, $sql);
-    while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
-    {
-        $date_now = new DateTime(date('Y-m-d H:i:s'));
-        $date2    = new DateTime(date_format(date_create($row['or_expire_on']), 'Y-m-d H:i:s'));
-
-        if($date_now > $date2)
-        {
-            $update = "update cust_order set or_status = 0 where or_id = '".$row['or_id']."'";
-            mysqli_query($link, $update);
-        }
-    }
-
     $sql = "select * from cust_order where or_status = 1";
     $result = mysqli_query($link, $sql) or die("Error in Selecting " . mysqli_error($link));
     $counte = mysqli_num_rows($result);

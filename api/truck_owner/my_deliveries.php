@@ -9,7 +9,7 @@
         $run = mysqli_query($link, $sql);
         while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
         {
-            $sql1 = "select * from cust_order where or_id = '".$row['load_id']."'";
+            $sql1 = "select * from cust_order where or_id = '".$row['or_id']."'";
             $result1 = mysqli_query($link, $sql1) or die("Error in Selecting " . mysqli_error($link));
             $row1 = mysqli_fetch_assoc($result1);
 
