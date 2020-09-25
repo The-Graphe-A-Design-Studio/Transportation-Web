@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2020 at 05:43 PM
+-- Generation Time: Sep 25, 2020 at 05:43 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -54,7 +54,7 @@ CREATE TABLE `bidding` (
   `bid_user_id` int(11) NOT NULL,
   `load_id` int(11) NOT NULL,
   `bid_expected_price` decimal(15,2) NOT NULL,
-  `bid_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Accepted by Admin; 2 - Accepted by Shipper',
+  `bid_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Accepted by Admin; 2 - Accepted by Shipper; 3 - Accepted by Owner',
   `bid_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -138,8 +138,15 @@ CREATE TABLE `cust_order` (
   `or_expire_on` datetime NOT NULL,
   `or_contact_person_name` varchar(100) NOT NULL,
   `or_contact_person_phone` bigint(20) NOT NULL,
-  `or_status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Active; 0 - Expired; 2 - Hold; 3 - Cancelled'
+  `or_status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Active; 0 - Expired; 2 - Hold; 3 - Cancelled; 4 - On Going; 5 -Completed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cust_order`
+--
+
+INSERT INTO `cust_order` (`or_id`, `or_cust_id`, `or_uni_code`, `or_product`, `or_price_unit`, `or_quantity`, `or_truck_preference`, `or_expected_price`, `or_admin_expected_price`, `or_payment_mode`, `or_advance_pay`, `or_shipper_on`, `or_active_on`, `or_expire_on`, `or_contact_person_name`, `or_contact_person_phone`, `or_status`) VALUES
+(1, 1, 'iSbTWZy', 'Fruits and Vegetables', 2, 12, 3, '15000.00', '0.00', 2, 60, 2, '2020-09-25 02:02:16', '2020-09-30 00:00:00', 'The Graphe', 7033584816, 1);
 
 -- --------------------------------------------------------
 
@@ -157,6 +164,13 @@ CREATE TABLE `cust_order_destination` (
   `or_des_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cust_order_destination`
+--
+
+INSERT INTO `cust_order_destination` (`des_id`, `or_uni_code`, `or_destination`, `or_des_lat`, `or_des_lng`, `or_des_city`, `or_des_state`) VALUES
+(1, 'iSbTWZy', 'THE Road, Madhawgdha, Madhya Pradesh, India', '24.56157720', '80.91800860', 'Madhawgdha', 'Madhya Pradesh');
+
 -- --------------------------------------------------------
 
 --
@@ -173,6 +187,13 @@ CREATE TABLE `cust_order_source` (
   `or_source_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cust_order_source`
+--
+
+INSERT INTO `cust_order_source` (`so_id`, `or_uni_code`, `or_source`, `or_source_lat`, `or_source_lng`, `or_source_city`, `or_source_state`) VALUES
+(1, 'iSbTWZy', 'Jamshedpur - Chaibasa Road, Golpahari, Parsudih, Jamshedpur, Jharkhand, India', '22.75700270', '86.20241990', 'Jamshedpur', 'Jharkhand');
+
 -- --------------------------------------------------------
 
 --
@@ -185,6 +206,13 @@ CREATE TABLE `cust_order_truck_pref` (
   `or_truck_pref_type` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cust_order_truck_pref`
+--
+
+INSERT INTO `cust_order_truck_pref` (`pref_id`, `or_uni_code`, `or_truck_pref_type`) VALUES
+(1, 'iSbTWZy', 47);
+
 -- --------------------------------------------------------
 
 --
@@ -193,9 +221,53 @@ CREATE TABLE `cust_order_truck_pref` (
 
 CREATE TABLE `deliveries` (
   `del_id` int(11) NOT NULL,
-  `load_id` int(11) NOT NULL,
-  `cust_id` int(11) NOT NULL,
-  `del_user` int(11) NOT NULL
+  `or_uni_code` varchar(15) NOT NULL COMMENT 'load unique code',
+  `or_id` int(11) NOT NULL COMMENT 'load id',
+  `cu_id` int(11) NOT NULL COMMENT 'shipper id',
+  `to_id` int(11) NOT NULL COMMENT 'truck owner id',
+  `price_unit` tinyint(4) NOT NULL COMMENT '1 - Tonnage; 2 - Number of Trucks',
+  `quantity` tinyint(4) NOT NULL,
+  `deal_price` decimal(30,2) NOT NULL,
+  `del_status` tinyint(4) NOT NULL COMMENT '0 - Set, 1 - Started, 2 - End'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `deliveries`
+--
+
+INSERT INTO `deliveries` (`del_id`, `or_uni_code`, `or_id`, `cu_id`, `to_id`, `price_unit`, `quantity`, `deal_price`, `del_status`) VALUES
+(1, 'iSbTWZy', 1, 1, 2, 2, 12, '20000.00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_trucks`
+--
+
+CREATE TABLE `delivery_trucks` (
+  `del_trk_id` int(11) NOT NULL,
+  `del_id` int(11) NOT NULL,
+  `trk_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `delivery_trucks`
+--
+
+INSERT INTO `delivery_trucks` (`del_trk_id`, `del_id`, `trk_id`) VALUES
+(21, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `delivery_truck_location`
+--
+
+CREATE TABLE `delivery_truck_location` (
+  `loc_id` int(11) NOT NULL,
+  `del_trk_id` int(11) NOT NULL,
+  `lat` decimal(30,8) NOT NULL,
+  `lng` decimal(30,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -290,7 +362,8 @@ INSERT INTO `subscribed_users` (`subs_id`, `subs_user_type`, `subs_user_id`, `su
 (18, 2, 6, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:02:14', '2020-12-19 19:02:14', 1),
 (19, 2, 6, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:03:47', '2020-12-19 19:03:47', 1),
 (20, 2, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:09:15', '2020-12-19 19:09:15', 1),
-(21, 2, 4, '15000.00', 12, 'order_FeuS6DWYyEoc26', 'pay_FeuSIcel04MoLB', '492881082fe25b9ac9a593115029650fdc8d0a2e191af27593d10dcbaec7913a', '2020-09-19 19:15:28', '2021-09-19 19:15:28', 1);
+(21, 2, 4, '15000.00', 12, 'order_FeuS6DWYyEoc26', 'pay_FeuSIcel04MoLB', '492881082fe25b9ac9a593115029650fdc8d0a2e191af27593d10dcbaec7913a', '2020-09-19 19:15:28', '2021-09-19 19:15:28', 1),
+(22, 2, 2, '15000.00', 12, 'order_Fh08TC5U5X2zFE', 'pay_Fh08YZE2HZROVs', '710a66733f7c0ff296c376ffc4bd6d13adffc8b481dd3c9f5d467ffc86dced3c', '2020-09-25 02:06:51', '2021-09-25 02:06:51', 1);
 
 -- --------------------------------------------------------
 
@@ -337,8 +410,8 @@ CREATE TABLE `trucks` (
   `trk_dr_phone_code` mediumint(9) NOT NULL,
   `trk_dr_phone` bigint(20) NOT NULL,
   `trk_otp` int(11) NOT NULL,
-  `trk_dr_pic` varchar(200) DEFAULT 'Nil',
-  `trk_dr_license` varchar(200) DEFAULT 'Nil',
+  `trk_dr_pic` varchar(200) DEFAULT '',
+  `trk_dr_license` varchar(200) DEFAULT '',
   `trk_rc` varchar(200) DEFAULT '',
   `trk_insurance` varchar(200) DEFAULT '',
   `trk_road_tax` varchar(200) DEFAULT '',
@@ -348,6 +421,13 @@ CREATE TABLE `trucks` (
   `trk_dr_token` varchar(250) DEFAULT 'Nil',
   `trk_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `trucks`
+--
+
+INSERT INTO `trucks` (`trk_id`, `trk_owner`, `trk_cat`, `trk_cat_type`, `trk_num`, `trk_dr_name`, `trk_dr_phone_code`, `trk_dr_phone`, `trk_otp`, `trk_dr_pic`, `trk_dr_license`, `trk_rc`, `trk_insurance`, `trk_road_tax`, `trk_rto`, `trk_active`, `trk_on_trip`, `trk_dr_token`, `trk_on`) VALUES
+(1, 1, 3, 38, 'WB324', 'Ramu Singh', 91, 9647513679, 718578, 'assets/documents/truck_owners/truck_owner_id_1/WB324/driver_selfie.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/license.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rc.png', 'assets/documents/truck_owners/truck_owner_id_1/WB324/insurance.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/road_tax.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rto.jpg', 0, 0, 'srgswerhgy435y6546y', 1);
 
 -- --------------------------------------------------------
 
@@ -457,6 +537,14 @@ CREATE TABLE `truck_owners` (
   `to_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `truck_owners`
+--
+
+INSERT INTO `truck_owners` (`to_id`, `to_phone_code`, `to_phone`, `to_otp`, `to_name`, `to_bank`, `to_ifsc`, `to_account_on`, `to_subscription_start_date`, `to_subscription_order_id`, `to_subscription_expire_date`, `to_registered`, `to_token`, `to_active`, `to_on`) VALUES
+(1, 91, 7908024082, 459233, 'Rohit Singh', 565498566545874, 'dscv548555', 0, '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '2020-09-24 21:18:34', 'sdafvw435t245fgtqrg4', 1, 1),
+(2, 91, 7273936505, 971249, 'The Graphe', 1234567987654321, 'SBIN12345', 1, '2020-09-25 02:06:51', 'order_Fh08TC5U5X2zFE', '2021-09-25 02:06:51', '2020-09-25 00:51:40', '', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -470,6 +558,14 @@ CREATE TABLE `truck_owner_docs` (
   `to_doc_location` varchar(200) NOT NULL,
   `to_doc_verified` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `truck_owner_docs`
+--
+
+INSERT INTO `truck_owner_docs` (`to_doc_id`, `to_doc_owner_phone`, `to_doc_sr_num`, `to_doc_location`, `to_doc_verified`) VALUES
+(1, 7908024082, 1, 'assets/documents/truck_owners/truck_owner_id_1/pan_card.png', 1),
+(2, 7273936505, 1, 'assets/documents/truck_owners/truck_owner_id_2/pan_card.jpeg', 1);
 
 --
 -- Indexes for dumped tables
@@ -528,6 +624,18 @@ ALTER TABLE `cust_order_truck_pref`
 --
 ALTER TABLE `deliveries`
   ADD PRIMARY KEY (`del_id`);
+
+--
+-- Indexes for table `delivery_trucks`
+--
+ALTER TABLE `delivery_trucks`
+  ADD PRIMARY KEY (`del_trk_id`);
+
+--
+-- Indexes for table `delivery_truck_location`
+--
+ALTER TABLE `delivery_truck_location`
+  ADD PRIMARY KEY (`loc_id`);
 
 --
 -- Indexes for table `material_types`
@@ -609,31 +717,43 @@ ALTER TABLE `customer_docs`
 -- AUTO_INCREMENT for table `cust_order`
 --
 ALTER TABLE `cust_order`
-  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cust_order_destination`
 --
 ALTER TABLE `cust_order_destination`
-  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cust_order_source`
 --
 ALTER TABLE `cust_order_source`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cust_order_truck_pref`
 --
 ALTER TABLE `cust_order_truck_pref`
-  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `deliveries`
 --
 ALTER TABLE `deliveries`
-  MODIFY `del_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `del_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `delivery_trucks`
+--
+ALTER TABLE `delivery_trucks`
+  MODIFY `del_trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `delivery_truck_location`
+--
+ALTER TABLE `delivery_truck_location`
+  MODIFY `loc_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `material_types`
@@ -645,7 +765,7 @@ ALTER TABLE `material_types`
 -- AUTO_INCREMENT for table `subscribed_users`
 --
 ALTER TABLE `subscribed_users`
-  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `subscription_plans`
@@ -657,7 +777,7 @@ ALTER TABLE `subscription_plans`
 -- AUTO_INCREMENT for table `trucks`
 --
 ALTER TABLE `trucks`
-  MODIFY `trk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `truck_cat`
@@ -675,13 +795,13 @@ ALTER TABLE `truck_cat_type`
 -- AUTO_INCREMENT for table `truck_owners`
 --
 ALTER TABLE `truck_owners`
-  MODIFY `to_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `to_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `truck_owner_docs`
 --
 ALTER TABLE `truck_owner_docs`
-  MODIFY `to_doc_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `to_doc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
