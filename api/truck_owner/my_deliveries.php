@@ -3,9 +3,9 @@
 
     header('Content-Type: application/json');
 
-    if(isset($_POST['owner_id']) && isset($_POST['delivery_status']))
+    if(isset($_POST['owner_id']))
     {
-        $sql = "select * from deliveries where to_id = '".$_POST['owner_id']."' and del_status = '".$_POST['delivery_status']."'";
+        $sql = "select * from deliveries where to_id = '".$_POST['owner_id']."'";
         $run = mysqli_query($link, $sql);
         while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
         {
@@ -75,70 +75,55 @@
             $run_cust = mysqli_query($link, $cust);
             $row_cust = mysqli_fetch_array($run_cust, MYSQLI_ASSOC);
 
-            if($row_cust['cu_account_on'] == 1)
-            {
-                $admin_price = ($row1['or_expected_price'] - ($row1['or_expected_price'] * ($row1['or_admin_expected_price']/100)));
+            $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1         ['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'payment mode' => $mode, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
 
-                $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
-                            $unit => $row1['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => "$admin_price", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
-                            'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
-            }
+            $total_price = $row['deal_price'] * $row['quantity'];
             
-            if($row_cust['cu_account_on'] == 2)
-            {
-                $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
-                            $unit => $row1['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => $row1['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
-                            'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
-            }
-
-            if($row['bid_status'] == 0)
-            {
-                $bid_status = ['success' => '0', 'message' => 'On hold'];
-            }
-            elseif($row['bid_status'] == 1)
-            {
-                $bid_status = ['success' => '1', 'message' => 'Accepted by Admin'];
-            }
-            else
-            {
-                $bid_status = ['success' => '1', 'message' => 'Accepted by Shipper'];
-            }
-            
-            $responseData[] = ['bid id' => $row['bid_id'],'my price' => $row['bid_expected_price'], 'bid status' => $bid_status, 'load details' => $load_details];
+            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'total price' => "$total_price", 'delivery status' => $row['del_status'], 'load details' => $load_details];
         }
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);
     }
-    elseif(isset($_POST['bid_id_for_accepting']))
+    elseif(isset($_POST['truck_id']) && isset($_POST['delivery_id']))
     {
-        $update = "update bidding set bid_status = 3 where bid_id = '".$_POST['bid_id_for_accepting']."'";
-        $run = mysqli_query($link, $update);
+        $all_trucks = explode('* ', $_POST['truck_id']);
 
-        if($run)
+        foreach($all_trucks as $trucks)
         {
+            if(!empty($trucks))
+            {
+                mysqli_query($link, "insert into delivery_trucks (del_id, trk_id) values ('".$_POST['delivery_id']."', '$trucks')");
+            }
+        }
 
-            $responseData = ['success' => '1', 'message' => 'Deal accepted'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
-        }
-        else
-        {
-            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
-        }
+        $responseData = ['success' => '1', 'message' => 'Trucks added'];
+        echo json_encode($responseData, JSON_PRETTY_PRINT);
+        http_response_code(200);
     }
-    elseif(isset($_POST['bid_id_for_removing']))
+    elseif(isset($_POST['truck_owner_id']) && isset($_POST['del_id']))
     {
-        $update = "delete from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
+        $sql = "select deliveries.*, delivery_trucks.* from deliveries, delivery_trucks where deliveries.to_id = '".$_POST['truck_owner_id']."' and deliveries.del_id = delivery_trucks.del_id";
+        $get = mysqli_query($link, $sql);
+        while($row = mysqli_fetch_array($get, MYSQLI_ASSOC))
+        {
+            $truck = "select * from trucks where trk_id = '".$row['trk_id']."'";
+            $get_truck = mysqli_query($link, $truck);
+            $row_truck = mysqli_fetch_array($get_truck, MYSQLI_ASSOC);
+
+            $responseData[] = ['del truck id' => $row['del_trk_id'], 'truck id' => $row['trk_id'], 'truck number' => $row_truck['trk_num'], 'driver name' => $row_truck['trk_dr_name'], 'driver phone' => $row_truck['trk_dr_phone']];
+        }
+        echo json_encode($responseData, JSON_PRETTY_PRINT);
+        http_response_code(200);
+    }
+    elseif(isset($_POST['del_id_remove_truck']))
+    {
+        $update = "delete from delivery_trucks where del_trk_id = '".$_POST['del_id_remove_truck']."'";
         $run = mysqli_query($link, $update);
 
         if($run)
         {
 
-            $responseData = ['success' => '1', 'message' => 'Bid removed'];
+            $responseData = ['success' => '1', 'message' => 'Truck removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
         }
@@ -146,7 +131,7 @@
         {
             $responseData = ['success' => '0', 'message' => 'Something went wrong'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
+            http_response_code(400);
         }
     }
     else
