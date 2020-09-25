@@ -111,6 +111,25 @@
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);
     }
+    elseif(isset($_POST['bid_id_for_accepting']))
+    {
+        $update = "update bidding set bid_status = 3 where bid_id = '".$_POST['bid_id_for_accepting']."'";
+        $run = mysqli_query($link, $update);
+
+        if($run)
+        {
+
+            $responseData = ['success' => '1', 'message' => 'Deal accepted'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        {
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+    }
     elseif(isset($_POST['bid_id_for_removing']))
     {
         $update = "delete from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
