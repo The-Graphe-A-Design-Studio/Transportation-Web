@@ -226,7 +226,7 @@
     }
     elseif(isset($_POST['truck_owner_data']) && isset($_POST['load_id']))
     {
-        $query = "select * from truck_owners where to_verified = 1";
+        $query = "select * from truck_owners where to_on = 1";
 
         if(isset($_POST['search_id']))
         {
@@ -260,21 +260,31 @@
                         <th>ID</th>
                         <th>Phone</th>
                         <th>Name</th>
+                        <th>Subscription</th>
                     </thead>
                     <tbody>
             ';
 
             foreach($result as $row)
             {
+                if($row['to_account_on'] == 1)
+                {
+                    $subs = '<span class="btn btn-md btn-success">Yes</span>';
+                }
+                else
+                {
+                    $subs = '<span class="btn btn-md btn-warning">No</span>';
+                }
                 $output .=
                 '
                     <tr>
                         <td data-column="ID">'.$row['to_id'].'</td>
                         <td data-column="Phone">'.$row['to_phone'].'</td>
                         <td data-column="Name">'.$row['to_name'].'</td>
+                        <td data-column="Subscription">'.$subs.'</td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="padding-left: 8px !important">
+                        <td colspan="4" style="padding-left: 8px !important">
                             <form class="set-owner-bid text-left">
                                 <lable><b>Set Bid</b></lable>
                                 <div class="input-group mb-3">
