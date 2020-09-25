@@ -243,9 +243,20 @@
                                     <th>View</th>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                        $truck = "select * from trucks where trk_owner = '$owner'";
-                                        $g_truck = mysqli_query($link, $truck);
+                                <?php
+                                    $truck = "select * from trucks where trk_owner = '$owner'";
+                                    $g_truck = mysqli_query($link, $truck);
+                                    $count = mysqli_num_rows($g_truck);
+                                    if($count == 0)
+                                    {
+                                ?>
+                                    <tr>
+                                        <td colspan="14">No Trucks found</td>
+                                    </tr>
+                                <?php
+                                    }
+                                    else
+                                    {
                                         while($r_truck = mysqli_fetch_array($g_truck, MYSQLI_ASSOC))
                                         {
                                             $cat = "select * from truck_cat where trk_cat_id = '".$r_truck['trk_cat']."'";
@@ -255,91 +266,92 @@
                                             $typ = "select * from truck_cat_type where ty_id = '".$r_truck['trk_cat_type']."'";
                                             $g_typ = mysqli_query($link, $typ);
                                             $r_typ = mysqli_fetch_array($g_typ, MYSQLI_ASSOC);
-                                    ?>
-                                    <tr>
-                                        <td data-column="ID"><?php echo $r_truck['trk_id']; ?></td>
-                                        <td data-column="Category"><?php echo $r_cat['trk_cat_name']; ?></td>
-                                        <td data-column="Type"><?php echo $r_typ['ty_name']; ?></td>
-                                        <td data-column="Number"><?php echo $r_truck['trk_num']; ?></td>
-                                        <td data-column="Driver's Name"><?php echo $r_truck['trk_dr_name']; ?></td>
-                                        <td data-column="Driver's Phone"><?php echo "+".$r_truck['trk_dr_phone_code']." ".$r_truck['trk_dr_phone']; ?></td>
-                                        <td data-column="Driver's Pic">
-                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#dp"><i class="fas fa-eye truck-eye"></i></button>
-                                            <!-- Modal -->
-                                            <div class="mymodal modal fade" id="dp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                <div class="modal-dialog" role="document">
-                                                    <img src="<?php echo $r_truck['trk_dr_pic'];?>" style="max-width: 100%" alt="truck_driver_pic_<?php echo $r_truck['trk_dr_phone']; ?>">
+                                ?>
+                                        <tr>
+                                            <td data-column="ID"><?php echo $r_truck['trk_id']; ?></td>
+                                            <td data-column="Category"><?php echo $r_cat['trk_cat_name']; ?></td>
+                                            <td data-column="Type"><?php echo $r_typ['ty_name']; ?></td>
+                                            <td data-column="Number"><?php echo $r_truck['trk_num']; ?></td>
+                                            <td data-column="Driver's Name"><?php echo $r_truck['trk_dr_name']; ?></td>
+                                            <td data-column="Driver's Phone"><?php echo "+".$r_truck['trk_dr_phone_code']." ".$r_truck['trk_dr_phone']; ?></td>
+                                            <td data-column="Driver's Pic">
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#dp"><i class="fas fa-eye truck-eye"></i></button>
+                                                <!-- Modal -->
+                                                <div class="mymodal modal fade" id="dp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                    <div class="modal-dialog" role="document">
+                                                        <img src="<?php echo $r_truck['trk_dr_pic'];?>" style="max-width: 100%" alt="truck_driver_pic_<?php echo $r_truck['trk_dr_phone']; ?>">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td data-column="Driver's License">
-                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye truck-eye"></i></button>
-                                            <!-- Modal -->
-                                            <div class="mymodal modal fade" id="license" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                <div class="modal-dialog" role="document">
-                                                    <img src="<?php echo $r_truck['trk_dr_license'];?>" style="max-width: 100%" alt="truck_driver_license_<?php echo $r_truck['trk_dr_phone']; ?>">
+                                            </td>
+                                            <td data-column="Driver's License">
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye truck-eye"></i></button>
+                                                <!-- Modal -->
+                                                <div class="mymodal modal fade" id="license" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                    <div class="modal-dialog" role="document">
+                                                        <img src="<?php echo $r_truck['trk_dr_license'];?>" style="max-width: 100%" alt="truck_driver_license_<?php echo $r_truck['trk_dr_phone']; ?>">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td data-column="RC">
-                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rc"><i class="fas fa-eye truck-eye"></i></button>
-                                            <!-- Modal -->
-                                            <div class="mymodal modal fade" id="rc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                <div class="modal-dialog" role="document">
-                                                    <img src="<?php echo $r_truck['trk_rc'];?>" style="max-width: 100%" alt="truck_rc_<?php echo $r_truck['trk_num']; ?>">
+                                            </td>
+                                            <td data-column="RC">
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rc"><i class="fas fa-eye truck-eye"></i></button>
+                                                <!-- Modal -->
+                                                <div class="mymodal modal fade" id="rc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                    <div class="modal-dialog" role="document">
+                                                        <img src="<?php echo $r_truck['trk_rc'];?>" style="max-width: 100%" alt="truck_rc_<?php echo $r_truck['trk_num']; ?>">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td data-column="Insurance">
-                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#insurance"><i class="fas fa-eye truck-eye"></i></button>
-                                            <!-- Modal -->
-                                            <div class="mymodal modal fade" id="insurance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                <div class="modal-dialog" role="document">
-                                                    <img src="<?php echo $r_truck['trk_insurance'];?>" style="max-width: 100%" alt="truck_insurance_<?php echo $r_truck['trk_num']; ?>">
+                                            </td>
+                                            <td data-column="Insurance">
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#insurance"><i class="fas fa-eye truck-eye"></i></button>
+                                                <!-- Modal -->
+                                                <div class="mymodal modal fade" id="insurance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                    <div class="modal-dialog" role="document">
+                                                        <img src="<?php echo $r_truck['trk_insurance'];?>" style="max-width: 100%" alt="truck_insurance_<?php echo $r_truck['trk_num']; ?>">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td data-column="Road Tax">
-                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#road_tax"><i class="fas fa-eye truck-eye"></i></button>
-                                            <!-- Modal -->
-                                            <div class="mymodal modal fade" id="road_tax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                <div class="modal-dialog" role="document">
-                                                    <img src="<?php echo $r_truck['trk_road_tax'];?>" style="max-width: 100%" alt="truck_road_tax_<?php echo $r_truck['trk_num']; ?>">
+                                            </td>
+                                            <td data-column="Road Tax">
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#road_tax"><i class="fas fa-eye truck-eye"></i></button>
+                                                <!-- Modal -->
+                                                <div class="mymodal modal fade" id="road_tax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                    <div class="modal-dialog" role="document">
+                                                        <img src="<?php echo $r_truck['trk_road_tax'];?>" style="max-width: 100%" alt="truck_road_tax_<?php echo $r_truck['trk_num']; ?>">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td data-column="RTO">
-                                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rto"><i class="fas fa-eye truck-eye"></i></button>
-                                            <!-- Modal -->
-                                            <div class="mymodal modal fade" id="rto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                <div class="modal-dialog" role="document">
-                                                    <img src="<?php echo $r_truck['trk_rto'];?>" style="max-width: 100%" alt="truck_rto_<?php echo $r_truck['trk_num']; ?>">
+                                            </td>
+                                            <td data-column="RTO">
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rto"><i class="fas fa-eye truck-eye"></i></button>
+                                                <!-- Modal -->
+                                                <div class="mymodal modal fade" id="rto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                    <div class="modal-dialog" role="document">
+                                                        <img src="<?php echo $r_truck['trk_rto'];?>" style="max-width: 100%" alt="truck_rto_<?php echo $r_truck['trk_num']; ?>">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td data-column="Status">
-                                            <?php
-                                                if($r_truck['trk_active'] == 1)
-                                                {
-                                            ?>
-                                                <span class="btn btn-sm btn-success">Active</span>
-                                            <?php
-                                                }
-                                                else
-                                                {
-                                            ?>
-                                                <span class="btn btn-sm btn-danger">Inactive</span>
-                                            <?php
-                                                }
-                                            ?>
-                                        </td>
-                                        <td data-column="View">
-                                            <a class="btn btn-icon btn-info" href="truck_profile?truck_id=<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye" title="View Details"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php
+                                            </td>
+                                            <td data-column="Status">
+                                                <?php
+                                                    if($r_truck['trk_active'] == 1)
+                                                    {
+                                                ?>
+                                                    <span class="btn btn-sm btn-success">Active</span>
+                                                <?php
+                                                    }
+                                                    else
+                                                    {
+                                                ?>
+                                                    <span class="btn btn-sm btn-danger">Inactive</span>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </td>
+                                            <td data-column="View">
+                                                <a class="btn btn-icon btn-info" href="truck_profile?truck_id=<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye" title="View Details"></i></a>
+                                            </td>
+                                        </tr>
+                                <?php
                                         }
-                                    ?>
+                                    }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
