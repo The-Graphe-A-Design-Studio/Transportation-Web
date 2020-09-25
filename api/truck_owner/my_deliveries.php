@@ -118,38 +118,16 @@
 
         if($run)
         {
-            $sql = "select * from bidding where bid_id = '".$_POST['bid_id_for_accepting']."'";
-            $run_sql = mysqli_query($link, $sql);
-            $row_sql = mysqli_fetch_array($run_sql, MYSQLI_ASSOC);
 
-            $load = "select * from cust_order where or_id = '".$row_sql['load_id']."'";
-            $run_load = mysqli_query($link, $load);
-            $row_load = mysqli_fetch_array($run_load, MYSQLI_ASSOC);
-
-            $insert = "insert into deliveries (or_uni_code, or_id, cu_id, to_id, price_unit, quantity, deal_price) values ('".$row_load['or_uni_code']."', '".$row_load['or_id']."', '".$row_load['or_cust_id']."', '".$row_sql['bid_user_id']."', '".$row_load['or_price_unit']."', '".$row_load['or_quantity']."', '".$row_sql['bid_expected_price']."')";
-            $run_insert = mysqli_query($link, $insert);
-
-            if($run_insert)
-            {
-                $update = "delete from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
-                $run = mysqli_query($link, $update);
-                
-                $responseData = ['success' => '1', 'message' => 'Deal accepted'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(200);
-            }
-            else
-            {
-                $responseData = ['success' => '0', 'message' => 'Something went wrong'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(400);
-            }
+            $responseData = ['success' => '1', 'message' => 'Deal accepted'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'Server error'];
+            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(400);
+            http_response_code(200);
         }
     }
     elseif(isset($_POST['bid_id_for_removing']))
