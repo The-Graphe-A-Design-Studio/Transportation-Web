@@ -12,7 +12,7 @@
     date_default_timezone_set("Asia/Kolkata");
 
     // Checking for older posts
-    $sql = "select * from cust_order";
+    $sql = "select * from cust_order where or_status <> 4 and or_status <> 5";
     $run = mysqli_query($link, $sql);
     while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
     {

@@ -3,9 +3,9 @@
 
     header('Content-Type: application/json');
 
-    if(isset($_POST['owner_id']))
+    if(isset($_POST['owner_id']) && isset($_POST['delivery_status']))
     {
-        $sql = "select * from bidding where bid_user_type = 1 and bid_user_id = '".$_POST['owner_id']."'";
+        $sql = "select * from deliveries where to_id = '".$_POST['owner_id']."' and del_status = '".$_POST['delivery_status']."'";
         $run = mysqli_query($link, $sql);
         while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
         {
