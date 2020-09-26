@@ -44,7 +44,7 @@
         <div class="main-sidebar">
             <aside id="sidebar-wrapper" style="margin-top: 39px">
                 <div class="sidebar-brand">
-                    <a href="./">
+                    <a href="admin">
                         <img src="assets/img/truck-logo-sm.png" alt="diva lounge spa logo" height="85">
                     </a>
                 </div>
@@ -74,7 +74,7 @@
     '
         <footer class="main-footer">
             <div class="footer-left">
-                Copyright &copy; <script>document.write(new Date().getFullYear());</script> Transporter | Developed by <a href="https://thegraphe.com" target="_blank">The Graphē - A Design Studio</a>
+                Copyright &copy; <script>document.write(new Date().getFullYear());</script> <a href="https://truckwale.co.in/" target="_blank">Truck Wale</a> | Developed by <a href="https://thegraphe.com" target="_blank">The Graphē - A Design Studio</a>
             </div>
         </footer>
     ';

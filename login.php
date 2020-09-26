@@ -147,7 +147,7 @@
                      </div>
                   </div>
                   <div class="simple-footer">
-                     Copyright &copy; <script>document.write(new Date().getFullYear());</script> Transporter
+                     Copyright &copy; <script>document.write(new Date().getFullYear());</script> <a href="https://truckwale.co.in/" target="_blank">Truck Wale</a>
                      <br>
                      Developed by <a href="https://thegraphe.com" target="_blank">The Graphē - A Design Studio</a>
                   </div>

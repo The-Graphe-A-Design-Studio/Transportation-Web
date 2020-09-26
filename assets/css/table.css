@@ -4,17 +4,19 @@ table {
     }
 
     th { 
-        background: #ff826e; 
+        background: #221f20; 
         color: #f4f6f9; 
         font-weight: bold;
         text-align: center !important;
+        
         }
 
     td, th { 
-        padding: 8px; 
-        border: 1px solid #ff826e; 
+        padding: 10px 5px 10px 5px; 
+        border: 2px solid #221f200a; 
         text-align: center; 
-        font-size: 0.9em;
+        font-size: 0.9rem;
+        border-radius: 5px;
         }
 
     /* 
@@ -42,7 +44,7 @@ table {
             left: -9999px;
         }
         
-        tr { border: 1px solid #ccc; }
+        tr { border: 1px solid #ccc; border-radius: 3px;}
         
         td { 
             /* Behave  like a "row" */
