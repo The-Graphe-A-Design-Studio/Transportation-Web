@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 25, 2020 at 05:43 PM
+-- Generation Time: Sep 26, 2020 at 07:27 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -146,7 +146,7 @@ CREATE TABLE `cust_order` (
 --
 
 INSERT INTO `cust_order` (`or_id`, `or_cust_id`, `or_uni_code`, `or_product`, `or_price_unit`, `or_quantity`, `or_truck_preference`, `or_expected_price`, `or_admin_expected_price`, `or_payment_mode`, `or_advance_pay`, `or_shipper_on`, `or_active_on`, `or_expire_on`, `or_contact_person_name`, `or_contact_person_phone`, `or_status`) VALUES
-(1, 1, 'iSbTWZy', 'Fruits and Vegetables', 2, 12, 3, '15000.00', '0.00', 2, 60, 2, '2020-09-25 02:02:16', '2020-09-30 00:00:00', 'The Graphe', 7033584816, 1);
+(1, 1, 'iSbTWZy', 'Fruits and Vegetables', 2, 2, 3, '15000.00', '0.00', 2, 60, 2, '2020-09-25 02:02:16', '2020-09-30 00:00:00', 'The Graphe', 7033584816, 1);
 
 -- --------------------------------------------------------
 
@@ -236,7 +236,7 @@ CREATE TABLE `deliveries` (
 --
 
 INSERT INTO `deliveries` (`del_id`, `or_uni_code`, `or_id`, `cu_id`, `to_id`, `price_unit`, `quantity`, `deal_price`, `del_status`) VALUES
-(1, 'iSbTWZy', 1, 1, 2, 2, 12, '20000.00', 0);
+(1, 'iSbTWZy', 1, 1, 2, 2, 2, '20000.00', 0);
 
 -- --------------------------------------------------------
 
@@ -269,6 +269,36 @@ CREATE TABLE `delivery_truck_location` (
   `lat` decimal(30,8) NOT NULL,
   `lng` decimal(30,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `load_payments`
+--
+
+CREATE TABLE `load_payments` (
+  `pay_id` int(11) NOT NULL,
+  `delivery_id` int(11) NOT NULL,
+  `load_id` int(11) NOT NULL,
+  `cu_id` int(11) NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `amount` decimal(30,2) NOT NULL,
+  `razorpay_order_id` varchar(50) NOT NULL,
+  `razorpay_payment_id` varchar(50) NOT NULL,
+  `razorpay_signature` varchar(200) NOT NULL,
+  `payment_date` datetime NOT NULL,
+  `pay_mode` tinyint(4) NOT NULL COMMENT '1 - Advance, 2 - Remaining, 3 - Full',
+  `pay_method` tinyint(4) NOT NULL COMMENT '1 - Online; 2 - Cash',
+  `pay_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Pending; 1 - Paid'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `load_payments`
+--
+
+INSERT INTO `load_payments` (`pay_id`, `delivery_id`, `load_id`, `cu_id`, `to_id`, `amount`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_date`, `pay_mode`, `pay_method`, `pay_status`) VALUES
+(30, 1, 1, 1, 2, '28320.00', '', '', '', '0000-00-00 00:00:00', 1, 0, 0),
+(31, 1, 1, 1, 2, '18880.00', '', '', '', '0000-00-00 00:00:00', 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -343,27 +373,8 @@ CREATE TABLE `subscribed_users` (
 
 INSERT INTO `subscribed_users` (`subs_id`, `subs_user_type`, `subs_user_id`, `subs_amount`, `subs_duration`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_datetime`, `expire_datetime`, `subs_default`) VALUES
 (1, 1, 1, '4000.00', 3, 'order_FeSdIWh54gWuSm', 'pay_FeSdg2wvpJyPLt', '5ceda7415be81001f377b977426f8de2690314117dbfb4a2baa187c4554d6871', '2020-09-18 16:02:47', '2020-12-18 16:02:47', 1),
-(2, 2, 4, '15000.00', 1, 'order_FetTRuX15Stx54', 'pay_FetTxJ3wZOpYT2', '5cfa4da84d46c460a18d4ecf20860bbf1ed580479ad978e2c546bdffbb46b5b7', '2020-09-19 18:18:23', '2020-10-19 18:18:23', 1),
-(3, 2, 4, '15000.00', 1, 'order_FetXCQMuugIJYM', 'pay_FetXaByN1R04P1', '808f090fd747268d69371ecf6ce790304f13f41792667445376fcd0b09abf0db', '2020-09-19 18:21:42', '2020-10-19 18:21:42', 1),
-(4, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:22:50', '2020-12-19 18:22:50', 1),
-(5, 2, 4, '2200.00', 3, 'order_FetaXrYpeivGiw', 'pay_Fetaj11mJcaW0m', '6756e5eee62dcdbd9d81f8b2571730ebb7664a1c66742ce49c328e490e729d9a', '2020-09-19 18:24:41', '2020-12-19 18:24:41', 1),
-(6, 2, 4, '15000.00', 1, 'order_FetcXFvpeY0P0p', 'pay_Fetcj6VzuUDLRk', 'dcb0261693750280ebf71922b93f1955b4cdda65d25d14a0fcbe22a84db7867e', '2020-09-19 18:26:35', '2020-10-19 18:26:35', 1),
-(7, 2, 4, '15000.00', 12, 'order_Feth3Vp0Vt8oph', 'pay_FethFHaE0k7GYc', 'c5894a17009477f2b0bc519611771f483b00fb7f3ecdc21615b21a9a124b4104', '2020-09-19 18:30:51', '2021-09-19 18:30:51', 1),
-(8, 2, 4, '15000.00', 12, 'order_FetideHnp3g0xA', 'pay_Fetir7NbtnWjcr', 'bb9abc114501490c00e04e87b80917b45f154fc407a5503969f244eb06bc05ed', '2020-09-19 18:32:23', '2021-09-19 18:32:23', 1),
-(9, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:34:06', '2020-12-19 18:34:06', 1),
-(10, 2, 4, '15000.00', 12, 'order_FetnAQKQAoUXa2', 'pay_FetnLNbSwuoujm', 'd59c08217e7928a742e2210b041c15db52dc2bb6d52d94281636b4e65e9b391c', '2020-09-19 18:36:37', '2021-09-19 18:36:37', 1),
-(11, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:37:00', '2020-12-19 18:37:00', 1),
-(12, 1, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:37:02', '2020-12-19 18:37:02', 1),
-(13, 2, 4, '2200.00', 3, 'order_FetqsX1IswfmMK', 'pay_Fetr4KbaJrI6dd', 'd6312abdbee86322d8c51b7038c83cd52bf16a48d7f6e4f69b6287965b54526a', '2020-09-19 18:40:11', '2020-12-19 18:40:11', 1),
-(14, 2, 4, '6000.00', 6, 'order_Fets2dnqpAYZYH', 'pay_FetsD5fCuB5y6f', '7d00dadc34b1979a57c38aadcfe1022ea54a1a3880fc0e5ca1d3d1a363df0ae2', '2020-09-19 18:41:13', '2021-03-21 18:41:13', 1),
-(15, 2, 4, '6000.00', 6, 'order_Fetu2Au6EIORY1', 'pay_FetuDsMFoAthZx', '5afe589c36cb1974cc01a6b8adf1a0c6ca312c1c839da8c931039c687362f2f6', '2020-09-19 18:43:08', '2021-03-21 18:43:08', 1),
-(16, 2, 4, '2200.00', 3, 'order_Fetuef6zvM0dNs', 'pay_FetupouaekFMtx', '0fc045d11efebed63e326bc99e0a7d8bc68b0226798b4d24d808b6188fb17c55', '2020-09-19 18:43:42', '2020-12-19 18:43:42', 1),
-(17, 2, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 18:44:11', '2020-12-19 18:44:11', 1),
-(18, 2, 6, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:02:14', '2020-12-19 19:02:14', 1),
-(19, 2, 6, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:03:47', '2020-12-19 19:03:47', 1),
-(20, 2, 22, '4000.00', 3, 'order_hgvu243', '234rfwvw4542', 'fvsrf435t45vg43', '2020-09-19 19:09:15', '2020-12-19 19:09:15', 1),
-(21, 2, 4, '15000.00', 12, 'order_FeuS6DWYyEoc26', 'pay_FeuSIcel04MoLB', '492881082fe25b9ac9a593115029650fdc8d0a2e191af27593d10dcbaec7913a', '2020-09-19 19:15:28', '2021-09-19 19:15:28', 1),
-(22, 2, 2, '15000.00', 12, 'order_Fh08TC5U5X2zFE', 'pay_Fh08YZE2HZROVs', '710a66733f7c0ff296c376ffc4bd6d13adffc8b481dd3c9f5d467ffc86dced3c', '2020-09-25 02:06:51', '2021-09-25 02:06:51', 1);
+(23, 2, 1, '4000.00', 3, 'cdfgnnertdgfbe56hete56h', 'dfgndfgn56hybner5tynb', 'dfgnbdenb4356nhbetyngbynj', '2020-09-26 14:45:30', '2020-11-26 14:45:30', 1),
+(24, 2, 2, '6000.00', 6, 'dxfgbedrtyertb', 'fdgbedrftbetr5bhertb', 'rtberthb5bhtbert', '2020-09-26 14:45:30', '2021-03-26 14:45:30', 1);
 
 -- --------------------------------------------------------
 
@@ -638,6 +649,12 @@ ALTER TABLE `delivery_truck_location`
   ADD PRIMARY KEY (`loc_id`);
 
 --
+-- Indexes for table `load_payments`
+--
+ALTER TABLE `load_payments`
+  ADD PRIMARY KEY (`pay_id`);
+
+--
 -- Indexes for table `material_types`
 --
 ALTER TABLE `material_types`
@@ -756,6 +773,12 @@ ALTER TABLE `delivery_truck_location`
   MODIFY `loc_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `load_payments`
+--
+ALTER TABLE `load_payments`
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
 -- AUTO_INCREMENT for table `material_types`
 --
 ALTER TABLE `material_types`
@@ -765,7 +788,7 @@ ALTER TABLE `material_types`
 -- AUTO_INCREMENT for table `subscribed_users`
 --
 ALTER TABLE `subscribed_users`
-  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `subscription_plans`
