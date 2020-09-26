@@ -23,6 +23,16 @@
             $query .= "";
         }
 
+        if(isset($_POST["going"]))
+        {
+            $query .= " AND cust_order.or_status = '4'";
+        }
+
+        if(isset($_POST["complete"]))
+        {
+            $query .= " AND cust_order.or_status = '5'";
+        }
+
         if(isset($_POST["cancel"]))
         {
             $query .= " AND cust_order.or_status = '3'";
@@ -68,10 +78,16 @@
             $query .= "";
         }
 
+        if(isset($_POST['id']))
+        {
+            $seid = $_POST['id'];
+            $query .= " AND customers.cu_id LIKE '$seid%'";
+        }
+
         if(isset($_POST['search']))
         {
             $se = $_POST['search'];
-            $query .= " AND customers.cu_phone LIKE '$se%' order by cust_order.or_id desc limit 20";
+            $query .= " AND customers.cu_phone LIKE '$se%' order by cust_order.or_id";
         }
 
         // echo $query;
@@ -109,19 +125,27 @@
 
                 if($row['or_status'] == 1)
                 {
-                    $live = "border-left: 3px solid green";
+                    $live = "border-left: 3px solid #008080";
                 }
                 elseif($row['or_status'] == 2)
                 {
-                    $live = "border-left: 3px solid orange";
+                    $live = "border-left: 3px solid #4682B4";
                 }
                 elseif($row['or_status'] == 3)
                 {
-                    $live = "border-left: 3px solid blue";
+                    $live = "border-left: 3px solid #FFA500";
+                }
+                elseif($row['or_status'] == 4)
+                {
+                    $live = "border-left: 3px solid #4169E1";
+                }
+                elseif($row['or_status'] == 5)
+                {
+                    $live = "border-left: 3px solid #4B0082";
                 }
                 else
                 {
-                    $live = "border-left: 3px solid red";
+                    $live = "border-left: 3px solid #FF0000";
                 }
 
                 $output .=
