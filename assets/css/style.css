@@ -61,9 +61,7 @@ a {
 	-webkit-transition: all .5s;
 	-o-transition: all .5s;
 }
-a:hover {
-	color: #000 !important;
-}
+
 a:not(.btn-social-icon):not(.btn-social):not(.page-link) .ion,
 a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fas,
 a:not(.btn-social-icon):not(.btn-social):not(.page-link) .far,
@@ -129,7 +127,7 @@ a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
 .text-danger-all *,
 .text-danger-all *:before,
 .text-danger-all *:after {
-	color: #fc544b !important;
+	color: #ff0d00 !important
 }
 .text-light,
 .text-light-all *,
