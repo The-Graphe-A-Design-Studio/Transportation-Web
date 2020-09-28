@@ -27,7 +27,7 @@
         .card .card-body p img{max-height: 150px;}
     </style>
 </head>
-<body>
+<body <?php echo $body; ?>>
     <div id="app">
         <div class="main-wrapper">
         <?php

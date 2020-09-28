@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
 </head>
-<body>
+<body <?php echo $body; ?>>
     <div id="app">
         <div class="main-wrapper">
         <?php

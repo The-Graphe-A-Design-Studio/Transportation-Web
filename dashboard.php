@@ -11,7 +11,7 @@
     <title>Dashboard | Truck Wale</title>
     <?php echo $head_tags; ?>
 </head>
-<body>
+<body <?php echo $body; ?>>
     <div id="app">
         <div class="main-wrapper">
         <?php

@@ -140,7 +140,7 @@
         }
     </style>
 </head>
-<body>
+<body <?php echo $body; ?>>
     <div id="app">
         <div class="main-wrapper">
         <?php
