@@ -613,7 +613,7 @@
                         </form>
                     ';
                 }
-                else
+                elseif($row['bid_status'] == 1)
                 {
                     $status =
                     '
@@ -622,6 +622,20 @@
                             <input type="text" name="bid_status_value" value="0" hidden>
                             <button class="btn btn-md btn-danger" type="submit">Reject</button>
                         </form>
+                    ';
+                }
+                elseif($row['bid_status'] == 2)
+                {
+                    $status =
+                    '
+                        <span class="btn btn-md btn-info">Accepted by Shipper</span>
+                    ';
+                }
+                else
+                {
+                    $status =
+                    '
+                        <span class="btn btn-md btn-success">Accepted by Owner</span>
                     ';
                 }
 
