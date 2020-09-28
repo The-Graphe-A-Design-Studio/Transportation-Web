@@ -115,7 +115,8 @@
                 }
                 else
                 {
-                    $left_status = ['pay id' => $row_check_left['pay_id'], 'amount' => $row_check_left['amount'], 'status' => $row_check_left['pay_status']];
+                    $advance_status = ['pay id' => '', 'amount' => '', 'status' => ''];
+                    $left_status = ['pay id' => $row_check_full['pay_id'], 'amount' => $row_check_full['amount'], 'status' => $row_check_full['pay_status']];
                 }
 
                 $payment = ['advance amount' => $advance_status, 'remaining amount' => $left_status];
