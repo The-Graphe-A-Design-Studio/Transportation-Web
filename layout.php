@@ -69,15 +69,15 @@
                 </div>
                 <ul class="sidebar-menu">
                     <li class="menu-header" style="margin-bottom: 50px"></li>
-                    <li class="dashboard"><a class="nav-link" href="dashboard"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
-                    <li class="loads"><a class="nav-link" href="loads"><i class="fas fa-newspaper"></i><span>Loads</span></a></li>
-                    <li class="shippers"><a class="nav-link" href="shippers"><i class="fas fa-users"></i><span>Shippers</span></a></li>
-                    <li class="truck_owners"><a class="nav-link" href="truck_owners"><i class="fas fa-crown"></i><span>Truck Owners</span></a></li>
-                    <li class="trucks"><a class="nav-link" href="trucks"><i class="fas fa-truck-monster"></i><span>Trucks</span></a></li>
-                    <li class="truck_cat"><a class="nav-link" href="truck_cat"><i class="fas fa-list"></i><span>Truck Categories</span></a></li>
-                    <li class="material_types"><a class="nav-link" href="material_types"><i class="fas fa-truck-loading"></i><span>Material Types</span></a></li>
-                    <li class="plans"><a class="nav-link" href="subscription_plans"><i class="fas fa-list"></i><span>Subscription Plans</span></a></li>
-                    <li class="subscribed"><a class="nav-link" href="subscribed_users"><i class="fas fa-hands-helping"></i><span>Subscribed Users</span></a></li>
+                    <li class="dashboard"><a class="nav-link" href="dashboard" data-toggle="tooltip" data-placement="right" title="" data-original-title="Dashboard"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
+                    <li class="loads"><a class="nav-link" href="loads" data-toggle="tooltip" data-placement="right" title="" data-original-title="Loads"><i class="fas fa-newspaper"></i><span>Loads</span></a></li>
+                    <li class="shippers"><a class="nav-link" href="shippers" data-toggle="tooltip" data-placement="right" title="" data-original-title="Shippers"><i class="fas fa-users"></i><span>Shippers</span></a></li>
+                    <li class="truck_owners"><a class="nav-link" href="truck_owners" data-toggle="tooltip" data-placement="right" title="" data-original-title="Truck Owners"><i class="fas fa-crown"></i><span>Truck Owners</span></a></li>
+                    <li class="trucks"><a class="nav-link" href="trucks" data-toggle="tooltip" data-placement="right" title="" data-original-title="Trucks"><i class="fas fa-truck-monster"></i><span>Trucks</span></a></li>
+                    <li class="truck_cat"><a class="nav-link" href="truck_cat" data-toggle="tooltip" data-placement="right" title="" data-original-title="Truck Categories"><i class="fas fa-list"></i><span>Truck Categories</span></a></li>
+                    <li class="material_types"><a class="nav-link" href="material_types" data-toggle="tooltip" data-placement="right" title="" data-original-title="Material Types"><i class="fas fa-truck-loading"></i><span>Material Types</span></a></li>
+                    <li class="plans"><a class="nav-link" href="subscription_plans" data-toggle="tooltip" data-placement="right" title="" data-original-title="Subscription Plans"><i class="fas fa-list"></i><span>Subscription Plans</span></a></li>
+                    <li class="subscribed"><a class="nav-link" href="subscribed_users" data-toggle="tooltip" data-placement="right" title="" data-original-title="Subscribed Users"><i class="fas fa-hands-helping"></i><span>Subscribed Users</span></a></li>
                 </ul>
             </aside>
             
