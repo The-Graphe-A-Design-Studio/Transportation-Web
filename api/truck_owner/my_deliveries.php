@@ -144,8 +144,28 @@
 
             $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1         ['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'payment mode' => $mode, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
 
-            
-            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => '18%', 'total price' => "$total_price", 'delivery status' => $row['del_status'], 'load details' => $load_details];
+            $del_t = "select * from delivery_trucks where del_id = '".$row['del_id']."'";
+            $run_del_t = mysqli_query($link, $del_t);
+            $count_del_t = mysqli_num_rows($run_del_t);
+            if($count_del_t == 0)
+            {
+                $delivery_trucks = ['status' => '0', 'message' => 'No trucks added'];
+            }
+            else
+            {
+                while($row_del_t = mysqli_fetch_array($run_del_t, MYSQLI_ASSOC))
+                {
+                    $t_info = "select * from trucks where trk_id = '".$row_del_t['trk_id']."'";
+                    $run_t_info = mysqli_query($link, $t_info);
+                    $row_t_info = mysqli_fetch_array($run_t_info, MYSQLI_ASSOC);
+
+                    $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 'driver phone' => $row_t_info['trk_dr_phone']];
+                }
+
+                $delivery_trucks = ['status' => '1', 'trucks' => $del_trucks];
+            }
+
+            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => '18%', 'total price' => "$total_price", 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
         }
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);
