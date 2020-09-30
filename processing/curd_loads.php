@@ -367,7 +367,7 @@
         {
             $output = 
             '
-                Search Truck Owner
+                No Truck Owner Found
             ';
         }
         

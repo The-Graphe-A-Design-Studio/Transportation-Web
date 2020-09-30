@@ -76,25 +76,25 @@
                         </div>
                         <div class="col-sm-12 col-md-7">
                             <div class="row">
-                                <div class="col-sm-12 col-md-3">
+                                <div class="col-12 col-xs-6 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>Search by ID</label>
                                         <input class="form-control common_selector search_id" placeholder="Search by Load ID" name="id"/>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-3">
+                                <div class="col-12 col-xs-6 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>Search by Number</label>
                                         <input class="form-control common_selector search_bar" placeholder="Search by Shipper Phone Number" name="name"/>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-3">
+                                <div class="col-12 col-xs-6 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>Start Date</label>
                                         <input type="date" placeholder="MM/DD/YYYY" class="form-control common_selector s_date" name="start_date"/>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-3">
+                                <div class="col-12 col-xs-6 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>End Date</label>
                                         <input type="date" placeholder="MM/DD/YYYY" class="form-control common_selector e_date" name="end_date"/>
