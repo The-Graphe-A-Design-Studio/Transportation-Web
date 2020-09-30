@@ -64,39 +64,6 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card" style="margin-bottom: 0 !important">
-                                <div class="card-body text-right">
-                                    <div class="buttons">
-                                        <?php
-                                            if($row['or_status'] == 2 && $row['or_shipper_on'] == 1)
-                                            {
-                                                $load_staus = 
-                                                '
-                                                    <form class="expected">
-                                                        <input type="text" name="load_status" value="1" hidden>
-                                                        <input type="text" name="load_id_to_set" value="'.$row['or_id'].'" hidden>
-                                                        <button type="submit" class="btn btn-lg btn-success">Activate Load</button>
-                                                    </form>
-                                                ';
-                                            }
-                                            elseif($row['or_status'] == 1 && $row['or_shipper_on'] == 1)
-                                            {
-                                                $load_staus = 
-                                                '
-                                                    <form class="expected">
-                                                        <input type="text" name="load_status" value="2" hidden>
-                                                        <input type="text" name="load_id_to_set" value="'.$row['or_id'].'" hidden>
-                                                        <button type="submit" class="btn btn-lg btn-danger">Deactivate Load</button>
-                                                    </form>
-                                                ';
-                                            }
-                                            else
-                                            {
-                                                $load_staus = '';
-                                            }
-                                            echo $load_staus;
-                                        ?>
-                                    </div>
-                                </div>
                                 <div class="card-body">
                                     <ul class="nav nav-tabs" id="loadTab" role="tablist" style="margin-bottom: 2vh">
                                         <li class="nav-item">
@@ -108,6 +75,9 @@
                                     </ul>
                                     <div class="tab-content" id="myTab3Content">
                                         <div class="tab-pane fade show active" id="load_details" role="tabpanel" aria-labelledby="load-details">
+                                            <div class="row">
+                                                
+                                            </div>
                                             <div class="row">
                                                 <div class="col-12 col-lg-4">
                                                     <div class="card profile-widget services-widget">
@@ -200,7 +170,45 @@
                                                     
                                                     echo $admin_expected;
                                                 ?>
-                                                
+                                                <div class="col-12 col-lg-4">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name" style="margin-bottom: 0 !important">
+                                                                <div class="buttons text-center">
+                                                                    <?php
+                                                                        if($row['or_status'] == 2 && $row['or_shipper_on'] == 1)
+                                                                        {
+                                                                            $load_staus = 
+                                                                            '
+                                                                                <form class="expected">
+                                                                                    <input type="text" name="load_status" value="1" hidden>
+                                                                                    <input type="text" name="load_id_to_set" value="'.$row['or_id'].'" hidden>
+                                                                                    <button type="submit" class="btn btn-lg btn-success">Activate Load</button>
+                                                                                </form>
+                                                                            ';
+                                                                        }
+                                                                        elseif($row['or_status'] == 1 && $row['or_shipper_on'] == 1)
+                                                                        {
+                                                                            $load_staus = 
+                                                                            '
+                                                                                <form class="expected">
+                                                                                    <input type="text" name="load_status" value="2" hidden>
+                                                                                    <input type="text" name="load_id_to_set" value="'.$row['or_id'].'" hidden>
+                                                                                    <button type="submit" class="btn btn-lg btn-danger">Deactivate Load</button>
+                                                                                </form>
+                                                                            ';
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            $load_staus = '';
+                                                                        }
+                                                                        echo $load_staus;
+                                                                    ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-12 col-lg-4">
