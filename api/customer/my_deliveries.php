@@ -56,6 +56,8 @@
 
             $total_price = round(($total_price + ($total_price * 0.18)), 2);
 
+            $total_price = round(($total_price + ($total_price * ($row1['or_admin_expected_price']/100))), 2);
+
             if($row1['or_payment_mode'] == 1)
             {
                 $mode = "Negotiable";
@@ -72,8 +74,7 @@
                 $count_check_ad = mysqli_num_rows($run_check_ad);
                 if($count_check_ad == 0)
                 {
-                    $ad = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$advance', 1)";
-                    $run_ad = mysqli_query($link, $ad);
+                    $advance_status = ['pay id' => '', 'amount' => '', 'status' => ''];
                 }
                 else
                 {
@@ -87,8 +88,7 @@
                 $count_check_left = mysqli_num_rows($run_check_left);
                 if($count_check_left == 0)
                 {
-                    $left = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$left', 2)";
-                    $run_left = mysqli_query($link, $left);
+                    $left_status = ['pay id' => '', 'amount' => '', 'status' => ''];
                 }
                 else
                 {
@@ -110,8 +110,8 @@
                 $count_check_full = mysqli_num_rows($run_check_full);
                 if($count_check_full == 0)
                 {
-                    $full = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$full', 3)";
-                    $run_full = mysqli_query($link, $full);
+                    $advance_status = ['pay id' => '', 'amount' => '', 'status' => ''];
+                    $left_status = ['pay id' => '', 'amount' => '', 'status' => ''];
                 }
                 else
                 {
@@ -136,7 +136,7 @@
 
             $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
 
-            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => "18%", 'total amount' => "$total_price", 'payment mode' => $mode, 'delivery status' => $row['del_status'], 'load details' => $load_details];
+            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => "18%", 'service tax' => $row1['or_admin_expected_price'].'%', 'total amount' => "$total_price", 'payment mode' => $mode, 'delivery status' => $row['del_status'], 'load details' => $load_details];
         }
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);

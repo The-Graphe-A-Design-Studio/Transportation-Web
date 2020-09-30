@@ -51,10 +51,12 @@
             if($row['or_price_unit'] == 1)
             {
                 $unit = "tonnage";
+                $per = "ton";
             }
             else
             {
                 $unit = "number of trucks";
+                $per = "truck";
             }
 
             if($row['or_payment_mode'] == 1)
@@ -86,7 +88,7 @@
 
                 $responseData[] = ['post id' => $row['or_id'], 'customer id' => $row['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row['or_product'], 
                             $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => "$admin_price", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'expected price' => "$admin_price / $per", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
             }
             
@@ -94,7 +96,7 @@
             {
                 $responseData[] = ['post id' => $row['or_id'], 'customer id' => $row['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row['or_product'], 
                             $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => $row['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'expected price' => $row['or_expected_price'].' / '.$per, 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
             }
         

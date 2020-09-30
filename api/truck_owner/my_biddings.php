@@ -46,10 +46,12 @@
             if($row1['or_price_unit'] == 1)
             {
                 $unit = "tonnage";
+                $per = "ton";
             }
             else
             {
                 $unit = "number of trucks";
+                $per = "truck";
             }
 
             if($row1['or_payment_mode'] == 1)
@@ -81,7 +83,7 @@
 
                 $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
                             $unit => $row1['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => "$admin_price", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'expected price' => $admin_price.' / '.$per, 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
             }
             
@@ -89,7 +91,7 @@
             {
                 $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
                             $unit => $row1['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => $row1['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'expected price' => $row1['or_expected_price'].' / '.$per, 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
             }
 
@@ -101,12 +103,16 @@
             {
                 $bid_status = ['success' => '1', 'message' => 'Accepted by Admin'];
             }
-            else
+            elseif($row['bid_status'] == 2)
             {
-                $bid_status = ['success' => '1', 'message' => 'Accepted by Shipper'];
+                $bid_status = ['success' => '2', 'message' => 'Accepted by Shipper'];
+            }
+            elseif($row['bid_status'] == 3)
+            {
+                $bid_status = ['success' => '3', 'message' => 'Accepted by Owner'];
             }
             
-            $responseData[] = ['bid id' => $row['bid_id'],'my price' => $row['bid_expected_price'], 'bid status' => $bid_status, 'load details' => $load_details];
+            $responseData[] = ['bid id' => $row['bid_id'],'my price' => $row['bid_expected_price'].' / '.$per, 'bid status' => $bid_status, 'load details' => $load_details];
         }
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);

@@ -62,7 +62,7 @@
             }
             elseif($row1['or_payment_mode'] == 2)
             {
-                $advance = round(($total_price * ($row1['or_advance_pay']/100)), 2);
+                $advance = round((($total_price * ($row1['or_advance_pay']/100)) + ($total_price * ($row1['or_admin_expected_price']/100))), 2);
                 $left = round(($total_price * ((100 - $row1['or_advance_pay'])/100)), 2);
 
                 $check_ad = "select * from load_payments where delivery_id = '".$row['del_id']."' and load_id = '".$row['or_id']."' and cu_id = '".$row['cu_id']."' and
@@ -74,10 +74,13 @@
                 {
                     $ad = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$advance', 1)";
                     $run_ad = mysqli_query($link, $ad);
+
+                    $advance_status = ['pay id' => '', 'amount' => '', 'status' => ''];
                 }
                 else
                 {
-                    $advance_status = ['pay id' => $row_check_ad['pay_id'], 'amount' => $row_check_ad['amount'], 'status' => $row_check_ad['pay_status']];
+                    $without_service_tax = round(($row_check_ad['amount'] - ($total_price * (($row1['or_admin_expected_price'])/100))), 2);
+                    $advance_status = ['pay id' => $row_check_ad['pay_id'], 'amount' => "$without_service_tax", 'status' => $row_check_ad['pay_status']];
                 }
 
                 $check_left = "select * from load_payments where delivery_id = '".$row['del_id']."' and load_id = '".$row['or_id']."' and cu_id = '".$row['cu_id']."' and 
@@ -89,6 +92,8 @@
                 {
                     $left = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$left', 2)";
                     $run_left = mysqli_query($link, $left);
+
+                    $left_status = ['pay id' => '', 'amount' => '', 'status' => ''];
                 }
                 else
                 {
@@ -112,6 +117,9 @@
                 {
                     $full = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$full', 3)";
                     $run_full = mysqli_query($link, $full);
+
+                    $advance_status = ['pay id' => '', 'amount' => '', 'status' => ''];
+                    $left_status = ['pay id' => '', 'amount' => '', 'status' => ''];
                 }
                 else
                 {
@@ -137,7 +145,7 @@
             $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1         ['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'payment mode' => $mode, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
 
             
-            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'total price' => "$total_price", 'delivery status' => $row['del_status'], 'load details' => $load_details];
+            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => '18%', 'total price' => "$total_price", 'delivery status' => $row['del_status'], 'load details' => $load_details];
         }
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);
