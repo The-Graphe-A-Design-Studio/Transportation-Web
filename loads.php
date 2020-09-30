@@ -49,7 +49,7 @@
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector inactive" value="3">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description" style="color: #4682B4; font-weight: bold; font-size: 0.8rem;">On Hold</span>
+                                        <span class="custom-switch-description" style="color: #F426E7; font-weight: bold; font-size: 0.8rem;">On Hold</span>
                                     </label>
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector going" value="3">

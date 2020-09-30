@@ -134,9 +134,6 @@
                 $update = "update cust_order set or_status = 4 where or_id = '".$row_sql['load_id']."'";
                 $run = mysqli_query($link, $update);
 
-                $update = "delete from bidding where bid_id = '".$_POST['bid_id_for_accepting']."'";
-                $run = mysqli_query($link, $update);
-                
                 $responseData = ['success' => '1', 'message' => 'Deal accepted'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);

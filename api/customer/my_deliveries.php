@@ -136,7 +136,7 @@
 
             $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
 
-            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'Tax' => "18%", 'total amount' => "$total_price", 'payment mode' => $mode, 'delivery status' => $row['del_status'], 'load details' => $load_details];
+            $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => "18%", 'total amount' => "$total_price", 'payment mode' => $mode, 'delivery status' => $row['del_status'], 'load details' => $load_details];
         }
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);

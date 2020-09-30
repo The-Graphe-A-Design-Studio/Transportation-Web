@@ -52,17 +52,76 @@
                 $unit = "number of trucks";
             }
 
+            $total_price = round(($row['deal_price'] * $row['quantity']), 2);
+
+            $total_price = round(($total_price + ($total_price * 0.18)), 2);
+
             if($row1['or_payment_mode'] == 1)
             {
                 $mode = "Negotiable";
             }
             elseif($row1['or_payment_mode'] == 2)
             {
-                $mode = $row1['or_advance_pay']."% Advance Pay";
+                $advance = round(($total_price * ($row1['or_advance_pay']/100)), 2);
+                $left = round(($total_price * ((100 - $row1['or_advance_pay'])/100)), 2);
+
+                $check_ad = "select * from load_payments where delivery_id = '".$row['del_id']."' and load_id = '".$row['or_id']."' and cu_id = '".$row['cu_id']."' and
+                            to_id = '".$row['to_id']."' and pay_mode = '1'";
+                $run_check_ad = mysqli_query($link, $check_ad);
+                $row_check_ad = mysqli_fetch_array($run_check_ad, MYSQLI_ASSOC);
+                $count_check_ad = mysqli_num_rows($run_check_ad);
+                if($count_check_ad == 0)
+                {
+                    $ad = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$advance', 1)";
+                    $run_ad = mysqli_query($link, $ad);
+                }
+                else
+                {
+                    $advance_status = ['pay id' => $row_check_ad['pay_id'], 'amount' => $row_check_ad['amount'], 'status' => $row_check_ad['pay_status']];
+                }
+
+                $check_left = "select * from load_payments where delivery_id = '".$row['del_id']."' and load_id = '".$row['or_id']."' and cu_id = '".$row['cu_id']."' and 
+                            to_id = '".$row['to_id']."' and pay_mode = '2'";
+                $run_check_left = mysqli_query($link, $check_left);
+                $row_check_left = mysqli_fetch_array($run_check_left, MYSQLI_ASSOC);
+                $count_check_left = mysqli_num_rows($run_check_left);
+                if($count_check_left == 0)
+                {
+                    $left = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$left', 2)";
+                    $run_left = mysqli_query($link, $left);
+                }
+                else
+                {
+                    $left_status = ['pay id' => $row_check_left['pay_id'], 'amount' => $row_check_left['amount'], 'status' => $row_check_left['pay_status']];
+                }
+
+                $payment = ['advance amount' => $advance_status, 'remaining amount' => $left_status];
+                
+                $mode = ['mode' => '2', 'mode name' => 'Advance Pay', 'payment' => $payment];
             }
             else
             {
-                $mode = "Pay driver after unloading";
+                $full = round($total_price, 2);
+
+                $check_full = "select * from load_payments where delivery_id = '".$row['del_id']."' and load_id = '".$row['or_id']."' and cu_id = '".$row['cu_id']."' and 
+                            to_id = '".$row['to_id']."' and pay_mode = '3'";
+                $run_check_full = mysqli_query($link, $check_full);
+                $row_check_full = mysqli_fetch_array($run_check_full, MYSQLI_ASSOC);
+                $count_check_full = mysqli_num_rows($run_check_full);
+                if($count_check_full == 0)
+                {
+                    $full = "insert into load_payments (delivery_id, load_id, cu_id, to_id, amount, pay_mode) values ('".$row['del_id']."', '".$row['or_id']."', '".$row['cu_id']."', '".$row['to_id']."', '$full', 3)";
+                    $run_full = mysqli_query($link, $full);
+                }
+                else
+                {
+                    $advance_status = ['pay id' => '', 'amount' => '', 'status' => ''];
+                    $left_status = ['pay id' => $row_check_full['pay_id'], 'amount' => $row_check_full['amount'], 'status' => $row_check_full['pay_status']];
+                }
+
+                $payment = ['advance amount' => $advance_status, 'remaining amount' => $left_status];
+
+                $mode = ['mode' => '3', 'mode name' => 'Pay full after unloading', 'payment' => $payment];
             }
 
             $active = date_create($row1['or_active_on']);
@@ -77,7 +136,6 @@
 
             $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1         ['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'payment mode' => $mode, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
 
-            $total_price = $row['deal_price'] * $row['quantity'];
             
             $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'total price' => "$total_price", 'delivery status' => $row['del_status'], 'load details' => $load_details];
         }
