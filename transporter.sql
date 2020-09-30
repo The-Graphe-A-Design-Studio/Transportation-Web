@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2020 at 07:27 PM
+-- Generation Time: Sep 30, 2020 at 07:47 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -32,15 +32,16 @@ CREATE TABLE `admin` (
   `admin_id` int(11) NOT NULL,
   `admin_name` varchar(100) NOT NULL,
   `admin_username` varchar(100) NOT NULL,
-  `admin_pass` varchar(100) NOT NULL
+  `admin_pass` varchar(100) NOT NULL,
+  `admin_toggle` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_username`, `admin_pass`) VALUES
-(1, 'Jason Statham', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_username`, `admin_pass`, `admin_toggle`) VALUES
+(1, 'Jason Statham', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);
 
 -- --------------------------------------------------------
 
@@ -57,6 +58,13 @@ CREATE TABLE `bidding` (
   `bid_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Accepted by Admin; 2 - Accepted by Shipper; 3 - Accepted by Owner',
   `bid_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bidding`
+--
+
+INSERT INTO `bidding` (`bid_id`, `bid_user_type`, `bid_user_id`, `load_id`, `bid_expected_price`, `bid_status`, `bid_default`) VALUES
+(1, 1, 2, 1, '16000.00', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -87,7 +95,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`cu_id`, `cu_phone_code`, `cu_phone`, `cu_otp`, `cu_address_type`, `cu_verified`, `cu_active`, `cu_registered`, `cu_account_on`, `cu_trial_expire_date`, `cu_subscription_start_date`, `cu_subscription_order_id`, `cu_subscription_expire_date`, `cu_token`, `cu_default`) VALUES
-(1, 91, 7908024082, 688264, 2, 1, 1, '2020-09-18 10:54:55', 2, '2020-09-25 11:09:05', '2020-09-18 16:02:47', 'order_FeSdIWh54gWuSm', '2020-12-18 16:02:47', 'doCWIRkvT5CdsqieHNW9Il:APA91bFXhkuNMNMv5ikG5an3UIR1FJydLhRHN3I9fZ3K5Z0y0Jelr_eYDuJsIOUUUeWNCCKQZCu1hPy5lyaGDcRfcGG19orr3qIN0wgCRis9unx6MCNhItqch1MWhPiaq-5H-FeZ7-gl', 1);
+(1, 91, 7908024082, 688264, 2, 1, 1, '2020-09-18 10:54:55', 1, '2020-10-15 11:09:05', '2020-09-18 16:02:47', 'order_FeSdIWh54gWuSm', '2020-12-18 16:02:47', 'doCWIRkvT5CdsqieHNW9Il:APA91bFXhkuNMNMv5ikG5an3UIR1FJydLhRHN3I9fZ3K5Z0y0Jelr_eYDuJsIOUUUeWNCCKQZCu1hPy5lyaGDcRfcGG19orr3qIN0wgCRis9unx6MCNhItqch1MWhPiaq-5H-FeZ7-gl', 1);
 
 -- --------------------------------------------------------
 
@@ -146,7 +154,7 @@ CREATE TABLE `cust_order` (
 --
 
 INSERT INTO `cust_order` (`or_id`, `or_cust_id`, `or_uni_code`, `or_product`, `or_price_unit`, `or_quantity`, `or_truck_preference`, `or_expected_price`, `or_admin_expected_price`, `or_payment_mode`, `or_advance_pay`, `or_shipper_on`, `or_active_on`, `or_expire_on`, `or_contact_person_name`, `or_contact_person_phone`, `or_status`) VALUES
-(1, 1, 'iSbTWZy', 'Fruits and Vegetables', 2, 2, 3, '15000.00', '0.00', 2, 60, 2, '2020-09-25 02:02:16', '2020-09-30 00:00:00', 'The Graphe', 7033584816, 1);
+(1, 1, 'iSbTWZy', 'Fruits and Vegetables', 2, 1, 3, '15000.00', '5.00', 2, 30, 1, '2020-09-25 02:02:16', '2020-10-08 00:00:00', 'The Graphe', 7033584816, 4);
 
 -- --------------------------------------------------------
 
@@ -236,7 +244,7 @@ CREATE TABLE `deliveries` (
 --
 
 INSERT INTO `deliveries` (`del_id`, `or_uni_code`, `or_id`, `cu_id`, `to_id`, `price_unit`, `quantity`, `deal_price`, `del_status`) VALUES
-(1, 'iSbTWZy', 1, 1, 2, 2, 2, '20000.00', 0);
+(2, 'iSbTWZy', 1, 1, 2, 2, 1, '16000.00', 0);
 
 -- --------------------------------------------------------
 
@@ -255,7 +263,7 @@ CREATE TABLE `delivery_trucks` (
 --
 
 INSERT INTO `delivery_trucks` (`del_trk_id`, `del_id`, `trk_id`) VALUES
-(21, 1, 1);
+(1, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -297,8 +305,8 @@ CREATE TABLE `load_payments` (
 --
 
 INSERT INTO `load_payments` (`pay_id`, `delivery_id`, `load_id`, `cu_id`, `to_id`, `amount`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_date`, `pay_mode`, `pay_method`, `pay_status`) VALUES
-(30, 1, 1, 1, 2, '28320.00', '', '', '', '0000-00-00 00:00:00', 1, 0, 0),
-(31, 1, 1, 1, 2, '18880.00', '', '', '', '0000-00-00 00:00:00', 2, 0, 0);
+(9, 2, 1, 1, 2, '6608.00', '', '', '', '0000-00-00 00:00:00', 1, 0, 0),
+(10, 2, 1, 1, 2, '13216.00', '', '', '', '0000-00-00 00:00:00', 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -438,7 +446,7 @@ CREATE TABLE `trucks` (
 --
 
 INSERT INTO `trucks` (`trk_id`, `trk_owner`, `trk_cat`, `trk_cat_type`, `trk_num`, `trk_dr_name`, `trk_dr_phone_code`, `trk_dr_phone`, `trk_otp`, `trk_dr_pic`, `trk_dr_license`, `trk_rc`, `trk_insurance`, `trk_road_tax`, `trk_rto`, `trk_active`, `trk_on_trip`, `trk_dr_token`, `trk_on`) VALUES
-(1, 1, 3, 38, 'WB324', 'Ramu Singh', 91, 9647513679, 718578, 'assets/documents/truck_owners/truck_owner_id_1/WB324/driver_selfie.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/license.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rc.png', 'assets/documents/truck_owners/truck_owner_id_1/WB324/insurance.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/road_tax.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rto.jpg', 0, 0, 'srgswerhgy435y6546y', 1);
+(1, 2, 3, 38, 'WB324', 'Ramu Singh', 91, 9647513679, 718578, 'assets/documents/truck_owners/truck_owner_id_1/WB324/driver_selfie.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/license.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rc.png', 'assets/documents/truck_owners/truck_owner_id_1/WB324/insurance.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/road_tax.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rto.jpg', 0, 0, 'srgswerhgy435y6546y', 1);
 
 -- --------------------------------------------------------
 
@@ -716,7 +724,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bidding`
 --
 ALTER TABLE `bidding`
-  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -758,13 +766,13 @@ ALTER TABLE `cust_order_truck_pref`
 -- AUTO_INCREMENT for table `deliveries`
 --
 ALTER TABLE `deliveries`
-  MODIFY `del_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `del_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `delivery_trucks`
 --
 ALTER TABLE `delivery_trucks`
-  MODIFY `del_trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `del_trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `delivery_truck_location`
@@ -776,7 +784,7 @@ ALTER TABLE `delivery_truck_location`
 -- AUTO_INCREMENT for table `load_payments`
 --
 ALTER TABLE `load_payments`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `material_types`
