@@ -275,54 +275,54 @@
                                             <td data-column="Driver's Name"><?php echo $r_truck['trk_dr_name']; ?></td>
                                             <td data-column="Driver's Phone"><?php echo "+".$r_truck['trk_dr_phone_code']." ".$r_truck['trk_dr_phone']; ?></td>
                                             <td data-column="Driver's Pic">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#dp"><i class="fas fa-eye truck-eye"></i></button>
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#dp<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
                                                 <!-- Modal -->
-                                                <div class="mymodal modal fade" id="dp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                <div class="mymodal modal fade" id="dp<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                     <div class="modal-dialog" role="document">
                                                         <img src="<?php echo $r_truck['trk_dr_pic'];?>" style="max-width: 100%" alt="truck_driver_pic_<?php echo $r_truck['trk_dr_phone']; ?>">
                                                     </div>
                                                 </div>
                                             </td>
                                             <td data-column="Driver's License">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye truck-eye"></i></button>
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
                                                 <!-- Modal -->
-                                                <div class="mymodal modal fade" id="license" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                <div class="mymodal modal fade" id="license<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                     <div class="modal-dialog" role="document">
                                                         <img src="<?php echo $r_truck['trk_dr_license'];?>" style="max-width: 100%" alt="truck_driver_license_<?php echo $r_truck['trk_dr_phone']; ?>">
                                                     </div>
                                                 </div>
                                             </td>
                                             <td data-column="RC">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rc"><i class="fas fa-eye truck-eye"></i></button>
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rc<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
                                                 <!-- Modal -->
-                                                <div class="mymodal modal fade" id="rc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                <div class="mymodal modal fade" id="rc<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                     <div class="modal-dialog" role="document">
                                                         <img src="<?php echo $r_truck['trk_rc'];?>" style="max-width: 100%" alt="truck_rc_<?php echo $r_truck['trk_num']; ?>">
                                                     </div>
                                                 </div>
                                             </td>
                                             <td data-column="Insurance">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#insurance"><i class="fas fa-eye truck-eye"></i></button>
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#insurance<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
                                                 <!-- Modal -->
-                                                <div class="mymodal modal fade" id="insurance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                <div class="mymodal modal fade" id="insurance<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                     <div class="modal-dialog" role="document">
                                                         <img src="<?php echo $r_truck['trk_insurance'];?>" style="max-width: 100%" alt="truck_insurance_<?php echo $r_truck['trk_num']; ?>">
                                                     </div>
                                                 </div>
                                             </td>
                                             <td data-column="Road Tax">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#road_tax"><i class="fas fa-eye truck-eye"></i></button>
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#road_tax<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
                                                 <!-- Modal -->
-                                                <div class="mymodal modal fade" id="road_tax" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                <div class="mymodal modal fade" id="road_tax<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                     <div class="modal-dialog" role="document">
                                                         <img src="<?php echo $r_truck['trk_road_tax'];?>" style="max-width: 100%" alt="truck_road_tax_<?php echo $r_truck['trk_num']; ?>">
                                                     </div>
                                                 </div>
                                             </td>
                                             <td data-column="RTO">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rto"><i class="fas fa-eye truck-eye"></i></button>
+                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rto<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
                                                 <!-- Modal -->
-                                                <div class="mymodal modal fade" id="rto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                                                <div class="mymodal modal fade" id="rto<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                                     <div class="modal-dialog" role="document">
                                                         <img src="<?php echo $r_truck['trk_rto'];?>" style="max-width: 100%" alt="truck_rto_<?php echo $r_truck['trk_num']; ?>">
                                                     </div>
