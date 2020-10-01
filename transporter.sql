@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2020 at 07:03 AM
+-- Generation Time: Oct 01, 2020 at 12:44 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -41,7 +41,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `admin_name`, `admin_username`, `admin_pass`, `admin_toggle`) VALUES
-(1, 'Jason Statham', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1);
+(1, 'Jason Statham', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0);
 
 -- --------------------------------------------------------
 
@@ -255,28 +255,17 @@ INSERT INTO `deliveries` (`del_id`, `or_uni_code`, `or_id`, `cu_id`, `to_id`, `p
 CREATE TABLE `delivery_trucks` (
   `del_trk_id` int(11) NOT NULL,
   `del_id` int(11) NOT NULL,
-  `trk_id` int(11) NOT NULL
+  `trk_id` int(11) NOT NULL,
+  `lat` decimal(30,8) NOT NULL,
+  `lng` decimal(30,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `delivery_trucks`
 --
 
-INSERT INTO `delivery_trucks` (`del_trk_id`, `del_id`, `trk_id`) VALUES
-(1, 2, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `delivery_truck_location`
---
-
-CREATE TABLE `delivery_truck_location` (
-  `loc_id` int(11) NOT NULL,
-  `del_trk_id` int(11) NOT NULL,
-  `lat` decimal(30,8) NOT NULL,
-  `lng` decimal(30,8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `delivery_trucks` (`del_trk_id`, `del_id`, `trk_id`, `lat`, `lng`) VALUES
+(1, 2, 2, '22.62589970', '88.40314380');
 
 -- --------------------------------------------------------
 
@@ -651,12 +640,6 @@ ALTER TABLE `delivery_trucks`
   ADD PRIMARY KEY (`del_trk_id`);
 
 --
--- Indexes for table `delivery_truck_location`
---
-ALTER TABLE `delivery_truck_location`
-  ADD PRIMARY KEY (`loc_id`);
-
---
 -- Indexes for table `load_payments`
 --
 ALTER TABLE `load_payments`
@@ -773,12 +756,6 @@ ALTER TABLE `deliveries`
 --
 ALTER TABLE `delivery_trucks`
   MODIFY `del_trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `delivery_truck_location`
---
-ALTER TABLE `delivery_truck_location`
-  MODIFY `loc_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `load_payments`
