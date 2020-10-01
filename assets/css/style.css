@@ -2879,7 +2879,6 @@ pre {
 	width: 30px;
 	background-color: #0a0a0a;
 	display: inline-block;
-	float: left;
 	margin-top: 6px;
 	margin-right: 15px;
 }
@@ -3565,7 +3564,7 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 	animation-iteration-count: infinite;
 	opacity: 1;
 }
-@-webkit-keyframes pulsate {
+@keyframes pulsate {
 	0% {
 		-webkit-transform: scale(0.1, 0.1);
 		opacity: 0.0;
