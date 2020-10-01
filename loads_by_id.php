@@ -553,33 +553,31 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-12 col-md-6">
-                                                                                        <div class="card card-info">
-                                                                                            <div class="card-body">
-                                                                                                <div id="map<?php echo $row_trucks['trk_id']; ?>" style="height: 300px; width: 100%"></div>
-                                                                                                <script>
-                                                                                                    // Initialize and add the map
-                                                                                                    function initMap() {
-                                                                                                        const map = new google.maps.Map(document.getElementById("map<?php echo $row_trucks['trk_id']; ?>"), {
-                                                                                                        zoom: 14,
-                                                                                                        center: {
-                                                                                                            lat: <?php echo $row_del_trucks['lat']; ?>,
-                                                                                                            lng: <?php echo $row_del_trucks['lng']; ?>,
-                                                                                                        },
-                                                                                                        });
-                                                                                                        const image =
-                                                                                                        "assets/img/delivery_truck.png";
-                                                                                                        const beachMarker = new google.maps.Marker({
-                                                                                                        position: {
-                                                                                                            lat: <?php echo $row_del_trucks['lat']; ?>,
-                                                                                                            lng: <?php echo $row_del_trucks['lng']; ?>,
-                                                                                                        },
-                                                                                                        map,
-                                                                                                        icon: image,
-                                                                                                        });
-                                                                                                    }
-                                                                                                </script>
-                                                                                            </div>
+                                                                                    <div class="col-12 col-md-6" style="padding: 0.1% !important">
+                                                                                        <div class="card">
+                                                                                            <div id="map<?php echo $row_trucks['trk_id']; ?>" style="height: 340px; width: 100%"></div>
+                                                                                            <script>
+                                                                                                // Initialize and add the map
+                                                                                                function initMap() {
+                                                                                                    const map = new google.maps.Map(document.getElementById("map<?php echo $row_trucks['trk_id']; ?>"), {
+                                                                                                    zoom: 14,
+                                                                                                    center: {
+                                                                                                        lat: <?php echo $row_del_trucks['lat']; ?>,
+                                                                                                        lng: <?php echo $row_del_trucks['lng']; ?>,
+                                                                                                    },
+                                                                                                    });
+                                                                                                    const image =
+                                                                                                    "assets/img/delivery_truck.png";
+                                                                                                    const beachMarker = new google.maps.Marker({
+                                                                                                    position: {
+                                                                                                        lat: <?php echo $row_del_trucks['lat']; ?>,
+                                                                                                        lng: <?php echo $row_del_trucks['lng']; ?>,
+                                                                                                    },
+                                                                                                    map,
+                                                                                                    icon: image,
+                                                                                                    });
+                                                                                                }
+                                                                                            </script>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-12 col-md-3">
