@@ -75,7 +75,7 @@
         }
     }
     // Validate selfie
-    if(isset($_POST['trk_id']) && !empty($_FILES['trk_dr_selfie']))
+    elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_dr_selfie']))
     {
         if(!empty($_FILES['trk_dr_selfie']))
         {
