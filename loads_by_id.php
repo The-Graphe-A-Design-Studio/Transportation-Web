@@ -34,23 +34,6 @@
     <title>Loads | Truck Wale</title>
     <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0&callback=initMap&libraries=&v=weekly" defer></script>
-    <script>
-        "use strict";
-
-        let map;
-
-        function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: {
-            lat: -34.397,
-            lng: 150.644,
-            },
-            zoom: 8,
-        });
-        }
-    </script>
     <style>
         .dates{font-size: 1em; font-weight: 600;}
         .profile-widget{margin-top: 0 !important;}
@@ -552,7 +535,7 @@
                                                                             ?>
                                                                             <div class="tab-pane fade" id="truck_id<?php echo $row_trucks['trk_id']; ?>" role="tabpanel" aria-labelledby="truck_num<?php echo $row_trucks['trk_num']; ?>">
                                                                                 <div class="row">
-                                                                                    <div class="col-12 col-md-4">
+                                                                                    <div class="col-12 col-md-3">
                                                                                         <div class="card card-info">
                                                                                             <div class="card-header">
                                                                                                 <h4>Truck's Info</h4>
@@ -570,14 +553,64 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-12 col-md-8">
+                                                                                    <div class="col-12 col-md-6">
+                                                                                        <div class="card card-info">
+                                                                                            <div class="card-body">
+                                                                                                <div id="map<?php echo $row_trucks['trk_id']; ?>" style="height: 300px; width: 100%"></div>
+                                                                                                <script>
+                                                                                                    // Initialize and add the map
+                                                                                                    function initMap() {
+                                                                                                        const map = new google.maps.Map(document.getElementById("map<?php echo $row_trucks['trk_id']; ?>"), {
+                                                                                                        zoom: 14,
+                                                                                                        center: {
+                                                                                                            lat: <?php echo $row_del_trucks['lat']; ?>,
+                                                                                                            lng: <?php echo $row_del_trucks['lng']; ?>,
+                                                                                                        },
+                                                                                                        });
+                                                                                                        const image =
+                                                                                                        "assets/img/delivery_truck.png";
+                                                                                                        const beachMarker = new google.maps.Marker({
+                                                                                                        position: {
+                                                                                                            lat: <?php echo $row_del_trucks['lat']; ?>,
+                                                                                                            lng: <?php echo $row_del_trucks['lng']; ?>,
+                                                                                                        },
+                                                                                                        map,
+                                                                                                        icon: image,
+                                                                                                        });
+                                                                                                    }
+                                                                                                </script>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-12 col-md-3">
                                                                                         <div class="card card-info">
                                                                                             <div class="card-header">
-                                                                                                <h4>Truck's Location</h4>
+                                                                                                <h4>Truck's Last Location</h4>
                                                                                             </div>
-                                                                                            <div class="card-body">
-                                                                                                
-                                                                                                <div id="map"></div>
+                                                                                            <div class="card-body text-center">
+                                                                                                <?php
+                                                                                                    $data = file_get_contents("https://maps.google.com/maps/api/geocode/json?latlng=".$row_del_trucks['lat'].",".$row_del_trucks['lng']."&key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0");
+                                                                                                    $data = json_decode($data);
+                                                                                                    $add_array  = $data->results;
+                                                                                                    $add_array = $add_array[0];
+                                                                                                    $add_array = $add_array->address_components;
+                                                                                                    $state = "Not found"; 
+                                                                                                    $city = "Not found";
+                                                                                                    foreach ($add_array as $key)
+                                                                                                    {
+                                                                                                        if($key->types[0] == 'locality')
+                                                                                                        {
+                                                                                                            $city = $key->long_name;
+                                                                                                        }
+                                                                                                        if($key->types[0] == 'administrative_area_level_1')
+                                                                                                        {
+                                                                                                            $state = $key->long_name;
+                                                                                                        }
+                                                                                                    }
+                                                                                                ?>
+                                                                                                <p class="text-left">
+                                                                                                    <?php echo $city.', '.$state; ?>
+                                                                                                </p>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -618,7 +651,7 @@
     </div>
 
     <?php echo $script_tags; ?>
-
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0&callback=initMap"></script>
     <script type="text/javascript">
         $(".expected").submit(function(e)
 		{
