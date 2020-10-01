@@ -166,7 +166,7 @@
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="pan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                             <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $row['trk_dr_pic']; ?>" style="max-width: 100%" alt="driver_license_<?php echo $row['trk_dr_phone']; ?>">
+                                                <img src="<?php echo $row['trk_dr_license']; ?>" style="max-width: 100%" alt="driver_license_<?php echo $row['trk_dr_phone']; ?>">
                                             </div>
                                         </div>
                                     </div>
