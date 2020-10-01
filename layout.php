@@ -59,12 +59,12 @@
             <aside id="sidebar-wrapper" style="margin-top: 39px">
                 <div class="sidebar-brand">
                     <a href="admin">
-                        <img src="assets/img/truck-logo-sm.png" alt="diva lounge spa logo" height="85">
+                        <img src="assets/img/truck-logo-sm.png" alt="truck wale logo" height="100">
                     </a>
                 </div>
                 <div class="sidebar-brand sidebar-brand-sm">
                     <a href="./">
-                        <img src="assets/img/truck-logo-sm.png" alt="diva lounge spa logo" width="50">
+                        <img src="assets/img/truck-logo-sm.png" alt="truck wale logo" width="60">
                     </a>
                 </div>
                 <ul class="sidebar-menu">

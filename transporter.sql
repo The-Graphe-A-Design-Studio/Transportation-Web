@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2020 at 07:47 PM
+-- Generation Time: Oct 01, 2020 at 07:03 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -437,7 +437,7 @@ CREATE TABLE `trucks` (
   `trk_rto` varchar(200) DEFAULT '',
   `trk_active` tinyint(4) NOT NULL DEFAULT 0,
   `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 : On Trip; 0 : Not on Trip',
-  `trk_dr_token` varchar(250) DEFAULT 'Nil',
+  `trk_dr_token` varchar(250) DEFAULT NULL,
   `trk_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -446,7 +446,7 @@ CREATE TABLE `trucks` (
 --
 
 INSERT INTO `trucks` (`trk_id`, `trk_owner`, `trk_cat`, `trk_cat_type`, `trk_num`, `trk_dr_name`, `trk_dr_phone_code`, `trk_dr_phone`, `trk_otp`, `trk_dr_pic`, `trk_dr_license`, `trk_rc`, `trk_insurance`, `trk_road_tax`, `trk_rto`, `trk_active`, `trk_on_trip`, `trk_dr_token`, `trk_on`) VALUES
-(1, 2, 3, 38, 'WB324', 'Ramu Singh', 91, 9647513679, 718578, 'assets/documents/truck_owners/truck_owner_id_1/WB324/driver_selfie.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/license.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rc.png', 'assets/documents/truck_owners/truck_owner_id_1/WB324/insurance.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/road_tax.jpg', 'assets/documents/truck_owners/truck_owner_id_1/WB324/rto.jpg', 0, 0, 'srgswerhgy435y6546y', 1);
+(2, 2, 3, 37, 'WB324', 'Ramesh', 91, 7908024082, 0, 'assets/documents/truck_owners/truck_owner_id_2/WB324/driver_selfie.jpg', 'assets/documents/truck_owners/truck_owner_id_2/WB324/license.png', 'assets/documents/truck_owners/truck_owner_id_2/WB324/rc.png', 'assets/documents/truck_owners/truck_owner_id_2/WB324/insurance.jpg', 'assets/documents/truck_owners/truck_owner_id_2/WB324/road_tax.jpg', 'assets/documents/truck_owners/truck_owner_id_2/WB324/rto.jpg', 0, 0, '', 1);
 
 -- --------------------------------------------------------
 
@@ -584,7 +584,7 @@ CREATE TABLE `truck_owner_docs` (
 
 INSERT INTO `truck_owner_docs` (`to_doc_id`, `to_doc_owner_phone`, `to_doc_sr_num`, `to_doc_location`, `to_doc_verified`) VALUES
 (1, 7908024082, 1, 'assets/documents/truck_owners/truck_owner_id_1/pan_card.png', 1),
-(2, 7273936505, 1, 'assets/documents/truck_owners/truck_owner_id_2/pan_card.jpeg', 1);
+(2, 7273936505, 1, 'assets/documents/truck_owners/truck_owner_id_2/pan_card.jpg', 1);
 
 --
 -- Indexes for dumped tables
@@ -808,7 +808,7 @@ ALTER TABLE `subscription_plans`
 -- AUTO_INCREMENT for table `trucks`
 --
 ALTER TABLE `trucks`
-  MODIFY `trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `truck_cat`

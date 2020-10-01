@@ -114,7 +114,7 @@
                <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                   <a href="">
                      <div class="login-brand">
-                        <img src="assets/img/truck-logo-sm.png" alt="diva lounge spa logo" width="100">
+                        <img src="assets/img/truck-logo-sm.png" alt="truck wale logo" width="150">
                      </div>
                   </a>
                   <div class="card card-primary">
