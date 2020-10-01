@@ -34,10 +34,28 @@
     <title>Loads | Truck Wale</title>
     <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0&callback=initMap&libraries=&v=weekly" defer></script>
+    <script>
+        "use strict";
+
+        let map;
+
+        function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: {
+            lat: -34.397,
+            lng: 150.644,
+            },
+            zoom: 8,
+        });
+        }
+    </script>
     <style>
         .dates{font-size: 1em; font-weight: 600;}
         .profile-widget{margin-top: 0 !important;}
         .activity-icon i{line-height: unset !important; font-size: 1em;}
+        #map{height: 100%}
     </style>
 </head>
 <body <?php echo $body; ?>>
@@ -71,6 +89,12 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="load-bidding" data-toggle="tab" href="#load_bidding" role="tab" aria-controls="bidding" aria-selected="false">Bidding</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="delivery-trucks" data-toggle="tab" href="#delivery_trucks" role="tab" aria-controls="delivery trucks" aria-selected="false">Delivery Trucks</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="payment-details" data-toggle="tab" href="#payment_details" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="myTab3Content">
@@ -434,6 +458,148 @@
                                                             <div class="filter_bid_data"></div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="delivery_trucks" role="tabpanel" aria-labelledby="delivery-trucks">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <?php
+                                                        $del = "select * from deliveries where or_id = '".$row['or_id']."' and cu_id = '".$row_cust['cu_id']."'";
+                                                        $run_del = mysqli_query($link, $del);
+                                                        $row_del = mysqli_fetch_array($run_del, MYSQLI_ASSOC);
+
+                                                        $owner = "select * from truck_owners where to_id = '".$row_del['to_id']."'";
+                                                        $run_owner = mysqli_query($link, $owner);
+                                                        $row_owner = mysqli_fetch_array($run_owner, MYSQLI_ASSOC);
+                                                    ?>
+                                                    <div class="section-body">
+                                                        <h2 class="section-title" style="margin: 10px 0 10px 0 !important">Truck Provider/Owner ID <?php echo $row_owner['to_id']; ?></h2>
+                                                        <div class="row">
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body" style="padding: 1vh !important;">
+                                                                        <b>Name : </b><a href="truck_owner_profile?owner_id=<?php echo $row_owner['to_id']; ?>"><?php echo $row_owner['to_name']; ?></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body" style="padding: 1vh !important;">
+                                                                        <b>Phone : </b>+<?php echo $row_owner['to_phone_code'].' '.$row_owner['to_phone']; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="section-body">
+                                                        <h2 class="section-title" style="margin: 10px 0 10px 0 !important">Trucks</h2>
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-12 col-sm-12 col-md-2">
+                                                                        <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
+                                                                            <?php
+                                                                                $del_trucks = "select * from delivery_trucks where del_id = '".$row_del['del_id']."'";
+                                                                                $run_del_trucks = mysqli_query($link, $del_trucks);
+                                                                                $count_del_trucks = mysqli_num_rows($run_del_trucks);
+                                                                                if($count_del_trucks == 0)
+                                                                                {
+                                                                            ?>
+                                                                                <li class="nav-item active">
+                                                                                    No Trucks Found
+                                                                                </li>
+                                                                            <?php
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    while($row_del_trucks = mysqli_fetch_array($run_del_trucks, MYSQLI_ASSOC))
+                                                                                    {
+                                                                                        $trucks = "select * from trucks where trk_id = '".$row_del_trucks['trk_id']."'";
+                                                                                        $run_trucks = mysqli_query($link, $trucks);
+                                                                                        $row_trucks = mysqli_fetch_array($run_trucks, MYSQLI_ASSOC);
+                                                                            ?>
+                                                                                        <li class="nav-item">
+                                                                                            <a class="nav-link" id="truck_num<?php echo $row_trucks['trk_num']; ?>" data-toggle="tab" href="#truck_id<?php echo $row_trucks['trk_id']; ?>" role="tab" aria-controls="<?php echo $row_trucks['trk_num']; ?>" aria-selected="true"><?php echo $row_trucks['trk_num']; ?></a>
+                                                                                        </li>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-12 col-sm-12 col-md-10">
+                                                                        <div class="tab-content no-padding" id="myTab2Content">
+                                                                            <?php
+                                                                                $del_trucks = "select * from delivery_trucks where del_id = '".$row_del['del_id']."'";
+                                                                                $run_del_trucks = mysqli_query($link, $del_trucks);
+                                                                                $count_del_trucks = mysqli_num_rows($run_del_trucks);
+                                                                                if($count_del_trucks == 0)
+                                                                                {
+                                                                            ?>
+                                                                                <div class="tab-pane fade active show" id="contact4" role="tabpanel" aria-labelledby="contact-tab4">
+                                                                                    No Trucks assigned by owner
+                                                                                </div>
+                                                                            <?php
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    while($row_del_trucks = mysqli_fetch_array($run_del_trucks, MYSQLI_ASSOC))
+                                                                                    {
+                                                                                        $trucks = "select * from trucks where trk_id = '".$row_del_trucks['trk_id']."'";
+                                                                                        $run_trucks = mysqli_query($link, $trucks);
+                                                                                        $row_trucks = mysqli_fetch_array($run_trucks, MYSQLI_ASSOC);
+                                                                            ?>
+                                                                            <div class="tab-pane fade" id="truck_id<?php echo $row_trucks['trk_id']; ?>" role="tabpanel" aria-labelledby="truck_num<?php echo $row_trucks['trk_num']; ?>">
+                                                                                <div class="row">
+                                                                                    <div class="col-12 col-md-4">
+                                                                                        <div class="card card-info">
+                                                                                            <div class="card-header">
+                                                                                                <h4>Truck's Info</h4>
+                                                                                            </div>
+                                                                                            <div class="card-body text-center">
+                                                                                                <img src="<?php echo $row_trucks['trk_dr_pic']; ?>" height="100" alt="driver_image_<?php echo $row_trucks['trk_num']; ?>">
+                                                                                                <br><br>
+                                                                                                <p class="text-left">
+                                                                                                    <b>Driver Name : </b><?php echo $row_trucks['trk_dr_name']; ?>
+                                                                                                    <br>
+                                                                                                    <b>Driver Phone : </b>+<?php echo $row_trucks['trk_dr_phone_code'].' '.$row_trucks['trk_dr_phone']; ?>
+                                                                                                    <br>
+                                                                                                    <b>Truck Number : </b><a href="truck_profile?truck_id=<?php echo $row_trucks['trk_id']; ?>"><?php echo $row_trucks['trk_num']; ?></a>
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-12 col-md-8">
+                                                                                        <div class="card card-info">
+                                                                                            <div class="card-header">
+                                                                                                <h4>Truck's Location</h4>
+                                                                                            </div>
+                                                                                            <div class="card-body">
+                                                                                                
+                                                                                                <div id="map"></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <?php
+                                                                                    }
+                                                                                }
+                                                                            ?>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="payment_details" role="tabpanel" aria-labelledby="payment-details">
+                                            <div class="row">
+                                                <div class="col-12">
+
                                                 </div>
                                             </div>
                                         </div>
