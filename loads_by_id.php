@@ -338,14 +338,17 @@
                                                                     if($row['or_payment_mode'] == 1)
                                                                     {
                                                                         echo "Negotiable";
+                                                                        $deal_pay_mode = "Negotiable";
                                                                     }
                                                                     elseif($row['or_payment_mode'] == 2)
                                                                     {
                                                                         echo "Advance Pay ( ".$row['or_advance_pay']."% )";
+                                                                        $deal_pay_mode = "Advance Pay ( ".$row['or_advance_pay']."% )";
                                                                     }
                                                                     else
                                                                     {
                                                                         echo "Full pay after unloading";
+                                                                        $deal_pay_mode = "Full pay after unloading";
                                                                     }
                                                                 ?>
                                                             </div>
@@ -630,7 +633,150 @@
                                         <div class="tab-pane fade" id="payment_details" role="tabpanel" aria-labelledby="payment-details">
                                             <div class="row">
                                                 <div class="col-12">
+                                                    <div class="section-body">
+                                                        <h2 class="section-title" style="margin: 10px 0 10px 0 !important">Payment Details</h2>
+                                                        <div class="row">
+                                                            <?php
+                                                                $del_data = "select cust_order.*, deliveries.* from cust_order, deliveries where cust_order.or_id = '$load' and cust_order.or_id = deliveries.or_id";
+                                                                $run_del_data = mysqli_query($link, $del_data);
+                                                                $row_del_data = mysqli_fetch_array($run_del_data, MYSQLI_ASSOC);
+                                                            ?>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <b>Deal Price : </b><?php echo $row_del_data['deal_price'].' / '.$show_unit; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <b>Quantity : </b><?php echo $row_del_data['or_quantity']; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <b>Pay Mode : </b><?php echo $deal_pay_mode; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <b>Commission : </b><?php echo $row_del_data['or_admin_expected_price'].'%'; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <b>GST : </b>18%
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <b>Total Price (without Commission): </b>
+                                                                        <?php
+                                                                            $total_price1 = round(($row_del_data['deal_price'] * $row_del_data['or_quantity']), 2);
+                                                                            $total_price1 = round(($total_price1 + ($total_price1 * (18/100))), 2);
 
+                                                                            echo "Rs. ".round($total_price1, 2);
+                                                                        ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <b>Total Price (with Commission): </b>
+                                                                        <?php
+                                                                            $total_price = round(($row_del_data['deal_price'] * $row_del_data['or_quantity']), 2);
+                                                                            $total_price = round(($total_price + ($total_price * ($row_del_data['or_admin_expected_price']/100))), 2);
+                                                                            $total_price = round(($total_price + ($total_price * (18/100))), 2);
+
+                                                                            echo "Rs. ".round($total_price, 2);
+                                                                        ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="section-body">
+                                                        <h2 class="section-title" style="margin: 10px 0 10px 0 !important">Payment Status</h2>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <table>
+                                                                    <thead>
+                                                                        <th>ID</th>
+                                                                        <th>Order ID</th>
+                                                                        <th>Payment ID</th>
+                                                                        <th>Amount</th>
+                                                                        <th>Date</th>
+                                                                        <th>Mode</th>
+                                                                        <th>Method</th>
+                                                                        <th>Status</th>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <?php
+                                                                            $pay_data = "select * from load_payments where delivery_id = '".$row_del_data['del_id']."'";
+                                                                            $run_pay_data = mysqli_query($link, $pay_data);
+                                                                            while($row_pay_data = mysqli_fetch_array($run_pay_data, MYSQLI_ASSOC))
+                                                                            {
+                                                                                if($row_pay_data['pay_mode'] == 1)
+                                                                                {
+                                                                                    $mode = "Advance";
+                                                                                }
+                                                                                elseif($row_pay_data['pay_mode'] == 2)
+                                                                                {
+                                                                                    $mode = "Remaining";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $mode = "Full after unloading";
+                                                                                }
+
+                                                                                if($row_pay_data['pay_method'] == 1)
+                                                                                {
+                                                                                    $method = "Online";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $method = "Cash";
+                                                                                }
+
+                                                                                if($row_pay_data['pay_status'] == 1)
+                                                                                {
+                                                                                    $status = "<span class='btn btn-md btn-success'>Paid</span>";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $status = "<span class='btn btn-md btn-warning'>Pending</span>";
+                                                                                }
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td data-column="ID"><?php echo $row_pay_data['pay_id']; ?></td>
+                                                                            <td data-column="Order ID"><?php echo $row_pay_data['razorpay_order_id']; ?></td>
+                                                                            <td data-column="Payment ID"><?php echo $row_pay_data['razorpay_payment_id']; ?></td>
+                                                                            <td data-column="Amount"><?php echo $row_pay_data['amount']; ?></td>
+                                                                            <td data-column="Date"><?php echo date_format(date_create($row_pay_data['payment_date']), 'd M, Y h:i A'); ?></td>
+                                                                            <td data-column="Mode"><?php echo $mode; ?></td>
+                                                                            <td data-column="Method"><?php echo $method; ?></td>
+                                                                            <td data-column="Status"><?php echo $status; ?></td>
+                                                                        </tr>
+                                                                        <?php
+                                                                            }
+                                                                        ?>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
