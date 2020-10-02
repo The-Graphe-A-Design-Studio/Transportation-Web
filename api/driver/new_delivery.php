@@ -151,16 +151,38 @@
 
         if($otp_row['otp'] === $_POST['otp'])
         {
-            $active = "update delivery_trucks set otp_verified = 1 where del_trk_id = '".$_POST['del_trk_id']."' and otp = '".$_POST['otp']."'";
+            $active = "update delivery_trucks set otp_verified = 1, status = 1 where del_trk_id = '".$_POST['del_trk_id']."' and otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
-            $responseData = ['success' => '1', 'message' => 'OTP Verified'];
+            $responseData = ['success' => '1', 'message' => 'OTP Verified. Trip started'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
         }
         else
         { 
             $responseData = ['success' => '0', 'message' => 'Wrong OTP'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(400);
+        }
+    }
+    elseif(isset($_POST['del_trk_id']))
+    {
+        $otp_sql = "select * from delivery_trucks where del_trk_id = '".$_POST['del_trk_id']."'";
+        $otp_run = mysqli_query($link, $otp_sql);
+        $otp_row = mysqli_fetch_array($otp_run, MYSQLI_ASSOC);
+
+        if($otp_row['status'] == 1)
+        {
+            $active = "update delivery_trucks set status = 2 where del_trk_id = '".$_POST['del_trk_id']."'";
+            $set = mysqli_query($link, $active);
+
+            $responseData = ['success' => '1', 'message' => 'Trip Completed'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+            http_response_code(200);
+        }
+        else
+        { 
+            $responseData = ['success' => '0', 'message' => 'Server error'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(400);
         }
