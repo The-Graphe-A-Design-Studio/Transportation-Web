@@ -107,8 +107,8 @@
                         <td data-column="ID">'.$row['plan_id'].'</td>
                         <td data-column="Name">'.$row['plan_name'].'</td>
                         <td data-column="Type">'.$type.'</td>
-                        <td data-column="Original Price">₹ '.$row['plan_original_price'].'</td>
-                        <td data-column="Selling Price">₹ '.$row['plan_selling_price'].'</td>
+                        <td data-column="Original Price">Rs. '.$row['plan_original_price'].'</td>
+                        <td data-column="Selling Price">Rs. '.$row['plan_selling_price'].'</td>
                         <td data-column="Discount">'.round($discount, 2).'%</td>
                         <td data-column="Duration">'.$row['plan_duration'].' Months</td>
                         <td data-column="Edit">

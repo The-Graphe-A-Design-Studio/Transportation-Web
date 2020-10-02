@@ -92,7 +92,7 @@
                         <td data-column="User Type">'.$user.'</td>
                         <td data-column="Order ID">'.$row['razorpay_order_id'].'</td>
                         <td data-column="Payment ID">'.$row['razorpay_payment_id'].'</td>
-                        <td data-column="Amount">₹ '.round($row['subs_amount'], 2).'</td>
+                        <td data-column="Amount">Rs. '.round($row['subs_amount'], 2).'</td>
                         <td data-column="Duration">'.$row['subs_duration'].' Months</td>
                         <td data-column="Start On">'.date_format(date_create($row['payment_datetime']), 'd M, Y h:i A').'</td>
                         <td data-column="Expire On">'.date_format(date_create($row['expire_datetime']), 'd M, Y h:i A').'</td>
