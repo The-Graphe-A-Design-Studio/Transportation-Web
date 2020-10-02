@@ -119,10 +119,23 @@
                     $truck_count = $truck_row['count(*)'];
                 }
 
+                $service = "select count(*) from deliveries where to_id = '".$row['to_id']."' and del_status = 2";
+                $service_get = mysqli_query($link, $service);
+                $service_row = mysqli_fetch_array($service_get, MYSQLI_ASSOC);
+
+                if($service_row['count(*)'] == 0)
+                {
+                    $service_count = "Nothing";
+                }
+                else
+                {
+                    $service_count = $service_row['count(*)'];
+                }
+
                 $output .=
                 '
                         <td data-column="Trucks Own">'.$truck_count.'</td>
-                        <td data-column="Total Service"></td>
+                        <td data-column="Total Service">'.$service_count.'</td>
                         <td data-column="View">
                             <a class="btn btn-icon btn-info" href="truck_owner_profile?owner_id='.$row['to_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
