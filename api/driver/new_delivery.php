@@ -136,7 +136,7 @@
             $run_cust = mysqli_query($link, $cust);
             $row_cust = mysqli_fetch_array($run_cust, MYSQLI_ASSOC);
 
-            $responseData = ['delivery truck id' => $row['del_trk_id'], 'post id' => $row_load['or_id'], 'customer id' => $row_load['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 
+            $responseData = ['delivery id of truck' => $row['del_trk_id'], 'post id' => $row_load['or_id'], 'customer id' => $row_load['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 
                             'material' => $row_load['or_product'], 'payment mode' => $mode, 'contact person' => $row_load['or_contact_person_name'], 
                             'contact person phone' => $row_load['or_contact_person_phone']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
