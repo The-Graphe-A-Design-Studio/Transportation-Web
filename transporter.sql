@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2020 at 11:58 AM
+-- Generation Time: Oct 02, 2020 at 05:52 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -59,6 +59,13 @@ CREATE TABLE `bidding` (
   `bid_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `bidding`
+--
+
+INSERT INTO `bidding` (`bid_id`, `bid_user_type`, `bid_user_id`, `load_id`, `bid_expected_price`, `bid_status`, `bid_default`) VALUES
+(1, 1, 1, 1, '16500.00', 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -88,7 +95,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`cu_id`, `cu_phone_code`, `cu_phone`, `cu_otp`, `cu_address_type`, `cu_verified`, `cu_active`, `cu_registered`, `cu_account_on`, `cu_trial_expire_date`, `cu_subscription_start_date`, `cu_subscription_order_id`, `cu_subscription_expire_date`, `cu_token`, `cu_default`) VALUES
-(1, 91, 7908024082, 688264, 2, 1, 1, '2020-09-18 10:54:55', 1, '2020-10-15 11:09:05', '2020-09-18 16:02:47', 'order_FeSdIWh54gWuSm', '2020-12-18 16:02:47', 'doCWIRkvT5CdsqieHNW9Il:APA91bFXhkuNMNMv5ikG5an3UIR1FJydLhRHN3I9fZ3K5Z0y0Jelr_eYDuJsIOUUUeWNCCKQZCu1hPy5lyaGDcRfcGG19orr3qIN0wgCRis9unx6MCNhItqch1MWhPiaq-5H-FeZ7-gl', 1);
+(1, 91, 7908024082, 599448, 2, 1, 1, '2020-09-18 10:54:55', 1, '2020-10-15 11:09:05', '2020-09-18 16:02:47', 'order_FeSdIWh54gWuSm', '2020-12-18 16:02:47', 'dGhWVQxKQUGIjB8UlzQTH6:APA91bEFnC4PJvVmL4KwYSSpenxc14iOLzeiBStzCYqYcLoZP9KdBhSAgVjvQOpYFw855Y5TFKkve6h72yjmx89BOU7dSa6flETkj4xNA7bwwg3FFNN9HVulnB0LmL6YfF3-y3XcLApg', 1);
 
 -- --------------------------------------------------------
 
@@ -142,6 +149,13 @@ CREATE TABLE `cust_order` (
   `or_status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Active; 0 - Expired; 2 - Hold; 3 - Cancelled; 4 - On Going; 5 -Completed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cust_order`
+--
+
+INSERT INTO `cust_order` (`or_id`, `or_cust_id`, `or_uni_code`, `or_product`, `or_price_unit`, `or_quantity`, `or_truck_preference`, `or_expected_price`, `or_admin_expected_price`, `or_payment_mode`, `or_advance_pay`, `or_shipper_on`, `or_active_on`, `or_expire_on`, `or_contact_person_name`, `or_contact_person_phone`, `or_status`) VALUES
+(1, 1, 'GuWGNpj', 'Electronics or Consumer Durable', 2, 2, 2, '15000.00', 3, 2, 30, 1, '2020-10-02 17:47:23', '2020-10-15 17:45:00', 'The Graphe', 7908024082, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -157,6 +171,13 @@ CREATE TABLE `cust_order_destination` (
   `or_des_city` varchar(100) NOT NULL,
   `or_des_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cust_order_destination`
+--
+
+INSERT INTO `cust_order_destination` (`des_id`, `or_uni_code`, `or_destination`, `or_des_lat`, `or_des_lng`, `or_des_city`, `or_des_state`) VALUES
+(1, 'GuWGNpj', 'Patna Airport - Ashiana More Road, Khajpura, Patna, Bihar, India', '25.59935820', '85.08432460', 'Patna', 'Bihar');
 
 -- --------------------------------------------------------
 
@@ -174,6 +195,14 @@ CREATE TABLE `cust_order_source` (
   `or_source_state` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `cust_order_source`
+--
+
+INSERT INTO `cust_order_source` (`so_id`, `or_uni_code`, `or_source`, `or_source_lat`, `or_source_lng`, `or_source_city`, `or_source_state`) VALUES
+(1, 'GuWGNpj', 'DUM DUM ROAD, Seven Tanks Lane, Biswanath Colony, Satpukur, Kolkata, West Bengal, India', '22.61889840', '88.38805360', 'Kolkata', 'West Bengal'),
+(2, 'GuWGNpj', 'Asansol Station Bus Stand Road, Munshi Bazar, Asansol, West Bengal, India', '23.68978420', '86.97632440', 'Asansol', 'West Bengal');
+
 -- --------------------------------------------------------
 
 --
@@ -185,6 +214,14 @@ CREATE TABLE `cust_order_truck_pref` (
   `or_uni_code` varchar(20) NOT NULL,
   `or_truck_pref_type` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cust_order_truck_pref`
+--
+
+INSERT INTO `cust_order_truck_pref` (`pref_id`, `or_uni_code`, `or_truck_pref_type`) VALUES
+(1, 'GuWGNpj', 26),
+(2, 'GuWGNpj', 27);
 
 -- --------------------------------------------------------
 
@@ -204,6 +241,13 @@ CREATE TABLE `deliveries` (
   `del_status` tinyint(4) NOT NULL COMMENT '0 - Set, 1 - Started, 2 - End'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `deliveries`
+--
+
+INSERT INTO `deliveries` (`del_id`, `or_uni_code`, `or_id`, `cu_id`, `to_id`, `price_unit`, `quantity`, `deal_price`, `del_status`) VALUES
+(1, 'GuWGNpj', 1, 1, 1, 2, 2, '16500.00', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -215,7 +259,10 @@ CREATE TABLE `delivery_trucks` (
   `del_id` int(11) NOT NULL,
   `trk_id` int(11) NOT NULL,
   `lat` decimal(30,8) NOT NULL,
-  `lng` decimal(30,8) NOT NULL
+  `lng` decimal(30,8) NOT NULL,
+  `otp` mediumint(9) NOT NULL DEFAULT 0,
+  `otp_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - No; 1 - Yes',
+  `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Started; 2 - Reached'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -239,6 +286,14 @@ CREATE TABLE `load_payments` (
   `pay_method` tinyint(4) NOT NULL COMMENT '1 - Online; 2 - Cash',
   `pay_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Pending; 1 - Paid'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `load_payments`
+--
+
+INSERT INTO `load_payments` (`pay_id`, `delivery_id`, `load_id`, `cu_id`, `to_id`, `amount`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_date`, `pay_mode`, `pay_method`, `pay_status`) VALUES
+(1, 1, 1, 1, 1, '12850.20', '', '', '', '0000-00-00 00:00:00', 1, 0, 0),
+(2, 1, 1, 1, 1, '27258.00', '', '', '', '0000-00-00 00:00:00', 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -307,6 +362,13 @@ CREATE TABLE `subscribed_users` (
   `subs_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `subscribed_users`
+--
+
+INSERT INTO `subscribed_users` (`subs_id`, `subs_user_type`, `subs_user_id`, `subs_amount`, `subs_duration`, `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_datetime`, `expire_datetime`, `subs_default`) VALUES
+(1, 2, 1, '2200.00', 3, 'order_Fk20TDvegPNTr9', 'pay_Fk21d8q7DUyU7H', '0d88cbc16748fcefd4f59477f4ff6656f37b5b78a9462ced0c76c95e5730f5b6', '2020-10-02 17:54:52', '2021-01-01 17:54:52', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -359,10 +421,18 @@ CREATE TABLE `trucks` (
   `trk_road_tax` varchar(200) DEFAULT '',
   `trk_rto` varchar(200) DEFAULT '',
   `trk_active` tinyint(4) NOT NULL DEFAULT 0,
-  `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 : On Trip; 0 : Not on Trip',
+  `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 : Not on Trip; 1 : Set for Trip; 2 - On Trip',
   `trk_dr_token` varchar(250) DEFAULT NULL,
   `trk_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `trucks`
+--
+
+INSERT INTO `trucks` (`trk_id`, `trk_owner`, `trk_cat`, `trk_cat_type`, `trk_num`, `trk_dr_name`, `trk_dr_phone_code`, `trk_dr_phone`, `trk_otp`, `trk_dr_pic`, `trk_dr_license`, `trk_rc`, `trk_insurance`, `trk_road_tax`, `trk_rto`, `trk_active`, `trk_on_trip`, `trk_dr_token`, `trk_on`) VALUES
+(1, 1, 2, 27, 'Getw672u', 'Raju', 91, 7908024082, 847673, 'assets/documents/truck_owners/truck_owner_id_1/Getw672u/driver_selfie.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Getw672u/license.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Getw672u/rc.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Getw672u/insurance.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Getw672u/road_tax.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Getw672u/rto.jpg', 1, 0, ' ', 1),
+(2, 1, 2, 26, 'Gs82v8727', 'Bheem', 91, 9647513679, 817875, 'assets/documents/truck_owners/truck_owner_id_1/Gs82v8727/driver_selfie.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Gs82v8727/license.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Gs82v8727/rc.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Gs82v8727/insurance.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Gs82v8727/road_tax.jpg', 'assets/documents/truck_owners/truck_owner_id_1/Gs82v8727/rto.jpg', 1, 1, ' ', 1);
 
 -- --------------------------------------------------------
 
@@ -472,6 +542,13 @@ CREATE TABLE `truck_owners` (
   `to_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `truck_owners`
+--
+
+INSERT INTO `truck_owners` (`to_id`, `to_phone_code`, `to_phone`, `to_otp`, `to_name`, `to_bank`, `to_ifsc`, `to_account_on`, `to_subscription_start_date`, `to_subscription_order_id`, `to_subscription_expire_date`, `to_registered`, `to_token`, `to_active`, `to_on`) VALUES
+(1, 91, 9647513679, 995765, 'Rohit Singh', 23654977856, 'RTY736E7', 1, '2020-10-02 17:54:52', 'order_Fk20TDvegPNTr9', '2021-01-01 17:54:52', '2020-10-02 17:51:34', '', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -485,6 +562,13 @@ CREATE TABLE `truck_owner_docs` (
   `to_doc_location` varchar(200) NOT NULL,
   `to_doc_verified` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `truck_owner_docs`
+--
+
+INSERT INTO `truck_owner_docs` (`to_doc_id`, `to_doc_owner_phone`, `to_doc_sr_num`, `to_doc_location`, `to_doc_verified`) VALUES
+(1, 9647513679, 1, 'assets/documents/truck_owners/truck_owner_id_1/pan_card.jpeg', 1);
 
 --
 -- Indexes for dumped tables
@@ -618,7 +702,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `bidding`
 --
 ALTER TABLE `bidding`
-  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -636,43 +720,43 @@ ALTER TABLE `customer_docs`
 -- AUTO_INCREMENT for table `cust_order`
 --
 ALTER TABLE `cust_order`
-  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `or_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cust_order_destination`
 --
 ALTER TABLE `cust_order_destination`
-  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `des_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cust_order_source`
 --
 ALTER TABLE `cust_order_source`
-  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `so_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cust_order_truck_pref`
 --
 ALTER TABLE `cust_order_truck_pref`
-  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `deliveries`
 --
 ALTER TABLE `deliveries`
-  MODIFY `del_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `del_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `delivery_trucks`
 --
 ALTER TABLE `delivery_trucks`
-  MODIFY `del_trk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `del_trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `load_payments`
 --
 ALTER TABLE `load_payments`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `material_types`
@@ -684,7 +768,7 @@ ALTER TABLE `material_types`
 -- AUTO_INCREMENT for table `subscribed_users`
 --
 ALTER TABLE `subscribed_users`
-  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `subs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `subscription_plans`
@@ -696,7 +780,7 @@ ALTER TABLE `subscription_plans`
 -- AUTO_INCREMENT for table `trucks`
 --
 ALTER TABLE `trucks`
-  MODIFY `trk_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `trk_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `truck_cat`
@@ -714,13 +798,13 @@ ALTER TABLE `truck_cat_type`
 -- AUTO_INCREMENT for table `truck_owners`
 --
 ALTER TABLE `truck_owners`
-  MODIFY `to_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `to_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `truck_owner_docs`
 --
 ALTER TABLE `truck_owner_docs`
-  MODIFY `to_doc_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `to_doc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
