@@ -90,31 +90,5 @@
     {
         mysqli_query($link, "update deliveries set del_status = 1 where del_id = '".$row1['del_id']."'");
     }
-
-    // Checking for delivery completed or not
-    $sql11 = "select * from deliveries where del_status = 1";
-    $run11 = mysqli_query($link, $sql11);
-    $row11 = mysqli_fetch_array($run11, MYSQLI_ASSOC);
-
-    $i1 = 0;
-    $sql21 = "select * from delivery_trucks where del_id = '".$row11['del_id']."'";
-    $run21 = mysqli_query($link, $sql21);
-    $count21 = mysqli_num_rows($run21);
-    while($row21 = mysqli_fetch_array($run21, MYSQLI_ASSOC))
-    {
-        if($row21['status'] == 2)
-        {
-            $i1++;
-        }
-    }
-
-    if($count21 == $i1)
-    {
-        mysqli_query($link, "update deliveries set del_status = 2 where del_id = '".$row11['del_id']."'");
-    }
-
-    if($row11['del_status'] == 2)
-    {
-        mysqli_query($link, "update cust_order set or_status = 5 where or_id = '".$row11['or_id']."'");
-    }
+    
 ?>
