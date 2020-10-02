@@ -59,7 +59,7 @@
             <aside id="sidebar-wrapper" style="margin-top: 39px">
                 <div class="sidebar-brand">
                     <a href="admin">
-                        <img src="assets/img/truck-logo-sm.png" alt="truck wale logo" height="100">
+                        <img src="assets/img/truck-logo-sm.png" alt="truck wale logo" height="90">
                     </a>
                 </div>
                 <div class="sidebar-brand sidebar-brand-sm">
