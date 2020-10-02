@@ -68,23 +68,4 @@
             mysqli_query($link, $update);
         }
     }
-
-    // Checking for deliveries
-    $sql1 = "select * from deliveries where del_status = 0";
-    $run1 = mysqli_query($link, $sql1);
-    $row1 = mysqli_fetch_array($run1, MYSQLI_ASSOC);
-    
-    $del_truck = "select * from delivery_trcuks where del_id = '".$row1['del_id']."'";
-    $del_truck_run = mysqli_query($link, $del_truck);
-    $del_truck_row = mysqli_fetch_array($del_truck_run, MYSQLI_ASSOC);
-    {
-        $date_now = new DateTime(date('Y-m-d H:i:s'));
-        $date2    = new DateTime(date_format(date_create($row['or_expire_on']), 'Y-m-d H:i:s'));
-
-        if($date_now > $date2)
-        {
-            $update = "update cust_order set or_status = 0 where or_id = '".$row['or_id']."'";
-            mysqli_query($link, $update);
-        }
-    }
 ?>
