@@ -90,5 +90,14 @@
     {
         mysqli_query($link, "update deliveries set del_status = 1 where del_id = '".$row1['del_id']."'");
     }
-    
+
+    // Checking for delivery completed or not
+    $sql11 = "select * from deliveries where del_status = 2";
+    $run11 = mysqli_query($link, $sql11);
+    $row11 = mysqli_fetch_array($run11, MYSQLI_ASSOC);
+
+    if($row11['del_status'] == 2)
+    {
+        mysqli_query($link, "update cust_order set or_status = 5 where or_id = '".$row11['or_id']."'");
+    }
 ?>

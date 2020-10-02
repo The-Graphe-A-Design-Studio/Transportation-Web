@@ -198,11 +198,6 @@
                 mysqli_query($link, "update deliveries set del_status = 2 where del_id = '".$row11['del_id']."'");
             }
 
-            if($row11['del_status'] == 2)
-            {
-                mysqli_query($link, "update cust_order set or_status = 5 where or_id = '".$row11['or_id']."'");
-            }
-
             $responseData = ['success' => '1', 'message' => 'Trip Completed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
