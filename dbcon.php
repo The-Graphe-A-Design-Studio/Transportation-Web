@@ -68,4 +68,49 @@
             mysqli_query($link, $update);
         }
     }
+
+    // Checking for delivery started or not
+    $sql1 = "select * from deliveries where del_status = 0";
+    $run1 = mysqli_query($link, $sql1);
+    $row1 = mysqli_fetch_array($run1, MYSQLI_ASSOC);
+
+    $i = 0;
+    $sql2 = "select * from delivery_trucks where del_id = '".$row1['del_id']."'";
+    $run2 = mysqli_query($link, $sql2);
+    $count2 = mysqli_num_rows($run2);
+    while($row2 = mysqli_fetch_array($run2, MYSQLI_ASSOC))
+    {
+        if($row2['status'] == 1)
+        {
+            $i++;
+        }
+    }
+
+    if($count2 == $i)
+    {
+        mysqli_query($link, "update deliveries set del_status = 1 where del_id = '".$row1['del_id']."'");
+    }
+
+
+    // Checking for delivery completed or not
+    $sql11 = "select * from deliveries where del_status = 1";
+    $run11 = mysqli_query($link, $sql11);
+    $row11 = mysqli_fetch_array($run11, MYSQLI_ASSOC);
+
+    $i1 = 0;
+    $sql21 = "select * from delivery_trucks where del_id = '".$row11['del_id']."'";
+    $run21 = mysqli_query($link, $sql21);
+    $count21 = mysqli_num_rows($run21);
+    while($row21 = mysqli_fetch_array($run21, MYSQLI_ASSOC))
+    {
+        if($row21['status'] == 2)
+        {
+            $i1++;
+        }
+    }
+
+    if($count21 == $i1)
+    {
+        mysqli_query($link, "update deliveries set del_status = 2 where del_id = '".$row11['del_id']."'");
+    }
 ?>
