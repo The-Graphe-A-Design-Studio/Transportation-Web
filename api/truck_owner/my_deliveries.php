@@ -179,6 +179,7 @@
             if(!empty($trucks))
             {
                 mysqli_query($link, "insert into delivery_trucks (del_id, trk_id) values ('".$_POST['delivery_id']."', '$trucks')");
+                mysqli_query($link, "update trucks set trk_on_trip = 1 where trk_id = '$trucks')");
             }
         }
 
@@ -208,7 +209,7 @@
 
         if($run)
         {
-
+            mysqli_query($link, "update trucks set trk_on_trip = 0 where trk_id = '".$_POST['del_id_remove_truck']."')");
             $responseData = ['success' => '1', 'message' => 'Truck removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
