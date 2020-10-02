@@ -151,7 +151,16 @@
                     $run_t_info = mysqli_query($link, $t_info);
                     $row_t_info = mysqli_fetch_array($run_t_info, MYSQLI_ASSOC);
 
-                    $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 'driver phone' => $row_t_info['trk_dr_phone']];
+                    if($row_del_t['otp_verified'] == 1)
+                    {
+                        $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
+                                    'driver phone' => $row_t_info['trk_dr_phone'], 'status' => $row_del_t['status']];
+                    }
+                    else
+                    {
+                        $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
+                                    'driver phone' => $row_t_info['trk_dr_phone'], 'otp' => $row_del_t['otp']];
+                    }                    
                 }
 
                 $delivery_trucks = ['status' => '1', 'trucks' => $del_trucks];
