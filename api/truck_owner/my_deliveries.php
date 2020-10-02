@@ -142,7 +142,7 @@
             $run_cust = mysqli_query($link, $cust);
             $row_cust = mysqli_fetch_array($run_cust, MYSQLI_ASSOC);
 
-            $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1         ['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'payment mode' => $mode, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
+            $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 'payment mode' => $mode, 'contact person' => $row1['or_contact_person_name'], 'contact person phone' => $row1['or_contact_person_phone']];
 
             $del_t = "select * from delivery_trucks where del_id = '".$row['del_id']."'";
             $run_del_t = mysqli_query($link, $del_t);
@@ -178,7 +178,8 @@
         {
             if(!empty($trucks))
             {
-                mysqli_query($link, "insert into delivery_trucks (del_id, trk_id) values ('".$_POST['delivery_id']."', '$trucks')");
+                $otp = rand(100000, 999999);
+                mysqli_query($link, "insert into delivery_trucks (del_id, trk_id, otp) values ('".$_POST['delivery_id']."', '$trucks', '$otp')");
                 mysqli_query($link, "update trucks set trk_on_trip = 1 where trk_id = '$trucks')");
             }
         }
