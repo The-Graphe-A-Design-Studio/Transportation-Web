@@ -83,25 +83,20 @@
             function filter_data()
             {
                 var action = 'fetch_data';
-                var branch = branchw();
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
+                var search = get_key('search_bar');
                 $.ajax({
                     url:"processing/curd_subscribed_users.php",
                     method:"POST",
-                    data:{action:action, branch:branch, active:active, inactive:inactive, nothing:nothing},
+                    data:{action:action, search:search, active:active, inactive:inactive, nothing:nothing},
                     success:function(data){
                         $('.filter_data').html(data);
                     }
                 });
             }
 
-            function branchw()
-            {
-                return $('.branch').find('option:selected').val();
-            }
-            
             function get_filter(class_name)
             {
                 var filter = [];
@@ -111,13 +106,18 @@
                 return filter;
             }
 
+            function get_key()
+            {
+                return $('.search_bar').val();
+            }
+
             $('#refresh_btn').on('click',function(){
                 filter_data();
             });
 
             $('.common_selector').on('keyup change',function(){
                 filter_data();
-                branchw();
+                get_key();
             });
 
             $(".subscribed").addClass("active");

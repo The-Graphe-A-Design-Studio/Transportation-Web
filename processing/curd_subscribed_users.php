@@ -23,6 +23,12 @@
             $query .= "";
         }
 
+        if(isset($_POST['search']))
+        {
+            $se = $_POST['search'];
+            $query .= " AND razorpay_order_id LIKE '$se%' order by subs_id desc";
+        }
+
         $statement = $connect->prepare($query);
         $statement->execute();
         $result = $statement->fetchAll();
