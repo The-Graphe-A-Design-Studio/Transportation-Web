@@ -28,7 +28,7 @@
                                 <div class="card-stats-title">
                                     Order Statistics -
                                     <div class="dropdown d-inline">
-                                        <select name="" id="" class="common_selector month" style="border: none; text-align: center;">
+                                        <select class="common_selector month" style="border: none; text-align: center;">
                                             <option value="">Month</option>
                                             <option value="01">January</option>
                                             <option value="02">February</option>
@@ -45,8 +45,8 @@
                                         </select>
                                     </div>
                                     <div class="dropdown d-inline">
-                                        <select name="" id="" class="common_selector year" style="border: none; text-align: center;">
-                                            <option value="<?php echo date('Y'); ?>"><?php echo date('Y'); ?></option>
+                                        <select class="common_selector year" style="border: none; text-align: center;">
+                                            <option value="<?php echo date('Y'); ?>"><?php echo date('Y'); ?></option>                                            
                                             <option value="<?php echo date('Y') - 4; ?>"><?php echo date('Y') - 4; ?></option>
                                             <option value="<?php echo date('Y') - 3; ?>"><?php echo date('Y') - 3; ?></option>
                                             <option value="<?php echo date('Y') - 2; ?>"><?php echo date('Y') - 2; ?></option>
