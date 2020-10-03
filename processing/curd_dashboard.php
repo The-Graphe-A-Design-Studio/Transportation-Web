@@ -61,6 +61,18 @@
                     <div class="card-stats-item-count" id="complete">'.$count_complete.'</div>
                     <div class="card-stats-item-label">Completed</div>
                 </div>
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="complete">'.$count_complete.'</div>
+                    <div class="card-stats-item-label">Completed</div>
+                </div>
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="complete">'.$count_complete.'</div>
+                    <div class="card-stats-item-label">Completed</div>
+                </div>
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="complete">'.$count_complete.'</div>
+                    <div class="card-stats-item-label">Completed</div>
+                </div>
             ';
         }
         else
