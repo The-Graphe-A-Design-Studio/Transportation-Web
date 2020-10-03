@@ -72,23 +72,27 @@
     // Checking for delivery started or not
     $sql1 = "select * from deliveries where del_status = 0";
     $run1 = mysqli_query($link, $sql1);
-    $row1 = mysqli_fetch_array($run1, MYSQLI_ASSOC);
-
-    $i = 0;
-    $sql2 = "select * from delivery_trucks where del_id = '".$row1['del_id']."'";
-    $run2 = mysqli_query($link, $sql2);
-    $count2 = mysqli_num_rows($run2);
-    while($row2 = mysqli_fetch_array($run2, MYSQLI_ASSOC))
+    $count1 = mysqli_num_rows($run1);
+    if($count1 != 0)
     {
-        if($row2['status'] == 1)
+        $row1 = mysqli_fetch_array($run1, MYSQLI_ASSOC);
+
+        $i = 0;
+        $sql2 = "select * from delivery_trucks where del_id = '".$row1['del_id']."'";
+        $run2 = mysqli_query($link, $sql2);
+        $count2 = mysqli_num_rows($run2);
+        while($row2 = mysqli_fetch_array($run2, MYSQLI_ASSOC))
         {
-            $i++;
+            if($row2['status'] == 1)
+            {
+                $i++;
+            }
         }
-    }
 
-    if($count2 == $i)
-    {
-        mysqli_query($link, "update deliveries set del_status = 1 where del_id = '".$row1['del_id']."'");
+        if($count2 == $i)
+        {
+            mysqli_query($link, "update deliveries set del_status = 1 where del_id = '".$row1['del_id']."'");
+        }
     }
 
     // Checking for delivery completed or not
