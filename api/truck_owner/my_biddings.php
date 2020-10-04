@@ -160,10 +160,33 @@
     }
     elseif(isset($_POST['bid_id_for_removing']))
     {
-        $update = "delete from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
-        $run = mysqli_query($link, $update);
+        $bid = "select * from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
+        $run_bid = mysqli_query($link, $bid);
+        $row_bid = mysqli_assoc($run_bid, MYSQLI_ASSOC);
 
-        if($run)
+        $del = "select * from deliveries where to_id = '".$row_bid['bid_user_id']."' and or_id = '".$row_bid['load_id']."'";
+        $run_del = mysqli_query($link, $del);
+        $row_del = mysqli_assoc($run_del, MYSQLI_ASSOC);
+
+        $load = "select * from cust_order where and or_id = '".$row_bid['load_id']."'";
+        $run_load = mysqli_query($link, $load);
+        $row_load = mysqli_assoc($run_load, MYSQLI_ASSOC);
+
+        if($row_load['or_status'] == 4)
+        {
+            mysqli_query($link, "update cust_order set or_status = 1 where or_id = '".$row_bid['load_id']."'");
+        }
+
+        $del_truck = "delete from delivery_trucks where del_id = '".$row_del['del_id']."'";
+        $run_del_truck = mysqli_query($link, $del_truck);
+
+        $del = "delete from deliveries where to_id = '".$row_bid['bid_user_id']."' and or_id = '".$row_bid['load_id']."'";
+        $run_del = mysqli_query($link, $del);
+
+        $bid_delete = "delete from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
+        $run_delete = mysqli_query($link, $bid_delete);
+
+        if($run_delete)
         {
 
             $responseData = ['success' => '1', 'message' => 'Bid removed'];
