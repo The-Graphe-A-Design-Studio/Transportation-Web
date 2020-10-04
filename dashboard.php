@@ -172,10 +172,13 @@
                     data:{action:action, year:year, month:month},
                     success:function(data){
                         $('.filter_data').html(data);
+                        var active = $("#active").text();
                         var hold = $("#hold").text();
                         var going = $("#going").text();
                         var complete = $("#complete").text();
-                        var total = parseInt(hold) + parseInt(going) + parseInt(complete);
+                        var expire = $("#expire").text();
+                        var cancel = $("#cancel").text();
+                        var total = parseInt(hold) + parseInt(going) + parseInt(complete) + parseInt(active) + parseInt(expire) + parseInt(cancel);
                         $('.total').html(total);
                     }
                 });
