@@ -87,7 +87,7 @@
         if(isset($_POST['search']))
         {
             $se = $_POST['search'];
-            $query .= " AND customers.cu_phone LIKE '$se%' order by cust_order.or_id";
+            $query .= " AND customers.cu_phone LIKE '$se%' order by cust_order.or_id desc";
         }
 
         // echo $query;
