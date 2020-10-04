@@ -162,15 +162,15 @@
     {
         $bid = "select * from bidding where bid_id = '".$_POST['bid_id_for_removing']."'";
         $run_bid = mysqli_query($link, $bid);
-        $row_bid = mysqli_assoc($run_bid, MYSQLI_ASSOC);
+        $row_bid = mysqli_fetch_array($run_bid, MYSQLI_ASSOC);
 
         $del = "select * from deliveries where to_id = '".$row_bid['bid_user_id']."' and or_id = '".$row_bid['load_id']."'";
         $run_del = mysqli_query($link, $del);
-        $row_del = mysqli_assoc($run_del, MYSQLI_ASSOC);
+        $row_del = mysqli_fetch_array($run_del, MYSQLI_ASSOC);
 
-        $load = "select * from cust_order where and or_id = '".$row_bid['load_id']."'";
+        $load = "select * from cust_order where or_id = '".$row_bid['load_id']."'";
         $run_load = mysqli_query($link, $load);
-        $row_load = mysqli_assoc($run_load, MYSQLI_ASSOC);
+        $row_load = mysqli_fetch_array($run_load, MYSQLI_ASSOC);
 
         if($row_load['or_status'] == 4)
         {

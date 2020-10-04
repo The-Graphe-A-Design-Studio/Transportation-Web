@@ -6,7 +6,7 @@
     if(isset($_POST['driver_phone']))
     {
         $sql = "select trucks.*, delivery_trucks.* from trucks, delivery_trucks where trucks.trk_dr_phone = '".$_POST['driver_phone']."' and 
-                trucks.trk_id = delivery_trucks.trk_id and trucks.trk_on_trip = 1";
+                trucks.trk_id = delivery_trucks.trk_id and trucks.trk_on_trip = 1 or trucks.trk_on_trip = 2";
         $run = mysqli_query($link, $sql);
         $count = mysqli_num_rows($run);
         
@@ -154,6 +154,9 @@
             $active = "update delivery_trucks set otp_verified = 1, status = 1 where del_trk_id = '".$_POST['del_trk_id']."' and otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
+            $truck = "update trucks set trk_on_trip = 2 where trk_id = '".$_POST['truck_id']."'";
+            $set = mysqli_query($link, $truck);
+
             $responseData = ['success' => '1', 'message' => 'OTP Verified. Trip started'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
@@ -175,6 +178,9 @@
         {
             $active = "update delivery_trucks set status = 2 where del_trk_id = '".$_POST['del_trk_id']."'";
             $set = mysqli_query($link, $active);
+
+            $truck = "update trucks set trk_on_trip = 0 where trk_id = '".$otp_row['trk_id']."'";
+            $set = mysqli_query($link, $truck);
 
             // Checking for delivery completed or not
             $sql11 = "select * from deliveries where del_status = 1";

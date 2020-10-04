@@ -182,7 +182,7 @@
             http_response_code(200);
         }
     }
-    elseif(isset($_POST['truck_id']) && isset($_POST['delivery_id']))
+    elseif(isset($_POST['delivery_id']) && isset($_POST['truck_id']))
     {
         $all_trucks = explode('* ', $_POST['truck_id']);
 
@@ -192,7 +192,7 @@
             {
                 $otp = rand(100000, 999999);
                 mysqli_query($link, "insert into delivery_trucks (del_id, trk_id, otp) values ('".$_POST['delivery_id']."', '$trucks', '$otp')");
-                mysqli_query($link, "update trucks set trk_on_trip = 1 where trk_id = '$trucks')");
+                mysqli_query($link, "update trucks set trk_on_trip = 1 where trk_id = '".$trucks."'");
             }
         }
 
