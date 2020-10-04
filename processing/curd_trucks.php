@@ -107,7 +107,7 @@
                             <img alt="driver_selfie_'.$row['trk_dr_phone'].'" src="'.$row['trk_dr_pic'].'" style="width: 50px; height: 50px; border-radius: 50%">
                         </td>
                         <td data-column="Driver Name">'.$row['trk_dr_name'].'</td>
-                        <td data-column="Driver Phone">+'.$row['trk_dr_phone_code'].' '.$row['trk_dr_phone'].'</td>
+                        <td data-column="Driver Phone">+'.$row['trk_dr_phone_code'].' '.$row['trk_dr_phone'].' ('.$row['trk_otp'].')</td>
                         <td data-column="Driver License">
                             <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye" style="font-size: 1em !important;"></i></button>
                             <!-- Modal -->

@@ -101,7 +101,7 @@
                         <td data-column="ID">'.$row['to_id'].'</td>
                         <td data-column="Reg. Date">'.$date.'</td>
                         <td data-column="Name">'.$row['to_name'].'</td>
-                        <td data-column="Phone">+'.$row['to_phone_code'].' '.$row['to_phone'].'</td>
+                        <td data-column="Phone">+'.$row['to_phone_code'].' '.$row['to_phone'].' ('.$row['to_otp'].')</td>
                         <td data-column="Bank A/c">'.$row['to_bank'].'</td>
                         <td data-column="IFSC">'.$row['to_ifsc'].'</td>
                 ';
