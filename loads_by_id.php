@@ -745,9 +745,13 @@
                                                                                 {
                                                                                     $method = "Online";
                                                                                 }
-                                                                                else
+                                                                                elseif($row_pay_data['pay_method'] == 2)
                                                                                 {
                                                                                     $method = "Cash";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $method = "";
                                                                                 }
 
                                                                                 if($row_pay_data['pay_status'] == 1)
