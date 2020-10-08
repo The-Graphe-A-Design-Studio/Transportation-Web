@@ -53,15 +53,8 @@
                 $message = "Your all documents are verified and 7 days trial period started from now";
 
                 $sent = push_notification_android($device_id, $title, $message);
-            }
-        }
-        else
-        {
-            $device_id = $row['cu_token'];
-            $title = "Document Verification";
-            $message = "Admin is verifying your documents";
 
-            $sent = push_notification_android($device_id, $title, $message);
+            }
         }
     }
 
