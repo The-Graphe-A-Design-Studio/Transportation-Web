@@ -758,6 +758,27 @@
 
         if($run)
         {
+            if($_POST['bid_status_value'] == 1)
+            {
+                $sql1 = "SELECT * FROM bidding where bid_id = '".$_POST['bid_id']."'";
+                $check1 = mysqli_query($link, $sql1);
+                $row1 = mysqli_fetch_array($check1, MYSQLI_ASSOC);
+
+                $sqlee1 = "SELECT * FROM cust_order where or_id = '".$row1['load_id']."'";
+                $checkee1 = mysqli_query($link, $sqlee1);
+                $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
+
+                $sqlee12 = "SELECT * FROM customers where cu_id = '".$rowee1['or_cust_id']."'";
+                $checkee12 = mysqli_query($link, $sqlee12);
+                $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+
+                $device_id = $rowee12['cu_token'];
+                $title = "New Bidding";
+                $message = "Your load with ID ".$rowee1['or_id']." has a new bid";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
+            
             echo "Bid Status Updated";
         }
         else
