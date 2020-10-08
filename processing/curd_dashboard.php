@@ -61,30 +61,34 @@
 
             $output .=
             '
-                <div class="card-stats-item">
-                    <div class="card-stats-item-count" id="active">'.$count_active.'</div>
-                    <div class="card-stats-item-label">Active</div>
+                <div class="card-stats-items" style="margin-bottom: 1vh;">
+                    <div class="card-stats-item">
+                        <div class="card-stats-item-count" id="active">'.$count_active.'</div>
+                        <div class="card-stats-item-label">Active</div>
+                    </div>
+                    <div class="card-stats-item">
+                        <div class="card-stats-item-count" id="hold">'.$count_hold.'</div>
+                        <div class="card-stats-item-label">On Hold</div>
+                    </div>
+                    <div class="card-stats-item">
+                        <div class="card-stats-item-count" id="going">'.$count_going.'</div>
+                        <div class="card-stats-item-label">On Going</div>
+                    </div>
                 </div>
-                <div class="card-stats-item">
-                    <div class="card-stats-item-count" id="hold">'.$count_hold.'</div>
-                    <div class="card-stats-item-label">On Hold</div>
-                </div>
-                <div class="card-stats-item">
-                    <div class="card-stats-item-count" id="going">'.$count_going.'</div>
-                    <div class="card-stats-item-label">On Going</div>
-                </div>
-                <div class="card-stats-item">
-                    <div class="card-stats-item-count" id="complete">'.$count_complete.'</div>
-                    <div class="card-stats-item-label">Completed</div>
-                </div>
-                <div class="card-stats-item">
-                    <div class="card-stats-item-count" id="expire">'.$count_expire.'</div>
-                    <div class="card-stats-item-label">Expired</div>
-                </div>
-                
-                <div class="card-stats-item">
-                    <div class="card-stats-item-count" id="cancel">'.$count_cancel.'</div>
-                    <div class="card-stats-item-label">Cancelled</div>
+                <div class="card-stats-items">
+                    <div class="card-stats-item">
+                        <div class="card-stats-item-count" id="complete">'.$count_complete.'</div>
+                        <div class="card-stats-item-label">Completed</div>
+                    </div>
+                    <div class="card-stats-item">
+                        <div class="card-stats-item-count" id="expire">'.$count_expire.'</div>
+                        <div class="card-stats-item-label">Expired</div>
+                    </div>
+                    
+                    <div class="card-stats-item">
+                        <div class="card-stats-item-count" id="cancel">'.$count_cancel.'</div>
+                        <div class="card-stats-item-label">Cancelled</div>
+                    </div>
                 </div>
             ';
         }
@@ -92,30 +96,34 @@
         {
             $output = 
             '
-            <div class="card-stats-item">
-                <div class="card-stats-item-count" id="active">0</div>
-                <div class="card-stats-item-label">Active</div>
+            <div class="card-stats-items" style="margin-bottom: 1vh;">
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="active">0</div>
+                    <div class="card-stats-item-label">Active</div>
+                </div>
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="hold">0</div>
+                    <div class="card-stats-item-label">On Hold</div>
+                </div>
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="going">0</div>
+                    <div class="card-stats-item-label">On Going</div>
+                </div>
             </div>
-            <div class="card-stats-item">
-                <div class="card-stats-item-count" id="hold">0</div>
-                <div class="card-stats-item-label">On Hold</div>
-            </div>
-            <div class="card-stats-item">
-                <div class="card-stats-item-count" id="going">0</div>
-                <div class="card-stats-item-label">On Going</div>
-            </div>
-            <div class="card-stats-item">
-                <div class="card-stats-item-count" id="complete">0</div>
-                <div class="card-stats-item-label">Completed</div>
-            </div>
-            <div class="card-stats-item">
-                <div class="card-stats-item-count" id="expire">0</div>
-                <div class="card-stats-item-label">Expired</div>
-            </div>
-            
-            <div class="card-stats-item">
-                <div class="card-stats-item-count" id="cancel">0</div>
-                <div class="card-stats-item-label">Cancelled</div>
+            <div class="card-stats-items">
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="complete">0</div>
+                    <div class="card-stats-item-label">Completed</div>
+                </div>
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="expire">0</div>
+                    <div class="card-stats-item-label">Expired</div>
+                </div>
+                
+                <div class="card-stats-item">
+                    <div class="card-stats-item-count" id="cancel">0</div>
+                    <div class="card-stats-item-label">Cancelled</div>
+                </div>
             </div>
             ';
         }

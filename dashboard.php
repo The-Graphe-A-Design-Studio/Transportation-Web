@@ -22,7 +22,7 @@
         <div class="main-content">
             <section class="section">
                 <div class="row">
-                    <div class="col-lg-5 col-md-5 col-sm-12">
+                    <div class="col-lg-4 col-md-4 col-sm-12">
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
@@ -58,8 +58,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="card-stats-items filter_data">
-                                    
+                                <div class="filter_data">
+                                
                                 </div>
                             </div>
                             <div class="card-icon shadow-primary bg-primary">
@@ -75,73 +75,92 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-7 col-md-7 col-sm-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="card card-statistic-2">
-                                    <div class="card-stats" style="margin-bottom: 0 !important">
-                                        <div class="card-stats-title">
-                                            Users
-                                            <div class="dropdown d-inline"></div>
-                                            <div class="dropdown d-inline"></div>
-                                        </div>
-                                        <?php
-                                            $shipper = "select * from customers";
-                                            $shipper_run = mysqli_query($link, $shipper);
-                                            $count_shipper = mysqli_num_rows($shipper_run);
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="card card-statistic-2">
+                            <div class="card-stats" style="margin-bottom: 0 !important">
+                                <div class="card-stats-title">
+                                    Users
+                                    <div class="dropdown d-inline"></div>
+                                    <div class="dropdown d-inline"></div>
+                                </div>
+                                <?php
+                                    $shipper = "select * from customers";
+                                    $shipper_run = mysqli_query($link, $shipper);
+                                    $count_shipper = mysqli_num_rows($shipper_run);
 
-                                            $owner = "select * from truck_owners";
-                                            $owner_run = mysqli_query($link, $owner);
-                                            $count_owner = mysqli_num_rows($owner_run);
+                                    $owner = "select * from truck_owners";
+                                    $owner_run = mysqli_query($link, $owner);
+                                    $count_owner = mysqli_num_rows($owner_run);
 
-                                            $driver = "select * from trucks";
-                                            $driver_run = mysqli_query($link, $driver);
-                                            $count_driver = mysqli_num_rows($driver_run);
-                                        ?>
-                                        <div class="card-stats-items">
-                                            <div class="card-stats-item">
-                                                <div class="card-stats-item-count" id="shippers"><?php echo $count_shipper; ?></div>
-                                                <div class="card-stats-item-label">Shippers</div>
-                                            </div>
-                                            <div class="card-stats-item">
-                                                <div class="card-stats-item-count" id="owners"><?php echo $count_owner; ?></div>
-                                                <div class="card-stats-item-label">Truck Owners</div>
-                                            </div>
-                                            <div class="card-stats-item">
-                                                <div class="card-stats-item-count" id="drivers"><?php echo $count_driver; ?></div>
-                                                <div class="card-stats-item-label">Drivers</div>
-                                            </div>
-                                        </div>
+                                    $driver = "select * from trucks";
+                                    $driver_run = mysqli_query($link, $driver);
+                                    $count_driver = mysqli_num_rows($driver_run);
+                                ?>
+                                <div class="card-stats-items">
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="shippers"><?php echo $count_shipper; ?></div>
+                                        <div class="card-stats-item-label">Shippers</div>
                                     </div>
-                                    <div class="card-icon shadow-primary bg-primary">
-                                        <i class="fas fa-users"></i>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="owners"><?php echo $count_owner; ?></div>
+                                        <div class="card-stats-item-label">Truck Owners</div>
                                     </div>
-                                    <div class="card-wrap">
-                                        <div class="card-header">
-                                            <h4>Total Users</h4>
-                                        </div>
-                                        <div class="card-body users">
-                                            
-                                        </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="drivers"><?php echo $count_driver; ?></div>
+                                        <div class="card-stats-item-label">Drivers</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="card card-statistic-2">
-                                    <div class="card-chart">
-                                        <canvas id="sales-chart" height="80"></canvas>
+                            <div class="card-icon shadow-primary bg-primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Users</h4>
+                                </div>
+                                <div class="card-body users">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="card card-statistic-2">
+                            <div class="card-stats" style="margin-bottom: 0 !important">
+                                <div class="card-stats-title">
+                                    Subscribed Users
+                                    <div class="dropdown d-inline"></div>
+                                    <div class="dropdown d-inline"></div>
+                                </div>
+                                <?php
+                                    $sub_shipper = "select * from customers where cu_account_on = 2";
+                                    $sub_shipper_run = mysqli_query($link, $sub_shipper);
+                                    $count_sub_shipper = mysqli_num_rows($sub_shipper_run);
+
+                                    $sub_owner = "select * from truck_owners where to_account_on = 1";
+                                    $sub_owner_run = mysqli_query($link, $sub_owner);
+                                    $count_sub_owner = mysqli_num_rows($sub_owner_run);
+                                ?>
+                                <div class="card-stats-items">
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="sub_shippers"><?php echo $count_sub_shipper; ?></div>
+                                        <div class="card-stats-item-label">Shippers</div>
                                     </div>
-                                    <div class="card-icon shadow-primary bg-primary">
-                                        <i class="fas fa-shopping-bag"></i>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="sub_owners"><?php echo $count_sub_owner; ?></div>
+                                        <div class="card-stats-item-label">Truck Owners</div>
                                     </div>
-                                    <div class="card-wrap">
-                                        <div class="card-header">
-                                            <h4>Sales</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            4,732
-                                        </div>
-                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-icon shadow-primary bg-primary">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Subscribed Users</h4>
+                                </div>
+                                <div class="card-body sub_users">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -207,6 +226,11 @@
             var drivers = $("#drivers").text();
             var total_users = parseInt(shippers) + parseInt(owners) + parseInt(drivers);
             $('.users').html(total_users);
+
+            var sub_shippers = $("#sub_shippers").text();
+            var sub_owners = $("#sub_owners").text();
+            var total_sub_users = parseInt(sub_shippers) + parseInt(sub_owners);
+            $('.sub_users').html(total_sub_users);
         });
     </script>
 </body>
