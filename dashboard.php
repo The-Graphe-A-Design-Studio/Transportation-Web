@@ -22,7 +22,7 @@
         <div class="main-content">
             <section class="section">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
@@ -75,7 +75,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
@@ -124,7 +124,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="col-lg-3 col-md-3 col-sm-12">
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
@@ -160,6 +160,55 @@
                                     <h4>Total Subscribed Users</h4>
                                 </div>
                                 <div class="card-body sub_users">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <div class="card card-statistic-2">
+                            <div class="card-stats" style="margin-bottom: 0 !important">
+                                <div class="card-stats-title">
+                                    Trucks
+                                    <div class="dropdown d-inline"></div>
+                                    <div class="dropdown d-inline"></div>
+                                </div>
+                                <?php
+                                    $active = "select * from trucks where trk_active = 1";
+                                    $active_run = mysqli_query($link, $active);
+                                    $count_active = mysqli_num_rows($active_run);
+
+                                    $inactive = "select * from trucks where trk_active = 0";
+                                    $inactive_run = mysqli_query($link, $inactive);
+                                    $count_inactive = mysqli_num_rows($inactive_run);
+
+                                    $trip = "select * from trucks where trk_on_trip = 1 or trk_on_trip = 2";
+                                    $trip_run = mysqli_query($link, $trip);
+                                    $count_trip = mysqli_num_rows($trip_run);
+                                ?>
+                                <div class="card-stats-items">
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="active"><?php echo $count_active; ?></div>
+                                        <div class="card-stats-item-label">Active</div>
+                                    </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="inactive"><?php echo $count_inactive; ?></div>
+                                        <div class="card-stats-item-label">Inactive</div>
+                                    </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="trip"><?php echo $count_trip; ?></div>
+                                        <div class="card-stats-item-label">On Trip</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-icon shadow-primary bg-primary">
+                                <i class="fas fa-truck-monster"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Trucks</h4>
+                                </div>
+                                <div class="card-body trucks">
                                     
                                 </div>
                             </div>
@@ -231,6 +280,11 @@
             var sub_owners = $("#sub_owners").text();
             var total_sub_users = parseInt(sub_shippers) + parseInt(sub_owners);
             $('.sub_users').html(total_sub_users);
+
+            var active = $("#active").text();
+            var inactive = $("#inactive").text();
+            var total_trucks = parseInt(active) + parseInt(inactive);
+            $('.trucks').html(total_trucks);
         });
     </script>
 </body>
