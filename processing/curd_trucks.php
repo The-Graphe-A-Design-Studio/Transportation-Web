@@ -34,6 +34,12 @@
             $query .= " and trucks.trk_cat = '$se'";
         }
 
+        if(isset($_POST['driver']))
+        {
+            $ph = $_POST['driver'];
+            $query .= " and trucks.trk_dr_phone LIKE '$ph%'";
+        }
+
         if(isset($_POST['search']))
         {
             $se = $_POST['search'];

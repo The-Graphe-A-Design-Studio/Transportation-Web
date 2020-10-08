@@ -44,17 +44,17 @@
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector active" value="2">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Registered</span>
+                                        <span class="custom-switch-description">On Trial</span>
                                     </label>
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector inactive" value="3">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Not Registered</span>
+                                        <span class="custom-switch-description">On Subscription</span>
                                     </label>
                                     <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector rejected" value="4">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Rejected</span>
+                                        <span class="custom-switch-description">Docs not verified</span>
                                     </label>
                                 </div>
                             </div>
