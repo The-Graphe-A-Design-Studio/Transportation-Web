@@ -98,19 +98,21 @@
     // Checking for delivery completed or not
     $sql11 = "select * from deliveries where del_status = 2";
     $run11 = mysqli_query($link, $sql11);
-    $row11 = mysqli_fetch_array($run11, MYSQLI_ASSOC);
-
-    if($row11['del_status'] == 2)
+    $count11 = mysqli_num_rows($run11);
+    if($count11 != 0)
     {
-        mysqli_query($link, "update cust_order set or_status = 5 where or_id = '".$row11['or_id']."'");
-    }
+        if($row11['del_status'] == 2)
+        {
+            mysqli_query($link, "update cust_order set or_status = 5 where or_id = '".$row11['or_id']."'");
+        }
 
 
-    // Checking for old bids if load is set to completed
-    $sql5 = "select * from cust_order where or_status = 5";
-    $run5 = mysqli_query($link, $sql5);
-    while($row5 = mysqli_fetch_array($run5, MYSQLI_ASSOC))
-    {
-        mysqli_query($link, "delete from bidding where load_id = '".$row5['or_id']."'");
+        // Checking for old bids if load is set to completed
+        $sql5 = "select * from cust_order where or_status = 5";
+        $run5 = mysqli_query($link, $sql5);
+        while($row5 = mysqli_fetch_array($run5, MYSQLI_ASSOC))
+        {
+            mysqli_query($link, "delete from bidding where load_id = '".$row5['or_id']."'");
+        }   
     }
 ?>
