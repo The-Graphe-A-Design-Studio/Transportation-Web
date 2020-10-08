@@ -1,5 +1,6 @@
 <?php
     include('../dbcon.php');
+    include('../FCM/notification.php');
 
     header('Content-Type: application/json');
 
@@ -32,6 +33,10 @@
             $checkee1 = mysqli_query($link, $sqlee1);
             $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
 
+            $sqlee12 = "SELECT * FROM customers where cu_id = '".$rowee1['or_cust_id']."'";
+            $checkee12 = mysqli_query($link, $sqlee12);
+            $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+
             if($rowee1['or_shipper_on'] == 2)
             {
                 $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price, bid_status) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
@@ -40,6 +45,12 @@
 
                 if($run)
                 {
+                    $device_id = $rowee12['cu_token'];
+                    $title = "New Bidding";
+                    $message = "Your load with ID ".$rowee1['or_id']." has a new bid";
+
+                    $sent = push_notification_android($device_id, $title, $message);
+
                     $responseData = ['success' => '1', 'message' => 'Successful'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                     http_response_code(200);
