@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2020 at 11:28 AM
+-- Generation Time: Oct 08, 2020 at 01:13 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -196,8 +196,8 @@ CREATE TABLE `delivery_trucks` (
   `del_trk_id` int(11) NOT NULL,
   `del_id` int(11) NOT NULL,
   `trk_id` int(11) NOT NULL,
-  `lat` decimal(30,8) NOT NULL,
-  `lng` decimal(30,8) NOT NULL,
+  `lat` decimal(30,8) NOT NULL DEFAULT 22.25000000,
+  `lng` decimal(30,8) NOT NULL DEFAULT 71.19000000,
   `otp` mediumint(9) NOT NULL DEFAULT 0,
   `otp_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - No; 1 - Yes',
   `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Started; 2 - Reached'
