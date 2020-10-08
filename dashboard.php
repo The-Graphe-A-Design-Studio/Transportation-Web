@@ -208,7 +208,7 @@
                                 <div class="card-header">
                                     <h4>Total Trucks</h4>
                                 </div>
-                                <div class="card-body trucks">
+                                <div class="card-body total_trucks">
                                     
                                 </div>
                             </div>
@@ -284,7 +284,7 @@
             var active = $("#active").text();
             var inactive = $("#inactive").text();
             var total_trucks = parseInt(active) + parseInt(inactive);
-            $('.trucks').html(total_trucks);
+            $('.total_trucks').html(total_trucks);
         });
     </script>
 </body>
