@@ -1,6 +1,7 @@
 <?php
 
     include('../session.php');
+    include('../FCM/notification.php');
 
     $connect = new PDO("mysql:host=$hostName; dbname=$dbName", $userName, $password);
 
@@ -247,6 +248,28 @@
         }
         else
         {
+            $cust = "select * from customers where cu_id = '".$row_load['or_cust_id']."'";
+            $run_cust = mysqli_query($link, $cust);
+            $row_cust = mysqli_fetch_array($run_cust, MYSQLI_ASSOC);
+
+            if($_POST['load_status'] == 1)
+            {
+                $device_id = $row_cust['cu_token'];
+                $title = "Load post status";
+                $message = "Your load with ID ".$row_load['or_id']." is activated by admin";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
+
+            if($_POST['load_status'] == 2)
+            {
+                $device_id = $row_cust['cu_token'];
+                $title = "Load post status";
+                $message = "Your load with ID ".$row_load['or_id']." is deactivated by admin";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
+
             $sql = "update cust_order set or_status = '".$_POST['load_status']."' where or_id = '".$_POST['load_id_to_set']."'";
             $run_aql = mysqli_query($link, $sql);
 
