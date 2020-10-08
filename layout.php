@@ -63,7 +63,7 @@
                     </a>
                 </div>
                 <div class="sidebar-brand sidebar-brand-sm">
-                    <a href="./">
+                    <a href="admin">
                         <img src="assets/img/truck-logo-sm.png" alt="truck wale logo" width="60">
                     </a>
                 </div>
