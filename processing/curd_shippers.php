@@ -10,12 +10,12 @@
 
         if(isset($_POST["active"]))
         {
-            $query .= " AND cu_verified = '1'";
+            $query .= " AND cu_account_on = '1'";
         }
 
         if(isset($_POST["inactive"]))
         {
-            $query .= " AND cu_verified = '0'";
+            $query .= " AND cu_account_on = '2'";
         }
 
         if(isset($_POST["nothing"]))
@@ -25,7 +25,7 @@
 
         if(isset($_POST["reject"]))
         {
-            $query .= " AND cu_verified = '2'";
+            $query .= " AND cu_verified = '0' OR cu_verified = '2'";
         }
 
         if(!empty($_POST["start_date"]) && empty($_POST["end_date"]))
