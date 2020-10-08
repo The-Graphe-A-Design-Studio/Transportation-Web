@@ -131,7 +131,13 @@
         {
             $output = 
             '
-                No Data Found
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="6">No shippers found</td>
+                        </tr>
+                    </tbody>
+                </table>
             ';
         }
         

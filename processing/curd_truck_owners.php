@@ -177,7 +177,13 @@
         {
             $output = 
             '
-                No Data Found
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="9">No truck owners found</td>
+                        </tr>
+                    </tbody>
+                </table>
             ';
         }
         

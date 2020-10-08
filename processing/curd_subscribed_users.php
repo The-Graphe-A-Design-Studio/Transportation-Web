@@ -112,7 +112,13 @@
         {
             $output = 
             '
-                No Data Found
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="10">No subscribed users found</td>
+                        </tr>
+                    </tbody>
+                </table>
             ';
         }
         

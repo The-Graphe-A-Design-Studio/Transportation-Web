@@ -180,7 +180,13 @@
         {
             $output = 
             '
-                No Data Found
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="10">No subscription plans found</td>
+                        </tr>
+                    </tbody>
+                </table>
             ';
         }
         
