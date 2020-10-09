@@ -1,5 +1,6 @@
 <?php
     include('../../dbcon.php');
+    include('../../FCM/notification.php');
 
     header('Content-Type: application/json');
 
@@ -140,6 +141,16 @@
                 $update = "update cust_order set or_status = 4 where or_id = '".$row_sql['load_id']."'";
                 $run = mysqli_query($link, $update);
 
+                $sqlee12 = "SELECT * FROM customers where cu_id = '".$row_load['or_cust_id']."'";
+                $checkee12 = mysqli_query($link, $sqlee12);
+                $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+
+                $device_id = $rowee12['cu_token'];
+                $title = "Deal accepted";
+                $message = "Your load with ID ".$row_load['or_id']." is accepted by Truck owner.";
+
+                $sent = push_notification_android($device_id, $title, $message);
+
                 $responseData = ['success' => '1', 'message' => 'Deal accepted'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
@@ -188,6 +199,15 @@
 
         if($run_delete)
         {
+            $sqlee12 = "SELECT * FROM customers where cu_id = '".$row_load['or_cust_id']."'";
+            $checkee12 = mysqli_query($link, $sqlee12);
+            $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+
+            $device_id = $rowee12['cu_token'];
+            $title = "Deal rejected";
+            $message = "Your load with ID ".$row_load['or_id']." is rejected by Truck owner.";
+
+            $sent = push_notification_android($device_id, $title, $message);
 
             $responseData = ['success' => '1', 'message' => 'Bid removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
