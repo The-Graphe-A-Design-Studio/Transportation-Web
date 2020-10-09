@@ -777,6 +777,19 @@
                 $message = "Your load with ID ".$rowee1['or_id']." has a new bid";
 
                 $sent = push_notification_android($device_id, $title, $message);
+
+                if($row1['bid_user_type'] == 1)
+                {
+                    $owner = "SELECT * FROM truck_owners where to_id = '".$row1['bid_user_id']."'";
+                    $check_owner = mysqli_query($link, $owner);
+                    $row_owner = mysqli_fetch_array($check_owner, MYSQLI_ASSOC);
+
+                    $device_id = $row_owner['to_token'];
+                    $title = "Bidding status";
+                    $message = "Your Bid for load ID ".$rowee1['or_id']." is accepted by admin.";
+
+                    $sent = push_notification_android($device_id, $title, $message);
+                }
             }
             
             echo "Bid Status Updated";
