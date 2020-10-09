@@ -778,7 +778,7 @@
             $checkee1 = mysqli_query($link, $sqlee1);
             $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
 
-            if($_POST['bid_status_value'] == 1)
+            if($_POST['bid_status_value'] == '1')
             {       
                 $sqlee12 = "SELECT * FROM customers where cu_id = '".$rowee1['or_cust_id']."'";
                 $checkee12 = mysqli_query($link, $sqlee12);
@@ -804,7 +804,7 @@
                 }
             }
 
-            if($_POST['bid_status_value'] == 0)
+            if($_POST['bid_status_value'] == '0')
             {
                 if($row1['bid_user_type'] == 1)
                 {
