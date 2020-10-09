@@ -299,7 +299,7 @@
             $query .= " and to_phone LIKE '$see%'";
         }
 
-        $query .= " limit 1";
+        $query .= " limit 3";
 
         // echo $query;
 
@@ -396,7 +396,13 @@
         {
             $output = 
             '
-                No Truck Owner Found
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">No Truck Owner Found</td>
+                        </tr>
+                    </tbody>
+                </table>                
             ';
         }
         
@@ -730,7 +736,13 @@
         {
             $output = 
             '
-                No Data Found
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="7">No bid data found</td>
+                        </tr>
+                    </tbody>
+                </table>
             ';
         }
         
