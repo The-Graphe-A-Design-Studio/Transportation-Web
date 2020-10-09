@@ -139,7 +139,7 @@
             if($run1)
             {
                 $sql11 = "select * from bidding where load_id = '".$_POST['load_id_for_accepting']."' and bid_id = '".$_POST['bid_id_for_accepting']."'";
-                $run11 = mysqli_query($link, $sql);
+                $run11 = mysqli_query($link, $sql11);
                 $row = mysqli_fetch_array($run11, MYSQLI_ASSOC);
 
                 if($row['bid_user_type'] == 1)
@@ -153,7 +153,7 @@
                     $message = "Your Bid for load ID ".$row['load_id']." is accepted by shipper.";
 
                     $sent = push_notification_android($device_id, $title, $message);
-                }                
+                }
 
                 $responseData = ['success' => '1', 'message' => 'Bid accepted'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -174,6 +174,22 @@
 
         if($run)
         {
+            $sql11 = "select * from bidding where bid_id = '".$_POST['bid_id_for_rejecting']."'";
+            $run11 = mysqli_query($link, $sql11);
+            $row = mysqli_fetch_array($run11, MYSQLI_ASSOC);
+
+            if($row['bid_user_type'] == 1)
+            {
+                $owner = "SELECT * FROM truck_owners where to_id = '".$row['bid_user_id']."'";
+                $check_owner = mysqli_query($link, $owner);
+                $row_owner = mysqli_fetch_array($check_owner, MYSQLI_ASSOC);
+
+                $device_id = $row_owner['to_token'];
+                $title = "Bidding status";
+                $message = "Your Bid for load ID ".$row['load_id']." is rejected by shipper.";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
 
             $responseData = ['success' => '1', 'message' => 'Bid rejected'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
