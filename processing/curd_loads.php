@@ -770,16 +770,16 @@
 
         if($run)
         {
+            $sql1 = "SELECT * FROM bidding where bid_id = '".$_POST['bid_id']."'";
+            $check1 = mysqli_query($link, $sql1);
+            $row1 = mysqli_fetch_array($check1, MYSQLI_ASSOC);
+
+            $sqlee1 = "SELECT * FROM cust_order where or_id = '".$row1['load_id']."'";
+            $checkee1 = mysqli_query($link, $sqlee1);
+            $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
+
             if($_POST['bid_status_value'] == 1)
-            {
-                $sql1 = "SELECT * FROM bidding where bid_id = '".$_POST['bid_id']."'";
-                $check1 = mysqli_query($link, $sql1);
-                $row1 = mysqli_fetch_array($check1, MYSQLI_ASSOC);
-
-                $sqlee1 = "SELECT * FROM cust_order where or_id = '".$row1['load_id']."'";
-                $checkee1 = mysqli_query($link, $sqlee1);
-                $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
-
+            {       
                 $sqlee12 = "SELECT * FROM customers where cu_id = '".$rowee1['or_cust_id']."'";
                 $checkee12 = mysqli_query($link, $sqlee12);
                 $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
@@ -799,6 +799,22 @@
                     $device_id = $row_owner['to_token'];
                     $title = "Bidding status";
                     $message = "Your Bid for load ID ".$rowee1['or_id']." is accepted by admin.";
+
+                    $sent = push_notification_android($device_id, $title, $message);
+                }
+            }
+
+            if($_POST['bid_status_value'] == 0)
+            {
+                if($row1['bid_user_type'] == 1)
+                {
+                    $owner = "SELECT * FROM truck_owners where to_id = '".$row1['bid_user_id']."'";
+                    $check_owner = mysqli_query($link, $owner);
+                    $row_owner = mysqli_fetch_array($check_owner, MYSQLI_ASSOC);
+
+                    $device_id = $row_owner['to_token'];
+                    $title = "Bidding status";
+                    $message = "Your Bid for load ID ".$rowee1['or_id']." is rejetced by admin.";
 
                     $sent = push_notification_android($device_id, $title, $message);
                 }
