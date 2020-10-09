@@ -1,5 +1,6 @@
 <?php
     include('../../dbcon.php');
+    include('../../FCM/notification.php');
 
     header('Content-Type: application/json');
 
@@ -193,8 +194,32 @@
                 $otp = rand(100000, 999999);
                 mysqli_query($link, "insert into delivery_trucks (del_id, trk_id, otp) values ('".$_POST['delivery_id']."', '$trucks', '$otp')");
                 mysqli_query($link, "update trucks set trk_on_trip = 1 where trk_id = '".$trucks."'");
+
+                $trk = "select * from trucks where trk_id = '$trucks'";
+                $run_trk = mysqli_query($link, $trk);
+                $row_trk = mysqli_fetch_array($run_trk, MYSQLI_ASSOC);
+
+                $device_id = $row_trk['trk_dr_token'];
+                $title = "New Delivery";
+                $message = "New delivery assigned by your truck owner.";
+
+                $sent = push_notification_android($device_id, $title, $message);
             }
         }
+
+        $sql = "select * from deliveries where del_id = '".$_POST['delivery_id']."'";
+        $run = mysqli_query($link, $sql);
+        $row = mysqli_fetch_array($run, MYSQLI_ASSOC);
+
+        $sqlee12 = "SELECT * FROM customers where cu_id = '".$row['cu_id']."'";
+        $checkee12 = mysqli_query($link, $sqlee12);
+        $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+
+        $device_id = $rowee12['cu_token'];
+        $title = "Delivery Trucks";
+        $message = "View trucks assinged for your load with ID ".$row['or_id']." by Truck owner.";
+        
+        $sent = push_notification_android($device_id, $title, $message);
 
         $responseData = ['success' => '1', 'message' => 'Trucks added'];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -217,12 +242,40 @@
     }
     elseif(isset($_POST['del_id_remove_truck']))
     {
+        $trk = "select delivery_trucks.*, trucks.* from delivery_trucks, trucks where delivery_trucks.del_trk_id = '".$_POST['del_id_remove_truck']."' and 
+                    delivery_trucks.trk_id = trucks.trk_id";
+        $run_trk = mysqli_query($link, $trk);
+        $row_trk = mysqli_fetch_array($run_trk, MYSQLI_ASSOC);
+
+        echo $row_trk['trk_id'];
+
+        mysqli_query($link, "update trucks set trk_on_trip = 0 where trk_id = '".$row_trk['trk_id']."'");
+
         $update = "delete from delivery_trucks where del_trk_id = '".$_POST['del_id_remove_truck']."'";
         $run = mysqli_query($link, $update);
 
         if($run)
         {
-            mysqli_query($link, "update trucks set trk_on_trip = 0 where trk_id = '".$_POST['del_id_remove_truck']."')");
+            $device_id = $row_trk['trk_dr_token'];
+            $title = "Delivery status";
+            $message = "You have been removed from delivery by your truck owner.";
+
+            $sent = push_notification_android($device_id, $title, $message);
+
+            $sql = "select * from deliveries where del_id = '".$row_trk['del_id']."'";
+            $run1 = mysqli_query($link, $sql);
+            $row = mysqli_fetch_array($run1, MYSQLI_ASSOC);
+
+            $sqlee12 = "SELECT * FROM customers where cu_id = '".$row['cu_id']."'";
+            $checkee12 = mysqli_query($link, $sqlee12);
+            $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+
+            $device_id = $rowee12['cu_token'];
+            $title = "Delivery Trucks";
+            $message = "Truck removed for your load with ID ".$row['or_id']." by Truck owner.";
+            
+            $sent = push_notification_android($device_id, $title, $message);
+            
             $responseData = ['success' => '1', 'message' => 'Truck removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
