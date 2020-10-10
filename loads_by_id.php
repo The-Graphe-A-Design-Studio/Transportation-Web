@@ -644,13 +644,6 @@
                                                             <div class="col-12 col-md-3">
                                                                 <div class="card">
                                                                     <div class="card-body">
-                                                                        <b>Deal Price : </b><?php echo $row_del_data['deal_price'].' / '.$show_unit; ?>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-3">
-                                                                <div class="card">
-                                                                    <div class="card-body">
                                                                         <b>Quantity : </b><?php echo $row_del_data['or_quantity']; ?>
                                                                     </div>
                                                                 </div>
@@ -658,48 +651,46 @@
                                                             <div class="col-12 col-md-3">
                                                                 <div class="card">
                                                                     <div class="card-body">
+                                                                        <b>Deal Price : </b><?php echo $row_del_data['deal_price'].' / '.$show_unit; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <?php $total_price = round(($row_del_data['deal_price'] * $row_del_data['or_quantity']), 2); ?>
+                                                                        <b>Total Price : </b><?php echo "Rs. ".$total_price; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <?php $add_gst = round((($total_price * 0.18)), 2); ?>
+                                                                        <b>GST : </b>Rs. <?php echo $add_gst ?> (18%)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <?php $commi = round((($total_price + $add_gst) * ($row_del_data['or_admin_expected_price']/100)), 2); ?>
+                                                                        <b>Commission : </b>Rs. <?php echo $commi." (".$row_del_data['or_admin_expected_price']."%)"; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <?php $grand_total = round(($total_price + $add_gst + $commi), 2); ?>
+                                                                        <b>Grand Total : </b><?php echo "Rs. ".$grand_total; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-3">
+                                                                <div class="card">
+                                                                    <div class="card-body">
                                                                         <b>Pay Mode : </b><?php echo $deal_pay_mode; ?>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-3">
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <b>Commission : </b><?php echo $row_del_data['or_admin_expected_price'].'%'; ?>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-3">
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <b>GST : </b>18%
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-3">
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <b>Total Price (without Commission): </b>
-                                                                        <?php
-                                                                            $total_price1 = round(($row_del_data['deal_price'] * $row_del_data['or_quantity']), 2);
-                                                                            $total_price1 = round(($total_price1 + ($total_price1 * (18/100))), 2);
-
-                                                                            echo "Rs. ".round($total_price1, 2);
-                                                                        ?>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-3">
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <b>Total Price (with Commission): </b>
-                                                                        <?php
-                                                                            $total_price = round(($row_del_data['deal_price'] * $row_del_data['or_quantity']), 2);
-                                                                            $total_price = round(($total_price + ($total_price * ($row_del_data['or_admin_expected_price']/100))), 2);
-                                                                            $total_price = round(($total_price + ($total_price * (18/100))), 2);
-
-                                                                            echo "Rs. ".round($total_price, 2);
-                                                                        ?>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -730,7 +721,7 @@
                                                                             {
                                                                                 if($row_pay_data['pay_mode'] == 1)
                                                                                 {
-                                                                                    $mode = "Advance";
+                                                                                    $mode = "Advance + Commission";
                                                                                 }
                                                                                 elseif($row_pay_data['pay_mode'] == 2)
                                                                                 {
