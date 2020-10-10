@@ -247,8 +247,6 @@
         $run_trk = mysqli_query($link, $trk);
         $row_trk = mysqli_fetch_array($run_trk, MYSQLI_ASSOC);
 
-        echo $row_trk['trk_id'];
-
         mysqli_query($link, "update trucks set trk_on_trip = 0 where trk_id = '".$row_trk['trk_id']."'");
 
         $update = "delete from delivery_trucks where del_trk_id = '".$_POST['del_id_remove_truck']."'";
