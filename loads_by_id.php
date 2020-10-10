@@ -751,7 +751,7 @@
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    $method = "";
+                                                                                    $method = "-";
                                                                                 }
 
                                                                                 if($row_pay_data['pay_status'] == 1)
@@ -762,13 +762,24 @@
                                                                                 {
                                                                                     $status = "<span class='btn btn-md btn-warning'>Pending</span>";
                                                                                 }
+
+                                                                                if($row_pay_data['payment_date'] === "0000-00-00 00:00:00")
+                                                                                {
+                                                                                    $pay_date = "-";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $pay_date = date_format(date_create($row_pay_data['payment_date']), 'd M, Y h:i A');
+                                                                                }
                                                                         ?>
                                                                         <tr>
                                                                             <td data-column="ID"><?php echo $row_pay_data['pay_id']; ?></td>
-                                                                            <td data-column="Order ID"><?php echo $row_pay_data['razorpay_order_id']; ?></td>
-                                                                            <td data-column="Payment ID"><?php echo $row_pay_data['razorpay_payment_id']; ?></td>
+                                                                            <td data-column="Order ID"><?php if($row_pay_data['razorpay_order_id'] === ""){echo "-";}
+                                                                                                                else{echo $row_pay_data['razorpay_order_id'];} ?></td>
+                                                                            <td data-column="Payment ID"><?php if($row_pay_data['razorpay_payment_id'] === ""){echo "-";}
+                                                                                                                else{echo $row_pay_data['razorpay_payment_id'];} ?></td>
                                                                             <td data-column="Amount"><?php echo $row_pay_data['amount']; ?></td>
-                                                                            <td data-column="Date"><?php echo date_format(date_create($row_pay_data['payment_date']), 'd M, Y h:i A'); ?></td>
+                                                                            <td data-column="Date"><?php echo $pay_date; ?></td>
                                                                             <td data-column="Mode"><?php echo $mode; ?></td>
                                                                             <td data-column="Method"><?php echo $method; ?></td>
                                                                             <td data-column="Status"><?php echo $status; ?></td>
