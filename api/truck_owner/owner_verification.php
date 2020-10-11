@@ -45,7 +45,7 @@
             }
             else
             {
-                $trial = 'Not on subcsription';
+                $trial = 'Not on subscription';
                 
                 $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'id' => $otp_row['to_id'], 
                                 'phone country code' => $otp_row['to_phone_code'], 'phone' => $otp_row['to_phone'], 'name' => $otp_row['to_name'],
