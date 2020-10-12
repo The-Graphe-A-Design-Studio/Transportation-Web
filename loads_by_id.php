@@ -86,7 +86,16 @@
                                                 
                                             </div>
                                             <div class="row">
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
+                                                    <div class="card profile-widget services-widget">
+                                                        <div class="profile-widget-description">
+                                                            <div class="profile-widget-name text-center" style="margin-bottom: 0 !important">
+                                                                <b>Shipper - </b><a href="shipper_profile?shipper_id=<?php echo $row_cust['cu_id']; ?>">+<?php echo $row_cust['cu_phone_code'].' '.$row_cust['cu_phone']; ?></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-3">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
                                                             <div class="profile-widget-name text-center" style="margin-bottom: 0 !important">
@@ -95,7 +104,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
                                                             <div class="profile-widget-name text-center" style="margin-bottom: 0 !important">
@@ -104,7 +113,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 col-lg-4">
+                                                <div class="col-12 col-lg-3">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
                                                             <div class="profile-widget-name text-center" style="margin-bottom: 0 !important">
