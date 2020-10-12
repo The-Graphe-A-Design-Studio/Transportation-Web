@@ -586,31 +586,60 @@
                                                                                     <div class="col-12 col-md-3">
                                                                                         <div class="card card-info">
                                                                                             <div class="card-header">
-                                                                                                <h4>Truck's Last Location</h4>
+                                                                                                <h4>Delivery Status</h4>
                                                                                             </div>
                                                                                             <div class="card-body text-center">
                                                                                                 <?php
-                                                                                                    $data = file_get_contents("https://maps.google.com/maps/api/geocode/json?latlng=".$row_del_trucks['lat'].",".$row_del_trucks['lng']."&key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0");
-                                                                                                    $data = json_decode($data);
-                                                                                                    $add_array  = $data->results;
-                                                                                                    $add_array = $add_array[0];
-                                                                                                    $add_array = $add_array->address_components;
-                                                                                                    $state = "Not found"; 
-                                                                                                    $city = "Not found";
-                                                                                                    foreach ($add_array as $key)
+                                                                                                    if($row_del_trucks['otp_verified'] == 1)
                                                                                                     {
-                                                                                                        if($key->types[0] == 'locality')
+                                                                                                        $data = file_get_contents("https://maps.google.com/maps/api/geocode/json?latlng=".$row_del_trucks['lat'].",".$row_del_trucks['lng']."&key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0");
+                                                                                                        $data = json_decode($data);
+                                                                                                        $add_array  = $data->results;
+                                                                                                        $add_array = $add_array[0];
+                                                                                                        $add_array = $add_array->address_components;
+                                                                                                        $state = "Not found"; 
+                                                                                                        $city = "Not found";
+                                                                                                        foreach ($add_array as $key)
                                                                                                         {
-                                                                                                            $city = $key->long_name;
+                                                                                                            if($key->types[0] == 'locality')
+                                                                                                            {
+                                                                                                                $city = $key->long_name;
+                                                                                                            }
+                                                                                                            if($key->types[0] == 'administrative_area_level_1')
+                                                                                                            {
+                                                                                                                $state = $key->long_name;
+                                                                                                            }
                                                                                                         }
-                                                                                                        if($key->types[0] == 'administrative_area_level_1')
+
+                                                                                                        $otp = "Verified by shipper";
+
+                                                                                                        if($row_del_trucks['status'] == 1)
                                                                                                         {
-                                                                                                            $state = $key->long_name;
+                                                                                                            $deli_status = "Started";
                                                                                                         }
+                                                                                                        elseif($row_del_trucks['status'] == 2)
+                                                                                                        {
+                                                                                                            $deli_status = "Completed";
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            $deli_status = "Not Started";
+                                                                                                        }
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        $otp = "Not verified by shipper";
+                                                                                                        $city = "-";
+                                                                                                        $state = "-";
+                                                                                                        $deli_status = "Not Started";
                                                                                                     }
                                                                                                 ?>
                                                                                                 <p class="text-left">
-                                                                                                    <?php echo $city.', '.$state; ?>
+                                                                                                    <b>OTP : </b><?php echo $otp; ?>
+                                                                                                    <br>
+                                                                                                    <b>Last Location : </b><?php echo $city.', '.$state; ?>
+                                                                                                    <br>
+                                                                                                    <b>Status : </b><?php echo $deli_status; ?>
                                                                                                 </p>
                                                                                             </div>
                                                                                         </div>
