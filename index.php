@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truck Wale</title>
-    <link rel="icon" href="assets/img/truck-logo-sm.png" type="image/gif" sizes="32x32">
+    <link rel="icon" href="assets/img/truckwale-logo-favicon.png" type="image/gif" sizes="32x32">
     <style>
         html, body {
             margin: 0 auto;
