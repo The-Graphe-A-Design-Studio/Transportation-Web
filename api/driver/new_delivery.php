@@ -3,13 +3,17 @@
 
     header('Content-Type: application/json');
 
-    if(isset($_POST['driver_phone']))
+    if(isset($_POST['delivery_truck_id']))
     {
-        $sql = "select trucks.*, delivery_trucks.* from trucks, delivery_trucks where trucks.trk_dr_phone = '".$_POST['driver_phone']."' and 
-                trucks.trk_id = delivery_trucks.trk_id and trucks.trk_on_trip = 1 or trucks.trk_on_trip = 2";
+        $sql = "select * from delivery_trucks where del_trk_id = '".$_POST['delivery_truck_id']."'";
         $run = mysqli_query($link, $sql);
         $count = mysqli_num_rows($run);
-        
+        $row = mysqli_fetch_array($run, MYSQLI_ASSOC);
+
+        $tr = "select * from trucks where trk_id = '".$row['trk_id']."'";
+        $run_tr = mysqli_query($link, $tr);
+        $row_tr = mysqli_fetch_array($run_tr, MYSQLI_ASSOC);
+
         if($count == 0)
         {
             $responseData = ['success' => '0', 'message' => 'No new delivery found'];
@@ -17,8 +21,7 @@
             http_response_code(400);
         }
         else
-        {
-            $row = mysqli_fetch_array($run, MYSQLI_ASSOC);
+        {          
 
             $del = "select * from deliveries where del_id = '".$row['del_id']."'";
             $run_del = mysqli_query($link, $del);
@@ -136,7 +139,7 @@
             $run_cust = mysqli_query($link, $cust);
             $row_cust = mysqli_fetch_array($run_cust, MYSQLI_ASSOC);
 
-            $responseData = ['delivery id of truck' => $row['del_trk_id'], 'truck id' => $row['trk_id'], 'truck on trip' => $row['trk_on_trip'], 'post id' => $row_load['or_id'], 'customer id' => $row_load['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 
+            $responseData = ['delivery id of truck' => $row['del_trk_id'], 'truck id' => $row['trk_id'], 'post id' => $row_load['or_id'], 'customer id' => $row_load['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 
                             'material' => $row_load['or_product'], 'payment mode' => $mode, 'contact person' => $row_load['or_contact_person_name'], 
                             'contact person phone' => $row_load['or_contact_person_phone']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
