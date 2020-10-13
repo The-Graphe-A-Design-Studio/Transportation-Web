@@ -33,7 +33,7 @@
                 <div class="section-body">
 
                     <div class="row">
-                        <div class="col-sm-12 col-md-3">
+                        <div class="col-sm-12 col-md-5">
                             <div class="custom-switches-stacked mt-2" style="flex-direction: row">
                                 <div class="form-group">
                                     <label class="custom-switch">
@@ -59,22 +59,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <label>Start Date</label>
-                                <input type="date" placeholder="MM/DD/YYYY" class="form-control common_selector s_date" name="start_date"/>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-3">
-                            <div class="form-group">
-                                <label>End Date</label>
-                                <input type="date" placeholder="MM/DD/YYYY" class="form-control common_selector e_date" name="end_date"/>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label>Search by Phone Number</label>
-                                <input class="form-control common_selector search_bar" placeholder="Search by Phone (Ex. 96547XXXXX)" name="name"/>
+                        <div class="col-sm-12 col-md-7">
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" placeholder="MM/DD/YYYY" class="form-control common_selector s_date" name="start_date"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="date" placeholder="MM/DD/YYYY" class="form-control common_selector e_date" name="end_date"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label>Search by Phone Number</label>
+                                        <input class="form-control common_selector search_bar" placeholder="Search by Phone (Ex. 96547XXXXX)" name="name"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
