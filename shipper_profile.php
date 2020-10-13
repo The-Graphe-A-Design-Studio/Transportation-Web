@@ -397,8 +397,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#selfie"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="selfie" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $selfie['doc_location']; ?>" style="max-width: 100%" alt="shipper_selfie_<?php echo $row['cu_phone']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                        <img src="<?php echo $selfie['doc_location']; ?>" style="max-width: 100%" alt="shipper_selfie_<?php echo $row['cu_phone']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -437,8 +447,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#pan"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="pan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $pan_card['doc_location']; ?>" style="max-width: 100%" alt="shipper_pan_card_<?php echo $row['cu_phone']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                        <img src="<?php echo $pan_card['doc_location']; ?>" style="max-width: 100%" alt="shipper_pan_card_<?php echo $row['cu_phone']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -477,8 +497,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#address_front"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="address_front" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $address_f['doc_location']; ?>" style="max-width: 100%" alt="shipper_address_front_<?php echo $row['cu_phone']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                    <img src="<?php echo $address_f['doc_location']; ?>" style="max-width: 100%" alt="shipper_address_front_<?php echo $row['cu_phone']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -517,8 +547,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#address_back"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="address_back" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $address_b['doc_location']; ?>" style="max-width: 100%" alt="shipper_address_back_<?php echo $row['cu_phone']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                        <img src="<?php echo $address_b['doc_location']; ?>" style="max-width: 100%" alt="shipper_address_back_<?php echo $row['cu_phone']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -557,9 +597,19 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#office_address"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="office_address" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $office_address['doc_location']; ?>" style="max-width: 100%" alt="shipper_office_address_<?php echo $row['cu_phone']; ?>">
-                                            </div>
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                        <img src="<?php echo $office_address['doc_location']; ?>" style="max-width: 100%" alt="shipper_office_address_<?php echo $row['cu_phone']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -574,12 +624,21 @@
         <?php echo $footer; ?>
         </div>
     </div>
-
+    
     <?php echo $script_tags; ?>
 
     <script type="text/javascript">
         $(document).ready(function(){
             $(".shippers").addClass("active");
+
+            $(".panzoom").panzoom({
+                $zoomIn: $(".zoom-in"),
+                $zoomOut: $(".zoom-out"),
+                $zoomRange: $(".zoom-range"),
+                $reset: $(".reset"),
+                
+                contain: 'invert',
+            });
         });
     
         $(".accept-reject").submit(function(e)
@@ -603,5 +662,7 @@
             e.preventDefault();
         });
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.panzoom/2.0.6/jquery.panzoom.min.js"></script>
 </body>
 </html>
