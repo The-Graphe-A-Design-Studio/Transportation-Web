@@ -168,8 +168,9 @@
             });
 
 
-            $(".trucks").addClass("active");
+            $(".trucks").addClass("active");            
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.panzoom/2.0.6/jquery.panzoom.min.js"></script>
 </body>
 </html>

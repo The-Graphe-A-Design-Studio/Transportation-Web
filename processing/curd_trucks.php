@@ -118,8 +118,18 @@
                             <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye" style="font-size: 1em !important;"></i></button>
                             <!-- Modal -->
                             <div class="mymodal modal fade" id="license" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                <div class="modal-dialog" role="document">
-                                    <img src="'.$row['trk_dr_license'].'" style="max-width: 100%" alt="truck_driver_license_'.$row['trk_dr_phone'].'">
+                                <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                    <section>
+                                        <div class="panzoom" style="text-align: center">
+                                        <img src="'.$row['trk_dr_license'].'" style="max-width: 100%" alt="truck_driver_license_'.$row['trk_dr_phone'].'">
+                                        </div>
+                                    </section>
+                                    <section class="buttons" style="margin-top: 2vh;">
+                                        <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                        <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                        <!-- <input type="range" class="zoom-range"> -->
+                                        <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                    </section>
                                 </div>
                             </div>
                         </td>
@@ -128,6 +138,20 @@
                             <a class="btn btn-icon btn-info" href="truck_profile?truck_id='.$row['trk_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
                     </tr>
+
+                    <script>
+                    $(document).ready(function()
+                    {
+                        $(".panzoom").panzoom({
+                            $zoomIn: $(".zoom-in"),
+                            $zoomOut: $(".zoom-out"),
+                            $zoomRange: $(".zoom-range"),
+                            $reset: $(".reset"),
+                            
+                            contain: "invert",
+                        });
+                    });
+                    </script>
                 ';
 
             }

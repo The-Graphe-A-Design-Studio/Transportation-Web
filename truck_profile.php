@@ -142,8 +142,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#selfie<?php echo $row['trk_id']; ?>"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="selfie<?php echo $row['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $row['trk_dr_pic']; ?>" style="max-width: 100%" alt="driver_selfie_<?php echo $row['trk_dr_phone']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                    <img src="<?php echo $row['trk_dr_pic']; ?>" style="max-width: 100%" alt="driver_selfie_<?php echo $row['trk_dr_phone']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -165,8 +175,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#pan<?php echo $row['trk_id']; ?>"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="pan<?php echo $row['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $row['trk_dr_license']; ?>" style="max-width: 100%" alt="driver_license_<?php echo $row['trk_dr_phone']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                    <img src="<?php echo $row['trk_dr_license']; ?>" style="max-width: 100%" alt="driver_license_<?php echo $row['trk_dr_phone']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -188,8 +208,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#rc<?php echo $row['trk_id']; ?>"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="rc<?php echo $row['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $row['trk_rc']; ?>" style="max-width: 100%" alt="truck_rc_<?php echo $row['trk_num']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                    <img src="<?php echo $row['trk_rc']; ?>" style="max-width: 100%" alt="truck_rc_<?php echo $row['trk_num']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -211,8 +241,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#road_tax<?php echo $row['trk_id']; ?>"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="road_tax<?php echo $row['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $row['trk_road_tax']; ?>" style="max-width: 100%" alt="truck_road_tax_<?php echo $row['trk_num']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                    <img src="<?php echo $row['trk_road_tax']; ?>" style="max-width: 100%" alt="truck_road_tax_<?php echo $row['trk_num']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -234,8 +274,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#insurance<?php echo $row['trk_id']; ?>"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="insurance<?php echo $row['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $row['trk_insurance']; ?>" style="max-width: 100%" alt="truck_insurance_<?php echo $row['trk_num']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                    <img src="<?php echo $row['trk_insurance']; ?>" style="max-width: 100%" alt="truck_insurance_<?php echo $row['trk_num']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -257,8 +307,18 @@
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#rto<?php echo $row['trk_id']; ?>"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="rto<?php echo $row['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                            <div class="modal-dialog" role="document">
-                                                <img src="<?php echo $row['trk_rto']; ?>" style="max-width: 100%" alt="truck_rto_<?php echo $row['trk_num']; ?>">
+                                            <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
+                                                <section>
+                                                    <div class="panzoom" style="text-align: center">
+                                                    <img src="<?php echo $row['trk_rto']; ?>" style="max-width: 100%" alt="truck_rto_<?php echo $row['trk_num']; ?>">
+                                                    </div>
+                                                </section>
+                                                <section class="buttons" style="margin-top: 2vh;">
+                                                    <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
+                                                    <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
+                                                    <!-- <input type="range" class="zoom-range"> -->
+                                                    <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
+                                                </section>
                                             </div>
                                         </div>
                                     </div>
@@ -280,7 +340,17 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $(".trucks").addClass("active");
+
+            $(".panzoom").panzoom({
+                $zoomIn: $(".zoom-in"),
+                $zoomOut: $(".zoom-out"),
+                $zoomRange: $(".zoom-range"),
+                $reset: $(".reset"),
+                
+                contain: 'invert',
+            });
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.panzoom/2.0.6/jquery.panzoom.min.js"></script>
 </body>
 </html>
