@@ -2,15 +2,15 @@
 
     date_default_timezone_set("Asia/Kolkata");
 
-    // define('DB_SERVER', 'localhost');
-    // define('DB_USERNAME', 'root');
-    // define('DB_PASSWORD', '');
-    // define('DB_NAME', 'transporter');
-
     define('DB_SERVER', 'localhost');
-    define('DB_USERNAME', 'thegrhmw_rohit');
-    define('DB_PASSWORD', '.2019@TheGraphe');
-    define('DB_NAME', 'thegrhmw_transpoter');
+    define('DB_USERNAME', 'root');
+    define('DB_PASSWORD', '');
+    define('DB_NAME', 'transporter');
+
+    // define('DB_SERVER', 'localhost');
+    // define('DB_USERNAME', 'thegrhmw_rohit');
+    // define('DB_PASSWORD', '.2019@TheGraphe');
+    // define('DB_NAME', 'thegrhmw_transpoter');
 
     $hostName = DB_SERVER;
     $dbName = DB_NAME;
