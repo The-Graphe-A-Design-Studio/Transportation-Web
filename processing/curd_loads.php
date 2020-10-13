@@ -82,7 +82,7 @@
         if(isset($_POST['id']))
         {
             $seid = $_POST['id'];
-            $query .= " AND customers.cu_id LIKE '$seid%'";
+            $query .= " AND cust_order.or_id LIKE '$seid%'";
         }
 
         if(isset($_POST['search']))

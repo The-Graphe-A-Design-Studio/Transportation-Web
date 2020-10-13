@@ -78,7 +78,7 @@
                             <div class="row">
                                 <div class="col-12 col-xs-6 col-sm-6 col-md-3">
                                     <div class="form-group">
-                                        <label>Search by ID</label>
+                                        <label>Search by Load ID</label>
                                         <input class="form-control common_selector search_id" placeholder="Search by Load ID" name="id"/>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                 var expired = get_filter('expired');
                 var going = get_filter('going');
                 var complete = get_filter('complete');
-                var id = get_id('get_id');
+                var id = get_id('search_id');
                 var search = get_key('search_bar');
                 var start_date = start_datee('s_date');
                 var end_date = end_datee('e_date');
