@@ -71,7 +71,7 @@
                     <li class="menu-header" style="margin-bottom: 50px"></li>
                     <li class="dashboard"><a class="nav-link" href="dashboard" data-toggle="tooltip" data-placement="right" title="" data-original-title="Dashboard"><i class="fas fa-fire"></i><span>Dashboard</span></a></li>
                     <li class="loads"><a class="nav-link" href="loads" data-toggle="tooltip" data-placement="right" title="" data-original-title="Loads"><i class="fas fa-newspaper"></i><span>Loads</span></a></li>
-                    <li class="load_payments"><a class="nav-link" href="load_payments" data-toggle="tooltip" data-placement="right" title="" data-original-title="Load Payments"><i class="fas fa-money-check-alt"></i><span>Load Payments</span></a></li>
+                    <!-- <li class="load_payments"><a class="nav-link" href="load_payments" data-toggle="tooltip" data-placement="right" title="" data-original-title="Load Payments"><i class="fas fa-money-check-alt"></i><span>Load Payments</span></a></li> -->
                     <li class="shippers"><a class="nav-link" href="shippers" data-toggle="tooltip" data-placement="right" title="" data-original-title="Shippers"><i class="fas fa-users"></i><span>Shippers</span></a></li>
                     <li class="truck_owners"><a class="nav-link" href="truck_owners" data-toggle="tooltip" data-placement="right" title="" data-original-title="Truck Owners"><i class="fas fa-crown"></i><span>Truck Owners</span></a></li>
                     <li class="trucks"><a class="nav-link" href="trucks" data-toggle="tooltip" data-placement="right" title="" data-original-title="Trucks"><i class="fas fa-truck-monster"></i><span>Trucks</span></a></li>
