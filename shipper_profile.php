@@ -304,7 +304,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <?php
-                                                                    $sub = "select * from subscribed_users where subs_user_id = '".$row['cu_id']."' order by subs_id desc";
+                                                                    $sub = "select * from subscribed_users where subs_user_id = '".$row['cu_id']."' and subs_user_type = 1 order by subs_id desc";
                                                                     $run_sub = mysqli_query($link, $sub);
                                                                     $counte = mysqli_num_rows($run_sub);
                                                                     if($counte > 0)
