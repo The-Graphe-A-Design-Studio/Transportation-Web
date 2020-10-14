@@ -55,74 +55,96 @@
 
 
     // Checking for older loads
-    $sql = "select * from cust_order where or_status <> 4 and or_status <> 5";
-    $run = mysqli_query($link, $sql);
-    while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
+    $db_sql = "select * from cust_order where or_status <> 4 and or_status <> 5";
+    $db_run = mysqli_query($link, $db_sql);
+    while($db_row = mysqli_fetch_array($db_run, MYSQLI_ASSOC))
     {
-        $date_now = new DateTime(date('Y-m-d H:i:s'));
-        $date2    = new DateTime(date_format(date_create($row['or_expire_on']), 'Y-m-d H:i:s'));
+        $db_date_now = new DateTime(date('Y-m-d H:i:s'));
+        $db_date2    = new DateTime(date_format(date_create($db_row['or_expire_on']), 'Y-m-d H:i:s'));
 
-        if($date_now > $date2)
+        if($db_date_now > $db_date2)
         {
-            $update = "update cust_order set or_status = 0 where or_id = '".$row['or_id']."'";
-            mysqli_query($link, $update);
+            $db_update = "update cust_order set or_status = 0 where or_id = '".$db_row['or_id']."'";
+            mysqli_query($link, $db_update);
         }
     }
 
     // Checking for delivery started or not
-    $sql1 = "select * from deliveries where del_status = 0";
-    $run1 = mysqli_query($link, $sql1);
-    $count1 = mysqli_num_rows($run1);
-    if($count1 != 0)
+    $db_sql1 = "select * from deliveries where del_status = 0";
+    $db_run1 = mysqli_query($link, $db_sql1);
+    $db_count1 = mysqli_num_rows($db_run1);
+    if($db_count1 != 0)
     {
-        $row1 = mysqli_fetch_array($run1, MYSQLI_ASSOC);
+        $db_row1 = mysqli_fetch_array($db_run1, MYSQLI_ASSOC);
 
-        $i = 0;
-        $sql2 = "select * from delivery_trucks where del_id = '".$row1['del_id']."'";
-        $run2 = mysqli_query($link, $sql2);
-        $count2 = mysqli_num_rows($run2);
-        while($row2 = mysqli_fetch_array($run2, MYSQLI_ASSOC))
+        $db_i = 0;
+        $db_sql2 = "select * from delivery_trucks where del_id = '".$db_row1['del_id']."'";
+        $db_run2 = mysqli_query($link, $db_sql2);
+        $db_count2 = mysqli_num_rows($db_run2);
+        while($db_row2 = mysqli_fetch_array($db_run2, MYSQLI_ASSOC))
         {
-            if($row2['status'] == 1)
+            if($db_row2['status'] == 1)
             {
-                $i++;
+                $db_i++;
             }
         }
 
-        if($count2 == $i)
+        if($db_count2 == $db_i)
         {
-            mysqli_query($link, "update deliveries set del_status = 1 where del_id = '".$row1['del_id']."'");
+            mysqli_query($link, "update deliveries set del_status = 1 where del_id = '".$db_row1['del_id']."'");
         }
     }
 
     // Checking for delivery completed or not
-    $sql11 = "select * from deliveries where del_status = 2";
-    $run11 = mysqli_query($link, $sql11);
-    $count11 = mysqli_num_rows($run11);
-    if($count11 != 0)
+    $db_sql11 = "select * from deliveries where del_status = 2";
+    $db_run11 = mysqli_query($link, $db_sql11);
+    $db_count11 = mysqli_num_rows($db_run11);
+    if($db_count11 != 0)
     {
-        while($row11 = mysqli_fetch_array($run11, MYSQLI_ASSOC))
+        while($db_row11 = mysqli_fetch_array($db_run11, MYSQLI_ASSOC))
         {
 
-            if($row11['del_status'] == 2)
+            if($db_row11['del_status'] == 2)
             {
-                mysqli_query($link, "update cust_order set or_status = 5 where or_id = '".$row11['or_id']."'");
+                mysqli_query($link, "update cust_order set or_status = 5 where or_id = '".$db_row11['or_id']."'");
             }
             
             // Checking for old bids if load is set to completed
-            $sql5 = "select * from cust_order where or_status = 5";
-            $run5 = mysqli_query($link, $sql5);
-            while($row5 = mysqli_fetch_array($run5, MYSQLI_ASSOC))
+            $db_sql5 = "select * from cust_order where or_status = 5";
+            $db_run5 = mysqli_query($link, $db_sql5);
+            while($db_row5 = mysqli_fetch_array($db_run5, MYSQLI_ASSOC))
             {
-                mysqli_query($link, "delete from bidding where load_id = '".$row5['or_id']."'");
+                mysqli_query($link, "delete from bidding where load_id = '".$db_row5['or_id']."'");
             }
         }
     }
 
-    // Checking shipper trial ended or not then updating shipper from trial account to free account
-    $shipper_sql = "select * from customers where cu_account_on = 1";
-    $shipper_run = mysqli_query($link, $shipper_sql);
-    $check_shipper = mysqli_num_rows($shipper_run);
-    if($check_shipper == 0)
+    // Checking shipper trial or subscription ended or not then updating shipper from current account to free account
+    $db_shipper_sql = "select * from customers where cu_verified = 1";
+    $db_shipper_run = mysqli_query($link, $db_shipper_sql);
+    while($db_shipper_row = mysqli_fetch_array($db_shipper_run, MYSQLI_ASSOC))
     {
+        if($shipper_row['cu_account_on'] == 1)
+        {
+            $db_date_now = new DateTime(date('Y-m-d H:i:s'));
+            $db_date2    = new DateTime(date_format(date_create($db_shipper_row['cu_trial_expire_date']), 'Y-m-d H:i:s'));
+
+            if($db_date_now > $db_date2)
+            {
+                mysqli_query($link, "update customers set cu_account_on = 3 where cu_id = '".$db_shipper_row['cu_id']."'");
+            }
+        }
+
+        if($shipper_row['cu_account_on'] == 2)
+        {
+            $db_date_now = new DateTime(date('Y-m-d H:i:s'));
+            $db_date2    = new DateTime(date_format(date_create($db_shipper_row['cu_subscription_expire_date']), 'Y-m-d H:i:s'));
+
+            if($db_date_now > $db_date2)
+            {
+                mysqli_query($link, "update customers set cu_account_on = 3 where cu_id = '".$db_shipper_row['cu_id']."'");
+            }
+        }
+        
+    }
 ?>
