@@ -124,7 +124,7 @@
     $db_shipper_run = mysqli_query($link, $db_shipper_sql);
     while($db_shipper_row = mysqli_fetch_array($db_shipper_run, MYSQLI_ASSOC))
     {
-        if($shipper_row['cu_account_on'] == 1)
+        if($db_shipper_row['cu_account_on'] == 1)
         {
             $db_date_now = new DateTime(date('Y-m-d H:i:s'));
             $db_date2    = new DateTime(date_format(date_create($db_shipper_row['cu_trial_expire_date']), 'Y-m-d H:i:s'));
@@ -135,7 +135,7 @@
             }
         }
 
-        if($shipper_row['cu_account_on'] == 2)
+        if($db_shipper_row['cu_account_on'] == 2)
         {
             $db_date_now = new DateTime(date('Y-m-d H:i:s'));
             $db_date2    = new DateTime(date_format(date_create($db_shipper_row['cu_subscription_expire_date']), 'Y-m-d H:i:s'));
