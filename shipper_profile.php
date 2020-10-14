@@ -50,7 +50,7 @@
             {
                 $device_id = $row['cu_token'];
                 $title = "Document Verification";
-                $message = "Your all documents are verified and 7 days trial period started from now";
+                $message = "Your all documents are verified and 15 days trial period started from now";
 
                 $sent = push_notification_android($device_id, $title, $message);
 
@@ -58,7 +58,7 @@
         }
     }
 
-    if($row['cu_verified'] == 1 && $row['cu_account_on'] == 1 || $row['cu_account_on'] == 2)
+    if($row['cu_verified'] == 1 && $row['cu_account_on'] == 1 || $row['cu_account_on'] == 2 || $row['cu_account_on'] == 3)
     {
         if($pan_card['doc_verified'] != 1 || $address_f['doc_verified'] != 1 || $address_b['doc_verified'] != 1 || $selfie['doc_verified'] != 1 || $com_name['doc_verified'] != 1 
             || $office_address['doc_verified'] != 1)
@@ -77,7 +77,7 @@
         }
     }
 
-    if($row['cu_verified'] == 0 && $row['cu_account_on'] == 1 || $row['cu_account_on'] == 2)
+    if($row['cu_verified'] == 0 && $row['cu_account_on'] == 1 || $row['cu_account_on'] == 2 || $row['cu_account_on'] == 3)
     {
         if($pan_card['doc_verified'] == 1 && $address_f['doc_verified'] == 1 && $address_b['doc_verified'] == 1 && $selfie['doc_verified'] == 1 && $com_name['doc_verified'] == 1 && 
         $office_address['doc_verified'] == 1)
