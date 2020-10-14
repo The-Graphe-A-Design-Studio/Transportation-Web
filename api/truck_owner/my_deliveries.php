@@ -66,8 +66,6 @@
 
                 $total_price = round(($row['deal_price'] * $row['quantity']), 2);
 
-                $total_price = round(($total_price + ($total_price * 0.18)), 2);
-
                 if($row1['or_payment_mode'] == 1)
                 {
                     $mode = "Negotiable";
@@ -177,7 +175,7 @@
                     $delivery_trucks = ['status' => '1', 'trucks' => $del_trucks];
                 }
 
-                $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => '18%', 'total price' => "$total_price", 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
+                $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'total price' => "$total_price", 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
             }
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);

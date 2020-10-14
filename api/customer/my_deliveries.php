@@ -64,8 +64,6 @@
 
                 $total_price = round(($row['deal_price'] * $row['quantity']), 2);
 
-                $total_price = round(($total_price + ($total_price * 0.18)), 2);
-
                 $total_price = round(($total_price + ($total_price * ($row1['or_admin_expected_price']/100))), 2);
 
                 if($row1['or_payment_mode'] == 1)
@@ -176,7 +174,7 @@
                     $delivery_trucks = ['status' => '1', 'trucks' => $del_trucks];
                 }
 
-                $responseData[] = ['success' => $row['del_status'], 'delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'GST' => "18%", 'service tax' => $row1['or_admin_expected_price'].'%', 'total amount' => "$total_price", 'payment mode' => $mode, 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
+                $responseData[] = ['success' => $row['del_status'], 'delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'total amount' => "$total_price", 'payment mode' => $mode, 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
             }
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);

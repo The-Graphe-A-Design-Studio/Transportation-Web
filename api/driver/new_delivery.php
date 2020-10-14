@@ -60,8 +60,6 @@
 
             $total_price = round(($row_del['deal_price'] * $row_del['quantity']), 2);
 
-            $total_price = round(($total_price + ($total_price * 0.18)), 2);
-
             if($row_load['or_payment_mode'] == 1)
             {
                 $mode = "Negotiable";

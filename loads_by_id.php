@@ -704,15 +704,7 @@
                                                             <div class="col-12 col-md-3">
                                                                 <div class="card">
                                                                     <div class="card-body">
-                                                                        <?php $add_gst = round((($total_price * 0.18)), 2); ?>
-                                                                        <b>GST : </b>Rs. <?php echo $add_gst ?> (18%)
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-3">
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <?php $commi = round((($total_price + $add_gst) * ($row_del_data['or_admin_expected_price']/100)), 2); ?>
+                                                                        <?php $commi = round((($total_price) * ($row_del_data['or_admin_expected_price']/100)), 2); ?>
                                                                         <b>Commission : </b>Rs. <?php echo $commi." (".$row_del_data['or_admin_expected_price']."%)"; ?>
                                                                     </div>
                                                                 </div>
@@ -720,7 +712,7 @@
                                                             <div class="col-12 col-md-3">
                                                                 <div class="card">
                                                                     <div class="card-body">
-                                                                        <?php $grand_total = round(($total_price + $add_gst + $commi), 2); ?>
+                                                                        <?php $grand_total = round(($total_price + $commi), 2); ?>
                                                                         <b>Grand Total : </b><?php echo "Rs. ".$grand_total; ?>
                                                                     </div>
                                                                 </div>
