@@ -290,6 +290,115 @@
                     }
                 }
             }
+            elseif($shipper_row['cu_account_on'] == 3)
+            {
+                $all_sources = explode('* ', $_POST['source']);
+
+                foreach($all_sources as $sources)
+                {
+                    if(!empty($sources))
+                    {
+                        $sources = mysqli_real_escape_string($link, $sources);
+
+                        $coordinates = $geo->getCoordinates("$sources");
+                
+                        extract($coordinates);
+                        $lat = $latitude;
+                        $lng = $longitude;
+                        
+                        $data = file_get_contents("https://maps.google.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0");
+                        $data = json_decode($data);
+                        $add_array  = $data->results;
+                        $add_array = $add_array[0];
+                        $add_array = $add_array->address_components;
+                        $state = "Not found"; 
+                        $city = "Not found";
+                        foreach ($add_array as $key)
+                        {
+                            if($key->types[0] == 'locality')
+                            {
+                                $city = $key->long_name;
+                            }
+                            if($key->types[0] == 'administrative_area_level_1')
+                            {
+                                $state = $key->long_name;
+                            }
+                        }
+                        
+                        mysqli_query($link, "insert into cust_order_source (or_uni_code, or_source, or_source_lat, or_source_lng, or_source_city, or_source_state) values 
+                                    ('$code', '$sources', '$lat', '$lng', '$city', '$state')");
+                    }
+                }
+
+                $all_destinations = explode('* ', $_POST['destination']);
+
+                foreach($all_destinations as $destinations)
+                {
+                    if(!empty($destinations))
+                    {
+                        $destinations = mysqli_real_escape_string($link, $destinations);
+
+                        $coordinates = $geo->getCoordinates("$destinations");
+                
+                        extract($coordinates);
+                        $lat = $latitude;
+                        $lng = $longitude;
+                        
+                        $data = file_get_contents("https://maps.google.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0");
+                        $data = json_decode($data);
+                        $add_array  = $data->results;
+                        $add_array = $add_array[0];
+                        $add_array = $add_array->address_components;
+                        $state = "Not found"; 
+                        $city = "Not found";
+                        foreach ($add_array as $key)
+                        {
+                            if($key->types[0] == 'locality')
+                            {
+                                $city = $key->long_name;
+                            }
+                            if($key->types[0] == 'administrative_area_level_1')
+                            {
+                                $state = $key->long_name;
+                            }
+                        }
+
+                        mysqli_query($link, "insert into cust_order_destination (or_uni_code, or_destination, or_des_lat, or_des_lng, or_des_city, or_des_state) values 
+                                    ('$code', '$destinations', '$lat', '$lng', '$city', '$state')");
+                    }
+                }
+
+                $all_types = explode('* ', $_POST['truck_types']);
+
+                foreach($all_types as $trucks)
+                {
+                    if(!empty($trucks))
+                    {
+                        $trucks = mysqli_real_escape_string($link, $trucks);
+
+                        mysqli_query($link, "insert into cust_order_truck_pref (or_uni_code, or_truck_pref_type) values ('$code', '$trucks')");
+                    }
+                }
+
+                $sql = "insert into cust_order (or_cust_id, or_uni_code, or_product, or_price_unit, or_quantity, or_truck_preference, or_expected_price, or_payment_mode, or_advance_pay, 
+                        or_shipper_on, or_active_on, or_expire_on, or_contact_person_name, or_contact_person_phone, or_status) values ('".$_POST['cust_id']."', '$code', '".$_POST['material']."', '".$_POST['price_unit']."', 
+                        '".$_POST['quantity']."', '".$_POST['truck_preference']."', '".$_POST['expected_price']."', '".$_POST['payment_mode']."', '".$_POST['advance_pay']."', 1, '$date', '$ex_date', 
+                        '".$_POST['contact_person_name']."', '".$_POST['contact_person_phone']."', 2)";
+                $set = mysqli_query($link, $sql);
+                
+                if($set)
+                {
+                    $responseData = ['success' => '1', 'message' => 'Order Created'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(200);
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(400);
+                }
+            }
             else
             {
                 $responseData = ['success' => '0', 'message' => 'You have no plan. Get subscription'];
