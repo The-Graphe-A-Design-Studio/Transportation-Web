@@ -39,7 +39,7 @@
         $check_shipper = mysqli_num_rows($shipper_run);
         if($check_shipper == 0)
         {
-            $responseData = ['success' => '0', 'message' => 'Your documents are verified'];
+            $responseData = ['success' => '0', 'message' => 'Your documents are not verified'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
