@@ -52,10 +52,6 @@
             }
             else
             {
-                $kya = date('Y-m-d');
-                $check_limit = "SELECT * FROM cust_order WHERE or_cust_id = '".$_POST['cust_id']."' AND DATE_FORMAT(or_active_on, '%Y-%m-%d') = '$kya'";
-                $run_limit = mysqli_query($link, $check_limit);
-                $row_limit = mysqli_fetch_array($run_limit, MYSQLI_ASSOC);
                 $all_sources = explode('* ', $_POST['source']);
 
                 foreach($all_sources as $sources)
