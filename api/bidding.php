@@ -37,7 +37,7 @@
             $checkee12 = mysqli_query($link, $sqlee12);
             $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
 
-            if($rowee1['or_shipper_on'] == 2)
+            if($rowee1['or_shipper_on'] == 1 || $rowee1['or_shipper_on'] == 2 || $rowee1['or_shipper_on'] == 3)
             {
                 $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price, bid_status) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
                     '".$_POST['load_id']."', '".$_POST['expected_price']."', 1)";
