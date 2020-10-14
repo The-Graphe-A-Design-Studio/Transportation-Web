@@ -34,7 +34,7 @@
         $ex_date = date_create($_POST['expire_date_time']);
         $ex_date = date_format($ex_date, "Y-m-d H:i:s");
 
-        $shipper_sql = "select * from customers where cu_id = '".$_POST['cust_id']."' and cu_verifeid = 1";
+        $shipper_sql = "select * from customers where cu_id = '".$_POST['cust_id']."' and cu_verified = 1";
         $shipper_run = mysqli_query($link, $shipper_sql);
         $check_shipper = mysqli_num_rows($shipper_run);
         if($check_shipper == 0)

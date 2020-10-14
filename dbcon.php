@@ -118,4 +118,11 @@
             }
         }
     }
+
+    // Checking shipper trial ended or not then updating shipper from trial account to free account
+    $shipper_sql = "select * from customers where cu_account_on = 1";
+    $shipper_run = mysqli_query($link, $shipper_sql);
+    $check_shipper = mysqli_num_rows($shipper_run);
+    if($check_shipper == 0)
+    {
 ?>
