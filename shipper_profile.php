@@ -280,8 +280,11 @@
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="buttons text-center">
-                                                <a href="#" class="btn btn-primary btn-lg">Loads</a>
+                                            <div class="buttons" style="display: flex; flex-direction: row; justify-content: center;">
+                                                <form action="loads" method="post">
+                                                    <input type="text" value="<?php echo $row['cu_phone']; ?>" name="shipper" hidden>
+                                                    <button type="submit" class="btn btn-primary btn-lg">All Load Posts</button>
+                                                </form>
                                                 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#history">Subscription History</button>
                         
                                                 <!-- Modal -->

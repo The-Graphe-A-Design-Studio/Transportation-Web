@@ -1,6 +1,11 @@
 <?php
     include('session.php');
     include('layout.php');
+
+    if(isset($_POST['shipper']))
+    {
+        $shipper = $_POST['shipper'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +90,7 @@
                                 <div class="col-12 col-xs-6 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>Search by Number</label>
-                                        <input class="form-control common_selector search_bar" placeholder="Search by Shipper Phone Number" name="name"/>
+                                        <input class="form-control common_selector search_bar" value="<?php echo $shipper; ?>" placeholder="Search by Shipper Phone Number" name="name"/>
                                     </div>
                                 </div>
                                 <div class="col-12 col-xs-6 col-sm-6 col-md-3">
