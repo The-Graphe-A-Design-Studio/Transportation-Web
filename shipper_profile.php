@@ -41,7 +41,7 @@
             date_default_timezone_set("Asia/Kolkata");
             $date = date('Y-m-d H:i:s');
 
-            $trial_date = date('Y-m-d H:i:s', strtotime($date. ' + 7 days'));
+            $trial_date = date('Y-m-d H:i:s', strtotime($date. ' + 15 days'));
 
             $update = "update customers set cu_verified = 1, cu_account_on = 1, cu_trial_expire_date = '$trial_date' where cu_id = '$shipper'";
             $done = mysqli_query($link, $update);
