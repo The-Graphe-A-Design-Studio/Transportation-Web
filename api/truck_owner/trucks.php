@@ -193,6 +193,11 @@
                                                 
                                                 if($mobile_insert)
                                                 {
+                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 3, '$rc')");
+                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 4, '$insurance')");
+                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 5, '$road_tax')");
+                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 6, '$rto')");
+
                                                     $responseData = ['success' => '1', 'message' => 'New Truck added'];
                                                     echo json_encode($responseData, JSON_PRETTY_PRINT);
 
@@ -244,6 +249,8 @@
             }
         }
     }
+
+    // 3 - RC; 4 - Insurance; 5 - Road Tax; 6 - RTO Passing
 
     //edit truck and driver details
     elseif(isset($_POST['trk_id']) && isset($_POST['trk_cat_edit']) && isset($_POST['trk_num_edit']) && isset($_POST['trk_load_edit']) && isset($_POST['trk_dr_name_edit']) && 
