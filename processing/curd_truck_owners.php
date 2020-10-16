@@ -220,7 +220,40 @@
 		{
 			echo "Something went wrong";
 		}
-	}
+    }
+    elseif(isset($_POST['to_doc_id']) && isset($_POST['to_doc_status']))
+    {
+        if($_POST['to_doc_status'] === '0')
+        {
+            $sql = mysqli_query($link, "update truck_owner_docs set to_doc_verified = 1 where to_doc_id = '".$_POST['to_doc_id']."'");
+
+            if($sql)
+            {
+                echo "Document verified";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
+        }
+        elseif($_POST['to_doc_status'] === '1')
+        {
+            $sql = mysqli_query($link, "update truck_owner_docs set to_doc_verified = 0 where to_doc_id = '".$_POST['to_doc_id']."'");
+
+            if($sql)
+            {
+                echo "Set to not verified";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
+        }
+        else
+        {
+            echo "Something missing";
+        }
+    }
     else
     {
         echo "Server error";

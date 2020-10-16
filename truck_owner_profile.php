@@ -10,6 +10,28 @@
     $doc = "select * from truck_owner_docs where to_doc_owner_phone = '".$row['to_phone']."'";
     $doc_run = mysqli_query($link, $doc);
     $doc_row = mysqli_fetch_array($doc_run, MYSQLI_ASSOC);
+
+    if($row['to_verified'] == 0 && $row['to_account_on'] == 0)
+    {
+        if($doc_row['to_doc_verified'] == 1)
+        {
+            $date = date('Y-m-d H:i:s');
+
+            $trial_date = date('Y-m-d H:i:s', strtotime($date. ' + 15 days'));
+
+            $update = "update truck_owners set to_verified = 1, to_account_on = 1, to_trial_expire_date = '$trial_date' where to_id = '$owner'";
+            $done = mysqli_query($link, $update);
+            
+            if($done)
+            {
+                $device_id = $row['to_token'];
+                $title = "Document Verification";
+                $message = "Your all documents are verified and 15 days trial period started from now";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -199,7 +221,19 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-12 col-lg-5">
-                            <div class="card card-primary">
+                            <?php
+                                if($doc_row['to_doc_verified'] == 0)
+                                {
+                                    $card = "card-warning";
+                                    $button = '<button type="submit" class="btn btn-icon btn-success" title="Accept"><i class="fas fa-check-double"></i></button>';
+                                }
+                                else
+                                {
+                                    $card = "card-success";
+                                    $button = '<button type="submit" class="btn btn-icon btn-danger" title="Reject"><i class="far fa-times-circle"></i></i></button>';
+                                }
+                            ?>
+                            <div class="card <?php echo $card; ?>">
                                 <div class="card-header">
                                     <h4>PAN Card</h4>
                                 </div>
@@ -210,6 +244,11 @@
                                 </div>
                                 <div class="card-footer text-center">
                                     <div class="buttons" style="display: inline-flex">
+                                        <form class="accept-reject">
+                                            <input type="text" name="to_doc_id" value="<?php echo $doc_row['to_doc_id']; ?>" hidden>
+                                            <input type="text" name="to_doc_status" value="<?php echo $doc_row['to_doc_verified']; ?>" hidden>
+                                            <?php echo $button; ?>
+                                        </form>
                                         <button class="btn btn-icon btn-info" data-toggle="modal" title="View" data-target="#pan_card"><i class="fas fa-eye"></i></button>
                                         <!-- Modal -->
                                         <div class="mymodal modal fade" id="pan_card" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
@@ -451,7 +490,7 @@
             });
         });
     
-        $(".to_status").submit(function(e)
+        $(".accept-reject").submit(function(e)
         {
             var form_data = $(this).serialize();
             // alert(form_data);
@@ -463,9 +502,9 @@
                 success: function(data)
                 {
                     alert(data);
-                    if(data === "Truck Owner Accepted" || data === "Truck Owner Rejected")
+                    if(data === "Document verified" || data === "Set to not verified")
                     {
-                        $( "#refresh_btn" ).trigger( "click" );
+                        location.href = "truck_owner_profile?owner_id=<?php echo $owner; ?>";
                     }
                 }
             });
