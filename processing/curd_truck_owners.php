@@ -8,19 +8,24 @@
     {
         $query = "select * from truck_owners where to_on = '1'";
 
-        if(isset($_POST["active"]))
+        if(isset($_POST["trial"]))
         {
             $query .= " AND to_account_on = '1'";
         }
 
-        if(isset($_POST["inactive"]))
+        if(isset($_POST["subscription"]))
         {
-            $query .= " AND to_account_on = '0'";
+            $query .= " AND to_account_on = '2'";
         }
 
         if(isset($_POST["nothing"]))
         {
             $query .= "";
+        }
+
+        if(isset($_POST["not_verified"]))
+        {
+            $query .= " AND to_verified = '0'";
         }
 
         if(!empty($_POST["start_date"]) && empty($_POST["end_date"]))

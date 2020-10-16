@@ -42,14 +42,19 @@
                                         <span class="custom-switch-description">All</span>
                                     </label>
                                     <label class="custom-switch">
-                                        <input type="radio" name="option" class="custom-switch-input common_selector active" value="2">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector trial" value="2">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">On Trial</span>
+                                    </label>
+                                    <label class="custom-switch">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector subscription" value="2">
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">On Subscribtion</span>
                                     </label>
                                     <label class="custom-switch">
-                                        <input type="radio" name="option" class="custom-switch-input common_selector inactive" value="3">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector not_verified" value="3">
                                         <span class="custom-switch-indicator"></span>
-                                        <span class="custom-switch-description">Not on Subscribtion</span>
+                                        <span class="custom-switch-description">Doc not verified</span>
                                     </label>
                                 </div>
                             </div>
@@ -100,8 +105,9 @@
             function filter_data()
             {
                 var action = 'fetch_data';
-                var active = get_filter('active');
-                var inactive = get_filter('inactive');
+                var trial = get_filter('trial');
+                var subscription = get_filter('subscription');
+                var not_verified = get_filter('not_verified');
                 var nothing = get_filter('nothing');
                 var search = get_key('search_bar');
                 var start_date = start_datee('s_date');
@@ -109,7 +115,7 @@
                 $.ajax({
                     url:"processing/curd_truck_owners.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, search:search, start_date:start_date, end_date:end_date},
+                    data:{action:action, trial:trial, subscription:subscription, not_verified:not_verified, nothing:nothing, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
                         $('.filter_data').html(data);
                     }
