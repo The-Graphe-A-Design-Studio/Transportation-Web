@@ -2,7 +2,7 @@
     include('session.php');
     include('layout.php');
     include('FCM/notification.php');
-    
+
     $shipper = $_GET['shipper_id'];
 
     $sql = "select * from customers where cu_id = '$shipper'";
@@ -260,11 +260,37 @@
                                         </table>
                                     ';
                                 }
+                                elseif($row['cu_account_on'] == 3)
+                                {
+                                    $table =
+                                    '
+                                        <table>
+                                            <thead>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                            </thead>
+                                            <tbody>
+                                                <td data-column="Plan">Free</td>
+                                                <td data-column="Status">On Free Period</td>
+                                            </tbody>
+                                        </table>
+                                    ';
+                                }
                                 else
                                 {
-                                    $expire = "Nil";
-                                    $t_left = "Nil";
-                                    $status = "Nil";
+                                    $table =
+                                    '
+                                        <table>
+                                            <thead>
+                                                <th>Plan</th>
+                                                <th>Status</th>
+                                            </thead>
+                                            <tbody>
+                                                <td data-column="Plan">No Plan</td>
+                                                <td data-column="Status">No Plan</td>
+                                            </tbody>
+                                        </table>
+                                    ';
                                 }
                             ?>
                             <div class="card">
