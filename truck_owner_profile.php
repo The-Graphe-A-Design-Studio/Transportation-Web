@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
     <style>
-        td i{font-size: 1.2rem !important;}
+        td i{font-size: 1rem !important;}
         .info{padding: 1vh;}
         .truck-eye{font-size: 1em !important;}
         .card .card-body p img{max-height: 150px;}
@@ -301,17 +301,13 @@
                                 <thead>
                                     <th>ID</th>
                                     <th>Category</th>
-                                    <th>Type</th>
                                     <th>Number</th>
                                     <th>Driver's Name</th>
                                     <th>Driver's Phone</th>
                                     <th>Driver's Pic</th>
                                     <th>Driver's License</th>
-                                    <th>RC</th>
-                                    <th>Insurance</th>
-                                    <th>Road Tax</th>
-                                    <th>RTO</th>
                                     <th>Status</th>
+                                    <th>Verified</th>
                                     <th>View</th>
                                 </thead>
                                 <tbody>
@@ -341,8 +337,7 @@
                                 ?>
                                         <tr>
                                             <td data-column="ID"><?php echo $r_truck['trk_id']; ?></td>
-                                            <td data-column="Category"><?php echo $r_cat['trk_cat_name']; ?></td>
-                                            <td data-column="Type"><?php echo $r_typ['ty_name']; ?></td>
+                                            <td data-column="Category"><?php echo $r_cat['trk_cat_name'].' ('.$r_typ['ty_name'].')'; ?></td>
                                             <td data-column="Number"><?php echo $r_truck['trk_num']; ?></td>
                                             <td data-column="Driver's Name"><?php echo $r_truck['trk_dr_name']; ?></td>
                                             <td data-column="Driver's Phone"><?php echo "+".$r_truck['trk_dr_phone_code']." ".$r_truck['trk_dr_phone']; ?></td>
@@ -384,82 +379,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td data-column="RC">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rc<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
-                                                <!-- Modal -->
-                                                <div class="mymodal modal fade" id="rc<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                    <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
-                                                        <section>
-                                                            <div class="panzoom" style="text-align: center">
-                                                                <img src="<?php echo $r_truck['trk_rc'];?>" style="max-width: 100%" alt="truck_rc_<?php echo $r_truck['trk_num']; ?>">
-                                                            </div>
-                                                        </section>
-                                                        <section class="buttons" style="margin-top: 2vh;">
-                                                            <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
-                                                            <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
-                                                            <!-- <input type="range" class="zoom-range"> -->
-                                                            <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
-                                                        </section>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td data-column="Insurance">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#insurance<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
-                                                <!-- Modal -->
-                                                <div class="mymodal modal fade" id="insurance<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                    <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
-                                                        <section>
-                                                            <div class="panzoom" style="text-align: center">
-                                                                <img src="<?php echo $r_truck['trk_insurance'];?>" style="max-width: 100%" alt="truck_insurance_<?php echo $r_truck['trk_num']; ?>">
-                                                            </div>
-                                                        </section>
-                                                        <section class="buttons" style="margin-top: 2vh;">
-                                                            <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
-                                                            <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
-                                                            <!-- <input type="range" class="zoom-range"> -->
-                                                            <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
-                                                        </section>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td data-column="Road Tax">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#road_tax<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
-                                                <!-- Modal -->
-                                                <div class="mymodal modal fade" id="road_tax<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                    <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
-                                                        <section>
-                                                            <div class="panzoom" style="text-align: center">
-                                                                <img src="<?php echo $r_truck['trk_road_tax'];?>" style="max-width: 100%" alt="truck_road_tax_<?php echo $r_truck['trk_num']; ?>">
-                                                            </div>
-                                                        </section>
-                                                        <section class="buttons" style="margin-top: 2vh;">
-                                                            <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
-                                                            <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
-                                                            <!-- <input type="range" class="zoom-range"> -->
-                                                            <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
-                                                        </section>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td data-column="RTO">
-                                                <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#rto<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye truck-eye"></i></button>
-                                                <!-- Modal -->
-                                                <div class="mymodal modal fade" id="rto<?php echo $r_truck['trk_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
-                                                    <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
-                                                        <section>
-                                                            <div class="panzoom" style="text-align: center">
-                                                            <img src="<?php echo $r_truck['trk_rto'];?>" style="max-width: 100%" alt="truck_rto_<?php echo $r_truck['trk_num']; ?>">
-                                                            </div>
-                                                        </section>
-                                                        <section class="buttons" style="margin-top: 2vh;">
-                                                            <button class="zoom-in btn btn-icon btn-info" title="Zoom In"><i class="fas fa-search-plus" style="line-height: unset !important"></i></button>
-                                                            <button class="zoom-out btn btn-icon btn-info" title="Zoom Out"><i class="fas fa-search-minus" style="line-height: unset !important"></i></button>
-                                                            <!-- <input type="range" class="zoom-range"> -->
-                                                            <button class="reset btn btn-icon btn-info" title="Reset"><i class="fas fa-redo" style="line-height: unset !important"></i></button>
-                                                        </section>
-                                                    </div>
-                                                </div>
-                                            </td>
                                             <td data-column="Status">
                                                 <?php
                                                     if($r_truck['trk_active'] == 1)
@@ -476,8 +395,26 @@
                                                     }
                                                 ?>
                                             </td>
+                                            <td data-column="Verified">
+                                                <?php
+                                                    if($r_truck['trk_verified'] == 1)
+                                                    {
+                                                ?>
+                                                    <span class="btn btn-sm btn-success">Yes</span>
+                                                <?php
+                                                    }
+                                                    else
+                                                    {
+                                                ?>
+                                                    <span class="btn btn-sm btn-danger">No</span>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </td>
                                             <td data-column="View">
-                                                <a class="btn btn-icon btn-info" href="truck_profile?truck_id=<?php echo $r_truck['trk_id']; ?>"><i class="fas fa-eye" title="View Details"></i></a>
+                                                <a class="btn btn-icon btn-info" href="truck_profile?truck_id=<?php echo $r_truck['trk_id']; ?>">
+                                                    <i class="fas fa-eye" title="View Details"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                 <?php
