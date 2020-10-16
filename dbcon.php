@@ -144,7 +144,34 @@
             {
                 mysqli_query($link, "update customers set cu_account_on = 3 where cu_id = '".$db_shipper_row['cu_id']."'");
             }
+        }        
+    }
+
+    // Checking truck owner trial or subscription ended or not then updating truck owner from current account to 0
+    $db_owner_sql = "select * from truck_owners where to_verified = 1";
+    $db_owner_run = mysqli_query($link, $db_owner_sql);
+    while($db_owner_row = mysqli_fetch_array($db_owner_run, MYSQLI_ASSOC))
+    {
+        if($db_owner_row['to_account_on'] == 1)
+        {
+            $db_date_now = new DateTime(date('Y-m-d H:i:s'));
+            $db_date2    = new DateTime(date_format(date_create($db_owner_row['to_trial_expire_date']), 'Y-m-d H:i:s'));
+
+            if($db_date_now > $db_date2)
+            {
+                mysqli_query($link, "update truck_owners set to_account_on = 0 where to_id = '".$db_owner_row['to_id']."'");
+            }
         }
-        
+
+        if($db_owner_row['to_account_on'] == 2)
+        {
+            $db_date_now = new DateTime(date('Y-m-d H:i:s'));
+            $db_date2    = new DateTime(date_format(date_create($db_owner_row['to_subscription_expire_date']), 'Y-m-d H:i:s'));
+
+            if($db_date_now > $db_date2)
+            {
+                mysqli_query($link, "update truck_owners set to_account_on = 0 where to_id = '".$db_owner_row['to_id']."'");
+            }
+        }        
     }
 ?>
