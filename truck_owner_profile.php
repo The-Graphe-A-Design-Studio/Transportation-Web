@@ -1,6 +1,8 @@
 <?php
     include('session.php');
     include('layout.php');
+    include('FCM/notification.php');
+
     $owner = $_GET['owner_id'];
 
     $sql = "select * from truck_owners where to_id = '$owner'";
@@ -19,7 +21,7 @@
 
             $trial_date = date('Y-m-d H:i:s', strtotime($date. ' + 15 days'));
 
-            $update = "update truck_owners set to_verified = 1, to_account_on = 1, to_trial_expire_date = '$trial_date' where to_id = '$owner'";
+            $update = "update truck_owners set to_verified = 1, to_account_on = 1,to_trial_start_date = '$date', to_trial_expire_date = '$trial_date' where to_id = '$owner'";
             $done = mysqli_query($link, $update);
             
             if($done)
@@ -88,33 +90,45 @@
                                 <div class="profile-widget-description">
                                     <div class="row">
                                         <?php
-                                            if($row['to_subscription_start_date'] == "0000-00-00 00:00:00")
-                                            {
-                                                $start = "Not Started";
-                                            }
-                                            else
-                                            {
-                                                $start = date_format(date_create($row['to_subscription_start_date']), 'd M, Y h:i A');
-                                            }
-
-                                            if($row['to_subscription_expire_date'] == "0000-00-00 00:00:00")
-                                            {
-                                                $end = "Not Started";
-                                            }
-                                            else
-                                            {
-                                                $end = date_format(date_create($row['to_subscription_expire_date']), 'd M, Y h:i A');
-                                            }
-                                        ?>
-                                        <div class="col-12 col-md-6 col-lg-6 info"><b>Bank Account Number : </b><?php echo $row['to_bank']; ?></div>
-                                        <div class="col-12 col-md-6 col-lg-6 info"><b>IFSC Code : </b><?php echo $row['to_ifsc']; ?></div>
-                                        <div class="col-12 col-md-6 col-lg-6 info"><b>Subscription Start : </b><?php echo $start; ?></div>
-                                        <div class="col-12 col-md-6 col-lg-6 info"><b>Subscription End : </b><?php echo $end; ?></div>
-                                        <?php
                                             if($row['to_account_on'] == 1)
                                             {
                                                 $date_now = new DateTime(date('Y-m-d H:i:s'));
+                                                $date2    = new DateTime(date_format(date_create($row['to_trial_expire_date']), 'Y-m-d H:i:s'));
+
+                                                $start = date_format(date_create($row['to_trial_start_date']), 'd M, Y h:i A');
+            
+                                                if($date_now > $date2)
+                                                {
+                                                    $expire = date_format(date_create($row['to_trial_expire_date']), 'd M, Y h:i A');
+                                                    $status = "Trial Period Expired";
+                                                    $plan = "Trial";
+                                                    $t_left = "0";
+                                                }
+                                                else
+                                                {
+                                                    $expire = date_format(date_create($row['to_trial_expire_date']), 'd M, Y h:i A');
+                                                    $status = "On Trial Period";
+                                                    $plan = "Trial";
+            
+                                                    function dateDiffInDays($date11, $date22)  
+                                                    { 
+                                                        // Calculating the difference in timestamps 
+                                                        $diff = strtotime($date22) - strtotime($date11); 
+                                                        
+                                                        // 1 day = 24 hours 
+                                                        // 24 * 60 * 60 = 86400 seconds 
+                                                        return abs(round($diff / 86400)); 
+                                                    }
+            
+                                                    $t_left = dateDiffInDays(date('Y-m-d H:i:s'), $row['to_trial_expire_date']);
+                                                }
+                                            }
+                                            elseif($row['to_account_on'] == 2)
+                                            {
+                                                $date_now = new DateTime(date('Y-m-d H:i:s'));
                                                 $date2    = new DateTime(date_format(date_create($row['to_subscription_expire_date']), 'Y-m-d H:i:s'));
+
+                                                $start = date_format(date_create($row['to_subscription_start_date']), 'd M, Y h:i A');
             
                                                 if($date_now > $date2)
                                                 {
@@ -144,9 +158,18 @@
                                             }
                                             else
                                             {
-                                                $t_left = 0;
+                                                $plan = $status = "No Plan";
+                                                $start = "Not Started";
+                                                $expire = "--";
+                                                $t_left = "--";
                                             }
                                         ?>
+                                        <div class="col-12 col-md-6 col-lg-6 info"><b>Bank Account Number : </b><?php echo $row['to_bank']; ?></div>
+                                        <div class="col-12 col-md-6 col-lg-6 info"><b>IFSC Code : </b><?php echo $row['to_ifsc']; ?></div>
+                                        <div class="col-12 col-md-6 col-lg-6 info"><b>Plan Type : </b><?php echo $plan; ?></div>
+                                        <div class="col-12 col-md-6 col-lg-6 info"><b>Status : </b><?php echo $status; ?></div>
+                                        <div class="col-12 col-md-6 col-lg-6 info"><b>Start Date : </b><?php echo $start; ?></div>
+                                        <div class="col-12 col-md-6 col-lg-6 info"><b>End Date : </b><?php echo $expire; ?></div>
                                         <div class="col-12 col-md-6 col-lg-6 info"><b>Days Left : </b><?php echo $t_left; ?></div>
                                     </div>
                                 </div>
