@@ -42,7 +42,7 @@
             }
             elseif($_POST['user_type'] == 2)
             {
-                $shipper = "update truck_owners set to_account_on = 1, to_subscription_start_date = '$date', to_subscription_order_id = '".$_POST['razorpay_order_id']."', 
+                $shipper = "update truck_owners set to_account_on = 2, to_subscription_start_date = '$date', to_subscription_order_id = '".$_POST['razorpay_order_id']."', 
                             to_subscription_expire_date = '$expire_date' where to_id = '".$_POST['user_id']."'";
                 $run_ship = mysqli_query($link, $shipper);
 
