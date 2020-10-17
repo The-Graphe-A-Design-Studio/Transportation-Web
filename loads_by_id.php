@@ -431,7 +431,7 @@
                                                             <input type="button" id="refresh_btn" value="Refresh" hidden>
                                                         </div>
                                                         <div class="card-body" style="padding: 1vh !important;">
-                                                            <div class="custom-switches-stacked mt-2" style="flex-direction: row">
+                                                            <!-- <div class="custom-switches-stacked mt-2" style="flex-direction: row">
                                                                 <div class="form-group">
                                                                     <label class="custom-switch">
                                                                         <input type="radio" name="option" class="custom-switch-input common_selector nothing" value="1" checked>
@@ -449,7 +449,7 @@
                                                                         <span class="custom-switch-description">Drivers</span>
                                                                     </label>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="filter_bid_data"></div>
                                                         </div>
                                                     </div>
