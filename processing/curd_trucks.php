@@ -179,6 +179,39 @@
         echo $output;
 
     }
+    elseif(isset($_POST['doc_id']) && isset($_POST['doc_status']))
+    {
+        if($_POST['doc_status'] === '0')
+        {
+            $sql = mysqli_query($link, "update truck_docs set trk_doc_verified = 1 where trk_doc_id = '".$_POST['doc_id']."'");
+
+            if($sql)
+            {
+                echo "Document verified";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
+        }
+        elseif($_POST['doc_status'] === '1')
+        {
+            $sql = mysqli_query($link, "update truck_docs set trk_doc_verified = 0 where trk_doc_id = '".$_POST['doc_id']."'");
+
+            if($sql)
+            {
+                echo "Set to not verified";
+            }
+            else
+            {
+                echo "Something went wrong";
+            }
+        }
+        else
+        {
+            echo "Something missing";
+        }
+    }
     else
     {
         echo "Server error";
