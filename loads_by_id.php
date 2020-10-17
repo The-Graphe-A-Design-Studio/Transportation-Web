@@ -124,7 +124,7 @@
                                                 </div>
                                                 
                                                 <?php
-                                                    if($row['or_shipper_on'] == 1)
+                                                    if($row['or_shipper_on'] == 3)
                                                     {
                                                         if($row['or_admin_expected_price'] == 0)
                                                         {
