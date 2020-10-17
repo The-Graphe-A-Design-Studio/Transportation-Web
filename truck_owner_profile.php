@@ -334,6 +334,14 @@
                                             $typ = "select * from truck_cat_type where ty_id = '".$r_truck['trk_cat_type']."'";
                                             $g_typ = mysqli_query($link, $typ);
                                             $r_typ = mysqli_fetch_array($g_typ, MYSQLI_ASSOC);
+
+                                            $doc = "select * from truck_docs where trk_doc_truck_num = '".$r_truck['trk_num']."' and trk_doc_sr_num = 1";
+                                            $r_doc = mysqli_query($link, $doc);
+                                            $selfie = mysqli_fetch_array($r_doc, MYSQLI_ASSOC);
+
+                                            $doc1 = "select * from truck_docs where trk_doc_truck_num = '".$r_truck['trk_num']."' and trk_doc_sr_num = 2";
+                                            $r_doc1 = mysqli_query($link, $doc1);
+                                            $dl = mysqli_fetch_array($r_doc1, MYSQLI_ASSOC);
                                 ?>
                                         <tr>
                                             <td data-column="ID"><?php echo $r_truck['trk_id']; ?></td>
@@ -348,7 +356,7 @@
                                                     <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
                                                         <section>
                                                             <div class="panzoom" style="text-align: center">
-                                                                <img src="<?php echo $r_truck['trk_dr_pic'];?>" style="max-width: 100%" alt="truck_driver_pic_<?php echo $r_truck['trk_dr_phone']; ?>">
+                                                                <img src="<?php echo $selfie['trk_doc_location'];?>" style="max-width: 100%; max-height: 70vh;" alt="truck_driver_pic_<?php echo $r_truck['trk_dr_phone']; ?>">
                                                             </div>
                                                         </section>
                                                         <section class="buttons" style="margin-top: 2vh;">
@@ -367,7 +375,7 @@
                                                     <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
                                                         <section>
                                                             <div class="panzoom" style="text-align: center">
-                                                                <img src="<?php echo $r_truck['trk_dr_license'];?>" style="max-width: 100%" alt="truck_driver_license_<?php echo $r_truck['trk_dr_phone']; ?>">
+                                                                <img src="<?php echo $dl['trk_doc_location'];?>" style="max-width: 100%" alt="truck_driver_license_<?php echo $r_truck['trk_dr_phone']; ?>">
                                                             </div>
                                                         </section>
                                                         <section class="buttons" style="margin-top: 2vh;">
