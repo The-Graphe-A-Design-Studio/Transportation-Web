@@ -52,6 +52,11 @@
                                         <span class="custom-switch-description">On Subscription</span>
                                     </label>
                                     <label class="custom-switch">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector free" value="3">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">on Free Plan</span>
+                                    </label>
+                                    <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector rejected" value="4">
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">Docs not verified</span>
@@ -108,6 +113,7 @@
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
+                var free = get_filter('free');
                 var reject = get_filter('rejected');
                 var search = get_key('search_bar');
                 var start_date = start_datee('s_date');
@@ -115,7 +121,7 @@
                 $.ajax({
                     url:"processing/curd_shippers.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, reject:reject, search:search, start_date:start_date, end_date:end_date},
+                    data:{action:action, active:active, inactive:inactive, nothing:nothing, free:free, reject:reject, search:search, start_date:start_date, end_date:end_date},
                     success:function(data){
                         $('.filter_data').html(data);
                     }

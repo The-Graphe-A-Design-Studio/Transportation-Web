@@ -18,6 +18,11 @@
             $query .= " AND cu_account_on = '2'";
         }
 
+        if(isset($_POST["free"]))
+        {
+            $query .= " AND cu_account_on = '3'";
+        }
+
         if(isset($_POST["nothing"]))
         {
             $query .= "";
