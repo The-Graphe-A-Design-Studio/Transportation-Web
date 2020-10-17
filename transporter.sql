@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2020 at 02:19 PM
+-- Generation Time: Oct 17, 2020 at 05:56 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -326,6 +326,8 @@ CREATE TABLE `trucks` (
   `trk_dr_phone` bigint(20) NOT NULL,
   `trk_otp` int(11) NOT NULL,
   `trk_verified` tinyint(4) NOT NULL DEFAULT 0,
+  `trk_lat` decimal(30,8) NOT NULL,
+  `trk_lng` decimal(30,8) NOT NULL,
   `trk_active` tinyint(4) NOT NULL DEFAULT 0,
   `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 : Not on Trip; 1 : Set for Trip; 2 - On Trip',
   `trk_dr_token` varchar(255) NOT NULL,
