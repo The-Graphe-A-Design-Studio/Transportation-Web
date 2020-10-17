@@ -4,7 +4,7 @@
 
     header('Content-Type: application/json');
 
-    // Validate License
+    // Validate License - 2
     if(isset($_POST['trk_id']) && !empty($_FILES['trk_dr_license']))
     {
         if(!empty($_FILES['trk_dr_license']))
@@ -42,7 +42,7 @@
 
                 if($done)
                 {
-                    $update = "update trucks set trk_dr_license = '$dir' where trk_id = '".$_POST['trk_id']."'";
+                    $update = "update truck_docs set trk_doc_location = '$dir' where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 2";
                     $run_update = mysqli_query($link, $update);
 
                     if($run_update)
@@ -74,7 +74,7 @@
             http_response_code(206);
         }
     }
-    // Validate selfie
+    // Validate selfie - 1
     elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_dr_selfie']))
     {
         if(!empty($_FILES['trk_dr_selfie']))
@@ -112,7 +112,7 @@
 
                 if($done)
                 {
-                    $update = "update trucks set trk_dr_pic = '$dir' where trk_id = '".$_POST['trk_id']."'";
+                    $update = "update truck_docs set trk_doc_location = '$dir' where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 1";
                     $run_update = mysqli_query($link, $update);
 
                     if($run_update)

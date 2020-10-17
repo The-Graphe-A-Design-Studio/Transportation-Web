@@ -390,6 +390,8 @@
 
             move_uploaded_file($file_tmp1, $des);
 
+            $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+
             $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 3";
             $d_run = mysqli_query($link, $d_sql);
 
@@ -441,6 +443,8 @@
             array_map('unlink', glob("$dir/insurance.*"));
 
             move_uploaded_file($file_tmp1, $des);
+
+            $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
             $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 4";
             $d_run = mysqli_query($link, $d_sql);
@@ -494,6 +498,8 @@
 
             move_uploaded_file($file_tmp1, $des);
 
+            $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
+
             $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 5";
             $d_run = mysqli_query($link, $d_sql);
 
@@ -545,6 +551,8 @@
             array_map('unlink', glob("$dir/rto.*"));
 
             move_uploaded_file($file_tmp1, $des);
+
+            $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
             $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 6";
             $d_run = mysqli_query($link, $d_sql);
