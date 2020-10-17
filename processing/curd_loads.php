@@ -319,7 +319,8 @@
                         <th>ID</th>
                         <th>Phone</th>
                         <th>Name</th>
-                        <th>Subscription</th>
+                        <th>Plan</th>
+                        <th>Verified</th>
                     </thead>
                     <tbody>
             ';
@@ -328,22 +329,37 @@
             {
                 if($row['to_account_on'] == 1)
                 {
-                    $subs = '<span class="btn btn-md btn-success">Yes</span>';
+                    $subs = '<span class="btn btn-md btn-info">On Trial</span>';
+                }
+                elseif($row['to_account_on'] == 2)
+                {
+                    $subs = '<span class="btn btn-md btn-info">On Subscription</span>';
                 }
                 else
                 {
-                    $subs = '<span class="btn btn-md btn-warning">No</span>';
+                    $subs = '<span class="btn btn-md btn-danger">No Plan</span>';
                 }
+
+                if($row['to_verified'] == 1)
+                {
+                    $ver = '<span class="btn btn-md btn-success">Yes</span>';
+                }
+                else
+                {
+                    $ver = '<span class="btn btn-md btn-danger">No</span>';
+                }
+
                 $output .=
                 '
                     <tr>
                         <td data-column="ID">'.$row['to_id'].'</td>
                         <td data-column="Phone">'.$row['to_phone'].'</td>
                         <td data-column="Name">'.$row['to_name'].'</td>
-                        <td data-column="Subscription">'.$subs.'</td>
+                        <td data-column="Plan">'.$subs.'</td>
+                        <td data-column="Verified">'.$ver.'</td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="padding-left: 8px !important">
+                        <td colspan="5" style="padding-left: 8px !important">
                             <form class="set-owner-bid text-left">
                                 <lable><b>Set Bid</b></lable>
                                 <div class="input-group mb-3">
