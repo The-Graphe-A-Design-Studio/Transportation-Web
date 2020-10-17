@@ -82,35 +82,45 @@
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
-                                    Users
+                                    Shippers
                                     <div class="dropdown d-inline"></div>
                                     <div class="dropdown d-inline"></div>
                                 </div>
                                 <?php
-                                    $shipper = "select * from customers";
-                                    $shipper_run = mysqli_query($link, $shipper);
-                                    $count_shipper = mysqli_num_rows($shipper_run);
+                                    $shipper1 = "select * from customers where cu_account_on = 0";
+                                    $shipper_run1 = mysqli_query($link, $shipper1);
+                                    $count_shipper_nothing = mysqli_num_rows($shipper_run1);
 
-                                    $owner = "select * from truck_owners";
-                                    $owner_run = mysqli_query($link, $owner);
-                                    $count_owner = mysqli_num_rows($owner_run);
+                                    $shipper2 = "select * from customers where cu_account_on = 1";
+                                    $shipper_run2 = mysqli_query($link, $shipper2);
+                                    $count_shipper_trial = mysqli_num_rows($shipper_run2);
 
-                                    $driver = "select * from trucks";
-                                    $driver_run = mysqli_query($link, $driver);
-                                    $count_driver = mysqli_num_rows($driver_run);
+                                    $shipper3 = "select * from customers where cu_account_on = 2";
+                                    $shipper_run3 = mysqli_query($link, $shipper3);
+                                    $count_shipper_subs = mysqli_num_rows($shipper_run3);
+
+                                    $shipper4 = "select * from customers where cu_account_on = 3";
+                                    $shipper_run4 = mysqli_query($link, $shipper4);
+                                    $count_shipper_free = mysqli_num_rows($shipper_run4);
                                 ?>
-                                <div class="card-stats-items">
+                                <div class="card-stats-items" style="margin-bottom: 1vh;">
                                     <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="shippers"><?php echo $count_shipper; ?></div>
-                                        <div class="card-stats-item-label">Shippers</div>
+                                        <div class="card-stats-item-count" id="shippers_nothing"><?php echo $count_shipper_nothing; ?></div>
+                                        <div class="card-stats-item-label">Not Verified</div>
                                     </div>
                                     <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="owners"><?php echo $count_owner; ?></div>
-                                        <div class="card-stats-item-label">Truck Owners</div>
+                                        <div class="card-stats-item-count" id="shippers_free"><?php echo $count_shipper_free; ?></div>
+                                        <div class="card-stats-item-label">On Free Plan</div>
                                     </div>
                                     <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="drivers"><?php echo $count_driver; ?></div>
-                                        <div class="card-stats-item-label">Drivers</div>
+                                        <div class="card-stats-item-count" id="shippers_trial"><?php echo $count_shipper_trial; ?></div>
+                                        <div class="card-stats-item-label">On Trial</div>
+                                    </div>
+                                </div>
+                                <div class="card-stats-items">                                    
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="shippers_subs"><?php echo $count_shipper_subs; ?></div>
+                                        <div class="card-stats-item-label">On Subscription</div>
                                     </div>
                                 </div>
                             </div>
@@ -119,9 +129,9 @@
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total Users</h4>
+                                    <h4>Total Shippers</h4>
                                 </div>
-                                <div class="card-body users">
+                                <div class="card-body total_shippers">
                                     
                                 </div>
                             </div>
@@ -131,38 +141,49 @@
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
-                                    Subscribed Users
+                                    Truck Owners
                                     <div class="dropdown d-inline"></div>
                                     <div class="dropdown d-inline"></div>
                                 </div>
                                 <?php
-                                    $sub_shipper = "select * from customers where cu_account_on = 2";
-                                    $sub_shipper_run = mysqli_query($link, $sub_shipper);
-                                    $count_sub_shipper = mysqli_num_rows($sub_shipper_run);
+                                    $owner1 = "select * from truck_owners where to_account_on = 0";
+                                    $owner_run1 = mysqli_query($link, $owner1);
+                                    $count_owner_nothing = mysqli_num_rows($owner_run1);
 
-                                    $sub_owner = "select * from truck_owners where to_account_on = 1";
-                                    $sub_owner_run = mysqli_query($link, $sub_owner);
-                                    $count_sub_owner = mysqli_num_rows($sub_owner_run);
+                                    $owner11 = "select * from truck_owners where to_account_on = 1";
+                                    $owner_run11 = mysqli_query($link, $owner11);
+                                    $count_owner_trial = mysqli_num_rows($owner_run11);
+
+                                    $owner111 = "select * from truck_owners where to_account_on = 2";
+                                    $owner_run111 = mysqli_query($link, $owner111);
+                                    $count_owner_subs = mysqli_num_rows($owner_run111);
                                 ?>
+                                <div class="card-stats-items" style="margin-bottom: 1vh;">
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="owner_nothing"><?php echo $count_owner_nothing; ?></div>
+                                        <div class="card-stats-item-label">Not Verified</div>
+                                    </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="owner_trial"><?php echo $count_owner_trial; ?></div>
+                                        <div class="card-stats-item-label">On Trial</div>
+                                    </div>
+                                    <div class="card-stats-item">
+                                        <div class="card-stats-item-count" id="owner_subs"><?php echo $count_owner_subs; ?></div>
+                                        <div class="card-stats-item-label">On Subscription</div>
+                                    </div>
+                                </div>
                                 <div class="card-stats-items">
-                                    <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="sub_shippers"><?php echo $count_sub_shipper; ?></div>
-                                        <div class="card-stats-item-label">Shippers</div>
-                                    </div>
-                                    <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="sub_owners"><?php echo $count_sub_owner; ?></div>
-                                        <div class="card-stats-item-label">Truck Owners</div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                             <div class="card-icon shadow-primary bg-primary">
-                                <i class="fas fa-hands-helping"></i>
+                                <i class="fas fa-crown"></i>
                             </div>
                             <div class="card-wrap">
                                 <div class="card-header">
-                                    <h4>Total Subscribed Users</h4>
+                                    <h4>Total Truck Owners</h4>
                                 </div>
-                                <div class="card-body sub_users">
+                                <div class="card-body total_owners">
                                     
                                 </div>
                             </div>
@@ -189,7 +210,7 @@
                                     $trip_run = mysqli_query($link, $trip);
                                     $count_trip = mysqli_num_rows($trip_run);
                                 ?>
-                                <div class="card-stats-items">
+                                <div class="card-stats-items" style="margin-bottom: 1vh;">
                                     <div class="card-stats-item">
                                         <div class="card-stats-item-count" id="active"><?php echo $count_active; ?></div>
                                         <div class="card-stats-item-label">Active</div>
@@ -203,6 +224,7 @@
                                         <div class="card-stats-item-label">On Trip</div>
                                     </div>
                                 </div>
+                                <div class="card-stats-items"></div>
                             </div>
                             <div class="card-icon shadow-primary bg-primary">
                                 <i class="fas fa-truck-monster"></i>
@@ -273,16 +295,18 @@
             
             $(".dashboard").addClass("active");
 
-            var shippers = $("#shippers").text();
-            var owners = $("#owners").text();
-            var drivers = $("#drivers").text();
-            var total_users = parseInt(shippers) + parseInt(owners) + parseInt(drivers);
-            $('.users').html(total_users);
+            var shippers_nothing = $("#shippers_nothing").text();
+            var shippers_free = $("#shippers_free").text();
+            var shippers_trial = $("#shippers_trial").text();
+            var shippers_subs = $("#shippers_subs").text();
+            var shippers = parseInt(shippers_nothing) + parseInt(shippers_free) + parseInt(shippers_trial) + parseInt(shippers_subs);
+            $('.total_shippers').html(shippers);
 
-            var sub_shippers = $("#sub_shippers").text();
-            var sub_owners = $("#sub_owners").text();
-            var total_sub_users = parseInt(sub_shippers) + parseInt(sub_owners);
-            $('.sub_users').html(total_sub_users);
+            var owner_nothing = $("#owner_nothing").text();
+            var owner_trial = $("#owner_trial").text();
+            var owner_subs = $("#owner_subs").text();
+            var total_owner = parseInt(owner_nothing) + parseInt(owner_trial) + parseInt(owner_subs);
+            $('.total_owners').html(total_owner);
 
             var active = $("#active").text();
             var inactive = $("#inactive").text();
