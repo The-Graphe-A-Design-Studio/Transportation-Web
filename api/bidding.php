@@ -29,52 +29,64 @@
         }
         else
         {
-            $sqlee1 = "SELECT * FROM cust_order where or_id = '".$_POST['load_id']."'";
-            $checkee1 = mysqli_query($link, $sqlee1);
-            $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
-
-            if($_POST['expected_price'] > $rowee1['or_expected_price'])
+            $owner = "select * from truck_owners where to_id = '".$_POST['user_type']."' and to_verified = 1";
+            $run_owner = mysqli_query($link, $owner);
+            $count_owner = mysqli_num_rows($run_owner);
+            if($count_owner == 0)
             {
-                $responseData = ['success' => '0', 'message' => 'Bidding price is greater than shipper expected price'];
+                $responseData = ['success' => '0', 'message' => 'Your documents are not verified.'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(400);
             }
             else
             {
-                $sqlee12 = "SELECT * FROM customers where cu_id = '".$rowee1['or_cust_id']."'";
-                $checkee12 = mysqli_query($link, $sqlee12);
-                $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+                $sqlee1 = "SELECT * FROM cust_order where or_id = '".$_POST['load_id']."'";
+                $checkee1 = mysqli_query($link, $sqlee1);
+                $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
 
-                if($rowee1['or_shipper_on'] == 1 || $rowee1['or_shipper_on'] == 2 || $rowee1['or_shipper_on'] == 3)
+                if($_POST['expected_price'] > $rowee1['or_expected_price'])
                 {
-                    $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price, bid_status) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
-                        '".$_POST['load_id']."', '".$_POST['expected_price']."', 1)";
-                    $run = mysqli_query($link, $sql);
-
-                    if($run)
-                    {
-                        $device_id = $rowee12['cu_token'];
-                        $title = "New Bidding";
-                        $message = "Your load with ID ".$rowee1['or_id']." has a new bid";
-
-                        $sent = push_notification_android($device_id, $title, $message);
-
-                        $responseData = ['success' => '1', 'message' => 'Successful'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-                        http_response_code(200);
-                    }
-                    else
-                    {
-                        $responseData = ['success' => '0', 'message' => 'Unsuccessful'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-                        http_response_code(400);
-                    }
+                    $responseData = ['success' => '0', 'message' => 'Bidding price is greater than shipper expected price'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(400);
                 }
                 else
                 {
-                    $responseData = ['success' => '0', 'message' => 'Server error'];
-                    echo json_encode($responseData, JSON_PRETTY_PRINT);
-                    http_response_code(400);
+                    $sqlee12 = "SELECT * FROM customers where cu_id = '".$rowee1['or_cust_id']."'";
+                    $checkee12 = mysqli_query($link, $sqlee12);
+                    $rowee12 = mysqli_fetch_array($checkee12, MYSQLI_ASSOC);
+
+                    if($rowee1['or_shipper_on'] == 1 || $rowee1['or_shipper_on'] == 2 || $rowee1['or_shipper_on'] == 3)
+                    {
+                        $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price, bid_status) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
+                            '".$_POST['load_id']."', '".$_POST['expected_price']."', 1)";
+                        $run = mysqli_query($link, $sql);
+
+                        if($run)
+                        {
+                            $device_id = $rowee12['cu_token'];
+                            $title = "New Bidding";
+                            $message = "Your load with ID ".$rowee1['or_id']." has a new bid";
+
+                            $sent = push_notification_android($device_id, $title, $message);
+
+                            $responseData = ['success' => '1', 'message' => 'Successful'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+                            http_response_code(200);
+                        }
+                        else
+                        {
+                            $responseData = ['success' => '0', 'message' => 'Unsuccessful'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+                            http_response_code(400);
+                        }
+                    }
+                    else
+                    {
+                        $responseData = ['success' => '0', 'message' => 'Server error'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+                        http_response_code(400);
+                    }
                 }
             }
         }
