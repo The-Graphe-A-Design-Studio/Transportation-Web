@@ -612,8 +612,8 @@
                         <th>User ID</th>
                         <th>Phone</th>
                         <th>Bid Price</th>
-                        <th>Status</th>
-                        <th>Delete</th>
+                        <!--<th>Status</th>
+                        <th>Delete</th>-->
                     </thead>
                     <tbody>
             ';
@@ -688,13 +688,13 @@
                         <td data-column="User ID">'.$id.'</td>
                         <td data-column="Phone">+'.$phone.'</td>
                         <td data-column="Bid Price">'.$row['bid_expected_price'].'</td>
-                        <td data-column="Status">'.$status.'</td>
+                        <!--<td data-column="Status">'.$status.'</td>
                         <td data-column="Delete">
                             <form class="edit-bid-status">
                                 <input type="text" name="delete_bid_id" value="'.$row['bid_id'].'" hidden>
                                 <button class="btn btn-md btn-icon btn-danger" type="submit"><i class="fas fa-trash"></i></button>
                             </form>
-                        </td>
+                        </td>-->
                     </tr>
                     
                 ';
