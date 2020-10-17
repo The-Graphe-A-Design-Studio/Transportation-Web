@@ -52,6 +52,11 @@
                                         <span class="custom-switch-description">Inactive</span>
                                     </label>
                                     <label class="custom-switch">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector not_verified" value="3">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Docs not verified</span>
+                                    </label>
+                                    <label class="custom-switch">
                                         <input type="radio" name="option" class="custom-switch-input common_selector trip" value="4">
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">On Trip</span>
@@ -118,6 +123,7 @@
                 var active = get_filter('active');
                 var inactive = get_filter('inactive');
                 var nothing = get_filter('nothing');
+                var not_verified = get_filter('not_verified');
                 var trip = get_filter('trip');
                 var search = get_key('search_bar');
                 var driver = get_driver('search_driver');
@@ -125,7 +131,7 @@
                 $.ajax({
                     url:"processing/curd_trucks.php",
                     method:"POST",
-                    data:{action:action, active:active, inactive:inactive, nothing:nothing, trip:trip, search:search, driver:driver, city:city},
+                    data:{action:action, active:active, inactive:inactive, not_verified:not_verified, nothing:nothing, trip:trip, search:search, driver:driver, city:city},
                     success:function(data){
                         $('.filter_data').html(data);
                     }

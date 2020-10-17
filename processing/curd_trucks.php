@@ -28,6 +28,11 @@
             $query .= " and trucks.trk_on_trip = '1'";
         }
 
+        if(isset($_POST["not_verified"]))
+        {
+            $query .= " and trucks.trk_verified = '0'";
+        }        
+
         if(!empty($_POST['city']))
         {
             $se = $_POST['city'];
@@ -62,13 +67,13 @@
                         <th>ID</th>
                         <th>Number</th>
                         <th>Category</th>
-                        <th>Type</th>
                         <th>Owner</th>
                         <th>Driver's Pic</th>
                         <th>Driver's Name</th>
                         <th>Driver's Phone</th>
                         <th>Driver's License</th>
                         <th>Status</th>
+                        <th>Verified</th>
                         <th>View</th>
                     </thead>
                     <tbody>
@@ -109,13 +114,21 @@
                     $sta = '<span class="btn btn-sm btn-danger">Inactive</span>';
                 }
 
+                if($row['trk_verified'])
+                {
+                    $ver = '<span class="btn btn-sm btn-success">Yes</span>';
+                }
+                else
+                {
+                    $ver = '<span class="btn btn-sm btn-danger">No</span>';
+                }
+
                 $output .=
                 '
                     <tr>
                         <td data-column="ID">'.$row['trk_id'].'</td>
                         <td data-column="Number">'.$row['trk_num'].'</td>
-                        <td data-column="Category">'.$cat_name.'</td>
-                        <td data-column="Type">'.$r_typ['ty_name'].'</td>
+                        <td data-column="Category">'.$cat_name.' ('.$r_typ['ty_name'].')</td>
                         <td data-column="Owner"><a href="truck_owner_profile?owner_id='.$row['trk_owner'].'">'.$owner_name.'</a></td>
                         <td data-column="Driver Pic">
                             <img alt="driver_selfie_'.$row['trk_dr_phone'].'" src="'.$selfie['trk_doc_location'].'" style="width: 50px; height: 50px; border-radius: 50%">
@@ -142,6 +155,7 @@
                             </div>
                         </td>
                         <td data-column="Status">'.$sta.'</td>
+                        <td data-column="Verified">'.$ver.'</td>
                         <td data-column="View">
                             <a class="btn btn-icon btn-info" href="truck_profile?truck_id='.$row['trk_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
