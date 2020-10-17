@@ -183,16 +183,22 @@
                                                 $road_tax = $trk_folder_loc.$new_trk_road_tax;
                                                 $rto = $trk_folder_loc.$new_trk_rto;
 
+                                                // $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_cat_type, trk_num, trk_dr_name, trk_dr_phone_code, 
+                                                //                 trk_dr_phone, trk_rc, trk_insurance, trk_road_tax, trk_rto) values 
+                                                //                 ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
+                                                //                 '$truck_driver_phone_code', '$truck_driver_phone', '$rc', '$insurance', 
+                                                //                 '$road_tax', '$rto')";
+
                                                 $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_cat_type, trk_num, trk_dr_name, trk_dr_phone_code, 
-                                                                trk_dr_phone, trk_rc, trk_insurance, trk_road_tax, trk_rto) values 
-                                                                ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
-                                                                '$truck_driver_phone_code', '$truck_driver_phone', '$rc', '$insurance', 
-                                                                '$road_tax', '$rto')";
+                                                                trk_dr_phone) values ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
+                                                                '$truck_driver_phone_code', '$truck_driver_phone')";
 
                                                 $mobile_insert = mysqli_query($link, $mobile_sql);
                                                 
                                                 if($mobile_insert)
                                                 {
+                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num) values ('$truck_num', 1)");
+                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num) values ('$truck_num', 2)");
                                                     mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 3, '$rc')");
                                                     mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 4, '$insurance')");
                                                     mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 5, '$road_tax')");
@@ -351,59 +357,7 @@
         }
     }
 
-    //edit driver license file
-    elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_dr_license_edit']))
-    {
-        $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
-        $checke = mysqli_query($link, $sqle);
-        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
-
-        $file_name1 = $_FILES['trk_dr_license_edit']['name'];
-        $file_size1 = $_FILES['trk_dr_license_edit']['size'];
-        $file_tmp1 = $_FILES['trk_dr_license_edit']['tmp_name'];
-        $file_type1 = $_FILES['trk_dr_license_edit']['type'];
-        
-        if($file_size1 >= 200000)
-        {
-            $responseData = ['success' => '0', 'message' => 'License file size must be less than 200 kb'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-            http_response_code(400);
-        }
-        else
-        {
-            $file_name1 = $_FILES["trk_dr_license_edit"]["name"];
-            $rn1 = explode(".", $file_name1);
-            $extension1 = end($rn1);
-            $new_trk_dr_license = "license.".$extension1;
-
-            $des = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
-
-            $dir = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];    
-            array_map('unlink', glob("$dir/license.*"));
-
-            move_uploaded_file($file_tmp1, $des);
-
-            $d_sql = "update trucks set trk_dr_license = '$des' where trk_id = '".$_POST['trk_id']."'";
-            $d_run = mysqli_query($link, $d_sql);
-
-            if($d_run)
-            {
-                $responseData = ['success' => '1', 'message' => 'Truck Insurance Updated'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-                http_response_code(200);
-            }
-            else
-            {
-                $responseData = ['success' => '0', 'message' => 'Update failed'];
-                echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                http_response_code(400);
-            }
-        }
-    }
-
-    //edit truck RC file
+    //edit truck RC file - 3
     elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_rc_edit']))
     {
         $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
@@ -436,7 +390,7 @@
 
             move_uploaded_file($file_tmp1, $des);
 
-            $d_sql = "update trucks set trk_rc = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 3";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
@@ -455,7 +409,7 @@
         }
     }
 
-    //edit truck insurnace file
+    //edit truck insurnace file - 4
     elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_insurance_edit']))
     {
         $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
@@ -488,7 +442,7 @@
 
             move_uploaded_file($file_tmp1, $des);
 
-            $d_sql = "update trucks set trk_insurance = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 4";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
@@ -507,7 +461,7 @@
         }
     }
 
-    //edit truck road tax file
+    //edit truck road tax file - 5
     elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_road_tax_edit']))
     {
         $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
@@ -540,7 +494,7 @@
 
             move_uploaded_file($file_tmp1, $des);
 
-            $d_sql = "update trucks set trk_road_tax = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 5";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
@@ -559,7 +513,7 @@
         }
     }
 
-    //edit truck rto file
+    //edit truck rto file - 6
     elseif(isset($_POST['trk_id']) && !empty($_FILES['trk_rto_edit']))
     {
         $sqle = "SELECT * FROM trucks where trk_id = '".$_POST['trk_id']."'";
@@ -592,7 +546,7 @@
 
             move_uploaded_file($file_tmp1, $des);
 
-            $d_sql = "update trucks set trk_rto = '$des' where trk_id = '".$_POST['trk_id']."'";
+            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 6";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
