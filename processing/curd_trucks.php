@@ -92,6 +92,14 @@
 
                 $owner_name = $r_owner['to_name'];
 
+                $doc = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 1";
+                $r_doc = mysqli_query($link, $doc);
+                $selfie = mysqli_fetch_array($r_doc, MYSQLI_ASSOC);
+
+                $doc1 = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 2";
+                $r_doc1 = mysqli_query($link, $doc1);
+                $dl = mysqli_fetch_array($r_doc1, MYSQLI_ASSOC);
+
                 if($row['trk_active'] == 1)
                 {
                     $sta = '<span class="btn btn-sm btn-success">Active</span>';
@@ -110,7 +118,7 @@
                         <td data-column="Type">'.$r_typ['ty_name'].'</td>
                         <td data-column="Owner"><a href="truck_owner_profile?owner_id='.$row['trk_owner'].'">'.$owner_name.'</a></td>
                         <td data-column="Driver Pic">
-                            <img alt="driver_selfie_'.$row['trk_dr_phone'].'" src="'.$row['trk_dr_pic'].'" style="width: 50px; height: 50px; border-radius: 50%">
+                            <img alt="driver_selfie_'.$row['trk_dr_phone'].'" src="'.$selfie['trk_doc_location'].'" style="width: 50px; height: 50px; border-radius: 50%">
                         </td>
                         <td data-column="Driver Name">'.$row['trk_dr_name'].'</td>
                         <td data-column="Driver Phone">+'.$row['trk_dr_phone_code'].' '.$row['trk_dr_phone'].' ('.$row['trk_otp'].')</td>
@@ -121,7 +129,7 @@
                                 <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
                                     <section>
                                         <div class="panzoom" style="text-align: center">
-                                        <img src="'.$row['trk_dr_license'].'" style="max-width: 100%" alt="truck_driver_license_'.$row['trk_dr_phone'].'">
+                                        <img src="'.$dl['trk_doc_location'].'" style="max-width: 100%" alt="truck_driver_license_'.$row['trk_dr_phone'].'">
                                         </div>
                                     </section>
                                     <section class="buttons" style="margin-top: 2vh;">
