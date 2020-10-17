@@ -612,8 +612,8 @@
                         <th>User ID</th>
                         <th>Phone</th>
                         <th>Bid Price</th>
-                        <!--<th>Status</th>
-                        <th>Delete</th>-->
+                        <th>Status</th>
+                        <!--<th>Delete</th>-->
                     </thead>
                     <tbody>
             ';
@@ -643,40 +643,49 @@
                     $phone = $row_driver['trk_dr_phone_code'].' '.$row_driver['trk_dr_phone'];
                 }
 
-                if($row['bid_status'] == 0)
-                {
-                    $status =
-                    '
-                        <form class="edit-bid-status">
-                            <input type="text" name="bid_id" value="'.$row['bid_id'].'" hidden>
-                            <input type="text" name="bid_status_value" value="1" hidden>
-                            <button class="btn btn-md btn-success" type="submit">Accept</button>
-                        </form>
-                    ';
-                }
-                elseif($row['bid_status'] == 1)
-                {
-                    $status =
-                    '
-                        <form class="edit-bid-status">
-                            <input type="text" name="bid_id" value="'.$row['bid_id'].'" hidden>
-                            <input type="text" name="bid_status_value" value="0" hidden>
-                            <button class="btn btn-md btn-danger" type="submit">Reject</button>
-                        </form>
-                    ';
-                }
-                elseif($row['bid_status'] == 2)
+                // if($row['bid_status'] == 0)
+                // {
+                //     $status =
+                //     '
+                //         <form class="edit-bid-status">
+                //             <input type="text" name="bid_id" value="'.$row['bid_id'].'" hidden>
+                //             <input type="text" name="bid_status_value" value="1" hidden>
+                //             <button class="btn btn-md btn-success" type="submit">Accept</button>
+                //         </form>
+                //     ';
+                // }
+                // elseif($row['bid_status'] == 1)
+                // {
+                //     $status =
+                //     '
+                //         <form class="edit-bid-status">
+                //             <input type="text" name="bid_id" value="'.$row['bid_id'].'" hidden>
+                //             <input type="text" name="bid_status_value" value="0" hidden>
+                //             <button class="btn btn-md btn-danger" type="submit">Reject</button>
+                //         </form>
+                //     ';
+                // }
+                
+                
+                if($row['bid_status'] == 2)
                 {
                     $status =
                     '
                         <span class="btn btn-md btn-info">Accepted by Shipper</span>
                     ';
                 }
-                else
+                elseif($row['bid_status'] == 3)
                 {
                     $status =
                     '
                         <span class="btn btn-md btn-success">Accepted by Owner</span>
+                    ';
+                }
+                else
+                {
+                    $status =
+                    '
+                        <span class="btn btn-md btn-warning">Active</span>
                     ';
                 }
 
@@ -688,8 +697,8 @@
                         <td data-column="User ID">'.$id.'</td>
                         <td data-column="Phone">+'.$phone.'</td>
                         <td data-column="Bid Price">'.$row['bid_expected_price'].'</td>
-                        <!--<td data-column="Status">'.$status.'</td>
-                        <td data-column="Delete">
+                        <td data-column="Status">'.$status.'</td>
+                        <!--<td data-column="Delete">
                             <form class="edit-bid-status">
                                 <input type="text" name="delete_bid_id" value="'.$row['bid_id'].'" hidden>
                                 <button class="btn btn-md btn-icon btn-danger" type="submit"><i class="fas fa-trash"></i></button>
