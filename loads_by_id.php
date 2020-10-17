@@ -192,7 +192,7 @@
                                                             <div class="profile-widget-name" style="margin-bottom: 0 !important">
                                                                 <div class="buttons text-center">
                                                                     <?php
-                                                                        if($row['or_status'] == 2 && $row['or_shipper_on'] == 1)
+                                                                        if($row['or_status'] == 2 && $row['or_shipper_on'] == 3)
                                                                         {
                                                                             $load_staus = 
                                                                             '
@@ -203,7 +203,7 @@
                                                                                 </form>
                                                                             ';
                                                                         }
-                                                                        elseif($row['or_status'] == 1 && $row['or_shipper_on'] == 1)
+                                                                        elseif($row['or_status'] == 1 && $row['or_shipper_on'] == 3)
                                                                         {
                                                                             $load_staus = 
                                                                             '
