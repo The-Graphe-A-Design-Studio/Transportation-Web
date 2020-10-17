@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 08, 2020 at 01:13 PM
+-- Generation Time: Oct 17, 2020 at 02:19 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -74,7 +74,7 @@ CREATE TABLE `customers` (
   `cu_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Default; 1 - Verified; 2 - Rejected',
   `cu_active` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Logged out; 1 - Logged in',
   `cu_registered` datetime NOT NULL,
-  `cu_account_on` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Nothing; 1 - On Trial; 2 - On Subscription',
+  `cu_account_on` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Nothing; 1 - On Trial; 2 - On Subscription; 3 - Free Period',
   `cu_trial_expire_date` datetime NOT NULL,
   `cu_subscription_start_date` datetime NOT NULL,
   `cu_subscription_order_id` varchar(255) NOT NULL DEFAULT '0',
@@ -115,7 +115,7 @@ CREATE TABLE `cust_order` (
   `or_admin_expected_price` tinyint(4) NOT NULL DEFAULT 0,
   `or_payment_mode` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1 - Negotiable, 2 - Advance Pay, 3 - To Driver After Unloading',
   `or_advance_pay` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'in %',
-  `or_shipper_on` tinyint(4) NOT NULL COMMENT '1 - Trial; 2 - Subscription',
+  `or_shipper_on` tinyint(4) NOT NULL COMMENT '1 - Trial; 2 - Subscription; 3 - Free Plan',
   `or_active_on` datetime NOT NULL,
   `or_expire_on` datetime NOT NULL,
   `or_contact_person_name` varchar(100) NOT NULL,
@@ -309,18 +309,6 @@ CREATE TABLE `subscription_plans` (
   `plan_reg` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `subscription_plans`
---
-
-INSERT INTO `subscription_plans` (`plan_id`, `plan_name`, `plan_type`, `plan_original_price`, `plan_selling_price`, `plan_duration`, `plan_status`, `plan_reg`) VALUES
-(4, 'Basic', 1, '6000.00', '4000.00', 3, 1, 1),
-(5, 'Basic', 2, '5000.00', '2200.00', 3, 1, 1),
-(6, 'Medium', 1, '12000.00', '6000.00', 6, 1, 1),
-(7, 'Hard', 1, '50000.00', '30000.00', 12, 1, 1),
-(8, 'Medium', 2, '10000.00', '6000.00', 6, 1, 1),
-(9, 'Hard', 2, '20000.00', '15000.00', 12, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -337,15 +325,10 @@ CREATE TABLE `trucks` (
   `trk_dr_phone_code` mediumint(9) NOT NULL,
   `trk_dr_phone` bigint(20) NOT NULL,
   `trk_otp` int(11) NOT NULL,
-  `trk_dr_pic` varchar(200) DEFAULT '',
-  `trk_dr_license` varchar(200) DEFAULT '',
-  `trk_rc` varchar(200) DEFAULT '',
-  `trk_insurance` varchar(200) DEFAULT '',
-  `trk_road_tax` varchar(200) DEFAULT '',
-  `trk_rto` varchar(200) DEFAULT '',
+  `trk_verified` tinyint(4) NOT NULL DEFAULT 0,
   `trk_active` tinyint(4) NOT NULL DEFAULT 0,
   `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 : Not on Trip; 1 : Set for Trip; 2 - On Trip',
-  `trk_dr_token` varchar(250) DEFAULT NULL,
+  `trk_dr_token` varchar(255) NOT NULL,
   `trk_on` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -436,6 +419,20 @@ INSERT INTO `truck_cat_type` (`ty_id`, `ty_cat`, `ty_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `truck_docs`
+--
+
+CREATE TABLE `truck_docs` (
+  `trk_doc_id` int(11) NOT NULL,
+  `trk_doc_truck_num` varchar(20) NOT NULL,
+  `trk_doc_sr_num` tinyint(4) NOT NULL COMMENT '1-DP; 2-DL; 3-RC; 4-Insurance; 5-RoadT; 6-RTO Pass',
+  `trk_doc_location` varchar(200) NOT NULL,
+  `trk_doc_verified` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `truck_owners`
 --
 
@@ -447,7 +444,10 @@ CREATE TABLE `truck_owners` (
   `to_name` varchar(150) NOT NULL DEFAULT '',
   `to_bank` bigint(20) NOT NULL DEFAULT 0,
   `to_ifsc` varchar(20) NOT NULL DEFAULT '0',
-  `to_account_on` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Nothing; 1 - Subscription',
+  `to_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - No; 1 - Yes',
+  `to_account_on` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Nothing; 1 - Trial; 2 - Subscription',
+  `to_trial_start_date` datetime NOT NULL,
+  `to_trial_expire_date` datetime NOT NULL,
   `to_subscription_start_date` datetime NOT NULL,
   `to_subscription_order_id` varchar(255) NOT NULL,
   `to_subscription_expire_date` datetime NOT NULL,
@@ -468,7 +468,7 @@ CREATE TABLE `truck_owner_docs` (
   `to_doc_owner_phone` bigint(20) NOT NULL,
   `to_doc_sr_num` tinyint(4) NOT NULL,
   `to_doc_location` varchar(200) NOT NULL,
-  `to_doc_verified` tinyint(4) NOT NULL DEFAULT 1
+  `to_doc_verified` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -578,6 +578,12 @@ ALTER TABLE `truck_cat_type`
   ADD PRIMARY KEY (`ty_id`);
 
 --
+-- Indexes for table `truck_docs`
+--
+ALTER TABLE `truck_docs`
+  ADD PRIMARY KEY (`trk_doc_id`);
+
+--
 -- Indexes for table `truck_owners`
 --
 ALTER TABLE `truck_owners`
@@ -675,7 +681,7 @@ ALTER TABLE `subscribed_users`
 -- AUTO_INCREMENT for table `subscription_plans`
 --
 ALTER TABLE `subscription_plans`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `trucks`
@@ -694,6 +700,12 @@ ALTER TABLE `truck_cat`
 --
 ALTER TABLE `truck_cat_type`
   MODIFY `ty_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `truck_docs`
+--
+ALTER TABLE `truck_docs`
+  MODIFY `trk_doc_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `truck_owners`
