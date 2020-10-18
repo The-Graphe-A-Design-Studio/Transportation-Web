@@ -21,37 +21,87 @@
             $comp_run = mysqli_query($link, $comp);
             $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
 
-            if($otp_row['to_account_on'] == 1)
+            if($otp_row['to_account_on'] == 2)
             {
                 $date_now = new DateTime(date('Y-m-d H:i:s'));
                 $date2    = new DateTime(date_format(date_create($otp_row['to_subscription_expire_date']), 'Y-m-d H:i:s'));
                 
                 if($date_now > $date2)
                 {
-                    $trial = 'Subscription period expired';
+                    $subs = 'Subscription period expired';
                 }
                 else
                 {
-                    $trial = 'In subscription period';
+                    $subs = 'In subscription period';
                 }
 
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'id' => $otp_row['to_id'], 
-                                'phone country code' => $otp_row['to_phone_code'], 'phone' => $otp_row['to_phone'], 'name' => $otp_row['to_name'],
-                                'bank account number' => $otp_row['to_bank'], 'ifsc code' => $otp_row['to_ifsc'], 'pan card' => $comp_row['to_doc_location'],
-                                'registered on' => $otp_row['to_registered'], 'subscription period upto' => $otp_row['to_subscription_expire_date'], 
-                                'subscription period status' => $trial, 'firebase token' => $otp_row['to_token']];
+                $responseData = ['success' => '1', 
+                                'message' => 'OTP verified. Logged in', 
+                                'id' => $otp_row['to_id'], 
+                                'phone country code' => $otp_row['to_phone_code'], 
+                                'phone' => $otp_row['to_phone'], 
+                                'name' => $otp_row['to_name'],
+                                'bank account number' => $otp_row['to_bank'], 
+                                'ifsc code' => $otp_row['to_ifsc'], 
+                                'pan card' => $comp_row['to_doc_location'],
+                                'verified' => $otp_row['to_verified'],
+                                'registered on' => $otp_row['to_registered'],
+                                'plan type' => $otp_row['to_account_on'], 
+                                'period upto' => $otp_row['to_subscription_expire_date'], 
+                                'period status' => $subs, 
+                                'firebase token' => $otp_row['to_token']];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            elseif($otp_row['to_account_on'] == 1)
+            {
+                $date_now = new DateTime(date('Y-m-d H:i:s'));
+                $date2    = new DateTime(date_format(date_create($otp_row['to_trial_expire_date']), 'Y-m-d H:i:s'));
+                
+                if($date_now > $date2)
+                {
+                    $trial = 'Trial period expired';
+                }
+                else
+                {
+                    $trial = 'In trial period';
+                }
+                
+                $responseData = ['success' => '1', 
+                                'message' => 'OTP verified. Logged in', 
+                                'id' => $otp_row['to_id'], 
+                                'phone country code' => $otp_row['to_phone_code'], 
+                                'phone' => $otp_row['to_phone'], 
+                                'name' => $otp_row['to_name'],
+                                'bank account number' => $otp_row['to_bank'], 
+                                'ifsc code' => $otp_row['to_ifsc'], 
+                                'pan card' => $comp_row['to_doc_location'],
+                                'verified' => $otp_row['to_verified'],
+                                'registered on' => $otp_row['to_registered'], 
+                                'plan type' => $otp_row['to_account_on'],
+                                'period upto' => $otp_row['to_trial_expire_date'], 
+                                'period status' => $trial, 
+                                'firebase token' => $otp_row['to_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
             }
             else
             {
-                $trial = 'Not on subscription';
-                
-                $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'id' => $otp_row['to_id'], 
-                                'phone country code' => $otp_row['to_phone_code'], 'phone' => $otp_row['to_phone'], 'name' => $otp_row['to_name'],
-                                'bank account number' => $otp_row['to_bank'], 'ifsc code' => $otp_row['to_ifsc'], 'pan card' => $comp_row['to_doc_location'],
-                                'registered on' => $otp_row['to_registered'], 'subscription period upto' => $otp_row['to_subscription_expire_date'], 
-                                'subscription period status' => $trial, 'firebase token' => $otp_row['to_token']];
+                $responseData = ['success' => '1', 
+                                'message' => 'OTP verified. Logged in', 
+                                'id' => $otp_row['to_id'], 
+                                'phone country code' => $otp_row['to_phone_code'], 
+                                'phone' => $otp_row['to_phone'], 
+                                'name' => $otp_row['to_name'],
+                                'bank account number' => $otp_row['to_bank'], 
+                                'ifsc code' => $otp_row['to_ifsc'], 
+                                'pan card' => $comp_row['to_doc_location'],
+                                'verified' => $otp_row['to_verified'],
+                                'registered on' => $otp_row['to_registered'], 
+                                'plan type' => $otp_row['to_account_on'],
+                                'period upto' => '', 
+                                'period status' => 'No Plan', 
+                                'firebase token' => $otp_row['to_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
             }
