@@ -13,22 +13,19 @@
         {
 
             $sources = $destinations = $truck_types = array();
-            $i = $j = $k = 1;
-
+            
             $source = "select or_source from cust_order_source where or_uni_code = '".$row['or_uni_code']."' order by so_id";
             $get_source = mysqli_query($link, $source);
             while($row_source = mysqli_fetch_array($get_source, MYSQLI_ASSOC))
             {
-                $sources[] = ['source '.$i => $row_source['or_source']];
-                $i++;
+                $sources[] = ['source' => $row_source['or_source']];
             }
 
             $destination = "select or_destination from cust_order_destination where or_uni_code = '".$row['or_uni_code']."' order by des_id";
             $get_destination = mysqli_query($link, $destination);
             while($row_destination = mysqli_fetch_array($get_destination, MYSQLI_ASSOC))
             {
-                $destinations[] = ['destination '.$j => $row_destination['or_destination']];
-                $j++;
+                $destinations[] = ['destination' => $row_destination['or_destination']];
             }
 
             $type = "select cust_order_truck_pref.*, truck_cat_type.* from cust_order_truck_pref, truck_cat_type where cust_order_truck_pref.or_uni_code = '".$row['or_uni_code']."'
@@ -36,8 +33,7 @@
             $get_type = mysqli_query($link, $type);
             while($row_type = mysqli_fetch_array($get_type, MYSQLI_ASSOC))
             {
-                $truck_types[] = ['type '.$k => $row_type['ty_name']];
-                $k++;
+                $truck_types[] = ['type' => $row_type['ty_name']];
             }
 
             $truck = "select * from truck_cat where trk_cat_id = '".$row['or_truck_preference']."'";
@@ -75,8 +71,8 @@
             $ex = date_format($ex, "h:i a, d M Y");
 
             $responseData[] = ['post id' => $row['or_id'], 'customer id' => $row['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row['or_product'], 
-                            $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => $row['or_expected_price']." / ".$per, 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'quantity' => $row['or_quantity'], 'unit' => $per, 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
+                            'expected price' => $row['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
         }
         
