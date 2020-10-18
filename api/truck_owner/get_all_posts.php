@@ -82,21 +82,20 @@
             $run_cust = mysqli_query($link, $cust);
             $row_cust = mysqli_fetch_array($run_cust, MYSQLI_ASSOC);
 
-            if($row_cust['cu_account_on'] == 1)
+            if($row_cust['cu_account_on'] == 3)
             {
-                $admin_price = ($row['or_expected_price'] - ($row['or_expected_price'] * ($row['or_admin_expected_price']/100)));
+                $admin_price = round(($row['or_expected_price'] - ($row['or_expected_price'] * ($row['or_admin_expected_price']/100))), 2);
 
                 $responseData[] = ['post id' => $row['or_id'], 'customer id' => $row['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row['or_product'], 
-                            $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => "$admin_price / $per", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'quantity' => $row['or_quantity'], 'unit' => $per, 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
+                            'expected price' => "$admin_price", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
-            }
-            
-            if($row_cust['cu_account_on'] == 2)
+            }            
+            else
             {
                 $responseData[] = ['post id' => $row['or_id'], 'customer id' => $row['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row['or_product'], 
-                            $unit => $row['or_quantity'], 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
-                            'expected price' => $row['or_expected_price'].' / '.$per, 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
+                            'quantity' => $row['or_quantity'], 'unit' => $per, 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
+                            'expected price' => $row['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
                             'contact person' => $row['or_contact_person_name'], 'contact person phone' => $row['or_contact_person_phone']];
             }
         
