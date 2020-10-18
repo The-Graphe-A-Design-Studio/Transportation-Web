@@ -90,6 +90,7 @@
                         <th>IFSC</th>
                         <th>Trucks Own</th>
                         <th>Total Service</th>
+                        <th>Verified</th>
                         <th>View</th>
                     </thead>
                     <tbody>
@@ -137,10 +138,20 @@
                     $service_count = $service_row['count(*)'];
                 }
 
+                if($row['to_verified'] == 1)
+                {
+                    $ver = '<span class="btn btn-sm btn-success">Yes</span>';
+                }
+                else
+                {
+                    $ver = '<span class="btn btn-sm btn-danger">No</span>';
+                }
+
                 $output .=
                 '
                         <td data-column="Trucks Own">'.$truck_count.'</td>
                         <td data-column="Total Service">'.$service_count.'</td>
+                        <td data-column="Verified">'.$ver.'</td>
                         <td data-column="View">
                             <a class="btn btn-icon btn-info" href="truck_owner_profile?owner_id='.$row['to_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>

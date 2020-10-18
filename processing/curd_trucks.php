@@ -114,7 +114,7 @@
                     $sta = '<span class="btn btn-sm btn-danger">Inactive</span>';
                 }
 
-                if($row['trk_verified'])
+                if($row['trk_verified'] == 1)
                 {
                     $ver = '<span class="btn btn-sm btn-success">Yes</span>';
                 }

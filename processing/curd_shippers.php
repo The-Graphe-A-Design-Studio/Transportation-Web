@@ -92,6 +92,7 @@
                         <th>Shipper</th>
                         <th>Phone</th>
                         <th>Company Name</th>
+                        <th>Verified</th>
                         <th>View</th>
                     </thead>
                     <tbody>
@@ -117,6 +118,15 @@
                 $r_doc1 = mysqli_query($link, $doc1);
                 $doc_row1 = mysqli_fetch_array($r_doc1, MYSQLI_ASSOC);
 
+                if($row['cu_verified'] == 1)
+                {
+                    $ver = '<span class="btn btn-sm btn-success">Yes</span>';
+                }
+                else
+                {
+                    $ver = '<span class="btn btn-sm btn-danger">No</span>';
+                }
+
                 $output .=
                 '
                         <td data-column="Shipper">
@@ -124,6 +134,7 @@
                         </td>
                         <td data-column="Phone">+'.$row['cu_phone_code'].' '.$row['cu_phone'].' ('.$row['cu_otp'].')</td>
                         <td data-column="Company Name">'.$doc_row1['doc_location'].'</td>
+                        <td data-column="Verified">'.$ver.'</td>
                         <td data-column="View">
                             <a class="btn btn-icon btn-info" href="shipper_profile?shipper_id='.$row['cu_id'].'"><i class="fas fa-eye" title="View Details"></i></a>
                         </td>
