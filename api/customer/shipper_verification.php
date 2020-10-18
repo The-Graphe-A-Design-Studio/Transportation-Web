@@ -17,6 +17,10 @@
             $active = "update customers set cu_active = 1 where cu_phone = '".$_POST['phone_number']."' and cu_otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
+            $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
+            $comp_run = mysqli_query($link, $comp);
+            $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
+
             if($otp_row['cu_account_on'] == 1)
             {
                 $date_now = new DateTime(date('Y-m-d H:i:s'));
@@ -30,10 +34,6 @@
                 {
                     $trial = 'In trial period';
                 }
-
-                $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
-                $comp_run = mysqli_query($link, $comp);
-                $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
 
                 $responseData = ['success' => '1', 
                                 'message' => 'OTP verified. Logged in', 
@@ -57,16 +57,12 @@
                 
                 if($date_now > $date2)
                 {
-                    $trial = 'Subscription period expired';
+                    $subs = 'Subscription period expired';
                 }
                 else
                 {
-                    $trial = 'In subscription period';
+                    $subs = 'In subscription period';
                 }
-
-                $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
-                $comp_run = mysqli_query($link, $comp);
-                $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
 
                 $responseData = ['success' => '1', 
                                 'message' => 'OTP verified. Logged in', 
@@ -78,22 +74,33 @@
                                 'verified' => $otp_row['cu_verified'], 
                                 'registered on' => $otp_row['cu_registered'], 
                                 'period upto' => $otp_row['cu_subscription_expire_date'], 
-                                'period status' => $trial, 
+                                'period status' => $subs, 
+                                'firebase token' => $otp_row['cu_token']];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            elseif($otp_row['cu_account_on'] == 3)
+            {
+                $responseData = ['success' => '1', 
+                                'message' => 'OTP verified. Logged in', 
+                                'plan type' => '3', 
+                                'shipper id' => $otp_row['cu_id'], 
+                                'shipper phone country code' => $otp_row['cu_phone_code'], 
+                                'shipper phone' => $otp_row['cu_phone'], 
+                                'shipper company name' => $comp_row['doc_location'], 
+                                'verified' => $otp_row['cu_verified'], 
+                                'registered on' => $otp_row['cu_registered'], 
+                                'period upto' => '', 
+                                'period status' => 'In Free period', 
                                 'firebase token' => $otp_row['cu_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
             }
             else
             {
-                $trial = 'In Free period';
-                
-                $comp = "select * from customer_docs where doc_owner_phone = '".$_POST['phone_number']."' and doc_sr_num = 5";
-                $comp_run = mysqli_query($link, $comp);
-                $comp_row = mysqli_fetch_array($comp_run, MYSQLI_ASSOC);
-
                 $responseData = ['success' => '1', 
                                 'message' => 'OTP verified. Logged in', 
-                                'plan type' => '3', 
+                                'plan type' => '0', 
                                 'shipper id' => $otp_row['cu_id'], 
                                 'shipper phone country code' => $otp_row['cu_phone_code'], 
                                 'shipper phone' => $otp_row['cu_phone'], 
