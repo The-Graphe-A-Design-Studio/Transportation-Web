@@ -368,7 +368,7 @@
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
                                                             <div class="profile-widget-name" style="margin-bottom: 0 !important">
-                                                                <b>Expected Price - </b>
+                                                                <b>Expected Price - </b>Rs. 
                                                                 <?php
                                                                     if($row['or_price_unit'] == 1)
                                                                     {

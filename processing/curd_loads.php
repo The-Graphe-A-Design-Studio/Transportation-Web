@@ -712,7 +712,7 @@
                         <td data-column="Type">'.$type.'</td>
                         <td data-column="User ID">'.$id.'</td>
                         <td data-column="Phone">+'.$phone.'</td>
-                        <td data-column="Bid Price">'.$row['bid_expected_price'].'</td>
+                        <td data-column="Bid Price">Rs. '.$row['bid_expected_price'].'</td>
                         <td data-column="Status">'.$status.'</td>
                         <!--<td data-column="Delete">
                             <form class="edit-bid-status">
