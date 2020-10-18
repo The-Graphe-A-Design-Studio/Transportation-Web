@@ -198,30 +198,22 @@
                                     <div class="dropdown d-inline"></div>
                                 </div>
                                 <?php
-                                    $active = "select * from trucks where trk_active = 1";
-                                    $active_run = mysqli_query($link, $active);
-                                    $count_active = mysqli_num_rows($active_run);
+                                    $not_ver = "select * from trucks where trk_verified = 0";
+                                    $not_ver_run = mysqli_query($link, $not_ver);
+                                    $count_not_ver = mysqli_num_rows($not_ver_run);
 
-                                    $inactive = "select * from trucks where trk_active = 0";
-                                    $inactive_run = mysqli_query($link, $inactive);
-                                    $count_inactive = mysqli_num_rows($inactive_run);
-
-                                    $trip = "select * from trucks where trk_on_trip = 1 or trk_on_trip = 2";
-                                    $trip_run = mysqli_query($link, $trip);
-                                    $count_trip = mysqli_num_rows($trip_run);
+                                    $ver = "select * from trucks where trk_verified = 1";
+                                    $ver_run = mysqli_query($link, $ver);
+                                    $count_ver = mysqli_num_rows($ver_run);
                                 ?>
                                 <div class="card-stats-items" style="margin-bottom: 1vh;">
                                     <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="active"><?php echo $count_active; ?></div>
-                                        <div class="card-stats-item-label">Active</div>
+                                        <div class="card-stats-item-count" id="not_verified"><?php echo $count_not_ver; ?></div>
+                                        <div class="card-stats-item-label">Not Verified</div>
                                     </div>
                                     <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="inactive"><?php echo $count_inactive; ?></div>
-                                        <div class="card-stats-item-label">Inactive</div>
-                                    </div>
-                                    <div class="card-stats-item">
-                                        <div class="card-stats-item-count" id="trip"><?php echo $count_trip; ?></div>
-                                        <div class="card-stats-item-label">On Trip</div>
+                                        <div class="card-stats-item-count" id="verified"><?php echo $count_ver; ?></div>
+                                        <div class="card-stats-item-label">Verified</div>
                                     </div>
                                 </div>
                                 <div class="card-stats-items"></div>
@@ -308,9 +300,9 @@
             var total_owner = parseInt(owner_nothing) + parseInt(owner_trial) + parseInt(owner_subs);
             $('.total_owners').html(total_owner);
 
-            var active = $("#active").text();
-            var inactive = $("#inactive").text();
-            var total_trucks = parseInt(active) + parseInt(inactive);
+            var not_verified = $("#not_verified").text();
+            var verified = $("#verified").text();
+            var total_trucks = parseInt(not_verified) + parseInt(verified);
             $('.total_trucks').html(total_trucks);
         });
     </script>
