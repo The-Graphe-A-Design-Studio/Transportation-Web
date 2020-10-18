@@ -44,7 +44,9 @@
                 $checkee1 = mysqli_query($link, $sqlee1);
                 $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
 
-                if($_POST['expected_price'] > $rowee1['or_expected_price'])
+                $including_commision = round(($rowee1['or_expected_price'] - ($rowee1['or_expected_price'] * ($rowee1['or_admin_expected_price']/100))), 2);
+
+                if($_POST['expected_price'] > $including_commision)
                 {
                     $responseData = ['success' => '0', 'message' => 'Bidding price is greater than shipper expected price'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -58,8 +60,10 @@
 
                     if($rowee1['or_shipper_on'] == 1 || $rowee1['or_shipper_on'] == 2 || $rowee1['or_shipper_on'] == 3)
                     {
+                        $including_commision = round(($_POST['expected_price'] + ($_POST['expected_price'] * ($rowee1['or_admin_expected_price']/100))), 2);
+
                         $sql = "insert into bidding (bid_user_type, bid_user_id, load_id, bid_expected_price, bid_status) values ('".$_POST['user_type']."', '".$_POST['user_id']."', 
-                            '".$_POST['load_id']."', '".$_POST['expected_price']."', 1)";
+                            '".$_POST['load_id']."', '$including_commision', 1)";
                         $run = mysqli_query($link, $sql);
 
                         if($run)
