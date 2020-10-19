@@ -10,6 +10,9 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Dashboard | Truck Wale</title>
     <?php echo $head_tags; ?>
+    <style>
+        .canvasjs-chart-credit{display: none;}
+    </style>
 </head>
 <body <?php echo $body; ?>>
     <div id="app">
@@ -231,7 +234,36 @@
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card card-statistic-2">
+                            <div class="card-stats" style="margin-bottom: 0 !important">
+                                <div class="card-stats-title">
+                                    Load Statistics -
+                                    <div class="dropdown d-inline">
+                                        <select class="common_selector chart_year" style="border: none; text-align: center;">
+                                            <option value="">Year</option>                                            
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <option value="2026">2026</option>
+                                            <option value="2027">2027</option>
+                                            <option value="2028">2028</option>
+                                            <option value="2029">2029</option>
+                                            <option value="2030">2030</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="filter_chart_data"></div>
+                                <div id="chartContainer" style="height: 370px; width: 100%;"></div>                                
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
 
@@ -239,7 +271,7 @@
         </div>
     </div>
 
-    <?php echo $script_tags; ?>
+    <?php echo $script_tags; ?>    
 
     <script type="text/javascript">
         $(document).ready(function()
@@ -284,7 +316,55 @@
                 months();
                 years()
             });
+
+            filter_chart_data();
+        
+            function filter_chart_data()
+            {
+                var chart_action = 'fetch_chart_data';
+                var chart_year = chart_years();
+                $.ajax({
+                    url:"processing/curd_dashboard.php",
+                    method:"POST",
+                    dataType : "json",
+                    data:{chart_action:chart_action, chart_year:chart_year},
+                    success:function(result){
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            theme: "light2",
+                            title:{
+                                text: ""
+                            },
+                            axisX: {
+                                valueFormatString: "MMM"
+                            },
+                            axisY: {
+                                title: "Number of Loads",
+                            },
+                            data: [{
+                                type: "splineArea",
+                                color: "#000",
+                                xValueType: "dateTime",
+		                        xValueFormatString: "MMMM",
+                                yValueFormatString: "#,##0",
+                                dataPoints: result
+                            }]
+                        });                        
+                        chart.render();
+                    }
+                });
+            }
+
+            function chart_years()
+            {
+                return $('.chart_year').find('option:selected').val();
+            }
             
+            $('.common_selector').on('keyup change',function(){
+                filter_chart_data();
+                chart_years()
+            });
+
             $(".dashboard").addClass("active");
 
             var shippers_nothing = $("#shippers_nothing").text();
@@ -306,5 +386,6 @@
             $('.total_trucks').html(total_trucks);
         });
     </script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>

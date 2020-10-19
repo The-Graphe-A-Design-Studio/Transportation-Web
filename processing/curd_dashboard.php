@@ -131,6 +131,53 @@
         echo $output;
 
     }
+    elseif(isset($_POST["chart_action"]))
+    {
+        $query = "select * from cust_order where or_default = 1";
+
+        $year = '';
+
+        if(!empty($_POST["chart_year"]))
+        {
+            $query .= " and DATE_FORMAT(or_active_on, '%Y') = '".$_POST["chart_year"]."'";
+            $year = " and DATE_FORMAT(or_active_on, '%Y') = '".$_POST["chart_year"]."'";
+        }
+        else
+        {
+            $query .= " and DATE_FORMAT(or_active_on, '%Y') = '".date('Y')."'";
+            $year = " and DATE_FORMAT(or_active_on, '%Y') = '".date('Y')."'";
+        }
+
+        $statement = $connect->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $total_row = $statement->rowCount();
+
+        $output = array();
+        $i = 1;
+        
+        if($total_row > 0)
+        {
+            for($i; $i <= 12; $i++)
+            {
+                $complete = "select * from cust_order where DATE_FORMAT(or_active_on, '%m') = ".$i.$year;
+                $run_complete = mysqli_query($link, $complete);
+                $count_complete = mysqli_num_rows($run_complete);
+                
+                $output[] = ["y" => $count_complete, "label" => date("M", mktime(0, 0, 0, $i, 10))];
+            }           
+        }
+        else
+        {
+            for($i; $i <= 12; $i++)
+            {
+                $output[] = ["y" => 0, "label" => date("M", mktime(0, 0, 0, $i, 10))];
+            }
+        }
+        
+        echo json_encode($output);
+
+    }
     else
     {
         echo "Server error";
