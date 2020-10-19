@@ -242,7 +242,7 @@
                                 <div class="card-stats-title">
                                     Load Statistics -
                                     <div class="dropdown d-inline">
-                                        <select class="common_selector chart_year" style="border: none; text-align: center;">
+                                        <select class="common_selectors chart_year" style="border: none; text-align: center;">
                                             <option value="">Year</option>                                            
                                             <option value="2020">2020</option>
                                             <option value="2021">2021</option>
@@ -261,6 +261,35 @@
                                 <div class="filter_chart_data"></div>
                                 <div id="chartContainer" style="height: 370px; width: 100%;"></div>                                
                             </div>                            
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card gradient-bottom">
+                            <div class="card-header">
+                                <h4>Notifications</h4>
+                            </div>
+                            <div class="card-body" id="top-5-scroll" style="height: 325px; overflow: hidden; outline: currentcolor none medium;" tabindex="2">
+                                <ul class="list-unstyled list-unstyled-border">
+                                    <li class="media">
+                                        <!-- <div class="media-body">
+                                            <div class="float-right"><div class="font-weight-600 text-muted text-small">86 Sales</div></div>
+                                            <div class="media-title">oPhone S9 Limited</div>
+                                            <div class="mt-1">
+                                            <div class="budget-price">
+                                                <div class="budget-price-square bg-primary" data-width="64%" style="width: 64%;"></div>
+                                                <div class="budget-price-label">$68,714</div>
+                                            </div>
+                                            <div class="budget-price">
+                                                <div class="budget-price-square bg-danger" data-width="43%" style="width: 43%;"></div>
+                                                <div class="budget-price-label">$38,700</div>
+                                            </div>
+                                            </div>
+                                        </div> -->
+                                    </li>                                    
+                                </ul>
+                            </div>
+                            <div class="card-footer pt-3 d-flex justify-content-center">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -360,7 +389,7 @@
                 return $('.chart_year').find('option:selected').val();
             }
             
-            $('.common_selector').on('keyup change',function(){
+            $('.common_selectors').on('keyup change',function(){
                 filter_chart_data();
                 chart_years()
             });
