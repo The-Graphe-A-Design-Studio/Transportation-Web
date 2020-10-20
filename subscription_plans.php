@@ -60,6 +60,7 @@
                                     <option value="">All</option>
                                     <option value="1">Shippers Plans</option>
                                     <option value="2">Truck Owner Plans</option>
+                                    <option value="3">Add on Truck Plans</option>
                                 </select>
                             </div>
                         </div>
@@ -86,8 +87,9 @@
                                                 <div class="form-group">
                                                     <label for="planType">Plan Type</label>
                                                     <select class="form-control" name="newplanType">
-                                                        <option value="1">Shippers Plans</option>
+                                                        <option value="1">Shipper Plans</option>
                                                         <option value="2">Truck Owner Plans</option>
+                                                        <option value="3">Add on Truck Plans</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -99,7 +101,7 @@
                                                     <input type="text" class="form-control" name="newplanSelling" placeholder="Enter Plan Selling Price (Ex - 12000.50, 1500)" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="planDuration">Plan Duration (in Months)</label>
+                                                    <label for="planDuration">Plan Duration (in Months) / Truck Quantity</label>
                                                     <input type="text" class="form-control" name="newplanDuration" placeholder="Enter Plan Duration (Ex - 6, 12)" required>
                                                 </div>
                                             </div>

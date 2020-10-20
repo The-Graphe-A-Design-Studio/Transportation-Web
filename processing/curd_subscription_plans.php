@@ -50,7 +50,7 @@
                         <th>Original Price</th>
                         <th>Selling Price</th>
                         <th>Discount</th>
-                        <th>Duration</th>
+                        <th>Duration / Quantity</th>
                         <th>Edit</th>
                         <th>Status</th>
                         <th>Delete</th>
@@ -67,13 +67,33 @@
                     '
                         Shipper
                     ';
+
+                    $duration = $row['plan_duration'].' Months';
                 }
-                else
+                elseif($row['plan_type'] == 2)
                 {
                     $type = 
                     '
                         Truck Owner
                     ';
+
+                    $duration = $row['plan_duration'].' Months';
+                }
+                else
+                {
+                    $type = 
+                    '
+                        Truck
+                    ';
+
+                    if($row['plan_duration'] > 1)
+                    {
+                        $duration = $row['plan_duration'].' Trucks';
+                    }
+                    else
+                    {
+                        $duration = $row['plan_duration'].' Truck';
+                    }
                 }
 
                 $discount = ( ( ( $row['plan_original_price'] - $row['plan_selling_price'] ) / $row['plan_original_price'] ) * 100 );
@@ -110,7 +130,7 @@
                         <td data-column="Original Price">Rs. '.$row['plan_original_price'].'</td>
                         <td data-column="Selling Price">Rs. '.$row['plan_selling_price'].'</td>
                         <td data-column="Discount">'.round($discount, 2).'%</td>
-                        <td data-column="Duration">'.$row['plan_duration'].' Months</td>
+                        <td data-column="Duration">'.$duration.'</td>
                         <td data-column="Edit">
                             <button class="btn btn-warning btn-md" data-toggle="collapse" data-target="#collapse_'.$row['plan_id'].'" 
                             aria-expanded="true" aria-controls="collapse_'.$row['plan_id'].'">Edit</button>
