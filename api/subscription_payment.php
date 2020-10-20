@@ -42,11 +42,35 @@
             }
             elseif($_POST['user_type'] == 2)
             {
-                $shipper = "update truck_owners set to_account_on = 2, to_subscription_start_date = '$date', to_subscription_order_id = '".$_POST['razorpay_order_id']."', 
+                $owner = "update truck_owners set to_account_on = 2, to_subscription_start_date = '$date', to_subscription_order_id = '".$_POST['razorpay_order_id']."', 
                             to_subscription_expire_date = '$expire_date' where to_id = '".$_POST['user_id']."'";
-                $run_ship = mysqli_query($link, $shipper);
+                $run_owner = mysqli_query($link, $owner);
 
-                if($run_ship)
+                if($run_owner)
+                {
+                    $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(200);
+                }
+                else
+                {
+                    $responseData = ['success' => '0', 'message' => 'Something went wrong'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    http_response_code(206);
+                }
+            }
+            elseif($_POST['user_type'] == 3)
+            {
+                $owner = "select * from truck_owners where to_id = '".$_POST['user_id']."'";
+                $run_owner = mysqli_query($link, $owner);
+                $row_owner = mysqli_fetch_array($run_owner, MYSQLI_ASSOC);
+
+                $add_truck = $row_owner['to_truck_limit'] + $_POST['duration'];
+
+                $own = "update truck_owners set to_truck_limit = $add_truck where to_id = '".$_POST['user_id']."'";
+                $run_own = mysqli_query($link, $own);
+
+                if($run_own)
                 {
                     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
