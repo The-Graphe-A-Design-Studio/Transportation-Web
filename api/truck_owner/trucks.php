@@ -36,221 +36,239 @@
         $truck_driver_phone_code = $_POST['trk_dr_phone_code'];
         $truck_driver_phone = $_POST['trk_dr_phone'];
 
-        $sqle = "SELECT * FROM trucks where trk_num = '$truck_num'";
-        $checke = mysqli_query($link, $sqle);
-        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
-        $counte = mysqli_num_rows($checke);
-        if($counte >= 1)
+        $owner = "select * from truck_owners where to_id = '".$_POST['trk_owner']."'";
+        $run_owner = mysqli_query($link, $owner);
+        $row_owner = mysqli_fetch_array($run_owner, MYSQLI_ASSOC);
+
+        $truck_counting = "select * from trucks where trk_owner = '".$row_owner['to_id']."'";
+        $run_truck_counting = mysqli_query($link, $truck_counting);
+        $count_truck_counting = mysqli_num_rows($run_truck_counting);
+
+        if($count_truck_counting >= $row_owner['to_truck_limit'])
         {
-            $responseData = ['success' => '0', 'message' => 'This Truck Number is already registered'];
+            $responseData = ['success' => '0', 'message' => 'No space to add more truck. View add on truck plans'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
         }
         else
         {
-
-            $sqle = "SELECT * FROM trucks where trk_dr_phone = '$truck_driver_phone'";
+            $sqle = "SELECT * FROM trucks where trk_num = '$truck_num'";
             $checke = mysqli_query($link, $sqle);
             $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
             $counte = mysqli_num_rows($checke);
             if($counte >= 1)
             {
-                $responseData = ['success' => '0', 'message' => 'This Truck Driver Mobile Number is already registered'];
+                $responseData = ['success' => '0', 'message' => 'This Truck Number is already registered'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);
             }
             else
             {
-                $trk_folder = "../../assets/documents/truck_owners/truck_owner_id_".$truck_owner;
 
-                if(!is_dir($trk_folder))
+                $sqle = "SELECT * FROM trucks where trk_dr_phone = '$truck_driver_phone'";
+                $checke = mysqli_query($link, $sqle);
+                $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
+                $counte = mysqli_num_rows($checke);
+                if($counte >= 1)
                 {
-                    mkdir("../../assets/documents/truck_owners/truck_owner_id_".$truck_owner);
+                    $responseData = ['success' => '0', 'message' => 'This Truck Driver Mobile Number is already registered'];
+                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                    http_response_code(400);
                 }
-                
-                $trk_num_folder = "../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num;
-
-                if(!is_dir($trk_num_folder))
+                else
                 {
-                    mkdir("../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num);
-                }
+                    $trk_folder = "../../assets/documents/truck_owners/truck_owner_id_".$truck_owner;
 
-                // Validate RC
-                if(!empty($_FILES['trk_rc']))
-                {
-                    $file_name = $_FILES['trk_rc']['name'];
-                    $file_size =$_FILES['trk_rc']['size'];
-                    $file_tmp =$_FILES['trk_rc']['tmp_name'];
-                    $file_type=$_FILES['trk_rc']['type'];
-                    
-                    if($file_size >= 200000)
+                    if(!is_dir($trk_folder))
                     {
-                        $responseData = ['success' => '0', 'message' => 'RC file size must be less than 200 kb'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                        http_response_code(400);
+                        mkdir("../../assets/documents/truck_owners/truck_owner_id_".$truck_owner);
                     }
-                    else
+                    
+                    $trk_num_folder = "../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num;
+
+                    if(!is_dir($trk_num_folder))
                     {
-                        $file_name = $_FILES["trk_rc"]["name"];
-                        $rn = explode(".", $file_name);
-                        $extension = end($rn);
-                        $new_trk_rc = "rc.".$extension;
+                        mkdir("../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num);
+                    }
+
+                    // Validate RC
+                    if(!empty($_FILES['trk_rc']))
+                    {
+                        $file_name = $_FILES['trk_rc']['name'];
+                        $file_size =$_FILES['trk_rc']['size'];
+                        $file_tmp =$_FILES['trk_rc']['tmp_name'];
+                        $file_type=$_FILES['trk_rc']['type'];
                         
-                        move_uploaded_file($file_tmp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_rc);
-
-                        // Validate Insurance
-                        if(!empty($_FILES['trk_insurance']))
+                        if($file_size >= 200000)
                         {
-                            $file_name2 = $_FILES['trk_insurance']['name'];
-                            $file_size2 = $_FILES['trk_insurance']['size'];
-                            $file_tmp2 = $_FILES['trk_insurance']['tmp_name'];
-                            $file_type2 = $_FILES['trk_insurance']['type'];
+                            $responseData = ['success' => '0', 'message' => 'RC file size must be less than 200 kb'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                            http_response_code(400);
+                        }
+                        else
+                        {
+                            $file_name = $_FILES["trk_rc"]["name"];
+                            $rn = explode(".", $file_name);
+                            $extension = end($rn);
+                            $new_trk_rc = "rc.".$extension;
                             
-                            
-                            if($file_size2 >= 200000)
+                            move_uploaded_file($file_tmp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_rc);
+
+                            // Validate Insurance
+                            if(!empty($_FILES['trk_insurance']))
                             {
-                                $responseData = ['success' => '0', 'message' => 'Insurance file size must be less than 150 kb'];
-                                echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                                http_response_code(400);
-                            }
-                            else
-                            {
-                                $file_name2 = $_FILES["trk_insurance"]["name"];
-                                $rn2 = explode(".", $file_name2);
-                                $extension2 = end($rn2);
-                                $new_trk_insurance = "insurance.".$extension2;
-
-                                move_uploaded_file($file_tmp2,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_insurance);
-
-                                // Validate Road Tax
-                                if(!empty($_FILES['trk_road_tax']))
+                                $file_name2 = $_FILES['trk_insurance']['name'];
+                                $file_size2 = $_FILES['trk_insurance']['size'];
+                                $file_tmp2 = $_FILES['trk_insurance']['tmp_name'];
+                                $file_type2 = $_FILES['trk_insurance']['type'];
+                                
+                                
+                                if($file_size2 >= 200000)
                                 {
-                                    $file_namefp = $_FILES['trk_road_tax']['name'];
-                                    $file_sizefp = $_FILES['trk_road_tax']['size'];
-                                    $file_tmpfp = $_FILES['trk_road_tax']['tmp_name'];
-                                    $file_typefp = $_FILES['trk_road_tax']['type'];
-                                    
-                                    
-                                    if($file_sizefp >= 200000)
+                                    $responseData = ['success' => '0', 'message' => 'Insurance file size must be less than 150 kb'];
+                                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                                    http_response_code(400);
+                                }
+                                else
+                                {
+                                    $file_name2 = $_FILES["trk_insurance"]["name"];
+                                    $rn2 = explode(".", $file_name2);
+                                    $extension2 = end($rn2);
+                                    $new_trk_insurance = "insurance.".$extension2;
+
+                                    move_uploaded_file($file_tmp2,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_insurance);
+
+                                    // Validate Road Tax
+                                    if(!empty($_FILES['trk_road_tax']))
                                     {
-                                        $responseData = ['success' => '0', 'message' => 'Road tax file size must be less than 200 kb'];
-                                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                                        http_response_code(400);
-                                    }
-                                    else
-                                    {
-                                        $file_namefp = $_FILES["trk_road_tax"]["name"];
-                                        $rnfp = explode(".", $file_namefp);
-                                        $extensionfp = end($rnfp);
-                                        $new_trk_road_tax = "road_tax.".$extensionfp;
-
-                                        move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_road_tax);
-
-                                        // Validate RTO
-                                        if(!empty($_FILES['trk_rto']))
+                                        $file_namefp = $_FILES['trk_road_tax']['name'];
+                                        $file_sizefp = $_FILES['trk_road_tax']['size'];
+                                        $file_tmpfp = $_FILES['trk_road_tax']['tmp_name'];
+                                        $file_typefp = $_FILES['trk_road_tax']['type'];
+                                        
+                                        
+                                        if($file_sizefp >= 200000)
                                         {
-                                            $file_namefp = $_FILES['trk_rto']['name'];
-                                            $file_sizefp = $_FILES['trk_rto']['size'];
-                                            $file_tmpfp = $_FILES['trk_rto']['tmp_name'];
-                                            $file_typefp = $_FILES['trk_rto']['type'];
-                                            
-                                            
-                                            if($file_sizefp >= 200000)
+                                            $responseData = ['success' => '0', 'message' => 'Road tax file size must be less than 200 kb'];
+                                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                                            http_response_code(400);
+                                        }
+                                        else
+                                        {
+                                            $file_namefp = $_FILES["trk_road_tax"]["name"];
+                                            $rnfp = explode(".", $file_namefp);
+                                            $extensionfp = end($rnfp);
+                                            $new_trk_road_tax = "road_tax.".$extensionfp;
+
+                                            move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_road_tax);
+
+                                            // Validate RTO
+                                            if(!empty($_FILES['trk_rto']))
                                             {
-                                                $responseData = ['success' => '0', 'message' => 'RTO file size must be less than 200 kb'];
-                                                echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                                                http_response_code(400);
-                                            }
-                                            else
-                                            {
-                                                $file_namefp = $_FILES["trk_rto"]["name"];
-                                                $rnfp = explode(".", $file_namefp);
-                                                $extensionfp = end($rnfp);
-                                                $new_trk_rto = "rto.".$extensionfp;
-
-                                                move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_rto);
-
-                                                $trk_folder_loc = "assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/";
-
-                                                $rc = $trk_folder_loc.$new_trk_rc;
-                                                $insurance = $trk_folder_loc.$new_trk_insurance;
-                                                $road_tax = $trk_folder_loc.$new_trk_road_tax;
-                                                $rto = $trk_folder_loc.$new_trk_rto;
-
-                                                // $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_cat_type, trk_num, trk_dr_name, trk_dr_phone_code, 
-                                                //                 trk_dr_phone, trk_rc, trk_insurance, trk_road_tax, trk_rto) values 
-                                                //                 ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
-                                                //                 '$truck_driver_phone_code', '$truck_driver_phone', '$rc', '$insurance', 
-                                                //                 '$road_tax', '$rto')";
-
-                                                $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_cat_type, trk_num, trk_dr_name, trk_dr_phone_code, 
-                                                                trk_dr_phone) values ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
-                                                                '$truck_driver_phone_code', '$truck_driver_phone')";
-
-                                                $mobile_insert = mysqli_query($link, $mobile_sql);
+                                                $file_namefp = $_FILES['trk_rto']['name'];
+                                                $file_sizefp = $_FILES['trk_rto']['size'];
+                                                $file_tmpfp = $_FILES['trk_rto']['tmp_name'];
+                                                $file_typefp = $_FILES['trk_rto']['type'];
                                                 
-                                                if($mobile_insert)
+                                                
+                                                if($file_sizefp >= 200000)
                                                 {
-                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num) values ('$truck_num', 1)");
-                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num) values ('$truck_num', 2)");
-                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 3, '$rc')");
-                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 4, '$insurance')");
-                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 5, '$road_tax')");
-                                                    mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 6, '$rto')");
-
-                                                    $responseData = ['success' => '1', 'message' => 'New Truck added'];
-                                                    echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                                                    http_response_code(200);
-                                                } 
-                                                else
-                                                {
-                                                    $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+                                                    $responseData = ['success' => '0', 'message' => 'RTO file size must be less than 200 kb'];
                                                     echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                                                     http_response_code(400);
                                                 }
+                                                else
+                                                {
+                                                    $file_namefp = $_FILES["trk_rto"]["name"];
+                                                    $rnfp = explode(".", $file_namefp);
+                                                    $extensionfp = end($rnfp);
+                                                    $new_trk_rto = "rto.".$extensionfp;
+
+                                                    move_uploaded_file($file_tmpfp,"../../assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/".$new_trk_rto);
+
+                                                    $trk_folder_loc = "assets/documents/truck_owners/truck_owner_id_".$truck_owner."/".$truck_num."/";
+
+                                                    $rc = $trk_folder_loc.$new_trk_rc;
+                                                    $insurance = $trk_folder_loc.$new_trk_insurance;
+                                                    $road_tax = $trk_folder_loc.$new_trk_road_tax;
+                                                    $rto = $trk_folder_loc.$new_trk_rto;
+
+                                                    // $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_cat_type, trk_num, trk_dr_name, trk_dr_phone_code, 
+                                                    //                 trk_dr_phone, trk_rc, trk_insurance, trk_road_tax, trk_rto) values 
+                                                    //                 ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
+                                                    //                 '$truck_driver_phone_code', '$truck_driver_phone', '$rc', '$insurance', 
+                                                    //                 '$road_tax', '$rto')";
+
+                                                    $mobile_sql = "insert into trucks (trk_owner, trk_cat, trk_cat_type, trk_num, trk_dr_name, trk_dr_phone_code, 
+                                                                    trk_dr_phone) values ('$truck_owner', '$truck_cat', '$truck_type', '$truck_num', '$truck_driver_name', 
+                                                                    '$truck_driver_phone_code', '$truck_driver_phone')";
+
+                                                    $mobile_insert = mysqli_query($link, $mobile_sql);
+                                                    
+                                                    if($mobile_insert)
+                                                    {
+                                                        mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num) values ('$truck_num', 1)");
+                                                        mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num) values ('$truck_num', 2)");
+                                                        mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 3, '$rc')");
+                                                        mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 4, '$insurance')");
+                                                        mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 5, '$road_tax')");
+                                                        mysqli_query($link, "insert into truck_docs (trk_doc_truck_num, trk_doc_sr_num, trk_doc_location) values ('$truck_num', 6, '$rto')");
+
+                                                        $responseData = ['success' => '1', 'message' => 'New Truck added'];
+                                                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                                                        http_response_code(200);
+                                                    } 
+                                                    else
+                                                    {
+                                                        $responseData = ['success' => '0', 'message' => 'Something went wrong. Error'];
+                                                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                                                        http_response_code(400);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                $responseData = ['success' => '0', 'message' => 'RTO file is missing'];
+                                                echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                                                http_response_code(206);
                                             }
                                         }
-                                        else
-                                        {
-                                            $responseData = ['success' => '0', 'message' => 'RTO file is missing'];
-                                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+                                    }
+                                    else
+                                    {
+                                        $responseData = ['success' => '0', 'message' => 'Road Tax file is missing'];
+                                        echo json_encode($responseData, JSON_PRETTY_PRINT);
 
-                                            http_response_code(206);
-                                        }
+                                        http_response_code(206);
                                     }
                                 }
-                                else
-                                {
-                                    $responseData = ['success' => '0', 'message' => 'Road Tax file is missing'];
-                                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                            }
+                            else
+                            {
+                                $responseData = ['success' => '0', 'message' => 'Insurance is missing'];
+                                echo json_encode($responseData, JSON_PRETTY_PRINT);
 
-                                    http_response_code(206);
-                                }
+                                http_response_code(206);
                             }
                         }
-                        else
-                        {
-                            $responseData = ['success' => '0', 'message' => 'Insurance is missing'];
-                            echo json_encode($responseData, JSON_PRETTY_PRINT);
-
-                            http_response_code(206);
-                        }
                     }
-                }
-                else
-                {
-                    $responseData = ['success' => '0', 'message' => 'RC is missing'];
-                    echo json_encode($responseData, JSON_PRETTY_PRINT);
+                    else
+                    {
+                        $responseData = ['success' => '0', 'message' => 'RC is missing'];
+                        echo json_encode($responseData, JSON_PRETTY_PRINT);
 
-                    http_response_code(206);
+                        http_response_code(206);
+                    }
                 }
             }
         }
