@@ -158,6 +158,15 @@
             $truck = "update trucks set trk_on_trip = 2 where trk_id = '".$_POST['truck_id']."'";
             $set = mysqli_query($link, $truck);
 
+            $deli = "select * from deliveries where del_id = '".$_POST['del_trk_id']."'";
+            $run_deli = mysqli_query($link, $deli);
+            $row_deli = mysqli_fetch_array($run_deli, MYSQLI_ASSOC);
+            
+            $no_title = "Trip started";
+            $no_message = "Truck ID ".$_POST['truck_id']." trip started of Load ID ".$row_deli['or_id'];
+            $no_for_id = $row_deli['or_id'];
+            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
             $responseData = ['success' => '1', 'message' => 'OTP Verified. Trip started'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
@@ -204,6 +213,13 @@
             {
                 mysqli_query($link, "update deliveries set del_status = 2 where del_id = '".$row11['del_id']."'");
             }
+
+            $row211 = mysqli_fetch_array($run21, MYSQLI_ASSOC);
+
+            $no_title = "Trip completed";
+            $no_message = "Truck ID ".$row211['trk_id']." trip completed of Load ID ".$row11['or_id'];
+            $no_for_id = $row11['or_id'];
+            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Trip Completed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
