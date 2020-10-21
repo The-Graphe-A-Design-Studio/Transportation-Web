@@ -181,56 +181,6 @@
         }
         
     }
-    elseif(isset($_POST['truck_id']) && isset($_POST['delivery_id']))
-    {
-        $all_trucks = explode('* ', $_POST['truck_id']);
-
-        foreach($all_trucks as $trucks)
-        {
-            if(!empty($trucks))
-            {
-                mysqli_query($link, "insert into delivery_trucks (del_id, trk_id) values ('".$_POST['delivery_id']."', '$trucks')");
-            }
-        }
-
-        $responseData = ['success' => '1', 'message' => 'Trucks added'];
-        echo json_encode($responseData, JSON_PRETTY_PRINT);
-        http_response_code(200);
-    }
-    elseif(isset($_POST['truck_owner_id']) && isset($_POST['del_id']))
-    {
-        $sql = "select deliveries.*, delivery_trucks.* from deliveries, delivery_trucks where deliveries.to_id = '".$_POST['truck_owner_id']."' and deliveries.del_id = delivery_trucks.del_id";
-        $get = mysqli_query($link, $sql);
-        while($row = mysqli_fetch_array($get, MYSQLI_ASSOC))
-        {
-            $truck = "select * from trucks where trk_id = '".$row['trk_id']."'";
-            $get_truck = mysqli_query($link, $truck);
-            $row_truck = mysqli_fetch_array($get_truck, MYSQLI_ASSOC);
-
-            $responseData[] = ['del truck id' => $row['del_trk_id'], 'truck id' => $row['trk_id'], 'truck number' => $row_truck['trk_num'], 'driver name' => $row_truck['trk_dr_name'], 'driver phone' => $row_truck['trk_dr_phone']];
-        }
-        echo json_encode($responseData, JSON_PRETTY_PRINT);
-        http_response_code(200);
-    }
-    elseif(isset($_POST['del_id_remove_truck']))
-    {
-        $update = "delete from delivery_trucks where del_trk_id = '".$_POST['del_id_remove_truck']."'";
-        $run = mysqli_query($link, $update);
-
-        if($run)
-        {
-
-            $responseData = ['success' => '1', 'message' => 'Truck removed'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
-        }
-        else
-        {
-            $responseData = ['success' => '0', 'message' => 'Something went wrong'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(400);
-        }
-    }
     else
     {
         $responseData = ['success' => '0', 'message' => 'Something is missing'];
