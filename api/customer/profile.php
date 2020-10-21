@@ -56,6 +56,11 @@
 
                 if($d_run)
                 {
+                    $no_title = "Shipper Docs";
+                    $no_message = "Shipper ID ".$rowe['cu_id']." uploaded PAN Card";
+                    $no_for_id = $rowe['cu_id'];
+                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                     $responseData = ['success' => '1', 'message' => 'PAN card uploaded'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                     http_response_code(200);
@@ -164,6 +169,11 @@
 
                         if($d_run)
                         {
+                            $no_title = "Shipper Docs";
+                            $no_message = "Shipper ID ".$rowe['cu_id']." uploaded Address Docs";
+                            $no_for_id = $rowe['cu_id'];
+                            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                             $responseData = ['success' => '1', 'message' => 'Address uploaded'];
                             echo json_encode($responseData, JSON_PRETTY_PRINT);
                             http_response_code(200);
@@ -240,6 +250,11 @@
 
                 if($d_run)
                 {
+                    $no_title = "Shipper Docs";
+                    $no_message = "Shipper ID ".$rowe['cu_id']." uploaded Selfie";
+                    $no_for_id = $rowe['cu_id'];
+                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                     $responseData = ['success' => '1', 'message' => 'Selfie uploaded'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                     http_response_code(200);
@@ -310,6 +325,11 @@
 
                 if($d_run)
                 {
+                    $no_title = "Shipper Docs";
+                    $no_message = "Shipper ID ".$rowe['cu_id']." uploaded Office address docs";
+                    $no_for_id = $rowe['cu_id'];
+                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                     $responseData = ['success' => '1', 'message' => 'Office address uploaded'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                     http_response_code(200);
