@@ -155,6 +155,11 @@
                     $sent = push_notification_android($device_id, $title, $message);
                 }
 
+                $no_title = "Bidding";
+                $no_message = "Shipper accepted bid of Load ID ".$_POST['load_id_for_accepting'];
+                $no_for_id = $_POST['load_id_for_accepting'];
+                mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                 $responseData = ['success' => '1', 'message' => 'Bid accepted'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
