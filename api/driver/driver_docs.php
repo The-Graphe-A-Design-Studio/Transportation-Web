@@ -47,6 +47,11 @@
 
                     if($run_update)
                     {
+                        $no_title = "Driver Docs";
+                        $no_message = "Truck Driver ID ".$row['trk_id']." uploaded Driving license";
+                        $no_for_id = $row['trk_id'];
+                        mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                         $responseData = ['success' => '1', 'message' => 'License uploaded'];
                         echo json_encode($responseData, JSON_PRETTY_PRINT);
                         http_response_code(200);
@@ -117,6 +122,11 @@
 
                     if($run_update)
                     {
+                        $no_title = "Driver Docs";
+                        $no_message = "Truck Driver ID ".$row['trk_id']." uploaded Selfie";
+                        $no_for_id = $row['trk_id'];
+                        mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                         $responseData = ['success' => '1', 'message' => 'Selfie uploaded'];
                         echo json_encode($responseData, JSON_PRETTY_PRINT);
                         http_response_code(200);
