@@ -69,9 +69,9 @@
                         if($run)
                         {
                             $no_title = "Bidding";
-                            $no_description = "New Bidding for Load ID ".$_POST['load_id'];
+                            $no_message = "New Bidding for Load ID ".$_POST['load_id'];
                             $no_for_id = $_POST['load_id'];
-                            mysqli_query($link, "insert into notifications (no_title, no_description, id) values('$no_title', '$no_description', '$no_for_id')");
+                            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
 
                             $device_id = $rowee12['cu_token'];
                             $title = "New Bidding";
