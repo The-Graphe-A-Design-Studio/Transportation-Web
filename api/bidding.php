@@ -102,20 +102,39 @@
     }
     elseif(isset($_POST['bid_id']) && isset($_POST['edit_expected_price']))
     {
-        $sql = "update bidding set bid_expected_price = '".$_POST['edit_expected_price']."', bid_status = 0 where bid_id = '".$_POST['bid_id']."'";
-        $run = mysqli_query($link, $sql);
+        $sqle = "SELECT * FROM bidding where bid_id = '".$_POST['bid_id']."'";
+        $checke = mysqli_query($link, $sqle);
+        $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
 
-        if($run)
+        $sqlee1 = "SELECT * FROM cust_order where or_id = '".$rowe['load_id']."'";
+        $checkee1 = mysqli_query($link, $sqlee1);
+        $rowee1 = mysqli_fetch_array($checkee1, MYSQLI_ASSOC);
+
+        $including_commision = round(($rowee1['or_expected_price'] - ($rowee1['or_expected_price'] * ($rowee1['or_admin_expected_price']/100))), 2);
+
+        if($_POST['edit_expected_price'] > $including_commision)
         {
-            $responseData = ['success' => '1', 'message' => 'Update successful'];
+            $responseData = ['success' => '0', 'message' => 'Bidding price is greater than shipper expected price'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(200);
+            http_response_code(400);
         }
         else
         {
-            $responseData = ['success' => '0', 'message' => 'Update unsuccessful'];
-            echo json_encode($responseData, JSON_PRETTY_PRINT);
-            http_response_code(400);
+            $sql = "update bidding set bid_expected_price = '".$_POST['edit_expected_price']."', bid_status = 0 where bid_id = '".$_POST['bid_id']."'";
+            $run = mysqli_query($link, $sql);
+
+            if($run)
+            {
+                $responseData = ['success' => '1', 'message' => 'Update successful'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(200);
+            }
+            else
+            {
+                $responseData = ['success' => '0', 'message' => 'Update unsuccessful'];
+                echo json_encode($responseData, JSON_PRETTY_PRINT);
+                http_response_code(400);
+            }
         }
     }
     elseif(isset($_POST['delete_bid_id']))
