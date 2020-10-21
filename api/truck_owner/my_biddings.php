@@ -159,6 +159,11 @@
 
                 $sent = push_notification_android($device_id, $title, $message);
 
+                $no_title = "Deal accepted";
+                $no_message = "Deal accepted by Truck owner ID ".$row_sql['bid_user_id']." of Load ID ".$row_sql['load_id'];
+                $no_for_id = $row_sql['load_id'];
+                mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                 $responseData = ['success' => '1', 'message' => 'Deal accepted'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
@@ -216,6 +221,11 @@
             $message = "Your load with ID ".$row_load['or_id']." is rejected by Truck owner.";
 
             $sent = push_notification_android($device_id, $title, $message);
+
+            $no_title = "Deal cancelled";
+            $no_message = "Deal cancelled by Truck owner ID ".$row_bid['bid_user_id']." of Load ID ".$row_bid['load_id'];
+            $no_for_id = $row_bid['load_id'];
+            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Bid removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
