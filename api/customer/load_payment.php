@@ -11,6 +11,19 @@
         $run_check = mysqli_query($link, $check);
         $row_check = mysqli_fetch_array($run_check, MYSQLI_ASSOC);
 
+        if($row_check['pay_mode'] == 1)
+        {
+            $pay_mode = "Advance";
+        }
+        elseif($row_check['pay_mode'] == 2)
+        {
+            $pay_mode = "Remaining";
+        }
+        else
+        {
+            $pay_mode = "Full";
+        }
+
         if($row_check['pay_status'] == 1)
         {
             $responseData = ['success' => '0', 'message' => 'Payment already done'];
@@ -26,7 +39,12 @@
                 $run = mysqli_query($link, $sql);
 
                 if($run)
-                {
+                {                    
+                    $no_title = "Load Payment";
+                    $no_message = $pay_mode." payment received for Load ID ".$row_check['load_id'];
+                    $no_for_id = $row_check['load_id'];
+                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                     $responseData = ['success' => '1', 'message' => 'Payment complete'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                     http_response_code(200);
@@ -61,6 +79,11 @@
 
                 if($run)
                 {
+                    $no_title = "Load Payment";
+                    $no_message = $pay_mode." payment received for Load ID ".$row_check['load_id'];
+                    $no_for_id = $row_check['load_id'];
+                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                    
                     $responseData = ['success' => '1', 'message' => 'Payment complete'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                     http_response_code(200);
