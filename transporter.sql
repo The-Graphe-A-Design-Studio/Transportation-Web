@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2020 at 05:56 PM
+-- Generation Time: Oct 21, 2020 at 06:26 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -275,12 +275,27 @@ INSERT INTO `material_types` (`mat_id`, `mat_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `no_id` int(11) NOT NULL,
+  `no_title` varchar(100) NOT NULL,
+  `no_message` varchar(255) NOT NULL,
+  `id` varchar(10) NOT NULL,
+  `no_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Not seen; 1 - Seen',
+  `no_default` tinyint(4) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `subscribed_users`
 --
 
 CREATE TABLE `subscribed_users` (
   `subs_id` int(11) NOT NULL,
-  `subs_user_type` tinyint(4) NOT NULL COMMENT '1 - Shipper ; 2 - Truck Owner',
+  `subs_user_type` tinyint(4) NOT NULL COMMENT '1 - Shipper ; 2 - Truck Owner; 3 - Add on Truck',
   `subs_user_id` int(11) NOT NULL,
   `subs_amount` decimal(15,2) NOT NULL,
   `subs_duration` tinyint(4) NOT NULL COMMENT 'in months',
@@ -301,13 +316,25 @@ CREATE TABLE `subscribed_users` (
 CREATE TABLE `subscription_plans` (
   `plan_id` int(11) NOT NULL,
   `plan_name` varchar(100) NOT NULL,
-  `plan_type` tinyint(4) NOT NULL COMMENT '1 - Shipper Plans; 2 - Truck Owner Plans',
+  `plan_type` tinyint(4) NOT NULL COMMENT '1 - Shipper Plans; 2 - Truck Owner Plans; 3 - Add on Truck',
   `plan_original_price` decimal(15,2) NOT NULL,
   `plan_selling_price` decimal(15,2) NOT NULL,
   `plan_duration` tinyint(4) NOT NULL COMMENT 'in Months',
   `plan_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - Inactive ; 1 - Active',
   `plan_reg` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `subscription_plans`
+--
+
+INSERT INTO `subscription_plans` (`plan_id`, `plan_name`, `plan_type`, `plan_original_price`, `plan_selling_price`, `plan_duration`, `plan_status`, `plan_reg`) VALUES
+(1, 'Sabse Sasta', 1, '4500.00', '2500.00', 3, 1, 1),
+(2, 'Sabse Mehenga', 1, '6000.00', '4500.00', 6, 0, 1),
+(3, 'Sabse Sasta', 2, '5000.00', '3500.00', 3, 1, 1),
+(4, 'Sabse Mehenga', 2, '6000.00', '5000.00', 6, 0, 1),
+(6, 'Add on', 3, '2000.00', '900.00', 2, 1, 1),
+(7, 'Add on Truck', 3, '1000.00', '500.00', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -454,6 +481,7 @@ CREATE TABLE `truck_owners` (
   `to_subscription_order_id` varchar(255) NOT NULL,
   `to_subscription_expire_date` datetime NOT NULL,
   `to_registered` datetime NOT NULL,
+  `to_truck_limit` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Number of trucks',
   `to_token` varchar(255) NOT NULL,
   `to_active` tinyint(4) NOT NULL DEFAULT 0,
   `to_on` tinyint(4) NOT NULL DEFAULT 1
@@ -548,6 +576,12 @@ ALTER TABLE `load_payments`
 --
 ALTER TABLE `material_types`
   ADD PRIMARY KEY (`mat_id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`no_id`);
 
 --
 -- Indexes for table `subscribed_users`
@@ -674,6 +708,12 @@ ALTER TABLE `material_types`
   MODIFY `mat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `no_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `subscribed_users`
 --
 ALTER TABLE `subscribed_users`
@@ -683,7 +723,7 @@ ALTER TABLE `subscribed_users`
 -- AUTO_INCREMENT for table `subscription_plans`
 --
 ALTER TABLE `subscription_plans`
-  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `trucks`
