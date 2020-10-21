@@ -219,6 +219,11 @@
         
         $sent = push_notification_android($device_id, $title, $message);
 
+        $no_title = "Trucks assigned";
+        $no_message = "Truck assinged by Truck owner ID ".$row['to_id']." for Load ID ".$row['or_id'];
+        $no_for_id = $row['or_id'];
+        mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
         $responseData = ['success' => '1', 'message' => 'Trucks added'];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);
