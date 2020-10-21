@@ -157,6 +157,11 @@
                     
                     if($set)
                     {
+                        $no_title = "Load";
+                        $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
+                        $no_for_id = $code;
+                        mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                         $responseData = ['success' => '1', 'message' => 'Order Created'];
                         echo json_encode($responseData, JSON_PRETTY_PRINT);
                         http_response_code(200);
@@ -278,6 +283,11 @@
                     
                     if($set)
                     {
+                        $no_title = "Load";
+                        $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
+                        $no_for_id = $code;
+                        mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
                         $responseData = ['success' => '1', 'message' => 'Order Created'];
                         echo json_encode($responseData, JSON_PRETTY_PRINT);
                         http_response_code(200);
@@ -388,6 +398,11 @@
                 
                 if($set)
                 {
+                    $no_title = "Load";
+                    $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
+                    $no_for_id = $code;
+                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                    
                     $responseData = ['success' => '1', 'message' => 'Order Created'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                     http_response_code(200);
@@ -414,6 +429,15 @@
 
         if($run)
         {
+            $order = "select * from cust_order where or_id = '".$_POST['load_id']."'";
+            $run_order = mysqli_query($link, $order);
+            $row_order = mysqli_fetch_array($run_order, MYSQLI_ASSOC);
+
+            $no_title = "Load";
+            $no_message = "Load ID ".$row_order['or_id']." cancelled by Shipper ID ".$row_order['or_cust_id'];
+            $no_for_id = $row_order['or_id'];
+            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+
             $responseData = ['success' => '1', 'message' => 'Load cancelled'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
