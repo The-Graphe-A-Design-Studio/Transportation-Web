@@ -432,7 +432,7 @@
             setInterval(function()
             {
                 filter_notification_data(); 
-            }, 15000);
+            }, 10000);
 
             $(".dashboard").addClass("active");
 

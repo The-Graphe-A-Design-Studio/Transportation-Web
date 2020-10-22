@@ -233,7 +233,7 @@
                 elseif($row['no_title'] === "New Shipper Registered")
                 {
                     $sql = "select * from customers where cu_phone = '".$row['id']."'";
-                    $run = mysqli_num_rows($link, $sql);
+                    $run = mysqli_query($link, $sql);
                     $ans = mysqli_fetch_array($run, MYSQLI_ASSOC);
 
                     $link = "shipper_profile?shipper_id=".$ans['cu_id'];
@@ -245,7 +245,7 @@
                 elseif($row['no_title'] === "New Truck Registered")
                 {
                     $sql = "select * from trucks where trk_dr_phone = '".$row['id']."'";
-                    $run = mysqli_num_rows($link, $sql);
+                    $run = mysqli_query($link, $sql);
                     $ans = mysqli_fetch_array($run, MYSQLI_ASSOC);
 
                     $link = "truck_profile?truck_id=".$ans['cu_id'];
@@ -257,7 +257,7 @@
                 elseif($row['no_title'] === "New Owner Registered")
                 {
                     $sql = "select * from truck_owners where to_phone = '".$row['id']."'";
-                    $run = mysqli_num_rows($link, $sql);
+                    $run = mysqli_query($link, $sql);
                     $ans = mysqli_fetch_array($run, MYSQLI_ASSOC);
 
                     $link = "truck_owner_profile?owner_id=".$ans['cu_id'];
@@ -276,7 +276,7 @@
                                     <span class="'.$beep.'"></span>
                                 </div>
                             </div>
-                            <a href="'.$link.'" id="link_id'.$row['no_id'].'" style="text-decoration: none;" class="media-title">'.$row['no_message'].'</a>
+                            <div id="link_id'.$row['no_id'].'" style="cursor: pointer; text-decoration: none;" class="media-title">'.$row['no_message'].'</div>
                             <div class="mt-1">
                                 <div class="budget-price">
                                     <div class="budget-price-label" style="margin-left: 0 !important">
@@ -293,6 +293,13 @@
                                     type: "POST",
                                     url: "processing/curd_dashboard.php",
                                     data: {notification_id:'.$row['no_id'].'},
+                                    success: function(data)
+                                    {
+                                        if(data === "Seen")
+                                        {
+                                            location.href="'.$link.'";
+                                        }
+                                    }
                                 });
                             });
                         });
@@ -315,7 +322,17 @@
     }
     elseif(isset($_POST['notification_id']))
     {
-        mysqli_query($link, "update notifications set no_status = 1 where no_id = '".$_POST['notification_id']."'");
+        $sql = "update notifications set no_status = 1 where no_id = '".$_POST['notification_id']."'";
+        $run = mysqli_query($link, $sql);
+
+        if($run)
+        {
+            echo "Seen";
+        }
+        else
+        {
+            echo "error";
+        }
     }
     else
     {
