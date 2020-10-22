@@ -266,6 +266,7 @@
                                 </ul>
                             </div>
                             <div class="card-footer pt-3 d-flex justify-content-center">
+                                Older notifications will be automatically and continuously deleted after 5 days.
                             </div>
                         </div>
                     </div>

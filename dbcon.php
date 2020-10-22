@@ -174,4 +174,22 @@
             }
         }        
     }
+
+    // Checking for older notifications
+    $db_not = "select * from notifications where no_status = 1";
+    $db_not_run = mysqli_query($link, $db_not);
+    while($db_not_row = mysqli_fetch_array($db_not_run, MYSQLI_ASSOC))
+    {
+        // Calculating the difference in timestamps 
+        $diff = strtotime(date('Y-m-d H:i:s')) - strtotime($db_not_row['no_date_time']); 
+                    
+        // 1 day = 24 hours 
+        // 24 * 60 * 60 = 86400 seconds 
+        $t_left = abs(round($diff / 86400));
+
+        if($t_left > 5)
+        {
+            mysqli_query($link, "delete from notifications where no_id = '".$db_not_row['no_id']."'");
+        }
+    }
 ?>
