@@ -267,6 +267,9 @@
                     $link = "#";
                 }
 
+                $no_day = date_default_timezone_set($row['no_date_time'], "", "Asia/Kolkata");
+                $no_day = date_format(date_create($no_day), 'd M, Y h:i A');
+
                 $output .=
                 '
                     <li class="media">
@@ -280,7 +283,7 @@
                             <div class="mt-1">
                                 <div class="budget-price">
                                     <div class="budget-price-label" style="margin-left: 0 !important">
-                                    '.date_format(date_create($row['no_date_time']), 'd M, Y h:i A').'
+                                    '.$no_day.'
                                     </div>
                                 </div>
                             </div>
