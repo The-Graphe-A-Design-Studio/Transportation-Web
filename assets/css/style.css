@@ -2672,10 +2672,10 @@ pre {
 	content: '';
 	position: absolute;
 	top: 2px;
-	right: 8px;
-	width: 7px;
-	height: 7px;
-	background-color: #ffa426;
+	right: 0;
+	width: 15px;
+	height: 15px;
+	background-color: red;
 	border-radius: 50%;
 	-webkit-animation: pulsate 1s ease-out;
 	animation: pulsate 1s ease-out;

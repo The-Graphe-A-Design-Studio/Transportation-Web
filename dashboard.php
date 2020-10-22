@@ -29,7 +29,7 @@
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
-                                    Load Statistics -
+                                    Loads -
                                     <div class="dropdown d-inline">
                                         <select class="common_selector month" style="border: none; text-align: center;">
                                             <option value="">Month</option>
@@ -237,6 +237,39 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card gradient-bottom">
+                            <div class="card-header" style="line-height: 0 !important">
+                                <h4>Notifications</h4>
+                                <div class="custom-switches-stacked mt-2" style="flex-direction: row">
+                                    <div class="form-group" style="margin-bottom: 0 !important">
+                                        <label class="custom-switch">
+                                            <input type="radio" name="option" class="custom-switch-input common_selectorss all_notify" checked>
+                                            <span class="custom-switch-indicator"></span>
+                                            <span class="custom-switch-description">All</span>
+                                        </label>
+                                        <label class="custom-switch">
+                                            <input type="radio" name="option" class="custom-switch-input common_selectorss not_seen">
+                                            <span class="custom-switch-indicator"></span>
+                                            <span class="custom-switch-description">Not Seen</span>
+                                        </label>
+                                        <label class="custom-switch">
+                                            <input type="radio" name="option" class="custom-switch-input common_selectorss seen">
+                                            <span class="custom-switch-indicator"></span>
+                                            <span class="custom-switch-description">Seen</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body" id="top-5-scroll" style="overflow: hidden; outline: currentcolor none medium;" tabindex="2">                                
+                                <ul class="list-unstyled list-unstyled-border notification_fetch_data">
+                                    
+                                </ul>
+                            </div>
+                            <div class="card-footer pt-3 d-flex justify-content-center">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
                                 <div class="card-stats-title">
@@ -262,36 +295,7 @@
                                 <div id="chartContainer" style="height: 370px; width: 100%;"></div>                                
                             </div>                            
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="card gradient-bottom">
-                            <div class="card-header">
-                                <h4>Notifications</h4>
-                            </div>
-                            <div class="card-body" id="top-5-scroll" style="height: 325px; overflow: hidden; outline: currentcolor none medium;" tabindex="2">
-                                <ul class="list-unstyled list-unstyled-border">
-                                    <li class="media">
-                                        <!-- <div class="media-body">
-                                            <div class="float-right"><div class="font-weight-600 text-muted text-small">86 Sales</div></div>
-                                            <div class="media-title">oPhone S9 Limited</div>
-                                            <div class="mt-1">
-                                            <div class="budget-price">
-                                                <div class="budget-price-square bg-primary" data-width="64%" style="width: 64%;"></div>
-                                                <div class="budget-price-label">$68,714</div>
-                                            </div>
-                                            <div class="budget-price">
-                                                <div class="budget-price-square bg-danger" data-width="43%" style="width: 43%;"></div>
-                                                <div class="budget-price-label">$38,700</div>
-                                            </div>
-                                            </div>
-                                        </div> -->
-                                    </li>                                    
-                                </ul>
-                            </div>
-                            <div class="card-footer pt-3 d-flex justify-content-center">
-                            </div>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
             </section>
         </div>
@@ -393,6 +397,42 @@
                 filter_chart_data();
                 chart_years()
             });
+
+            filter_notification_data();
+
+            function filter_notification_data()
+            {
+                var notify_action = 'notification_fetch_data';
+                var all_notify = get_filter('all_notify');
+                var seen = get_filter('seen');
+                var not_seen = get_filter('not_seen');
+                $.ajax({
+                    url:"processing/curd_dashboard.php",
+                    method:"POST",
+                    data:{notify_action:notify_action, all_notify:all_notify, seen:seen, not_seen:not_seen},
+                    success:function(data){
+                        $('.notification_fetch_data').html(data);
+                    }
+                });
+            }
+
+            function get_filter(class_name)
+            {
+                var filter = [];
+                $('.'+class_name+':checked').each(function(){
+                    filter.push($(this).val());
+                });
+                return filter;
+            }
+
+            $('.common_selectorss').on('keyup change',function(){
+                filter_notification_data();
+            });
+
+            setInterval(function()
+            {
+                filter_notification_data(); 
+            }, 15000);
 
             $(".dashboard").addClass("active");
 

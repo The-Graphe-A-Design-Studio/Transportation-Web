@@ -1,6 +1,15 @@
 <?php
     include('session.php');
     include('layout.php');
+
+    if(isset($_GET['order_id']))
+    {
+        $order_id = $_GET['order_id'];
+    }
+    else
+    {
+        $order_id = "";
+    }
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +65,7 @@
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group" style="margin-bottom: 0 !important;">
                                 <label>Search by Order ID</label>
-                                <input class="form-control common_selector search_bar" placeholder="Search by Order ID" name="name"/>
+                                <input class="form-control common_selector search_bar" placeholder="Search by Order ID" value="<?php echo $order_id; ?>" name="name"/>
                             </div>
                         </div>
                         

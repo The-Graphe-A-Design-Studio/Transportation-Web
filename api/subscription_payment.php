@@ -31,7 +31,7 @@
                 {
                     $no_title = "Shipper Subscription";
                     $no_message = "New subscription by Shipper ID ".$_POST['user_id'];
-                    $no_for_id = $_POST['user_id'];
+                    $no_for_id = $_POST['razorpay_order_id'];
                     mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
@@ -55,7 +55,7 @@
                 {
                     $no_title = "Owner Subscription";
                     $no_message = "New subscription by Truck Owner ID ".$_POST['user_id'];
-                    $no_for_id = $_POST['user_id'];
+                    $no_for_id = $_POST['razorpay_order_id'];
                     mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
@@ -84,7 +84,7 @@
                 {
                     $no_title = "Truck Subscription";
                     $no_message = "Truck add on by Truck Owner ID ".$_POST['user_id'];
-                    $no_for_id = $_POST['user_id'];
+                    $no_for_id = $_POST['razorpay_order_id'];
                     mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];

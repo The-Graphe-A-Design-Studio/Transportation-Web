@@ -87,7 +87,7 @@
             $row_own = mysqli_fetch_array($run_own, MYSQLI_ASSOC);
 
             $no_title = "Owner details";
-            $no_message = "Truck owner ID ".$row_own['to_id']." updated his/her profile details";
+            $no_message = "Truck owner ID ".$row_own['to_id']." updated his/her bank details";
             $no_for_id = $row_own['to_id'];
             mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
 

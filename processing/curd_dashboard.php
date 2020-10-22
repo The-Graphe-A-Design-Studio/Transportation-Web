@@ -178,6 +178,145 @@
         echo json_encode($output);
 
     }
+    elseif(isset($_POST["notify_action"]))
+    {
+        $query = "SELECT * FROM notifications WHERE no_default = 1";
+
+        if(isset($_POST["seen"]))
+        {
+            $query .= " AND no_status = '1'";
+        }
+
+        if(isset($_POST["not_seen"]))
+        {
+            $query .= " AND no_status = '0'";
+        }
+
+        if(isset($_POST["notify_action"]))
+        {
+            $query .= " order by no_id desc";
+        }
+
+        $statement = $connect->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        $total_row = $statement->rowCount();
+
+        $output = '';
+        
+        if($total_row > 0)
+        {
+            foreach($result as $row)
+            {
+                if($row['no_status'] == 0)
+                {
+                    $beep = "beep";
+                }
+                else
+                {
+                    $beep = "";
+                }
+
+                if($row['no_title'] === "Bidding" || $row['no_title'] === "Load" || $row['no_title'] === "Load Payment" || $row['no_title'] === "Trip started" || $row['no_title'] === "Trip completed" || 
+                    $row['no_title'] === "Deal accepted" || $row['no_title'] === "Deal cancelled" || $row['no_title'] === "Trucks assigned")
+                {
+                    $link = "loads_by_id?load_id=".$row['id'];
+                }
+                elseif($row['no_title'] === "Shipper Subscription" || $row['no_title'] === "Owner Subscription" || $row['no_title'] === "Truck Subscription")
+                {
+                    $link = "subscribed_users?order_id=".$row['id'];
+                }
+                elseif($row['no_title'] === "Shipper Docs")
+                {
+                    $link = "shipper_profile?shipper_id=".$row['id'];
+                }
+                elseif($row['no_title'] === "New Shipper Registered")
+                {
+                    $sql = "select * from customers where cu_phone = '".$row['id']."'";
+                    $run = mysqli_num_rows($link, $sql);
+                    $ans = mysqli_fetch_array($run, MYSQLI_ASSOC);
+
+                    $link = "shipper_profile?shipper_id=".$ans['cu_id'];
+                }
+                elseif($row['no_title'] === "Driver Docs" || $row['no_title'] === "Truck docs" || $row['no_title'] === "Truck status")
+                {
+                    $link = "truck_profile?truck_id=".$row['id'];
+                }
+                elseif($row['no_title'] === "New Truck Registered")
+                {
+                    $sql = "select * from trucks where trk_dr_phone = '".$row['id']."'";
+                    $run = mysqli_num_rows($link, $sql);
+                    $ans = mysqli_fetch_array($run, MYSQLI_ASSOC);
+
+                    $link = "truck_profile?truck_id=".$ans['cu_id'];
+                }
+                elseif($row['no_title'] === "Owner docs" || $row['no_title'] === "Owner details" || $row['no_title'] === "Truck removed")
+                {
+                    $link = "truck_owner_profile?owner_id=".$row['id'];
+                }
+                elseif($row['no_title'] === "New Owner Registered")
+                {
+                    $sql = "select * from truck_owners where to_phone = '".$row['id']."'";
+                    $run = mysqli_num_rows($link, $sql);
+                    $ans = mysqli_fetch_array($run, MYSQLI_ASSOC);
+
+                    $link = "truck_owner_profile?owner_id=".$ans['cu_id'];
+                }
+                else
+                {
+                    $link = "#";
+                }
+
+                $output .=
+                '
+                    <li class="media">
+                        <div class="media-body">
+                            <div class="float-right" style="margin-right: 10px">
+                                <div class="font-weight-600 text-muted text-small">
+                                    <span class="'.$beep.'"></span>
+                                </div>
+                            </div>
+                            <a href="'.$link.'" id="link_id'.$row['no_id'].'" style="text-decoration: none;" class="media-title">'.$row['no_message'].'</a>
+                            <div class="mt-1">
+                                <div class="budget-price">
+                                    <div class="budget-price-label" style="margin-left: 0 !important">
+                                    '.date_format(date_create($row['no_date_time']), 'd M, Y h:i A').'
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <script>
+                        $(document).ready(function(){
+                            $("#link_id'.$row['no_id'].'").on("click", function(){
+                                $.ajax({
+                                    type: "POST",
+                                    url: "processing/curd_dashboard.php",
+                                    data: {notification_id:'.$row['no_id'].'},
+                                });
+                            });
+                        });
+                    </script>
+                ';
+                
+            }
+
+        }
+        else
+        {
+            $output = 
+            '
+                
+            ';
+        }
+        
+        echo $output;
+
+    }
+    elseif(isset($_POST['notification_id']))
+    {
+        mysqli_query($link, "update notifications set no_status = 1 where no_id = '".$_POST['notification_id']."'");
+    }
     else
     {
         echo "Server error";
