@@ -71,7 +71,8 @@
                             $no_title = "Bidding";
                             $no_message = "New Bidding for Load ID ".$_POST['load_id'];
                             $no_for_id = $_POST['load_id'];
-                            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                            $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                             $device_id = $rowee12['cu_token'];
                             $title = "New Bidding";

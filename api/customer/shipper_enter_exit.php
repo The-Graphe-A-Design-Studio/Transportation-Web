@@ -110,7 +110,8 @@
                 $no_title = "New Shipper Registered";
                 $no_message = "New shipper registered with phone number ".$_POST['cu_phone'];
                 $no_for_id = $_POST['cu_phone'];
-                mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
                 
                 $responseData = ['success' => '1', 'message' => 'OTP sent to your given number. Please verify your number'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);

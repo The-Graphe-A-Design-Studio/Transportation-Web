@@ -59,7 +59,8 @@
                     $no_title = "Owner docs";
                     $no_message = "Truck owner ID ".$rowe['to_id']." uploaded PAN card";
                     $no_for_id = $rowe['to_id'];
-                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                    $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
         
                     $responseData = ['success' => '1', 'message' => 'PAN card uploaded'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -89,7 +90,8 @@
             $no_title = "Owner details";
             $no_message = "Truck owner ID ".$row_own['to_id']." updated his/her bank details";
             $no_for_id = $row_own['to_id'];
-            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+            $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Details updated'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);

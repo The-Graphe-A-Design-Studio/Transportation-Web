@@ -224,7 +224,8 @@
                                                         $no_title = "New Truck Registered";
                                                         $no_message = "New truck registered by truck owner ID ".$truck_owner." with driver's phone number ".$truck_driver_phone;
                                                         $no_for_id = $truck_driver_phone;
-                                                        mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                                                        $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                                                         $responseData = ['success' => '1', 'message' => 'New Truck added'];
                                                         echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -423,7 +424,8 @@
                 $no_title = "Truck docs";
                 $no_message = "Truck ID ".$_POST['trk_id']." updated RC details";
                 $no_for_id = $_POST['trk_id'];
-                mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck RC Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -482,7 +484,8 @@
                 $no_title = "Truck docs";
                 $no_message = "Truck ID ".$_POST['trk_id']." updated Insurance details";
                 $no_for_id = $_POST['trk_id'];
-                mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck Insurance Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -541,7 +544,8 @@
                 $no_title = "Truck docs";
                 $no_message = "Truck ID ".$_POST['trk_id']." updated Road tax details";
                 $no_for_id = $_POST['trk_id'];
-                mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck Road Tax Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -600,7 +604,8 @@
                 $no_title = "Truck docs";
                 $no_message = "Truck ID ".$_POST['trk_id']." updated RTO passing details";
                 $no_for_id = $_POST['trk_id'];
-                mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck RTO Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -626,7 +631,8 @@
             $no_title = "Truck status";
             $no_message = "Truck ID ".$_POST['trk_id']." status updated";
             $no_for_id = $_POST['trk_id'];
-            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+            $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Truck status updated'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -663,7 +669,8 @@
             $no_title = "Truck removed";
             $no_message = "Truck removed by Truck Onwer ID ".$owner;
             $no_for_id = $owner;
-            mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+            $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Truck removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);

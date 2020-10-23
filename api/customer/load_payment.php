@@ -43,7 +43,8 @@
                     $no_title = "Load Payment";
                     $no_message = $pay_mode." payment received for Load ID ".$row_check['load_id'];
                     $no_for_id = $row_check['load_id'];
-                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                    $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'Payment complete'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -82,7 +83,8 @@
                     $no_title = "Load Payment";
                     $no_message = $pay_mode." payment received for Load ID ".$row_check['load_id'];
                     $no_for_id = $row_check['load_id'];
-                    mysqli_query($link, "insert into notifications (no_title, no_message, id) values('$no_title', '$no_message', '$no_for_id')");
+                    $no_date = date('Y-m-d H:i:s');
+mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
                     
                     $responseData = ['success' => '1', 'message' => 'Payment complete'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
