@@ -157,7 +157,7 @@
                     
                     if($set)
                     {
-                        $no_title = "Load";
+                        $no_title = "New Load";
                         $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
                         $no_for_id = $code;
                         $no_date = date('Y-m-d H:i:s');
@@ -284,7 +284,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                     
                     if($set)
                     {
-                        $no_title = "Load";
+                        $no_title = "New Load";
                         $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
                         $no_for_id = $code;
                         $no_date = date('Y-m-d H:i:s');
@@ -400,7 +400,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                 
                 if($set)
                 {
-                    $no_title = "Load";
+                    $no_title = "New Load";
                     $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
                     $no_for_id = $code;
                     $no_date = date('Y-m-d H:i:s');
