@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2020 at 05:33 PM
+-- Generation Time: Oct 23, 2020 at 01:48 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -280,7 +280,7 @@ INSERT INTO `material_types` (`mat_id`, `mat_name`) VALUES
 
 CREATE TABLE `notifications` (
   `no_id` int(11) NOT NULL,
-  `no_date_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `no_date_time` datetime NOT NULL,
   `no_title` varchar(100) NOT NULL,
   `no_message` varchar(255) NOT NULL,
   `id` varchar(10) NOT NULL,
