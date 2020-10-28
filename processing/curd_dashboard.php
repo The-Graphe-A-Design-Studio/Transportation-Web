@@ -247,7 +247,6 @@
                 
                 if($row['no_title'] == "Driver Docs" || $row['no_title'] == "Truck docs" || $row['no_title'] == "Truck status")
                 {
-                    echo "shjdvfjh";
                     $link = "truck_profile?truck_id=".$row['id'];
                 }
                 
