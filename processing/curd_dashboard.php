@@ -207,6 +207,7 @@
         {
             foreach($result as $row)
             {
+                
                 if($row['no_status'] == 0)
                 {
                     $beep = "beep";
@@ -216,64 +217,55 @@
                     $beep = "";
                 }
 
+                $link = "";
+
                 if($row['no_title'] == "Bidding" || $row['no_title'] == "Load" || $row['no_title'] == "Load Payment" || $row['no_title'] == "Trip started" || $row['no_title'] == "Trip completed" || 
                     $row['no_title'] == "Deal accepted" || $row['no_title'] == "Deal cancelled" || $row['no_title'] == "Trucks assigned")
                 {
                     $link = "loads_by_id?load_id=".$row['id'];
                 }
-                elseif($row['no_title'] == "New Load")
+                
+                if($row['no_title'] == "New Load")
                 {
-                    $sql1 = "select * from cust_order where or_uni_code = ".$row['id'];
-                    $run1 = mysqli_query($link, $sql1);
-                    $ans1 = mysqli_fetch_array($run, MYSQLI_ASSOC);
-
-                    $link = "loads_by_id?load_id=".$ans1['or_id'];
+                    $link = "loads";
                 }
-                elseif($row['no_title'] == "Shipper Subscription" || $row['no_title'] == "Owner Subscription" || $row['no_title'] == "Truck Subscription")
+                
+                if($row['no_title'] == "Shipper Subscription" || $row['no_title'] == "Owner Subscription" || $row['no_title'] == "Truck Subscription")
                 {
                     $link = "subscribed_users?order_id=".$row['id'];
                 }
-                elseif($row['no_title'] == "Shipper Docs")
+                
+                if($row['no_title'] == "Shipper Docs")
                 {
                     $link = "shipper_profile?shipper_id=".$row['id'];
                 }
-                elseif($row['no_title'] == "New Shipper Registered")
+                
+                if($row['no_title'] === "New Shipper Registered")
                 {
-                    $sql2 = "select * from customers where cu_phone = ".$row['id'];
-                    $run2 = mysqli_query($link, $sql2);
-                    $ans2 = mysqli_fetch_array($run2, MYSQLI_ASSOC);
-
-                    $link = "shipper_profile?shipper_id=".$ans2['cu_id'];
+                    $link = "shippers";
                 }
-                elseif($row['no_title'] == "Driver Docs" || $row['no_title'] == "Truck docs" || $row['no_title'] == "Truck status")
+                
+                if($row['no_title'] == "Driver Docs" || $row['no_title'] == "Truck docs" || $row['no_title'] == "Truck status")
                 {
+                    echo "shjdvfjh";
                     $link = "truck_profile?truck_id=".$row['id'];
                 }
-                elseif($row['no_title'] == "New Truck Registered")
+                
+                if($row['no_title'] == "New Truck Registered")
                 {                    
-                    $sql3 = "select * from trucks where trk_dr_phone = ".$row['id'];
-                    $run3 = mysqli_query($link, $sql3);
-                    $ans3 = mysqli_fetch_array($run3, MYSQLI_ASSOC);
-
-                    $link = "truck_profile?truck_id=".$ans3['trk_id'];
+                    $link = "trucks";
                 }
-                elseif($row['no_title'] == "Owner docs" || $row['no_title'] == "Owner details" || $row['no_title'] == "Truck removed")
+                
+                if($row['no_title'] == "Owner docs" || $row['no_title'] == "Owner details" || $row['no_title'] == "Truck removed")
                 {
                     $link = "truck_owner_profile?owner_id=".$row['id'];
                 }
-                elseif($row['no_title'] == "New Owner Registered")
+                
+                if($row['no_title'] == "New Owner Registered")
                 {
-                    $sql4 = "select * from truck_owners where to_phone = '".$row['id']."'";
-                    $run4 = mysqli_query($link, $sql4);
-                    $ans4 = mysqli_fetch_array($run4, MYSQLI_ASSOC);
-
-                    $link = "truck_owner_profile?owner_id=".$ans4['to_id'];
+                    $link = "truck_owners";
                 }
-                else
-                {
-                    $link = "#";
-                }
-
+                
                 $no_day = date_format(date_create($row['no_date_time']), 'd M, Y h:i A');
 
                 $output .=
@@ -347,5 +339,4 @@
     {
         echo "Server error";
     }
-
 ?>
