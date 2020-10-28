@@ -544,6 +544,10 @@
                                                                                         $trucks = "select * from trucks where trk_id = '".$row_del_trucks['trk_id']."'";
                                                                                         $run_trucks = mysqli_query($link, $trucks);
                                                                                         $row_trucks = mysqli_fetch_array($run_trucks, MYSQLI_ASSOC);
+
+                                                                                        $doc = "select * from truck_docs where trk_doc_truck_num = '".$row_trucks['trk_num']."' and trk_doc_sr_num = 1";
+                                                                                        $r_doc = mysqli_query($link, $doc);
+                                                                                        $selfie = mysqli_fetch_array($r_doc, MYSQLI_ASSOC);
                                                                             ?>
                                                                             <div class="tab-pane fade" id="truck_id<?php echo $row_trucks['trk_id']; ?>" role="tabpanel" aria-labelledby="truck_num<?php echo $row_trucks['trk_num']; ?>">
                                                                                 <div class="row">
@@ -553,7 +557,7 @@
                                                                                                 <h4>Truck's Info</h4>
                                                                                             </div>
                                                                                             <div class="card-body text-center">
-                                                                                                <img src="<?php echo $row_trucks['trk_dr_pic']; ?>" height="100" alt="driver_image_<?php echo $row_trucks['trk_num']; ?>">
+                                                                                                <img src="<?php echo $selfie['trk_doc_location']; ?>" height="100" alt="driver_image_<?php echo $row_trucks['trk_num']; ?>">
                                                                                                 <br><br>
                                                                                                 <p class="text-left">
                                                                                                     <b>Driver Name : </b><?php echo $row_trucks['trk_dr_name']; ?>
