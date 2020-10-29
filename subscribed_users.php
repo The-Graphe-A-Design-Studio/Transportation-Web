@@ -58,6 +58,11 @@
                                         <span class="custom-switch-indicator"></span>
                                         <span class="custom-switch-description">Truck Owners</span>
                                     </label>
+                                    <label class="custom-switch">
+                                        <input type="radio" name="option" class="custom-switch-input common_selector truck" value="3">
+                                        <span class="custom-switch-indicator"></span>
+                                        <span class="custom-switch-description">Add on Truck</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>

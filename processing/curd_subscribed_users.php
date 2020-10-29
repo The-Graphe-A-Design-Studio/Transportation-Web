@@ -18,6 +18,11 @@
             $query .= " and subs_user_type = '2'";
         }
 
+        if(isset($_POST["truck"]))
+        {
+            $query .= " and subs_user_type = '3'";
+        }
+
         if(isset($_POST["nothing"]))
         {
             $query .= "";
@@ -48,7 +53,7 @@
                         <th>Order ID</th>
                         <th>Payment ID</th>
                         <th>Amount</th>
-                        <th>Duration</th>
+                        <th>Duration / Quantity</th>
                         <th>Start On</th>
                         <th>Expire On</th>
                         <th>Days Left</th>
@@ -66,6 +71,21 @@
 
                     $phone = '<a href="shipper_profile?shipper_id='.$row_cu['cu_id'].'">+'.$row_cu['cu_phone_code'].' '.$row_cu['cu_phone'].'</a>';
                     $user = "Shipper";
+                    $quan = "Months";
+                    $start = date_format(date_create($row['payment_datetime']), 'd M, Y h:i A');
+                    $expire = date_format(date_create($row['expire_datetime']), 'd M, Y h:i A');
+                }
+                elseif($row['subs_user_type'] == 2)
+                {
+                    $to = "select * from truck_owners where to_id = '".$row['subs_user_id']."'";
+                    $run_to = mysqli_query($link, $to);
+                    $row_to = mysqli_fetch_array($run_to, MYSQLI_ASSOC);
+
+                    $phone = '<a href="truck_owner_profile?owner_id='.$row_to['to_id'].'">+'.$row_to['to_phone_code'].' '.$row_to['to_phone'].'</a>';
+                    $user = "Truck Owner";
+                    $quan = "Months";
+                    $start = date_format(date_create($row['payment_datetime']), 'd M, Y h:i A');
+                    $expire = date_format(date_create($row['expire_datetime']), 'd M, Y h:i A');
                 }
                 else
                 {
@@ -74,7 +94,10 @@
                     $row_to = mysqli_fetch_array($run_to, MYSQLI_ASSOC);
 
                     $phone = '<a href="truck_owner_profile?owner_id='.$row_to['to_id'].'">+'.$row_to['to_phone_code'].' '.$row_to['to_phone'].'</a>';
-                    $user = "Truck Owner";
+                    $user = "Truck";
+                    $quan = "";
+                    $start = "-";
+                    $expire = "-";
                 }
 
                 // Calculating the difference in timestamps 
@@ -93,9 +116,9 @@
                         <td data-column="Order ID">'.$row['razorpay_order_id'].'</td>
                         <td data-column="Payment ID">'.$row['razorpay_payment_id'].'</td>
                         <td data-column="Amount">Rs. '.round($row['subs_amount'], 2).'</td>
-                        <td data-column="Duration">'.$row['subs_duration'].' Months</td>
-                        <td data-column="Start On">'.date_format(date_create($row['payment_datetime']), 'd M, Y h:i A').'</td>
-                        <td data-column="Expire On">'.date_format(date_create($row['expire_datetime']), 'd M, Y h:i A').'</td>
+                        <td data-column="Duration / Quantity">'.$row['subs_duration'].' '.$quan.'</td>
+                        <td data-column="Start On">'.$start.'</td>
+                        <td data-column="Expire On">'.$expire.'</td>
                         <td data-column="Days Left">'.$t_left.'</td>
                     </tr>
                 ';
