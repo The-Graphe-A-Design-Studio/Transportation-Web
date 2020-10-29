@@ -11,7 +11,7 @@
 
         if($number == 0)
         {
-            $responseData = ['success' => '0', 'message' => 'No active deliveries'];
+            $responseData = [];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(206);
         }
