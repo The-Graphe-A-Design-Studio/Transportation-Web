@@ -14,7 +14,7 @@
 
         $discount = ( ( ( $row['plan_original_price'] - $row['plan_selling_price'] ) / $row['plan_original_price'] ) * 100 );
 
-        $emparray[] = ['plan id' => $row['plan_id'], 'plan type' => $row['plan_type'], 'plan original price' => $row['plan_original_price'], 'plan selling price' => $row['plan_selling_price'], 
+        $emparray[] = ['plan id' => $row['plan_id'], 'plan name' => $row['plan_name'], 'plan type' => $row['plan_type'], 'plan original price' => $row['plan_original_price'], 'plan selling price' => $row['plan_selling_price'], 
                         'plan discount' => round($discount, 2).'%', 'GST' => '18%', 'final price' => "$total_price", 'plan duration' => $row['plan_duration'].' months'];
     }
     header('Content-Type: application/json');
