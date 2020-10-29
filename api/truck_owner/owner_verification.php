@@ -49,6 +49,7 @@
                                 'plan type' => $otp_row['to_account_on'], 
                                 'period upto' => $otp_row['to_subscription_expire_date'], 
                                 'period status' => $subs, 
+                                'total truck' => $otp_row['to_truck_limit'],
                                 'firebase token' => $otp_row['to_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
@@ -81,6 +82,7 @@
                                 'plan type' => $otp_row['to_account_on'],
                                 'period upto' => $otp_row['to_trial_expire_date'], 
                                 'period status' => $trial, 
+                                'total truck' => $otp_row['to_truck_limit'],
                                 'firebase token' => $otp_row['to_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
@@ -101,6 +103,7 @@
                                 'plan type' => $otp_row['to_account_on'],
                                 'period upto' => '', 
                                 'period status' => 'No Plan', 
+                                'total truck' => $otp_row['to_truck_limit'],
                                 'firebase token' => $otp_row['to_token']];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
