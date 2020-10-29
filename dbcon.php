@@ -176,7 +176,7 @@
     }
 
     // Checking for older notifications
-    $db_not = "select * from notifications where no_status = 1";
+    $db_not = "select * from notifications";
     $db_not_run = mysqli_query($link, $db_not);
     while($db_not_row = mysqli_fetch_array($db_not_run, MYSQLI_ASSOC))
     {
