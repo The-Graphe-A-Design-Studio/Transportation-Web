@@ -55,7 +55,7 @@
 
 
     // Checking for older loads
-    $db_sql = "select * from cust_order where or_status <> 4 and or_status <> 5";
+    $db_sql = "select * from cust_order where or_status = 1 or or_status = 2";
     $db_run = mysqli_query($link, $db_sql);
     while($db_row = mysqli_fetch_array($db_run, MYSQLI_ASSOC))
     {
