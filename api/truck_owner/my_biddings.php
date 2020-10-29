@@ -82,8 +82,6 @@
             {
                 $admin_price = ($row1['or_expected_price'] - ($row1['or_expected_price'] * ($row1['or_admin_expected_price']/100)));
 
-                $my_bid_price = ($row['bid_expected_price'] - ($row['bid_expected_price'] * ($row1['or_admin_expected_price']/100)));
-
                 $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
                             'quantity' => $row1['or_quantity'], 'unit' => $per, 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
                             'expected price' => "$admin_price", 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
@@ -92,8 +90,6 @@
             
             if($row_cust['cu_account_on'] == 2)
             {
-                $my_bid_price = $row['bid_expected_price'];
-
                 $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
                             'quantity' => $row1['or_quantity'], 'unit' => $per, 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
                             'expected price' => $row1['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
@@ -102,8 +98,6 @@
 
             if($row_cust['cu_account_on'] == 1)
             {
-                $my_bid_price = $row['bid_expected_price'];
-
                 $load_details = ['post id' => $row1['or_id'], 'customer id' => $row1['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 'material' => $row1['or_product'], 
                             'quantity' => $row1['or_quantity'], 'unit' => $per, 'truck preference' => $row_truck['trk_cat_name'], 'truck types' => $truck_types, 
                             'expected price' => $row1['or_expected_price'], 'payment mode' => $mode, 'created on' => $active, 'expired on' => $ex, 
@@ -127,7 +121,7 @@
                 $bid_status = ['success' => '3', 'message' => 'Accepted by Owner'];
             }
             
-            $responseData[] = ['bid id' => $row['bid_id'],'my price' => "$my_bid_price", 'bid status' => $bid_status, 'load details' => $load_details];
+            $responseData[] = ['bid id' => $row['bid_id'],'my price' => $row['bid_expected_price'], 'bid status' => $bid_status, 'load details' => $load_details];
         }
         echo json_encode($responseData, JSON_PRETTY_PRINT);
         http_response_code(200);
