@@ -63,6 +63,13 @@
 
             foreach($result as $row)
             {
+                // Calculating the difference in timestamps 
+                $diff = strtotime($row['expire_datetime']) - strtotime(date('Y-m-d H:i:s')); 
+                    
+                // 1 day = 24 hours 
+                // 24 * 60 * 60 = 86400 seconds 
+                $t_left = abs(round($diff / 86400));
+
                 if($row['subs_user_type'] == 1)
                 {
                     $cu = "select * from customers where cu_id = '".$row['subs_user_id']."'";
@@ -74,6 +81,7 @@
                     $quan = "Months";
                     $start = date_format(date_create($row['payment_datetime']), 'd M, Y h:i A');
                     $expire = date_format(date_create($row['expire_datetime']), 'd M, Y h:i A');
+                    $d = $t_left;
                 }
                 elseif($row['subs_user_type'] == 2)
                 {
@@ -86,6 +94,7 @@
                     $quan = "Months";
                     $start = date_format(date_create($row['payment_datetime']), 'd M, Y h:i A');
                     $expire = date_format(date_create($row['expire_datetime']), 'd M, Y h:i A');
+                    $d = $t_left;
                 }
                 else
                 {
@@ -98,14 +107,10 @@
                     $quan = "";
                     $start = "-";
                     $expire = "-";
+                    $d = "-";
                 }
 
-                // Calculating the difference in timestamps 
-                $diff = strtotime($row['expire_datetime']) - strtotime(date('Y-m-d H:i:s')); 
-                    
-                // 1 day = 24 hours 
-                // 24 * 60 * 60 = 86400 seconds 
-                $t_left = abs(round($diff / 86400));
+                
                 
                 $output .=
                 '
@@ -119,7 +124,7 @@
                         <td data-column="Duration / Quantity">'.$row['subs_duration'].' '.$quan.'</td>
                         <td data-column="Start On">'.$start.'</td>
                         <td data-column="Expire On">'.$expire.'</td>
-                        <td data-column="Days Left">'.$t_left.'</td>
+                        <td data-column="Days Left">'.$d.'</td>
                     </tr>
                 ';
 
