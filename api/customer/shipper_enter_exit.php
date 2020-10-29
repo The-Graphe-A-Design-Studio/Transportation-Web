@@ -24,28 +24,30 @@
             
             if($mobile_insert)
             {
-                $api = '314319Asz8t1bwU0qU5e27d970P1';
-                $msg = "Your OTP is $rancu_no. Do not share OTP. This OTP will expire in 20 minutes.";
+                $api = '321698AFaajkjGny5f65b2b7P1';
+                $template = '5f9a630095ce6a72a977b143';
                 
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
-                CURLOPT_URL => "http://control.msg91.com/api/v5/otp?authkey=$api&mobiles=$phone&message=$msg&sender=TRNSPT&country=$phone_code&otp=$rancu_no",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 20,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_HTTPHEADER => array(
-                    "Cookie: PHPSESSID=odd5sg5bulmmhc82a8v81ckbe1"
-                ),
+                  CURLOPT_URL => "https://api.msg91.com/api/v5/otp?authkey=$api&template_id=$template&mobile=91$phone&invisible=1&otp=$rancu_no",
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => "",
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 10,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => "GET",
+                  CURLOPT_SSL_VERIFYHOST => 0,
+                  CURLOPT_SSL_VERIFYPEER => 0,
+                  CURLOPT_HTTPHEADER => array(
+                    "content-type: application/json"
+                  ),
                 ));
-
+                
                 $response = curl_exec($curl);
-
-                curl_close($curl);                
+                $err = curl_error($curl);
+                
+                curl_close($curl);
                 
                 $responseData = ['success' => '1', 'message' => 'OTP sent to your given number. Please verify your number'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
