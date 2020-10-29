@@ -126,41 +126,41 @@
 
                 if($row['or_status'] == 1)
                 {
-                    $live = "border-left: 3px solid #008080";
-                    $bg = "background-color: rgba(0, 128, 128, 0.1)";
+                    $live = "background-color: #008080;";
+                    $bg = "background-color: rgba(0, 128, 128, 0.3); color: #000";
                 }
                 elseif($row['or_status'] == 2)
                 {
-                    $live = "border-left: 3px solid #F426E7";
-                    $bg = "background-color: rgba(244, 38, 231, 0.1)";
+                    $live = "background-color: #F426E7;";
+                    $bg = "background-color: rgba(244, 38, 231, 0.3); color: #000";
                 }
                 elseif($row['or_status'] == 3)
                 {
-                    $live = "border-left: 3px solid #FFA500";
-                    $bg = "background-color: rgba(255, 165, 0, 0.1)";
+                    $live = "background-color: #FFA500;";
+                    $bg = "background-color: rgba(255, 165, 0, 0.3); color: #000";
                 }
                 elseif($row['or_status'] == 4)
                 {
-                    $live = "border-left: 3px solid #4169E1";
-                    $bg = "background-color: rgba(65, 105, 225, 0.1)";
+                    $live = "background-color: #4169E1;";
+                    $bg = "background-color: rgba(65, 105, 225, 0.3); color: #000";
                 }
                 elseif($row['or_status'] == 5)
                 {
-                    $live = "border-left: 3px solid #4B0082";
-                    $bg = "background-color: rgba(75, 0, 130, 0.1)";
+                    $live = "background-color: #7028A5;";
+                    $bg = "background-color: rgba(75, 0, 130, 0.3); color: #000";
                 }
                 else
                 {
-                    $live = "border-left: 3px solid #FF0000";
-                    $bg = "background-color: rgba(255, 0, 0, 0.1)";
+                    $live = "background-color: #FF0000;";
+                    $bg = "background-color: rgba(255, 0, 0, 0.3); color: #000";
                 }
 
                 $output .=
                 '
                     <tr style="'.$bg.'">
-                        <td data-column="ID" style="'.$live.'">'.$row['or_id'].'</td>
+                        <td data-column="ID" style="'.$live.' color: #fff;">'.$row['or_id'].'</td>
                         <td data-column="Reg. Date">'.$date.'</td>
-                        <td data-column="Shipper"><a href="shipper_profile?shipper_id='.$row['cu_id'].'">+'.$row['cu_phone_code'].' '.$row['cu_phone'].'</a></td>
+                        <td data-column="Shipper" style="font-weight: 600; font-size: 1rem;"><a href="shipper_profile?shipper_id='.$row['cu_id'].'" style="color: #0004ff !important;">+'.$row['cu_phone_code'].' '.$row['cu_phone'].'</a></td>
                 ';
 
                 $source = "select * from cust_order_source where or_uni_code = '".$row['or_uni_code']."'";
