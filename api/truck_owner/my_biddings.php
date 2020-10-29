@@ -163,7 +163,7 @@
                 $no_message = "Deal accepted by Truck owner ID ".$row_sql['bid_user_id']." of Load ID ".$row_sql['load_id'];
                 $no_for_id = $row_sql['load_id'];
                 $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Deal accepted'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -227,7 +227,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $no_message = "Deal cancelled by Truck owner ID ".$row_bid['bid_user_id']." of Load ID ".$row_bid['load_id'];
             $no_for_id = $row_bid['load_id'];
             $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+            mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Bid removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
