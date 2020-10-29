@@ -83,9 +83,6 @@
                                     <div class="tab-content" id="myTab3Content">
                                         <div class="tab-pane fade show active" id="load_details" role="tabpanel" aria-labelledby="load-details">
                                             <div class="row">
-                                                
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-12 col-lg-3">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
@@ -122,7 +119,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+                                                <div class="col-12 col-lg-4">
                                                 <?php
                                                     if($row['or_shipper_on'] == 3 && $row['or_status'] == 1 || $row['or_status'] == 2)
                                                     {
@@ -130,7 +127,7 @@
                                                         {
                                                             $admin_expected = 
                                                             '
-                                                            <div class="col-12 col-lg-4">
+                                                            
                                                                 <div class="card profile-widget services-widget">
                                                                     <div class="profile-widget-description">
                                                                         <div class="profile-widget-name" style="margin-bottom: 0 !important">
@@ -149,14 +146,14 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            
                                                             ';
                                                         }
                                                         else
                                                         {
                                                             $admin_expected = 
                                                             '
-                                                            <div class="col-12 col-lg-4">
+                                                            
                                                                 <div class="card profile-widget services-widget">
                                                                     <div class="profile-widget-description">
                                                                         <div class="profile-widget-name" style="margin-bottom: 0 !important">
@@ -175,17 +172,14 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            
                                                             ';
                                                         }
-                                                    }
-                                                    else
-                                                    {
-                                                        $admin_expected = '';
                                                     }
                                                     
                                                     echo $admin_expected;
                                                 ?>
+                                                </div>
                                                 <div class="col-12 col-lg-4">
                                                     <div class="card profile-widget services-widget">
                                                         <div class="profile-widget-description">
