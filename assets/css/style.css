@@ -3580,3 +3580,13 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 	z-index: 0 !important;
 	background-color: transparent !important;
 }
+
+
+
+
+
+.panzoom img
+{
+	max-width: 100%;
+	max-height: 65vh;
+}

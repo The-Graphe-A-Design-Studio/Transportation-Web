@@ -34,6 +34,64 @@
             }
         }
     }
+
+    if($row['to_verified'] == 0 && $row['to_account_on'] == 1)
+    {
+        if($doc_row['to_doc_verified'] == 1)
+        {
+            $update = "update truck_owners set to_verified = 1 where to_id = '$owner'";
+            $done = mysqli_query($link, $update);
+            
+            if($done)
+            {
+                $device_id = $row['to_token'];
+                $title = "Document Verification";
+                $message = "Your all documents are verified";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
+        }
+    }
+
+    if($row['to_verified'] == 0 && $row['to_account_on'] == 2)
+    {
+        if($doc_row['to_doc_verified'] == 1)
+        {
+            $update = "update truck_owners set to_verified = 1 where to_id = '$owner'";
+            $done = mysqli_query($link, $update);
+            
+            if($done)
+            {
+                $device_id = $row['to_token'];
+                $title = "Document Verification";
+                $message = "Your all documents are verified";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
+        }
+    }
+
+    if($row['to_verified'] == 1 && $row['to_account_on'] == 1 || $row['to_account_on'] == 2)
+    {
+        if($doc_row['to_doc_verified'] != 1)
+        {
+            $date = date('Y-m-d H:i:s');
+
+            $trial_date = date('Y-m-d H:i:s', strtotime($date. ' + 15 days'));
+
+            $update = "update truck_owners set to_verified = 0 where to_id = '$owner'";
+            $done = mysqli_query($link, $update);
+            
+            if($done)
+            {
+                $device_id = $row['to_token'];
+                $title = "Document Verification";
+                $message = "Your documents are not verified";
+
+                $sent = push_notification_android($device_id, $title, $message);
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
