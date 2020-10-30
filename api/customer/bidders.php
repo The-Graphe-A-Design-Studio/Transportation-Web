@@ -47,7 +47,7 @@
                     $get_loads = mysqli_query($link, $loads);
                     $row_loads = mysqli_fetch_array($get_loads, MYSQLI_ASSOC);
 
-                    if($row_loads['or_shipper_on'] == 1)
+                    if($row_loads['or_shipper_on'] == 3)
                     {
                         $new_price = $row['bid_expected_price'] + ($row['bid_expected_price'] * ($row_loads['or_admin_expected_price']/100));
                     }
@@ -93,7 +93,7 @@
                     $get_loads = mysqli_query($link, $loads);
                     $row_loads = mysqli_fetch_array($get_loads, MYSQLI_ASSOC);
 
-                    if($row_loads['or_shipper_on'] == 1)
+                    if($row_loads['or_shipper_on'] === 3)
                     {
                         $new_price = $row['bid_expected_price'] + ($row['bid_expected_price'] * ($row_loads['or_admin_expected_price']/100));
                     }
