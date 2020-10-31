@@ -158,7 +158,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
     }
     elseif(isset($_POST['truck_id']))
     {
-        $sql = "select * from trucks where cu_id = '".$_POST['truck_id']."'";
+        $sql = "select * from trucks where trk_id = '".$_POST['truck_id']."'";
         $g_sql = mysqli_query($link, $sql);
         $row = mysqli_fetch_array($g_sql, MYSQLI_ASSOC);
 
