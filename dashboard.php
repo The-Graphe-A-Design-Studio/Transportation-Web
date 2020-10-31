@@ -68,9 +68,9 @@
                                 
                                 </div>
                             </div>
-                            <div class="card-icon shadow-primary bg-primary">
+                            <a href="loads" class="card-icon shadow-primary bg-primary">
                                 <i class="fas fa-newspaper"></i>
-                            </div>
+                            </a>
                             <div class="card-wrap">
                                 <div class="card-header">
                                     <h4>Total Loads</h4>
@@ -127,9 +127,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-icon shadow-primary bg-primary">
+                            <a href="shippers" class="card-icon shadow-primary bg-primary">
                                 <i class="fas fa-users"></i>
-                            </div>
+                            </a>
                             <div class="card-wrap">
                                 <div class="card-header">
                                     <h4>Total Shippers</h4>
@@ -179,9 +179,9 @@
                                     
                                 </div>
                             </div>
-                            <div class="card-icon shadow-primary bg-primary">
+                            <a href="truck_owners" class="card-icon shadow-primary bg-primary">
                                 <i class="fas fa-crown"></i>
-                            </div>
+                            </a>
                             <div class="card-wrap">
                                 <div class="card-header">
                                     <h4>Total Truck Owners</h4>
@@ -221,9 +221,9 @@
                                 </div>
                                 <div class="card-stats-items"></div>
                             </div>
-                            <div class="card-icon shadow-primary bg-primary">
+                            <a href="trucks" class="card-icon shadow-primary bg-primary">
                                 <i class="fas fa-truck-monster"></i>
-                            </div>
+                            </a>
                             <div class="card-wrap">
                                 <div class="card-header">
                                     <h4>Total Trucks</h4>
