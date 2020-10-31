@@ -52,10 +52,12 @@
             if($row_load['or_price_unit'] == 1)
             {
                 $unit = "tonnage";
+                $si = "ton";
             }
             else
             {
                 $unit = "number of trucks";
+                $si = "truck";
             }
 
             $total_price = round(($row_del['deal_price'] * $row_del['quantity']), 2);
@@ -137,8 +139,18 @@
             $run_cust = mysqli_query($link, $cust);
             $row_cust = mysqli_fetch_array($run_cust, MYSQLI_ASSOC);
 
-            $responseData = ['delivery id of truck' => $row['del_trk_id'], 'truck id' => $row['trk_id'], 'truck on trip' => $row_tr['trk_on_trip'], 'post id' => $row_load['or_id'], 'customer id' => $row_load['or_cust_id'], 'sources' => $sources, 'destinations' => $destinations, 
-                            'material' => $row_load['or_product'], 'payment mode' => $mode, 'contact person' => $row_load['or_contact_person_name'], 
+            $responseData = ['delivery id of truck' => $row['del_trk_id'], 
+                            'truck id' => $row['trk_id'], 
+                            'truck on trip' => $row_tr['trk_on_trip'], 
+                            'post id' => $row_load['or_id'], 
+                            'sources' => $sources, 
+                            'destinations' => $destinations, 
+                            'material' => $row_load['or_product'],
+                            'quantity' => $row_load['or_quantity']." ".$si,
+                            'payment mode' => $mode, 
+                            'trip start' => date_format(date_create($row['trip_start']), 'd M, Y h:i A'),
+                            'trip end' => date_format(date_create($row['trip_end']), 'd M, Y h:i A'),
+                            'contact person' => $row_load['or_contact_person_name'], 
                             'contact person phone' => $row_load['or_contact_person_phone']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
@@ -152,7 +164,9 @@
 
         if($otp_row['otp'] === $_POST['otp'])
         {
-            $active = "update delivery_trucks set otp_verified = 1, status = 1 where del_trk_id = '".$_POST['del_trk_id']."' and otp = '".$_POST['otp']."'";
+            $no_date = date('Y-m-d H:i:s');
+
+            $active = "update delivery_trucks set otp_verified = 1, status = 1, trip_start = '$no_date' where del_trk_id = '".$_POST['del_trk_id']."' and otp = '".$_POST['otp']."'";
             $set = mysqli_query($link, $active);
 
             $truck = "update trucks set trk_on_trip = 2 where trk_id = '".$_POST['truck_id']."'";
@@ -165,8 +179,8 @@
             $no_title = "Trip started";
             $no_message = "Truck ID ".$_POST['truck_id']." trip started of Load ID ".$row_deli['or_id'];
             $no_for_id = $row_deli['or_id'];
-            $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+            
+            mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'OTP Verified. Trip started'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -187,7 +201,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
 
         if($otp_row['status'] == 1)
         {
-            $active = "update delivery_trucks set status = 2 where del_trk_id = '".$_POST['del_trk_id']."'";
+            $no_date = date('Y-m-d H:i:s');
+
+            $active = "update delivery_trucks set status = 2, trip_end = '$no_date' where del_trk_id = '".$_POST['del_trk_id']."'";
             $set = mysqli_query($link, $active);
 
             $truck = "update trucks set trk_on_trip = 0 where trk_id = '".$otp_row['trk_id']."'";
@@ -220,8 +236,8 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $no_title = "Trip completed";
             $no_message = "Truck ID ".$row211['trk_id']." trip completed of Load ID ".$row11['or_id'];
             $no_for_id = $row11['or_id'];
-            $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+            
+            mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Trip Completed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
