@@ -156,6 +156,71 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             http_response_code(206);
         }
     }
+    elseif(isset($_POST['truck_id']))
+    {
+        $sql = "select * from trucks where cu_id = '".$_POST['truck_id']."'";
+        $g_sql = mysqli_query($link, $sql);
+        $row = mysqli_fetch_array($g_sql, MYSQLI_ASSOC);
+
+        $doc = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 1";
+        $r_doc = mysqli_query($link, $doc);
+        $selfie = mysqli_fetch_array($r_doc, MYSQLI_ASSOC);
+
+        $doc1 = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 2";
+        $r_doc1 = mysqli_query($link, $doc1);
+        $dl = mysqli_fetch_array($r_doc1, MYSQLI_ASSOC);
+
+        $doc2 = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 3";
+        $r_doc2 = mysqli_query($link, $doc2);
+        $rc = mysqli_fetch_array($r_doc2, MYSQLI_ASSOC);
+
+        $doc3 = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 4";
+        $r_doc3 = mysqli_query($link, $doc3);
+        $insurance = mysqli_fetch_array($r_doc3, MYSQLI_ASSOC);
+
+        $doc4 = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 5";
+        $r_doc4 = mysqli_query($link, $doc4);
+        $road_t = mysqli_fetch_array($r_doc4, MYSQLI_ASSOC);
+
+        $doc5 = "select * from truck_docs where trk_doc_truck_num = '".$row['trk_num']."' and trk_doc_sr_num = 6";
+        $r_doc5 = mysqli_query($link, $doc5);
+        $rto_p = mysqli_fetch_array($r_doc5, MYSQLI_ASSOC);    
+
+        $owner = "select * from truck_owners where to_id = '".$row['trk_owner']."'";
+        $g_owner = mysqli_query($link, $owner);
+        $row_owner = mysqli_fetch_array($g_owner, MYSQLI_ASSOC);
+
+        $cat = "select * from truck_cat where trk_cat_id = '".$row['trk_cat']."'";
+        $g_cat = mysqli_query($link, $cat);
+        $row_cat = mysqli_fetch_array($g_cat, MYSQLI_ASSOC);
+
+        $type = "select * from truck_cat_type where ty_id = '".$row['trk_cat_type']."'";
+        $g_type = mysqli_query($link, $type);
+        $row_type = mysqli_fetch_array($g_type, MYSQLI_ASSOC);
+
+        $responseData = ['truck id' => $row['trk_id'], 
+                        'owner name' => $row_owner['to_name'],
+                        'owner phone' => $row_owner['to_phone'],
+                        'truck number' => $row['trk_num'],
+                        'truck category' => $row_cat['trk_cat_name'],
+                        'truck type' => $row_type['ty_name'],
+                        'truck verified' => $row['trk_verified'],
+                        'selfie' => $selfie['trk_doc_location'],
+                        'selfie verified' => $selfie['trk_doc_verified'],
+                        'license' => $dl['trk_doc_location'],
+                        'license verified' => $dl['trk_doc_verified'],
+                        'rc' => $rc['trk_doc_location'],
+                        'rc verified' => $rc['trk_doc_verified'],
+                        'insurance' => $insurance['trk_doc_location'],
+                        'insurance verified' => $insurance['trk_doc_verified'],
+                        'rto pass' => $rto_p['trk_doc_location'],
+                        'rto pass verified' => $rto_p['trk_doc_verified'],
+                        'road tax' => $road_t['trk_doc_location'],
+                        'road tax verified' => $road_t['trk_doc_verified']
+                        ];
+        echo json_encode($responseData, JSON_PRETTY_PRINT);
+        http_response_code(200);
+    }
     else
     {
         $responseData = ['success' => '0', 'message' => 'Something is missing'];

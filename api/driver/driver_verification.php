@@ -22,11 +22,24 @@
             $run_type = mysqli_query($link, $get_type);
             $row_type = mysqli_fetch_array($run_type, MYSQLI_ASSOC);
 
-            $responseData = ['success' => '1', 'message' => 'OTP verified. Logged in', 'id' => $otp_row['trk_id'], 'driver name' => $otp_row['trk_dr_name'], 
-                            'phone country code' => $otp_row['trk_dr_phone_code'], 'driver phone' => $otp_row['trk_dr_phone'], 'driver pic' => $otp_row['trk_dr_pic'], 
-                            'driver license' => $otp_row['trk_dr_license'], 'truck owner id' => $otp_row['trk_owner'], 'truck number' => $otp_row['trk_num'], 
-                            'truck category' => $row_cat['trk_cat_name'], 'truck type' => $row_type['ty_name'], 'truck rc' => $otp_row['trk_rc'], 'truck insurance' => $otp_row['trk_insurance'], 
-                            'truck road tax' => $otp_row['trk_road_tax'], 'truck rto passing' => $otp_row['trk_rto'], 'firebase token' => $otp_row['trk_dr_token']];
+            $responseData = ['success' => '1', 
+                            'message' => 'OTP verified. Logged in', 
+                            'id' => $otp_row['trk_id'], 
+                            'driver name' => $otp_row['trk_dr_name'], 
+                            'phone country code' => $otp_row['trk_dr_phone_code'], 
+                            'driver phone' => $otp_row['trk_dr_phone'], 
+                            'driver pic' => $otp_row['trk_dr_pic'], 
+                            'driver license' => $otp_row['trk_dr_license'], 
+                            'truck owner id' => $otp_row['trk_owner'], 
+                            'truck number' => $otp_row['trk_num'], 
+                            'truck verified' => $otp_row['trk_verified'],
+                            'truck category' => $row_cat['trk_cat_name'], 
+                            'truck type' => $row_type['ty_name'], 
+                            'truck rc' => $otp_row['trk_rc'], 
+                            'truck insurance' => $otp_row['trk_insurance'], 
+                            'truck road tax' => $otp_row['trk_road_tax'], 
+                            'truck rto passing' => $otp_row['trk_rto'], 
+                            'firebase token' => $otp_row['trk_dr_token']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
         }
