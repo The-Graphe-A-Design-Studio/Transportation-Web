@@ -22,6 +22,22 @@
             $run_type = mysqli_query($link, $get_type);
             $row_type = mysqli_fetch_array($run_type, MYSQLI_ASSOC);
 
+            $doc2 = "select * from truck_docs where trk_doc_truck_num = '".$otp_row['trk_num']."' and trk_doc_sr_num = 3";
+            $r_doc2 = mysqli_query($link, $doc2);
+            $rc = mysqli_fetch_array($r_doc2, MYSQLI_ASSOC);
+
+            $doc3 = "select * from truck_docs where trk_doc_truck_num = '".$otp_row['trk_num']."' and trk_doc_sr_num = 4";
+            $r_doc3 = mysqli_query($link, $doc3);
+            $insurance = mysqli_fetch_array($r_doc3, MYSQLI_ASSOC);
+
+            $doc4 = "select * from truck_docs where trk_doc_truck_num = '".$otp_row['trk_num']."' and trk_doc_sr_num = 5";
+            $r_doc4 = mysqli_query($link, $doc4);
+            $road_t = mysqli_fetch_array($r_doc4, MYSQLI_ASSOC);
+
+            $doc5 = "select * from truck_docs where trk_doc_truck_num = '".$otp_row['trk_num']."' and trk_doc_sr_num = 6";
+            $r_doc5 = mysqli_query($link, $doc5);
+            $rto_p = mysqli_fetch_array($r_doc5, MYSQLI_ASSOC);
+
             $responseData = ['success' => '1', 
                             'message' => 'OTP verified. Logged in', 
                             'id' => $otp_row['trk_id'], 
@@ -35,10 +51,10 @@
                             'truck verified' => $otp_row['trk_verified'],
                             'truck category' => $row_cat['trk_cat_name'], 
                             'truck type' => $row_type['ty_name'], 
-                            'truck rc' => $otp_row['trk_rc'], 
-                            'truck insurance' => $otp_row['trk_insurance'], 
-                            'truck road tax' => $otp_row['trk_road_tax'], 
-                            'truck rto passing' => $otp_row['trk_rto'], 
+                            'truck rc' => $rc['trk_doc_location'], 
+                            'truck insurance' => $insurance['trk_doc_location'], 
+                            'truck road tax' => $road_t['trk_doc_location'], 
+                            'truck rto passing' => $rto_p['trk_doc_location'], 
                             'firebase token' => $otp_row['trk_dr_token']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
