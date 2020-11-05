@@ -5,7 +5,7 @@
 
     if(isset($_POST['delivery_truck_id']))
     {
-        $sql = "select * from delivery_trucks where del_trk_id = '".$_POST['delivery_truck_id']."' where status = 2";
+        $sql = "select * from delivery_trucks where del_trk_id = '".$_POST['delivery_truck_id']."' and status = 2";
         $run = mysqli_query($link, $sql);
         $count = mysqli_num_rows($run);
         $row = mysqli_fetch_array($run, MYSQLI_ASSOC);
