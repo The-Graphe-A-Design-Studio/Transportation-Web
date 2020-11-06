@@ -201,6 +201,8 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
         $responseData = ['truck id' => $row['trk_id'], 
                         'owner name' => $row_owner['to_name'],
                         'owner phone' => $row_owner['to_phone'],
+                        'driver name' => $row['trk_dr_name'],
+                        'driver phone' => $row['trk_dr_phone'],
                         'truck number' => $row['trk_num'],
                         'truck category' => $row_cat['trk_cat_name'],
                         'truck type' => $row_type['ty_name'],
