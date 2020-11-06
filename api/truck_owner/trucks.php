@@ -1,6 +1,7 @@
 <?php
 
     include('../../dbcon.php');
+    include('../../FCM/notification.php');
 
     header('Content-Type: application/json');
 
@@ -14,10 +15,38 @@
         $emparray = array();
         while($row = mysqli_fetch_assoc($result))
         {
-            $emparray[] = $row;
+            $owner = "select * from truck_owners where to_id = '".$row['trk_owner']."'";
+            $g_owner = mysqli_query($link, $owner);
+            $row_owner = mysqli_fetch_array($g_owner, MYSQLI_ASSOC);
+
+            $cat = "select * from truck_cat where trk_cat_id = '".$row['trk_cat']."'";
+            $g_cat = mysqli_query($link, $cat);
+            $row_cat = mysqli_fetch_array($g_cat, MYSQLI_ASSOC);
+
+            $type = "select * from truck_cat_type where ty_id = '".$row['trk_cat_type']."'";
+            $g_type = mysqli_query($link, $type);
+            $row_type = mysqli_fetch_array($g_type, MYSQLI_ASSOC);
+
+            $responseData[] = ["trk_id" => $row['trk_id'],
+                            "trk_owner" => $row['trk_owner'],
+                            "trk_cat" => $row_cat['trk_cat_name'],
+                            "trk_cat_type" => $row_type['ty_name'],
+                            "trk_num" => $row['trk_num'],
+                            "trk_dr_name" => $row['trk_dr_name'],
+                            "trk_dr_phone_code" => $row['trk_dr_phone_code'],
+                            "trk_dr_phone" => $row['trk_dr_phone'],
+                            "trk_otp" => $row['trk_otp'],
+                            "trk_verified" =>$row['trk_verified'],
+                            "trk_lat" => $row['trk_lat'],
+                            "trk_lng" => $row['trk_lng'],
+                            "trk_active" => $row['trk_active'],
+                            "trk_on_trip" => $row['trk_on_trip'],
+                            "trk_dr_token" => $row['trk_dr_token'],
+                            "trk_on" => $row['trk_on']
+                            ];
         }
         
-        echo json_encode($emparray, JSON_PRETTY_PRINT);
+        echo json_encode($responseData, JSON_PRETTY_PRINT);
 
         http_response_code(200);
         
@@ -102,9 +131,9 @@
                         $file_tmp =$_FILES['trk_rc']['tmp_name'];
                         $file_type=$_FILES['trk_rc']['type'];
                         
-                        if($file_size >= 200000)
+                        if($file_size >= 300000)
                         {
-                            $responseData = ['success' => '0', 'message' => 'RC file size must be less than 200 kb'];
+                            $responseData = ['success' => '0', 'message' => 'RC file size must be less than 300 kb'];
                             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                             http_response_code(400);
@@ -127,7 +156,7 @@
                                 $file_type2 = $_FILES['trk_insurance']['type'];
                                 
                                 
-                                if($file_size2 >= 200000)
+                                if($file_size2 >= 300000)
                                 {
                                     $responseData = ['success' => '0', 'message' => 'Insurance file size must be less than 150 kb'];
                                     echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -152,9 +181,9 @@
                                         $file_typefp = $_FILES['trk_road_tax']['type'];
                                         
                                         
-                                        if($file_sizefp >= 200000)
+                                        if($file_sizefp >= 300000)
                                         {
-                                            $responseData = ['success' => '0', 'message' => 'Road tax file size must be less than 200 kb'];
+                                            $responseData = ['success' => '0', 'message' => 'Road tax file size must be less than 300 kb'];
                                             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                                             http_response_code(400);
@@ -177,9 +206,9 @@
                                                 $file_typefp = $_FILES['trk_rto']['type'];
                                                 
                                                 
-                                                if($file_sizefp >= 200000)
+                                                if($file_sizefp >= 300000)
                                                 {
-                                                    $responseData = ['success' => '0', 'message' => 'RTO file size must be less than 200 kb'];
+                                                    $responseData = ['success' => '0', 'message' => 'RTO file size must be less than 300 kb'];
                                                     echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                                                     http_response_code(400);
@@ -225,7 +254,7 @@
                                                         $no_message = "New truck registered by truck owner ID ".$truck_owner." with driver's phone number ".$truck_driver_phone;
                                                         $no_for_id = $truck_driver_phone;
                                                         $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                                                        mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                                                         $responseData = ['success' => '1', 'message' => 'New Truck added'];
                                                         echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -283,13 +312,13 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
     // 3 - RC; 4 - Insurance; 5 - Road Tax; 6 - RTO Passing
 
     //edit truck and driver details
-    elseif(isset($_POST['trk_id']) && isset($_POST['trk_cat_edit']) && isset($_POST['trk_num_edit']) && isset($_POST['trk_load_edit']) && isset($_POST['trk_dr_name_edit']) && 
+    elseif(isset($_POST['trk_id']) && isset($_POST['trk_cat_edit']) && isset($_POST['trk_cat_type_edit']) && isset($_POST['trk_num_edit']) && isset($_POST['trk_dr_name_edit']) && 
         isset($_POST['trk_dr_phone_code_edit']) && isset($_POST['trk_dr_phone_edit']))
     {
         $truck_id = $_POST['trk_id'];
         $truck_cat_edit = $_POST['trk_cat_edit'];
+        $truck_cat_type_edit = $_POST['trk_cat_type_edit'];
         $truck_num_edit = $_POST['trk_num_edit'];
-        $truck_load_edit = $_POST['trk_load_edit'];
         $truck_driver_name_edit = $_POST['trk_dr_name_edit'];
         $truck_driver_phone_code_edit = $_POST['trk_dr_phone_code_edit'];
         $truck_driver_phone_edit = $_POST['trk_dr_phone_edit'];
@@ -297,16 +326,22 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
         $sqle = "SELECT * FROM trucks where trk_id = '$truck_id'";
         $checke = mysqli_query($link, $sqle);
         $rowe = mysqli_fetch_array($checke, MYSQLI_ASSOC);
-        
+
         if($truck_num_edit == $rowe['trk_num'])
         {
-            $d_sql = "update trucks set trk_cat = '$truck_cat_edit', trk_load = '$truck_load_edit', trk_dr_name = '$truck_driver_name_edit',
+            $d_sql = "update trucks set trk_cat = '$truck_cat_edit', trk_cat_type = '$truck_cat_type_edit', trk_dr_name = '$truck_driver_name_edit',
                         trk_dr_phone_code = '$truck_driver_phone_code_edit', trk_dr_phone = '$truck_driver_phone_edit' where trk_id = '$truck_id'";
 
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
             {
+                $no_title = "Truck docs";
+                $no_message = "Truck number changed from '".$rowe['trk_num']."' to '".$truck_num_edit."'";
+                $no_for_id = $rowe['trk_id'];
+                $no_date = date('Y-m-d H:i:s');
+                mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                
                 $responseData = ['success' => '1', 'message' => 'Truck Details Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
                 http_response_code(200);
@@ -332,44 +367,108 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             }
             else
             {
-                $rc = $rowe['trk_rc'];
-                $rc = str_replace($rowe['trk_num'], $truck_num_edit, $rc);
-                
-                $license = $rowe['trk_dr_license'];
-                $license = str_replace($rowe['trk_num'], $truck_num_edit, $license);
-                
-                $insurance = $rowe['trk_insurance'];
-                $insurance = str_replace($rowe['trk_num'], $truck_num_edit, $insurance);
+                //selfie
+                $doc = "select * from truck_docs where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 1";
+                $r_doc = mysqli_query($link, $doc);
+                $selfie = mysqli_fetch_array($r_doc, MYSQLI_ASSOC);
 
-                $road_tax = $rowe['trk_road_tax'];
-                $road_tax = str_replace($rowe['trk_num'], $truck_num_edit, $road_tax);
+                $selfie_update = $selfie['trk_doc_location'];
+                $selfie_update = str_replace($rowe['trk_num'], $truck_num_edit, $selfie_update);
+                mysqli_query($link, "update truck_docs set trk_doc_location = '$selfie_update' where trk_doc_id = '".$selfie['trk_doc_id']."'");
 
-                $rto = $rowe['trk_rto'];
-                $rto = str_replace($rowe['trk_num'], $truck_num_edit, $rto);
-                
-                $d_sql = "update trucks set trk_cat = '$truck_cat_edit', trk_num = '$truck_num_edit', trk_load = '$truck_load_edit', 
-                            trk_dr_name = '$truck_driver_name_edit', trk_dr_phone_code = '$truck_driver_phone_code_edit', trk_dr_phone = '$truck_driver_phone_edit',
-                            trk_dr_license = '$license', trk_rc = '$rc', trk_insurance = '$insurance', trk_road_tax = '$road_tax',
-                            trk_rto = '$rto' where trk_id = '$truck_id'";
-                $d_run = mysqli_query($link, $d_sql);
 
-                if($d_run)
+                //dl
+                $doc1 = "select * from truck_docs where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 2";
+                $r_doc1 = mysqli_query($link, $doc1);
+                $dl = mysqli_fetch_array($r_doc1, MYSQLI_ASSOC);
+
+                $dl_update = $dl['trk_doc_location'];
+                $dl_update = str_replace($rowe['trk_num'], $truck_num_edit, $dl_update);
+                mysqli_query($link, "update truck_docs set trk_doc_location = '$dl_update' where trk_doc_id = '".$dl['trk_doc_id']."'");
+
+
+                //rc
+                $doc2 = "select * from truck_docs where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 3";
+                $r_doc2 = mysqli_query($link, $doc2);
+                $rc = mysqli_fetch_array($r_doc2, MYSQLI_ASSOC);
+
+                $rc_update = $rc['trk_doc_location'];
+                $rc_update = str_replace($rowe['trk_num'], $truck_num_edit, $rc_update);
+                mysqli_query($link, "update truck_docs set trk_doc_location = '$rc_update', trk_doc_verified = 0 where trk_doc_id = '".$rc['trk_doc_id']."'");
+
+
+                //insurance
+                $doc3 = "select * from truck_docs where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 4";
+                $r_doc3 = mysqli_query($link, $doc3);
+                $insurance = mysqli_fetch_array($r_doc3, MYSQLI_ASSOC);
+
+                $insurance_update = $insurance['trk_doc_location'];
+                $insurance_update = str_replace($rowe['trk_num'], $truck_num_edit, $insurance_update);
+                mysqli_query($link, "update truck_docs set trk_doc_location = '$insurance_update', trk_doc_verified = 0 where trk_doc_id = '".$insurance['trk_doc_id']."'");
+
+
+                //road tax
+                $doc4 = "select * from truck_docs where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 5";
+                $r_doc4 = mysqli_query($link, $doc4);
+                $road_t = mysqli_fetch_array($r_doc4, MYSQLI_ASSOC);
+
+                $road_t_update = $road_t['trk_doc_location'];
+                $road_t_update = str_replace($rowe['trk_num'], $truck_num_edit, $road_t_update);
+                mysqli_query($link, "update truck_docs set trk_doc_location = '$road_t_update', trk_doc_verified = 0 where trk_doc_id = '".$road_t['trk_doc_id']."'");
+
+
+                //rto pass
+                $doc5 = "select * from truck_docs where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 6";
+                $r_doc5 = mysqli_query($link, $doc5);
+                $rto_p = mysqli_fetch_array($r_doc5, MYSQLI_ASSOC);
+
+                $rto_p_update = $rto_p['trk_doc_location'];
+                $rto_p_update = str_replace($rowe['trk_num'], $truck_num_edit, $rto_p_update);
+                mysqli_query($link, "update truck_docs set trk_doc_location = '$rto_p_update', trk_doc_verified = 0 where trk_doc_id = '".$rto_p['trk_doc_id']."'");
+
+                $docs_table = "update truck_docs set trk_doc_truck_num = '$truck_num_edit' where trk_doc_truck_num = '".$rowe['trk_num']."'";
+                $run_docs_table = mysqli_query($link, $docs_table);
+
+                if($run_docs_table)
                 {
-                    $old_dirname1 = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];
-                    $new_dirname = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$truck_num_edit;
+                    $d_sql = "update trucks set trk_cat = '$truck_cat_edit', trk_cat_type = '$truck_cat_type_edit', trk_num = '$truck_num_edit', 
+                            trk_dr_name = '$truck_driver_name_edit', trk_dr_phone_code = '$truck_driver_phone_code_edit', 
+                            trk_dr_phone = '$truck_driver_phone_edit', trk_verified = 0 where trk_id = '$truck_id'";
+                    $d_run = mysqli_query($link, $d_sql);
 
-                    if(rename("$old_dirname1", "$new_dirname"))
+                    if($d_run)
                     {
-                        $responseData = ['success' => '1', 'message' => 'Truck Details Updated'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
-                        http_response_code(200);
-                    }
-                    else
-                    {
-                        $responseData = ['success' => '0', 'message' => 'Partial update. Rename truck'];
-                        echo json_encode($responseData, JSON_PRETTY_PRINT);
+                        $old_dirname1 = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num'];
+                        $new_dirname = "../../assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$truck_num_edit;
 
-                        http_response_code(400);
+                        if(rename("$old_dirname1", "$new_dirname"))
+                        {
+                            $no_title = "Truck docs";
+                            $no_message = "Truck number changed from '".$rowe['trk_num']."' to '".$truck_num_edit."'";
+                            $no_for_id = $rowe['trk_id'];
+                            $no_date = date('Y-m-d H:i:s');
+                            mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+
+                            $owner = "select * from truck_owners where to_id = '".$rowe['trk_owner']."'";
+                            $g_owner = mysqli_query($link, $owner);
+                            $row_owner = mysqli_fetch_array($g_owner, MYSQLI_ASSOC);
+                            
+                            $device_id = $row_owner['to_token'];
+                            $title = "Document Verification";
+                            $message = "Your truck number changed from '".$rowe['trk_num']."' to '".$truck_num_edit."'. Update documents for new truck number";
+                            $sent = push_notification_android($device_id, $title, $message);
+                            
+                            $responseData = ['success' => '1', 'message' => 'Truck Details Updated'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+                            http_response_code(200);
+                        }
+                        else
+                        {
+                            $responseData = ['success' => '0', 'message' => 'Partial update. Rename truck'];
+                            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+                            http_response_code(400);
+                        }
                     }
                 }
                 else
@@ -393,9 +492,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
         $file_tmp1 = $_FILES['trk_rc_edit']['tmp_name'];
         $file_type1 = $_FILES['trk_rc_edit']['type'];
         
-        if($file_size1 >= 200000)
+        if($file_size1 >= 300000)
         {
-            $responseData = ['success' => '0', 'message' => 'RC file size must be less than 200 kb'];
+            $responseData = ['success' => '0', 'message' => 'RC file size must be less than 300 kb'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
@@ -416,7 +515,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
 
             $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 3";
+            mysqli_query($link, "update trucks set trk_verified = 0 where trk_id = '".$rowe['trk_id']."'");
+
+            $d_sql = "update truck_docs set trk_doc_location = '$des', trk_doc_verified = 0 where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 3";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
@@ -425,7 +526,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                 $no_message = "Truck ID ".$_POST['trk_id']." updated RC details";
                 $no_for_id = $_POST['trk_id'];
                 $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck RC Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -453,9 +554,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
         $file_tmp1 = $_FILES['trk_insurance_edit']['tmp_name'];
         $file_type1 = $_FILES['trk_insurance_edit']['type'];
         
-        if($file_size1 >= 200000)
+        if($file_size1 >= 300000)
         {
-            $responseData = ['success' => '0', 'message' => 'Insurance file size must be less than 200 kb'];
+            $responseData = ['success' => '0', 'message' => 'Insurance file size must be less than 300 kb'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
@@ -476,7 +577,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
 
             $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 4";
+            mysqli_query($link, "update trucks set trk_verified = 0 where trk_id = '".$rowe['trk_id']."'");
+
+            $d_sql = "update truck_docs set trk_doc_location = '$des', trk_doc_verified = 0 where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 4";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
@@ -485,7 +588,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                 $no_message = "Truck ID ".$_POST['trk_id']." updated Insurance details";
                 $no_for_id = $_POST['trk_id'];
                 $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck Insurance Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -513,9 +616,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
         $file_tmp1 = $_FILES['trk_road_tax_edit']['tmp_name'];
         $file_type1 = $_FILES['trk_road_tax_edit']['type'];
         
-        if($file_size1 >= 200000)
+        if($file_size1 >= 300000)
         {
-            $responseData = ['success' => '0', 'message' => 'Road Tax file size must be less than 200 kb'];
+            $responseData = ['success' => '0', 'message' => 'Road Tax file size must be less than 300 kb'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
@@ -536,7 +639,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
 
             $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 5";
+            mysqli_query($link, "update trucks set trk_verified = 0 where trk_id = '".$rowe['trk_id']."'");
+
+            $d_sql = "update truck_docs set trk_doc_location = '$des', trk_doc_verified = 0 where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 5";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
@@ -545,7 +650,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                 $no_message = "Truck ID ".$_POST['trk_id']." updated Road tax details";
                 $no_for_id = $_POST['trk_id'];
                 $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck Road Tax Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -573,9 +678,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
         $file_tmp1 = $_FILES['trk_rto_edit']['tmp_name'];
         $file_type1 = $_FILES['trk_rto_edit']['type'];
         
-        if($file_size1 >= 200000)
+        if($file_size1 >= 300000)
         {
-            $responseData = ['success' => '0', 'message' => 'RTO file size must be less than 200 kb'];
+            $responseData = ['success' => '0', 'message' => 'RTO file size must be less than 300 kb'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
 
             http_response_code(400);
@@ -596,7 +701,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
 
             $des = "assets/documents/truck_owners/truck_owner_id_".$rowe['trk_owner']."/".$rowe['trk_num']."/".$new_trk_dr_license;
 
-            $d_sql = "update truck_docs set trk_doc_location = '$des' where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 6";
+            mysqli_query($link, "update trucks set trk_verified = 0 where trk_id = '".$rowe['trk_id']."'");
+
+            $d_sql = "update truck_docs set trk_doc_location = '$des', trk_doc_verified = 0 where trk_doc_truck_num = '".$rowe['trk_num']."' and trk_doc_sr_num = 6";
             $d_run = mysqli_query($link, $d_sql);
 
             if($d_run)
@@ -605,7 +712,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                 $no_message = "Truck ID ".$_POST['trk_id']." updated RTO passing details";
                 $no_for_id = $_POST['trk_id'];
                 $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                 $responseData = ['success' => '1', 'message' => 'Truck RTO Updated'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -632,7 +739,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $no_message = "Truck ID ".$_POST['trk_id']." status updated";
             $no_for_id = $_POST['trk_id'];
             $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+            mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Truck status updated'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -670,7 +777,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $no_message = "Truck removed by Truck Onwer ID ".$owner;
             $no_for_id = $owner;
             $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+            mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
             $responseData = ['success' => '1', 'message' => 'Truck removed'];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
