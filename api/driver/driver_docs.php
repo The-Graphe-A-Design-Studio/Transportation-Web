@@ -15,9 +15,9 @@
             $file_type1 = $_FILES['trk_dr_license']['type'];
             
             
-            if($file_size1 >= 200000)
+            if($file_size1 >= 300000)
             {
-                $responseData = ['success' => '0', 'message' => 'License file size must be less than 200 kb'];
+                $responseData = ['success' => '0', 'message' => 'License file size must be less than 300 kb'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);
@@ -91,9 +91,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $file_type1 = $_FILES['trk_dr_selfie']['type'];
             
             
-            if($file_size1 >= 200000)
+            if($file_size1 >= 300000)
             {
-                $responseData = ['success' => '0', 'message' => 'Selfie file size must be less than 200 kb'];
+                $responseData = ['success' => '0', 'message' => 'Selfie file size must be less than 300 kb'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);

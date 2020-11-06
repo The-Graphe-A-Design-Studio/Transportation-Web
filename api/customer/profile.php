@@ -23,9 +23,9 @@
             $file_tmp1 = $_FILES['cu_pan_card']['tmp_name'];
             $file_type1 = $_FILES['cu_pan_card']['type'];
             
-            if($file_size1 >= 200000)
+            if($file_size1 >= 300000)
             {
-                $responseData = ['success' => '0', 'message' => 'PAN card file size must be less than 200 kb'];
+                $responseData = ['success' => '0', 'message' => 'PAN card file size must be less than 300 kb'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);
@@ -60,7 +60,7 @@
                     $no_message = "Shipper ID ".$rowe['cu_id']." uploaded PAN Card";
                     $no_for_id = $rowe['cu_id'];
                     $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                    mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'PAN card uploaded'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -96,9 +96,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $file_tmp1 = $_FILES['cu_address_front']['tmp_name'];
             $file_type1 = $_FILES['cu_address_front']['type'];
             
-            if($file_size1 >= 200000)
+            if($file_size1 >= 300000)
             {
-                $responseData = ['success' => '0', 'message' => 'Address file size must be less than 200 kb'];
+                $responseData = ['success' => '0', 'message' => 'Address file size must be less than 300 kb'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);
@@ -137,9 +137,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                     $file_tmp1 = $_FILES['cu_address_back']['tmp_name'];
                     $file_type1 = $_FILES['cu_address_back']['type'];
                     
-                    if($file_size1 >= 200000)
+                    if($file_size1 >= 300000)
                     {
-                        $responseData = ['success' => '0', 'message' => 'Address file size must be less than 200 kb'];
+                        $responseData = ['success' => '0', 'message' => 'Address file size must be less than 300 kb'];
                         echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                         http_response_code(400);
@@ -219,9 +219,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $file_tmp1 = $_FILES['cu_selfie']['tmp_name'];
             $file_type1 = $_FILES['cu_selfie']['type'];
             
-            if($file_size1 >= 200000)
+            if($file_size1 >= 300000)
             {
-                $responseData = ['success' => '0', 'message' => 'Selfie file size must be less than 200 kb'];
+                $responseData = ['success' => '0', 'message' => 'Selfie file size must be less than 300 kb'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);
@@ -292,9 +292,9 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
             $file_tmp1 = $_FILES['cu_office_address']['tmp_name'];
             $file_type1 = $_FILES['cu_office_address']['type'];
             
-            if($file_size1 >= 200000)
+            if($file_size1 >= 300000)
             {
-                $responseData = ['success' => '0', 'message' => 'Office address file size must be less than 200 kb'];
+                $responseData = ['success' => '0', 'message' => 'Office address file size must be less than 300 kb'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);

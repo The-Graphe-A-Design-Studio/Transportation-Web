@@ -23,9 +23,9 @@
             $file_tmp1 = $_FILES['to_pan_card']['tmp_name'];
             $file_type1 = $_FILES['to_pan_card']['type'];
             
-            if($file_size1 >= 200000)
+            if($file_size1 >= 300000)
             {
-                $responseData = ['success' => '0', 'message' => 'PAN card file size must be less than 200 kb'];
+                $responseData = ['success' => '0', 'message' => 'PAN card file size must be less than 300 kb'];
                 echo json_encode($responseData, JSON_PRETTY_PRINT);
 
                 http_response_code(400);
