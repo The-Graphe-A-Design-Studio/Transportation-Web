@@ -14,7 +14,7 @@
 
         http_response_code(200);
     }
-    if(isset($_POST['delivery_truck_id']))
+    elseif(isset($_POST['delivery_truck_id']))
     {
         $sql = "select * from delivery_trucks where del_trk_id = '".$_POST['delivery_truck_id']."'";
         $run = mysqli_query($link, $sql);
