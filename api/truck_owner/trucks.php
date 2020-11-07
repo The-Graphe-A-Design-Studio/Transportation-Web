@@ -10,45 +10,56 @@
     {
         $sql = "select * from trucks where trk_owner = '".$_POST['truck_owner_id']."'";
         $result = mysqli_query($link, $sql) or die("Error in Selecting " . mysqli_error($link));
+        $count = mysqli_num_rows($result);
 
-        //create an array
-        $emparray = array();
-        while($row = mysqli_fetch_assoc($result))
+        if($count == 0)
         {
-            $owner = "select * from truck_owners where to_id = '".$row['trk_owner']."'";
-            $g_owner = mysqli_query($link, $owner);
-            $row_owner = mysqli_fetch_array($g_owner, MYSQLI_ASSOC);
+            $responseData = ['success' => '0', 'message' => 'No trucks found'];
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
 
-            $cat = "select * from truck_cat where trk_cat_id = '".$row['trk_cat']."'";
-            $g_cat = mysqli_query($link, $cat);
-            $row_cat = mysqli_fetch_array($g_cat, MYSQLI_ASSOC);
-
-            $type = "select * from truck_cat_type where ty_id = '".$row['trk_cat_type']."'";
-            $g_type = mysqli_query($link, $type);
-            $row_type = mysqli_fetch_array($g_type, MYSQLI_ASSOC);
-
-            $responseData[] = ["trk_id" => $row['trk_id'],
-                            "trk_owner" => $row['trk_owner'],
-                            "trk_cat" => $row_cat['trk_cat_name'],
-                            "trk_cat_type" => $row_type['ty_name'],
-                            "trk_num" => $row['trk_num'],
-                            "trk_dr_name" => $row['trk_dr_name'],
-                            "trk_dr_phone_code" => $row['trk_dr_phone_code'],
-                            "trk_dr_phone" => $row['trk_dr_phone'],
-                            "trk_otp" => $row['trk_otp'],
-                            "trk_verified" =>$row['trk_verified'],
-                            "trk_lat" => $row['trk_lat'],
-                            "trk_lng" => $row['trk_lng'],
-                            "trk_active" => $row['trk_active'],
-                            "trk_on_trip" => $row['trk_on_trip'],
-                            "trk_dr_token" => $row['trk_dr_token'],
-                            "trk_on" => $row['trk_on']
-                            ];
+            http_response_code(400);
         }
-        
-        echo json_encode($responseData, JSON_PRETTY_PRINT);
+        else
+        {
+            //create an array
+            $emparray = array();
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $owner = "select * from truck_owners where to_id = '".$row['trk_owner']."'";
+                $g_owner = mysqli_query($link, $owner);
+                $row_owner = mysqli_fetch_array($g_owner, MYSQLI_ASSOC);
 
-        http_response_code(200);
+                $cat = "select * from truck_cat where trk_cat_id = '".$row['trk_cat']."'";
+                $g_cat = mysqli_query($link, $cat);
+                $row_cat = mysqli_fetch_array($g_cat, MYSQLI_ASSOC);
+
+                $type = "select * from truck_cat_type where ty_id = '".$row['trk_cat_type']."'";
+                $g_type = mysqli_query($link, $type);
+                $row_type = mysqli_fetch_array($g_type, MYSQLI_ASSOC);
+
+                $responseData[] = ["trk_id" => $row['trk_id'],
+                                "trk_owner" => $row['trk_owner'],
+                                "trk_cat" => $row_cat['trk_cat_name'],
+                                "trk_cat_type" => $row_type['ty_name'],
+                                "trk_num" => $row['trk_num'],
+                                "trk_dr_name" => $row['trk_dr_name'],
+                                "trk_dr_phone_code" => $row['trk_dr_phone_code'],
+                                "trk_dr_phone" => $row['trk_dr_phone'],
+                                "trk_otp" => $row['trk_otp'],
+                                "trk_verified" =>$row['trk_verified'],
+                                "trk_lat" => $row['trk_lat'],
+                                "trk_lng" => $row['trk_lng'],
+                                "trk_active" => $row['trk_active'],
+                                "trk_on_trip" => $row['trk_on_trip'],
+                                "trk_dr_token" => $row['trk_dr_token'],
+                                "trk_on" => $row['trk_on']
+                                ];
+            }
+            
+            echo json_encode($responseData, JSON_PRETTY_PRINT);
+
+            http_response_code(200);
+        }       
         
         mysqli_close($link);
     }
