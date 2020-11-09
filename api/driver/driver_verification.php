@@ -55,6 +55,7 @@
                             'truck insurance' => $insurance['trk_doc_location'], 
                             'truck road tax' => $road_t['trk_doc_location'], 
                             'truck rto passing' => $rto_p['trk_doc_location'], 
+                            'truck on trip' => $otp_row['trk_on_trip'],
                             'firebase token' => $otp_row['trk_dr_token']];
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
