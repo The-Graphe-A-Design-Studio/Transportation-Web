@@ -6,7 +6,7 @@
 
     if(isset($_POST['owner_id']))
     {
-        $sql = "select * from bidding where bid_user_type = 1 and bid_user_id = '".$_POST['owner_id']."'";
+        $sql = "select * from bidding where bid_user_type = 1 and bid_user_id = '".$_POST['owner_id']."' order by bid_id desc";
         $run = mysqli_query($link, $sql);
         while($row = mysqli_fetch_array($run, MYSQLI_ASSOC))
         {

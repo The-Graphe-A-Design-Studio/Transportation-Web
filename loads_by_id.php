@@ -121,6 +121,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-4">
                                                 <?php
+                                                    $admin_expected = '';
                                                     if($row['or_shipper_on'] == 3 && $row['or_status'] == 1 || $row['or_status'] == 2)
                                                     {
                                                         if($row['or_admin_expected_price'] == 0)

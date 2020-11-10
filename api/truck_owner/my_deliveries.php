@@ -6,7 +6,7 @@
 
     if(isset($_POST['owner_id']))
     {
-        $sql = "select * from deliveries where to_id = '".$_POST['owner_id']."' and del_status <> 2";
+        $sql = "select * from deliveries where to_id = '".$_POST['owner_id']."' and del_status <> 2 order by del_id desc";
         $run = mysqli_query($link, $sql);
 
         $number = mysqli_num_rows($run);
@@ -171,20 +171,21 @@
 
                         if($row_del_t['otp_verified'] == 1)
                         {
-                            $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
+                            $del_trucks = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
                                         'driver phone' => $row_t_info['trk_dr_phone'], 'latitude' => $row_del_t['lat'], 'longitude' => $row_del_t['lng'], 'status' => $row_del_t['status']];
                         }
                         else
                         {
-                            $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
+                            $del_trucks = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
                                         'driver phone' => $row_t_info['trk_dr_phone'], 'latitude' => $row_del_t['lat'], 'longitude' => $row_del_t['lng'], 'otp' => $row_del_t['otp']];
                         }
                     }
 
-                    $delivery_trucks = ['status' => '1', 'trucks' => $del_trucks];
+                    $delivery_trucks[] = ['status' => '1', 'trucks' => $del_trucks];
                 }
 
-                $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'total price' => "$total_price", 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
+                $responseData[] = ['delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 
+                                    'total price' => "$total_price", 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
             }
             echo json_encode($responseData, JSON_PRETTY_PRINT);
             http_response_code(200);
@@ -232,7 +233,7 @@
         $no_message = "Truck assinged by Truck owner ID ".$row['to_id']." for Load ID ".$row['or_id'];
         $no_for_id = $row['or_id'];
         $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+        mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
         $responseData = ['success' => '1', 'message' => 'Trucks added'];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -240,7 +241,8 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
     }
     elseif(isset($_POST['truck_owner_id']) && isset($_POST['del_id']))
     {
-        $sql = "select deliveries.*, delivery_trucks.* from deliveries, delivery_trucks where deliveries.to_id = '".$_POST['truck_owner_id']."' and deliveries.del_id = delivery_trucks.del_id";
+        $sql = "select deliveries.*, delivery_trucks.* from deliveries, delivery_trucks where deliveries.to_id = '".$_POST['truck_owner_id']."' and deliveries.del_id = '".$_POST['del_id']."' 
+                and delivery_trucks.del_id = '".$_POST['del_id']."'";
         $get = mysqli_query($link, $sql);
         while($row = mysqli_fetch_array($get, MYSQLI_ASSOC))
         {
