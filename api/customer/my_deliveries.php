@@ -23,7 +23,7 @@
                 $result1 = mysqli_query($link, $sql1) or die("Error in Selecting " . mysqli_error($link));
                 $row1 = mysqli_fetch_assoc($result1);
 
-                $sources = $destinations = $truck_types = array();
+                $del_trucks = $sources = $destinations = $truck_types = array();
                         
                 $source = "select * from cust_order_source where or_uni_code = '".$row1['or_uni_code']."' order by so_id";
                 $get_source = mysqli_query($link, $source);
@@ -161,17 +161,17 @@
 
                         if($row_del_t['otp_verified'] == 1)
                         {
-                            $del_trucks = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
+                            $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
                                         'driver phone' => $row_t_info['trk_dr_phone'], 'latitude' => $row_del_t['lat'], 'longitude' => $row_del_t['lng'], 'status' => $row_del_t['status']];
                         }
                         else
                         {
-                            $del_trucks = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
+                            $del_trucks[] = ['del truck id' => $row_del_t['del_trk_id'], 'truck number' => $row_t_info['trk_num'], 'driver name' => $row_t_info['trk_dr_name'], 
                                         'driver phone' => $row_t_info['trk_dr_phone'], 'latitude' => $row_del_t['lat'], 'longitude' => $row_del_t['lng'], 'otp' => $row_del_t['otp']];
                         }                    
                     }
 
-                    $delivery_trucks[] = ['status' => '1', 'trucks' => $del_trucks];
+                    $delivery_trucks = ['status' => '1', 'trucks' => $del_trucks];
                 }
 
                 $responseData[] = ['success' => $row['del_status'], 'delivery id' => $row['del_id'], 'price unit' => $unit, 'quantity' => $row['quantity'], 'deal price' => $row['deal_price'], 'total amount' => "$total_price", 'payment mode' => $mode, 'delivery trucks' => $delivery_trucks, 'delivery status' => $row['del_status'], 'load details' => $load_details];
