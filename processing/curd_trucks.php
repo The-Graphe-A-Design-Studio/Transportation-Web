@@ -136,9 +136,11 @@
                         <td data-column="Driver Name">'.$row['trk_dr_name'].'</td>
                         <td data-column="Driver Phone">+'.$row['trk_dr_phone_code'].' '.$row['trk_dr_phone'].' ('.$row['trk_otp'].')</td>
                         <td data-column="Driver License">
-                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license"><i class="fas fa-eye" style="font-size: 1em !important;"></i></button>
+                            <button class="btn btn-icon btn-primary" data-toggle="modal" title="View" data-target="#license'.$row['trk_id'].'">
+                                <i class="fas fa-eye" style="font-size: 1em !important;"></i>
+                            </button>
                             <!-- Modal -->
-                            <div class="mymodal modal fade" id="license" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
+                            <div class="mymodal modal fade" id="license'.$row['trk_id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.78) none repeat scroll 0% 0%">
                                 <div class="modal-dialog" role="document" style="pointer-events: unset; max-width: unset;">
                                     <section>
                                         <div class="panzoom" style="text-align: center">
