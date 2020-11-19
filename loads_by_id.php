@@ -34,6 +34,8 @@
     <title>Loads | Truck Wale</title>
     <link rel="stylesheet" href="assets/css/table.css">
     <?php echo $head_tags; ?>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0&callback=initialize&libraries=&v=weekly" defer></script>
     <style>
         .dates{font-size: 1em; font-weight: 600;}
         .profile-widget{margin-top: 0 !important;}
@@ -453,7 +455,7 @@
                                         </div>
                                         <div class="tab-pane fade" id="delivery_trucks" role="tabpanel" aria-labelledby="delivery-trucks">
                                             <div class="row">
-                                                <div class="col-12">
+                                                <div class="col-7">
                                                     <?php
                                                         $del = "select * from deliveries where or_id = '".$row['or_id']."' and cu_id = '".$row_cust['cu_id']."'";
                                                         $run_del = mysqli_query($link, $del);
@@ -466,14 +468,14 @@
                                                     <div class="section-body">
                                                         <h2 class="section-title" style="margin: 10px 0 10px 0 !important">Truck Provider/Owner ID <?php echo $row_owner['to_id']; ?></h2>
                                                         <div class="row">
-                                                            <div class="col-12 col-md-3">
+                                                            <div class="col-12 col-md-6">
                                                                 <div class="card">
                                                                     <div class="card-body" style="padding: 1vh !important;">
                                                                         <b>Name : </b><a href="truck_owner_profile?owner_id=<?php echo $row_owner['to_id']; ?>"><?php echo $row_owner['to_name']; ?></a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-12 col-md-3">
+                                                            <div class="col-12 col-md-6">
                                                                 <div class="card">
                                                                     <div class="card-body" style="padding: 1vh !important;">
                                                                         <b>Phone : </b>+<?php echo $row_owner['to_phone_code'].' '.$row_owner['to_phone']; ?>
@@ -487,8 +489,8 @@
                                                         <div class="card">
                                                             <div class="card-body">
                                                                 <div class="row">
-                                                                    <div class="col-12 col-sm-12 col-md-2">
-                                                                        <ul class="nav nav-pills flex-column" id="myTab4" role="tablist">
+                                                                    <div class="col-12 col-sm-2 col-md-2">
+                                                                        <ul class="nav overlay my_ul nav-pills flex-column" id="myTab4" role="tablist">
                                                                             <?php
                                                                                 $del_trucks = "select * from delivery_trucks where del_id = '".$row_del['del_id']."'";
                                                                                 $run_del_trucks = mysqli_query($link, $del_trucks);
@@ -534,8 +536,12 @@
                                                                                 }
                                                                                 else
                                                                                 {
+                                                                                    $rohits = array();
+
                                                                                     while($row_del_trucks = mysqli_fetch_array($run_del_trucks, MYSQLI_ASSOC))
                                                                                     {
+                                                                                        $rohits[] = $row_del_trucks;
+
                                                                                         $trucks = "select * from trucks where trk_id = '".$row_del_trucks['trk_id']."'";
                                                                                         $run_trucks = mysqli_query($link, $trucks);
                                                                                         $row_trucks = mysqli_fetch_array($run_trucks, MYSQLI_ASSOC);
@@ -544,9 +550,9 @@
                                                                                         $r_doc = mysqli_query($link, $doc);
                                                                                         $selfie = mysqli_fetch_array($r_doc, MYSQLI_ASSOC);
                                                                             ?>
-                                                                            <div class="tab-pane fade" id="truck_id<?php echo $row_trucks['trk_id']; ?>" role="tabpanel" aria-labelledby="truck_num<?php echo $row_trucks['trk_num']; ?>">
+                                                                            <div class="tab-pane my_tab fade" id="truck_id<?php echo $row_trucks['trk_id']; ?>" role="tabpanel" aria-labelledby="truck_num<?php echo $row_trucks['trk_num']; ?>">
                                                                                 <div class="row">
-                                                                                    <div class="col-12 col-md-3">
+                                                                                    <div class="col-12 col-md-6">
                                                                                         <div class="card card-info">
                                                                                             <div class="card-header">
                                                                                                 <h4>Truck's Info</h4>
@@ -564,34 +570,7 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-12 col-md-6" style="padding: 0.1% !important">
-                                                                                        <div class="card">
-                                                                                            <div id="map<?php echo $row_trucks['trk_id']; ?>" style="height: 340px; width: 100%"></div>
-                                                                                            <script>
-                                                                                                // Initialize and add the map
-                                                                                                function initMap() {
-                                                                                                    const map = new google.maps.Map(document.getElementById("map<?php echo $row_trucks['trk_id']; ?>"), {
-                                                                                                    zoom: 14,
-                                                                                                    center: {
-                                                                                                        lat: <?php echo $row_del_trucks['lat']; ?>,
-                                                                                                        lng: <?php echo $row_del_trucks['lng']; ?>,
-                                                                                                    },
-                                                                                                    });
-                                                                                                    const image =
-                                                                                                    "assets/img/delivery_truck.png";
-                                                                                                    const beachMarker = new google.maps.Marker({
-                                                                                                    position: {
-                                                                                                        lat: <?php echo $row_del_trucks['lat']; ?>,
-                                                                                                        lng: <?php echo $row_del_trucks['lng']; ?>,
-                                                                                                    },
-                                                                                                    map,
-                                                                                                    icon: image,
-                                                                                                    });
-                                                                                                }
-                                                                                            </script>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-12 col-md-3">
+                                                                                    <div class="col-12 col-md-6">
                                                                                         <div class="card card-info">
                                                                                             <div class="card-header">
                                                                                                 <h4>Delivery Status</h4>
@@ -664,6 +643,150 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <div class="col-5">
+                                                    
+                                                <script>
+
+                                                    var markers = [
+                                                        <?php
+                                                            foreach($rohits as $rohit)
+                                                            {
+                                                                $s = "select * from trucks where trk_id = '".$rohit['trk_id']."'";
+                                                                $r = mysqli_query($link, $s);
+                                                                $ro = mysqli_fetch_array($r, MYSQLI_ASSOC);
+
+                                                                echo "['".$ro['trk_num']."', ".$rohit['lat'].", ".$rohit['lng']."],";
+
+                                                                $lat = $rohit['lat']; $lng = $rohit['lng'];
+                                                            }
+                                                        ?>
+                                                    ];
+
+                                                    function initialize() {
+
+                                                    map = new google.maps.Map(document.getElementById('map'), {
+                                                        zoom: 17,
+                                                        styles:
+                                                            [
+                                                            { elementType: "geometry", stylers: [{ color: "#d0d0d0" }] },
+                                                            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+                                                            {
+                                                                elementType: "labels.text.fill",
+                                                                stylers: [{ color: "#fff" }],
+                                                            },
+                                                            {
+                                                                featureType: "administrative.locality",
+                                                                elementType: "labels.text.fill",
+                                                                stylers: [{ color: "#ffb300" }],
+                                                            },
+                                                            {
+                                                                featureType: "road",
+                                                                elementType: "geometry",
+                                                                stylers: [{ color: "#9fa2a7" }],
+                                                            },
+                                                            {
+                                                                featureType: "road",
+                                                                elementType: "geometry.stroke",
+                                                                stylers: [{ color: "#212a37" }],
+                                                            },
+                                                            {
+                                                                featureType: "road",
+                                                                elementType: "labels.text.fill",
+                                                                stylers: [{ color: "#9ca5b3" }],
+                                                            },
+                                                            {
+                                                                featureType: "road.highway",
+                                                                elementType: "geometry",
+                                                                stylers: [{ color: "#ff6000" }],
+                                                            },
+                                                            {
+                                                                featureType: "road.highway",
+                                                                elementType: "geometry.stroke",
+                                                                stylers: [{ color: "#1f2835" }],
+                                                            },
+                                                            {
+                                                                featureType: "road.highway",
+                                                                elementType: "labels.text.fill",
+                                                                stylers: [{ color: "#f3d19c" }],
+                                                            },
+                                                            {
+                                                                featureType: "transit",
+                                                                elementType: "geometry",
+                                                                stylers: [{ color: "#2f3948" }],
+                                                            },
+                                                            {
+                                                                featureType: "transit.station",
+                                                                elementType: "labels.text.fill",
+                                                                stylers: [{ color: "#56e715" }],
+                                                            },
+                                                            {
+                                                                featureType: "water",
+                                                                elementType: "geometry",
+                                                                stylers: [{ color: "#39b4e5" }],
+                                                            },
+                                                            {
+                                                                featureType: "water",
+                                                                elementType: "labels.text.fill",
+                                                                stylers: [{ color: "#191d1f" }],
+                                                            },
+                                                            {
+                                                                featureType: "water",
+                                                                elementType: "labels.text.stroke",
+                                                                stylers: [{ color: "#39b4e5" }],
+                                                            },
+                                                            ],
+                                                        });
+
+                                                    var Markers = [];
+                                                    var infowindow = new google.maps.InfoWindow();
+                                                    var iconNormal = 'assets/img/icon.png',
+                                                        iconSelected = 'assets/img/icon_selected.png',
+                                                        bounds = new google.maps.LatLngBounds();
+                                                    function setMarkers(map) {
+                                                        for (var i = 0; i < markers.length; i++) {
+                                                        var marker = markers[i],
+                                                            myLatLng = new google.maps.LatLng(marker[1], marker[2]),
+                                                            eachMarker = new google.maps.Marker({
+                                                            record_id: i,
+                                                            position: myLatLng,
+                                                            map: map,
+                                                            animation: google.maps.Animation.DROP,
+                                                            icon: iconNormal,
+                                                            });
+
+                                                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                                            return function () {
+                                                            infowindow.setContent(markers[i][0]);
+                                                            infowindow.open(map, marker);
+                                                            }
+                                                        })(marker, i));
+                                                        //var selectedMarker;
+                                                        bounds.extend(myLatLng);
+                                                        Markers.push(eachMarker);
+
+                                                        $('.overlay li').on('click', function () {
+                                                            mapItem = $(this).index();
+                                                            changeMarker(mapItem);
+                                                            var thisLat = markers[mapItem][1],
+                                                            thisLon = markers[mapItem][2];
+                                                            map.panTo({ lat: thisLat, lng: thisLon });
+                                                        });
+
+                                                        function changeMarker(record_id) {
+                                                            for (i in Markers) {
+                                                            Markers[i].setIcon(iconNormal);
+                                                            Markers[record_id].setIcon(iconSelected);
+                                                            }
+                                                        }
+                                                        }
+                                                    }
+                                                    map.fitBounds(bounds);
+                                                    setMarkers(map);
+
+                                                    }
+                                                </script>
+                                                    <div id="map"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -830,7 +953,6 @@
     </div>
 
     <?php echo $script_tags; ?>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDH8iEIWiHLIRcSsJWm8Fh1qbgwt0JRAc0&callback=initMap"></script>
     <script type="text/javascript">
         $(".expected").submit(function(e)
 		{
@@ -983,6 +1105,10 @@
             }, 5000);
             
             $(".loads").addClass("active");
+
+            $('.my_ul li:nth-child(1) a').addClass("active");
+
+            $('.my_tab:nth-child(1)').addClass("active show");
         });
     </script>
 </body>
