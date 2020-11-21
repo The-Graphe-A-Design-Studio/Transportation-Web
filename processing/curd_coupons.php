@@ -52,6 +52,7 @@
                         <th>Expire Date</th>
                         <th>Status</th>
                         <th>Delete</th>
+                        <th>User Count</th>
                     </thead>
                     <tbody>
             ";
@@ -104,6 +105,10 @@
                     ';
                 }
 
+                $cu = "select * from coupon_users where cu_coupon_id = '".$row['co_id']."'";
+                $cu_r = mysqli_query($link, $cu);
+                $count_cu = mysqli_num_rows($cu_r);
+
                 $output .=
                 '
                     <tr>
@@ -120,6 +125,7 @@
                                 <button type="submit" class="btn btn-icon btn-danger btn-md"><i class="fas fa-trash"></i></button>
                             </form>
                         </td>
+                        <td data-column="User Count">'.$count_cu.'</td>
                     </tr>
                 ';
 
