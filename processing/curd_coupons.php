@@ -107,7 +107,7 @@
                     ';
                 }
 
-                $cu = "select * from coupon_users where cu_coupon_id = '".$row['co_id']."'";
+                $cu = "select * from coupon_users where cu_coupon = '".$row['co_name']."'";
                 $cu_r = mysqli_query($link, $cu);
                 $count_cu = mysqli_num_rows($cu_r);
 
