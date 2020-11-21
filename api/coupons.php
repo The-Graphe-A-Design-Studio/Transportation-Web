@@ -34,7 +34,7 @@
 
                 if($count == 0)
                 {
-                    $responseData = ['success' => '1', 'message' => 'Coupon valid'];
+                    $responseData = ['success' => '1', 'message' => 'Coupon valid', 'discount' => $row_coup['co_discount']."%"];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
                 }
                 else
