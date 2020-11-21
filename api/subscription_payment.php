@@ -5,7 +5,7 @@
 
     date_default_timezone_set("Asia/Kolkata");
 
-    if(isset($_POST['user_type']) && isset($_POST['user_id']) && isset($_POST['amount']) && isset($_POST['duration']) && isset($_POST['razorpay_order_id']) && 
+    if(isset($_POST['user_type']) && isset($_POST['user_id']) && isset($_POST['amount']) && isset($_POST['duration']) && isset($_POST['coupon']) && isset($_POST['razorpay_order_id']) && 
         isset($_POST['razorpay_payment_id']) && isset($_POST['razorpay_signature']))
     {
         $date = date("Y-m-d H:i:s");
@@ -33,7 +33,7 @@
                     $no_message = "New subscription by Shipper ID ".$_POST['user_id'];
                     $no_for_id = $_POST['razorpay_order_id'];
                     $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                    mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -58,7 +58,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                     $no_message = "New subscription by Truck Owner ID ".$_POST['user_id'];
                     $no_for_id = $_POST['razorpay_order_id'];
                     $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                    mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
@@ -88,7 +88,7 @@ mysqli_query($link, "insert into notifications (no_date_time, no_title, no_messa
                     $no_message = "Truck add on by Truck Owner ID ".$_POST['user_id'];
                     $no_for_id = $_POST['razorpay_order_id'];
                     $no_date = date('Y-m-d H:i:s');
-mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
+                    mysqli_query($link, "insert into notifications (no_date_time, no_title, no_message, id) values('$no_date', '$no_title', '$no_message', '$no_for_id')");
 
                     $responseData = ['success' => '1', 'message' => 'Thank you for subscribing'];
                     echo json_encode($responseData, JSON_PRETTY_PRINT);
