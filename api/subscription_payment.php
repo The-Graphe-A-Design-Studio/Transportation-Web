@@ -8,19 +8,28 @@
     if(isset($_POST['user_type']) && isset($_POST['user_id']) && isset($_POST['amount']) && isset($_POST['duration']) && isset($_POST['coupon']) && isset($_POST['razorpay_order_id']) && 
         isset($_POST['razorpay_payment_id']) && isset($_POST['razorpay_signature']))
     {
+
+        $coupon = $_POST['coupon'];
+
         $date = date("Y-m-d H:i:s");
 
         $days = $_POST['duration'] * 30.4167;
 
         $expire_date = date('Y-m-d H:i:s', strtotime($date. ' +'.round($days).' days'));
 
-        $sql = "insert into subscribed_users (subs_user_type, subs_user_id, subs_amount, subs_duration, razorpay_order_id, razorpay_payment_id, razorpay_signature, 
-                payment_datetime, expire_datetime) values ('".$_POST['user_type']."', '".$_POST['user_id']."', '".$_POST['amount']."', '".$_POST['duration']."', 
+        $sql = "insert into subscribed_users (subs_user_type, subs_user_id, coupon, subs_amount, subs_duration, razorpay_order_id, razorpay_payment_id, razorpay_signature, 
+                payment_datetime, expire_datetime) values ('".$_POST['user_type']."', '".$_POST['user_id']."', '".$coupon."', '".$_POST['amount']."', '".$_POST['duration']."', 
                 '".$_POST['razorpay_order_id']."', '".$_POST['razorpay_payment_id']."', '".$_POST['razorpay_signature']."', '$date', '$expire_date')";
         $run = mysqli_query($link, $sql);
 
         if($run)
         {
+            if(!empty($coupon))
+            {
+                $c = "insert into coupon_users (cu_coupon, cu_user_type, cu_user_id, cu_date) values ('$coupon', '".$_POST['user_type']."', '".$_POST['user_id']."', '".$date."')";
+                mysqli_query($link, $c);
+            }
+
             if($_POST['user_type'] == 1)
             {
                 $shipper = "update customers set cu_account_on = 2, cu_subscription_start_date = '$date', cu_subscription_order_id = '".$_POST['razorpay_order_id']."', 
