@@ -18,6 +18,11 @@
             $query .= " and co_status = '0'";
         }
 
+        if(isset($_POST["nothing"]))
+        {
+            $query .= "";
+        }
+
         if(isset($_POST["branch"]))
         {
             if(!empty($_POST["branch"]))
@@ -26,10 +31,7 @@
             }
         }
 
-        if(isset($_POST["nothing"]))
-        {
-            $query .= "";
-        }
+        $query .= " order by co_id desc";
 
         $statement = $connect->prepare($query);
         $statement->execute();

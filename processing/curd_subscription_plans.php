@@ -31,6 +31,8 @@
             $query .= "";
         }
 
+        $query .= " order by plan_id desc";
+
         $statement = $connect->prepare($query);
         $statement->execute();
         $result = $statement->fetchAll();
