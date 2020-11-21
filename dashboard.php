@@ -1,6 +1,30 @@
 <?php
     include('session.php');
     include('layout.php');
+
+    $s = "select * from customers";
+    $sr = mysqli_query($link, $s);
+    $shipper = mysqli_num_rows($sr);
+
+    $o = "select * from truck_owners";
+    $or = mysqli_query($link, $o);
+    $owner = mysqli_num_rows($or);
+
+    $t = "select * from trucks";
+    $tr = mysqli_query($link, $t);
+    $trucks = mysqli_num_rows($tr);
+
+    $total = $shipper + $owner + $trucks;
+
+    $shipper = (($shipper/$total)*100);
+    $owner = (($owner/$total)*100);
+    $trucks = (($trucks/$total)*100);
+
+    $dataPoints = array( 
+        array("label"=>"Shippers", "symbol" => "Shippers","y"=>$shipper),
+        array("label"=>"Truck Owners", "symbol" => "Truck Owners","y"=>$owner),
+        array("label"=>"Drivers", "symbol" => "Drivers","y"=>$trucks),
+    )
 ?>
 
 <!DOCTYPE html>
@@ -296,6 +320,13 @@
                                 <div id="chartContainer" style="height: 370px; width: 100%;"></div>                                
                             </div>                            
                         </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card card-statistic-2">
+                            <div class="card-stats" style="margin-bottom: 0 !important">
+                                <div id="userchartContainer" style="height: 370px; width: 100%;"></div>                                
+                            </div>                            
+                        </div>
                     </div>                    
                 </div>
             </section>
@@ -351,6 +382,9 @@
                 years()
             });
 
+
+            //Load Chart
+
             filter_chart_data();
         
             function filter_chart_data()
@@ -398,6 +432,28 @@
                 filter_chart_data();
                 chart_years()
             });
+
+
+            //User Chart
+
+            var chart = new CanvasJS.Chart("userchartContainer", {
+                theme: "light2",
+                animationEnabled: true,
+                title: {
+                    text: "Users"
+                },
+                data: [{
+                    type: "doughnut",
+                    indexLabel: "{symbol} - {y}",
+                    yValueFormatString: "#,##0.0\"%\"",
+                    showInLegend: true,
+                    legendText: "{label} : {y}",
+                    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                }]
+            });
+            chart.render();
+
+            //Notifications
 
             filter_notification_data();
 
