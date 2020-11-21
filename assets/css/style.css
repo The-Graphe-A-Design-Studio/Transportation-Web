@@ -2983,7 +2983,6 @@ body.sidebar-mini .hide-sidebar-mini {
 }
 body.sidebar-mini .main-sidebar {
 	width: 65px;
-	overflow: initial !important;
 	box-shadow: none;
 }
 body.sidebar-mini .main-sidebar:after {
@@ -3036,7 +3035,7 @@ body.sidebar-mini .main-sidebar .sidebar-menu > li.menu-header {
 }
 body.sidebar-mini .main-sidebar .sidebar-menu > li > a {
 	border-radius: 3px;
-	height: 45px;
+	height: 40px;
 	padding: 0;
 	justify-content: center;
 }
@@ -3351,7 +3350,7 @@ body.layout-3 .main-footer {
 	position: relative;
 	display: flex;
 	align-items: center;
-	height: 50px;
+	height: 40px;
 	padding: 0 20px;
 	width: 100%;
 	letter-spacing: .3px;

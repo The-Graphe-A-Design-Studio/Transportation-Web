@@ -78,6 +78,7 @@
                     <li class="truck_cat"><a class="nav-link" href="truck_cat" data-toggle="tooltip" data-placement="right" title="" data-original-title="Truck Categories"><i class="fas fa-list"></i><span>Truck Categories</span></a></li>
                     <li class="material_types"><a class="nav-link" href="material_types" data-toggle="tooltip" data-placement="right" title="" data-original-title="Material Types"><i class="fas fa-truck-loading"></i><span>Material Types</span></a></li>
                     <li class="plans"><a class="nav-link" href="subscription_plans" data-toggle="tooltip" data-placement="right" title="" data-original-title="Subscription Plans"><i class="fas fa-list"></i><span>Subscription Plans</span></a></li>
+                    <li class="coupons"><a class="nav-link" href="coupons" data-toggle="tooltip" data-placement="right" title="" data-original-title="Coupons"><i class="fas fa-ticket-alt"></i><span>Coupons</span></a></li>
                     <li class="subscribed"><a class="nav-link" href="subscribed_users" data-toggle="tooltip" data-placement="right" title="" data-original-title="Subscribed Users"><i class="fas fa-hands-helping"></i><span>Subscribed Users</span></a></li>
                 </ul>
             </aside>
