@@ -21,9 +21,9 @@
     $trucks = (($trucks/$total)*100);
 
     $dataPoints = array( 
-        array("label"=>"Shippers", "symbol" => "Shippers","y"=>$shipper),
-        array("label"=>"Truck Owners", "symbol" => "Truck Owners","y"=>$owner),
-        array("label"=>"Drivers", "symbol" => "Drivers","y"=>$trucks),
+        array("label"=>"Shippers", "symbol" => "Shippers","y"=>$shipper, "color"=>"#000000"),
+        array("label"=>"Truck Owners", "symbol" => "Truck Owners","y"=>$owner, "color"=>"#2b2b2b"),
+        array("label"=>"Drivers", "symbol" => "Drivers","y"=>$trucks, "color"=>"#5b5b5b"),
     )
 ?>
 
@@ -316,18 +316,43 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="filter_chart_data"></div>
-                                <div id="chartContainer" style="height: 370px; width: 100%;"></div>                                
+                                <div id="chartContainer" style="height: 390px; width: 100%;"></div>                                
                             </div>                            
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="card card-statistic-2">
                             <div class="card-stats" style="margin-bottom: 0 !important">
-                                <div id="userchartContainer" style="height: 370px; width: 100%;"></div>                                
+                                <div id="userchartContainer" style="height: 413px; width: 100%;"></div>                                
                             </div>                            
                         </div>
-                    </div>                    
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card card-statistic-2">
+                            <div class="card-stats" style="margin-bottom: 0 !important">
+                                <div class="card-stats-title">
+                                    Subscription Statistics -
+                                    <div class="dropdown d-inline">
+                                        <select class="common_selectorss profitchart_year" style="border: none; text-align: center;">
+                                            <option value="">Year</option>                                            
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <option value="2026">2026</option>
+                                            <option value="2027">2027</option>
+                                            <option value="2028">2028</option>
+                                            <option value="2029">2029</option>
+                                            <option value="2030">2030</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="profitchartContainer" style="height: 370px; width: 100%;"></div>                                
+                            </div>                            
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -382,11 +407,10 @@
                 years()
             });
 
-
             //Load Chart
 
             filter_chart_data();
-        
+
             function filter_chart_data()
             {
                 var chart_action = 'fetch_chart_data';
@@ -400,9 +424,6 @@
                         var chart = new CanvasJS.Chart("chartContainer", {
                             animationEnabled: true,
                             theme: "light2",
-                            title:{
-                                text: ""
-                            },
                             axisX: {
                                 valueFormatString: "MMM"
                             },
@@ -433,8 +454,7 @@
                 chart_years()
             });
 
-
-            //User Chart
+            //User Chart            
 
             var chart = new CanvasJS.Chart("userchartContainer", {
                 theme: "light2",
@@ -444,6 +464,7 @@
                 },
                 data: [{
                     type: "doughnut",
+                    color: "",
                     indexLabel: "{symbol} - {y}",
                     yValueFormatString: "#,##0.0\"%\"",
                     showInLegend: true,
@@ -452,6 +473,53 @@
                 }]
             });
             chart.render();
+
+            //Profit Chart
+
+            filter_profitchart_data();
+        
+            function filter_profitchart_data()
+            {
+                var profitchart_action = 'fetch_profitchart_data';
+                var profitchart_year = profitchart_years();
+                $.ajax({
+                    url:"processing/curd_dashboard.php",
+                    method:"POST",
+                    dataType : "json",
+                    data:{profitchart_action:profitchart_action, profitchart_year:profitchart_year},
+                    success:function(result){
+                        var chart = new CanvasJS.Chart("profitchartContainer", {
+                            theme: "light2",
+                            axisX: {
+                                valueFormatString: "MMM"
+                            },
+                            data: 
+                            [
+                                {
+                                    type: "area",
+                                    color: "#6599FF",
+                                    showInLegend: "true",
+                                    xValueType: "dateTime",
+                                    xValueFormatString: "MMMM",
+                                    yValueFormatString: "₹#,##0.##",
+                                    dataPoints: result['shipper']
+                                }
+                            ]
+                        });
+                        chart.render();
+                    }
+                });
+            }
+
+            function profitchart_years()
+            {
+                return $('.profitchart_year').find('option:selected').val();
+            }
+            
+            $('.common_selectorss').on('keyup change',function(){
+                filter_profitchart_data();
+                profitchart_years()
+            });
 
             //Notifications
 
