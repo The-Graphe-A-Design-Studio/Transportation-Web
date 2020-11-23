@@ -52,6 +52,7 @@
                         <th>User Type</th>
                         <th>Order ID</th>
                         <th>Payment ID</th>
+                        <th>Coupon</th>
                         <th>Amount</th>
                         <th>Duration / Quantity</th>
                         <th>Start On</th>
@@ -110,6 +111,14 @@
                     $d = "-";
                 }
 
+                if(!empty($row['coupon']))
+                {
+                    $coupon = $row['coupon'];
+                }
+                else
+                {
+                    $coupon = "-";
+                }
                 
                 
                 $output .=
@@ -120,6 +129,7 @@
                         <td data-column="User Type">'.$user.'</td>
                         <td data-column="Order ID">'.$row['razorpay_order_id'].'</td>
                         <td data-column="Payment ID">'.$row['razorpay_payment_id'].'</td>
+                        <td data-column="Coupon">'.$coupon.'</td>
                         <td data-column="Amount">Rs. '.round($row['subs_amount'], 2).'</td>
                         <td data-column="Duration / Quantity">'.$row['subs_duration'].' '.$quan.'</td>
                         <td data-column="Start On">'.$start.'</td>
