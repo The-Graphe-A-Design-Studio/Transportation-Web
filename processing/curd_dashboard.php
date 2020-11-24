@@ -173,7 +173,6 @@
                 $output[] = ["y" => 0, "label" => date("M", mktime(0, 0, 0, $i, 10))];
             }
         }
-        
         echo json_encode($output);
 
     }
@@ -199,9 +198,9 @@
         $result = $statement->fetchAll();
         $total_row = $statement->rowCount();
 
-        $shipperss = $ownerss = $truckss = array();
+        $shippersss = $ownersss = $trucksss = array();
         $i = 1;
-        
+
         if($total_row > 0)
         {
             for($i; $i <= 12; $i++)
@@ -219,6 +218,7 @@
                     $total_shipper = 0;
                 }
 
+
                 $owner = "select sum(subs_amount) from subscribed_users where subs_user_type = 2 and DATE_FORMAT(payment_datetime, '%m') = ".$i.$year;
                 $run_owner = mysqli_query($link, $owner);
                 $row_owner = mysqli_fetch_array($run_owner, MYSQLI_ASSOC);
@@ -231,6 +231,8 @@
                 {
                     $total_owner = 0;
                 }
+
+
 
                 $truck = "select sum(subs_amount) from subscribed_users where subs_user_type = 3 and DATE_FORMAT(payment_datetime, '%m') = ".$i.$year;
                 $run_truck = mysqli_query($link, $truck);
@@ -245,22 +247,25 @@
                     $total_truck = 0;
                 }
 
-                $shipperss[] = ['y' => $total_shipper, 'label' => date("M", mktime(0, 0, 0, $i, 10))];
-                $ownerss[] = ['y' => $total_owner, 'label' => date("M", mktime(0, 0, 0, $i, 10))];
-                $truckss[] = ['y' => $total_truck, 'label' => date("M", mktime(0, 0, 0, $i, 10))];
+                $shippersss[] = ['y' => $total_shipper, 'label' => date("M", mktime(0, 0, 0, $i, 10))];
+                $ownersss[] = ['y' => $total_owner, 'label' => date("M", mktime(0, 0, 0, $i, 10))];
+                $trucksss[] = ['y' => $total_truck, 'label' => date("M", mktime(0, 0, 0, $i, 10))];
             }
 
-            $output = ["shipper" => $shipperss, "owner" => $ownerss, "truck" => $truckss];
+            $output = ["shipper" => $shippersss, "owner" => $ownersss, "truck" => $trucksss];
         }
         else
         {
             for($i; $i <= 12; $i++)
             {
-                $output[] = ["y" => 0, "label" => date("M", mktime(0, 0, 0, $i, 10))];
+                $shippersss[] = ["y" => 0, "label" => date("M", mktime(0, 0, 0, $i, 10))];
+                $ownersss[] = ["y" => 0, "label" => date("M", mktime(0, 0, 0, $i, 10))];
+                $trucksss[] = ["y" => 0, "label" => date("M", mktime(0, 0, 0, $i, 10))];
             }
+            $output = ["shipper" => $shippersss, "owner" => $ownersss, "truck" => $trucksss];
         }
 
-        echo json_encode($output);
+        echo json_encode($output, JSON_NUMERIC_CHECK);
     }
     elseif(isset($_POST["notify_action"]))
     {

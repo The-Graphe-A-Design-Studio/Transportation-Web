@@ -333,7 +333,7 @@
                                 <div class="card-stats-title">
                                     Subscription Statistics -
                                     <div class="dropdown d-inline">
-                                        <select class="common_selectorss profitchart_year" style="border: none; text-align: center;">
+                                        <select class="common_selectorssp profitchart_year" style="border: none; text-align: center;">
                                             <option value="">Year</option>                                            
                                             <option value="2020">2020</option>
                                             <option value="2021">2021</option>
@@ -435,7 +435,6 @@
                                 color: "#000",
                                 xValueType: "dateTime",
 		                        xValueFormatString: "MMMM",
-                                yValueFormatString: "#,##0",
                                 dataPoints: result
                             }]
                         });                        
@@ -489,24 +488,58 @@
                     data:{profitchart_action:profitchart_action, profitchart_year:profitchart_year},
                     success:function(result){
                         var chart = new CanvasJS.Chart("profitchartContainer", {
-                            theme: "light2",
-                            axisX: {
-                                valueFormatString: "MMM"
+                            axisY: {
+                                prefix: "₹ ",
+                                title: "Profit per Month",
                             },
-                            data: 
-                            [
+                            legend:{
+                                cursor: "pointer",
+                                itemclick: toggleDataSeries
+                            },
+                            toolTip: {
+                                shared: true
+                            },
+                            animationEnabled: true,
+                            theme: "light2",
+                            data: [
                                 {
-                                    type: "area",
-                                    color: "#6599FF",
+                                    type: "spline",
+                                    name: "Shippers",
                                     showInLegend: "true",
-                                    xValueType: "dateTime",
-                                    xValueFormatString: "MMMM",
-                                    yValueFormatString: "₹#,##0.##",
+                                    color: "#FF0000",
+                                    yValueFormatString: "₹ #,##0.##",
                                     dataPoints: result['shipper']
+                                },
+                                {
+                                    type: "spline",
+                                    name: "Owners",
+                                    showInLegend: "true",
+                                    color: "#009900",
+                                    yValueFormatString: "₹ #,##0.##",
+                                    dataPoints: result['owner']
+                                },
+                                {
+                                    type: "spline",
+                                    name: "Trucks",
+                                    showInLegend: "true",
+                                    color: "#0000ff",
+                                    yValueFormatString: "₹ #,##0.##",
+                                    dataPoints: result['truck']
                                 }
                             ]
                         });
+                        
                         chart.render();
+
+                        function toggleDataSeries(e){
+                            if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                                e.dataSeries.visible = false;
+                            }
+                            else{
+                                e.dataSeries.visible = true;
+                            }
+                            chart.render();
+                        }
                     }
                 });
             }
@@ -516,7 +549,7 @@
                 return $('.profitchart_year').find('option:selected').val();
             }
             
-            $('.common_selectorss').on('keyup change',function(){
+            $('.common_selectorssp').on('keyup change',function(){
                 filter_profitchart_data();
                 profitchart_years()
             });
@@ -580,6 +613,6 @@
             $('.total_trucks').html(total_trucks);
         });
     </script>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 </body>
 </html>
