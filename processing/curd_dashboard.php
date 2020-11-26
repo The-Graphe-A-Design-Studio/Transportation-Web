@@ -154,10 +154,11 @@
 
         $output = array();
         $i = 1;
-        
+        $uptoMonth = date('n');
+
         if($total_row > 0)
         {
-            for($i; $i <= 12; $i++)
+            for($i; $i <= $uptoMonth; $i++)
             {
                 $complete = "select * from cust_order where DATE_FORMAT(or_active_on, '%m') = ".$i.$year;
                 $run_complete = mysqli_query($link, $complete);
@@ -200,10 +201,11 @@
 
         $shippersss = $ownersss = $trucksss = array();
         $i = 1;
+        $uptoMonth = date('n');
 
         if($total_row > 0)
         {
-            for($i; $i <= 12; $i++)
+            for($i; $i <= $uptoMonth; $i++)
             {
                 $shipper = "select sum(subs_amount) from subscribed_users where subs_user_type = 1 and DATE_FORMAT(payment_datetime, '%m') = ".$i.$year;
                 $run_shipper = mysqli_query($link, $shipper);

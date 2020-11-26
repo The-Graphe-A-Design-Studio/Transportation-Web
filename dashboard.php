@@ -506,7 +506,7 @@
                                     type: "spline",
                                     name: "Shippers",
                                     showInLegend: "true",
-                                    color: "#FF0000",
+                                    color: "#20b320",
                                     yValueFormatString: "₹ #,##0.##",
                                     dataPoints: result['shipper']
                                 },
@@ -514,7 +514,7 @@
                                     type: "spline",
                                     name: "Owners",
                                     showInLegend: "true",
-                                    color: "#009900",
+                                    color: "#a1491c",
                                     yValueFormatString: "₹ #,##0.##",
                                     dataPoints: result['owner']
                                 },
@@ -522,7 +522,7 @@
                                     type: "spline",
                                     name: "Trucks",
                                     showInLegend: "true",
-                                    color: "#0000ff",
+                                    color: "#000000",
                                     yValueFormatString: "₹ #,##0.##",
                                     dataPoints: result['truck']
                                 }
