@@ -9,7 +9,7 @@
         $run = mysqli_query($link, $sql);
         $row = mysqli_fetch_array($run, MYSQLI_ASSOC);
 
-        $responseData = ['truck id' => $row['trk_id'], 'lat' => $row['trk_lat'], 'lng' => $row['trk_lng']];
+        $responseData = ['truck id' => $row['trk_id'], 'lat' => $row['trk_lat'], 'lng' => $row['trk_lng'], 'last updated at' => date_format(date_create($row['trk_last_updated_at']), 'd M, Y h:i A')];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
 
         http_response_code(200);
@@ -20,7 +20,7 @@
         $run = mysqli_query($link, $sql);
         $row = mysqli_fetch_array($run, MYSQLI_ASSOC);
 
-        $responseData = ['delivery truck id' => $row['del_trk_id'], 'lat' => $row['lat'], 'lng' => $row['lng']];
+        $responseData = ['delivery truck id' => $row['del_trk_id'], 'lat' => $row['lat'], 'lng' => $row['lng'], 'last updated at' => date_format(date_create($row['last_updated_at']), 'd M, Y h:i A')];
         echo json_encode($responseData, JSON_PRETTY_PRINT);
 
         http_response_code(200);
