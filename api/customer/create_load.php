@@ -1,5 +1,6 @@
 <?php
     include('../../dbcon.php');
+    include('../../FCM/notification.php');
 
     header('Content-Type: application/json');
 
@@ -157,6 +158,52 @@
                     
                     if($set)
                     {
+                        $noti_dr = $noti_ow = array();
+
+                        foreach($all_types as $t)
+                        {
+                            $lqs = "select * from trucks where trk_cat_type = '$t'";
+                            $nur = mysqli_query($link, $lqs);
+                            while( $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC))
+                            {
+                                if(!in_array($wor['trk_id'], $noti_dr))
+                                {
+                                    array_push($noti_dr, $wor['trk_id']);
+                                }
+
+                                if(!in_array($wor['trk_owner'], $noti_ow))
+                                {
+                                    array_push($noti_ow, $wor['trk_owner']);
+                                }
+                            }
+                        }
+
+                        foreach($noti_dr as $ndr)
+                        {
+                            $lqs = "select trk_dr_token from trucks where trk_id = '$ndr'";
+                            $nur = mysqli_query($link, $lqs);
+                            $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC);
+
+                            $device_id = $wor['trk_dr_token'];
+                            $title = "New Load!";
+                            $message = "Checkout this new load you may be interested in.";
+
+                            $sent = push_notification_android($device_id, $title, $message);
+                        }
+
+                        foreach($noti_ow as $now)
+                        {
+                            $lqs = "select to_token from truck_owners where to_id = '$now'";
+                            $nur = mysqli_query($link, $lqs);
+                            $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC);
+
+                            $device_id = $wor['to_token'];
+                            $title = "New Load!";
+                            $message = "Checkout this new load you may be interested in.";
+
+                            $sent = push_notification_android($device_id, $title, $message);
+                        }                        
+
                         $no_title = "New Load";
                         $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
                         $no_for_id = $code;
@@ -284,6 +331,53 @@
                     
                     if($set)
                     {
+
+                        $noti_dr = $noti_ow = array();
+
+                        foreach($all_types as $t)
+                        {
+                            $lqs = "select * from trucks where trk_cat_type = '$t'";
+                            $nur = mysqli_query($link, $lqs);
+                            while( $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC))
+                            {
+                                if(!in_array($wor['trk_id'], $noti_dr))
+                                {
+                                    array_push($noti_dr, $wor['trk_id']);
+                                }
+
+                                if(!in_array($wor['trk_owner'], $noti_ow))
+                                {
+                                    array_push($noti_ow, $wor['trk_owner']);
+                                }
+                            }
+                        }
+
+                        foreach($noti_dr as $ndr)
+                        {
+                            $lqs = "select trk_dr_token from trucks where trk_id = '$ndr'";
+                            $nur = mysqli_query($link, $lqs);
+                            $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC);
+
+                            $device_id = $wor['trk_dr_token'];
+                            $title = "New Load!";
+                            $message = "Checkout this new load you may be interested in.";
+
+                            $sent = push_notification_android($device_id, $title, $message);
+                        }
+
+                        foreach($noti_ow as $now)
+                        {
+                            $lqs = "select to_token from truck_owners where to_id = '$now'";
+                            $nur = mysqli_query($link, $lqs);
+                            $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC);
+
+                            $device_id = $wor['to_token'];
+                            $title = "New Load!";
+                            $message = "Checkout this new load you may be interested in.";
+
+                            $sent = push_notification_android($device_id, $title, $message);
+                        }
+
                         $no_title = "New Load";
                         $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
                         $no_for_id = $code;
@@ -400,6 +494,53 @@
                 
                 if($set)
                 {
+
+                    $noti_dr = $noti_ow = array();
+
+                        foreach($all_types as $t)
+                        {
+                            $lqs = "select * from trucks where trk_cat_type = '$t'";
+                            $nur = mysqli_query($link, $lqs);
+                            while( $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC))
+                            {
+                                if(!in_array($wor['trk_id'], $noti_dr))
+                                {
+                                    array_push($noti_dr, $wor['trk_id']);
+                                }
+
+                                if(!in_array($wor['trk_owner'], $noti_ow))
+                                {
+                                    array_push($noti_ow, $wor['trk_owner']);
+                                }
+                            }
+                        }
+
+                        foreach($noti_dr as $ndr)
+                        {
+                            $lqs = "select trk_dr_token from trucks where trk_id = '$ndr'";
+                            $nur = mysqli_query($link, $lqs);
+                            $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC);
+
+                            $device_id = $wor['trk_dr_token'];
+                            $title = "New Load!";
+                            $message = "Checkout this new load you may be interested in.";
+
+                            $sent = push_notification_android($device_id, $title, $message);
+                        }
+
+                        foreach($noti_ow as $now)
+                        {
+                            $lqs = "select to_token from truck_owners where to_id = '$now'";
+                            $nur = mysqli_query($link, $lqs);
+                            $wor = mysqli_fetch_array($nur, MYSQLI_ASSOC);
+
+                            $device_id = $wor['to_token'];
+                            $title = "New Load!";
+                            $message = "Checkout this new load you may be interested in.";
+
+                            $sent = push_notification_android($device_id, $title, $message);
+                        }
+
                     $no_title = "New Load";
                     $no_message = "New load post created by Shipper ID ".$_POST['cust_id'];
                     $no_for_id = $code;
