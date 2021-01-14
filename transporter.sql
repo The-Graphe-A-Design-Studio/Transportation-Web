@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2020 at 02:03 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.2
+-- Generation Time: Jan 14, 2021 at 09:03 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -355,19 +354,20 @@ CREATE TABLE `delivery_trucks` (
   `otp_verified` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 - No; 1 - Yes',
   `status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1 - Started; 2 - Reached',
   `trip_start` datetime NOT NULL,
-  `trip_end` datetime NOT NULL
+  `trip_end` datetime NOT NULL,
+  `last_updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `delivery_trucks`
 --
 
-INSERT INTO `delivery_trucks` (`del_trk_id`, `del_id`, `trk_id`, `lat`, `lng`, `otp`, `otp_verified`, `status`, `trip_start`, `trip_end`) VALUES
-(1, 1, 1, '22.4705670000000000', '69.3456230000000000', 927490, 1, 2, '2020-11-11 12:36:06', '2020-11-11 12:49:20'),
-(2, 1, 3, '22.4705670000000000', '69.0756230000000000', 171438, 1, 1, '2020-11-18 13:57:34', '0000-00-00 00:00:00'),
-(3, 2, 5, '22.4705670000000000', '69.0756230000000000', 300399, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(4, 3, 6, '22.7740641000000000', '86.1595660000000000', 502915, 1, 2, '2020-11-11 01:38:46', '2020-11-11 01:42:47'),
-(5, 4, 4, '22.4233558000000000', '69.0266046000000000', 766241, 1, 1, '2020-11-17 19:29:46', '0000-00-00 00:00:00');
+INSERT INTO `delivery_trucks` (`del_trk_id`, `del_id`, `trk_id`, `lat`, `lng`, `otp`, `otp_verified`, `status`, `trip_start`, `trip_end`, `last_updated_at`) VALUES
+(1, 1, 1, '22.4705670000000000', '69.3456230000000000', 927490, 1, 2, '2020-11-11 12:36:06', '2020-11-11 12:49:20', '0000-00-00 00:00:00'),
+(2, 1, 3, '22.4705670000000000', '69.0756230000000000', 171438, 1, 1, '2020-11-18 13:57:34', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 2, 5, '22.4705670000000000', '69.0756230000000000', 300399, 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 3, 6, '22.7740641000000000', '86.1595660000000000', 502915, 1, 2, '2020-11-11 01:38:46', '2020-11-11 01:42:47', '0000-00-00 00:00:00'),
+(5, 4, 4, '22.4233558000000000', '69.0266046000000000', 766241, 1, 1, '2020-11-17 19:29:46', '2021-01-11 12:11:38', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -466,13 +466,6 @@ CREATE TABLE `notifications` (
   `no_default` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `notifications`
---
-
-INSERT INTO `notifications` (`no_id`, `no_date_time`, `no_title`, `no_message`, `id`, `no_status`, `no_default`) VALUES
-(45, '2020-11-21 16:29:13', 'Shipper Subscription', 'New subscription by Shipper ID 1', 'order_hgvu', 0, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -557,20 +550,21 @@ CREATE TABLE `trucks` (
   `trk_active` tinyint(4) NOT NULL DEFAULT 0,
   `trk_on_trip` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0 : Not on Trip; 1 : Set for Trip; 2 - On Trip',
   `trk_dr_token` varchar(255) NOT NULL,
-  `trk_on` tinyint(4) NOT NULL DEFAULT 1
+  `trk_on` tinyint(4) NOT NULL DEFAULT 1,
+  `trk_last_updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `trucks`
 --
 
-INSERT INTO `trucks` (`trk_id`, `trk_owner`, `trk_cat`, `trk_cat_type`, `trk_num`, `trk_dr_name`, `trk_dr_phone_code`, `trk_dr_phone`, `trk_otp`, `trk_verified`, `trk_lat`, `trk_lng`, `trk_active`, `trk_on_trip`, `trk_dr_token`, `trk_on`) VALUES
-(1, 1, 3, 38, 'WB324', 'Rohit Singh', 91, 9647513679, 635263, 1, '22.6273964000000000', '88.4036331000000000', 1, 0, 'cHYxhQD7REGDo4DERIOb2c:APA91bFxgLtCehW4s4boEDniIOY0lIvzZdBrjR2FYoBZnpjrO_KYsW8c0vLU5JrjO-WIsS78JLphHV3sCtYrpF4FU2QFsgwdtDWdciaHdzQMbcs4SOAf2s687MIX3ch3DAfrUq94Vnoj', 1),
-(2, 3, 3, 64, 'GJ10TV5657', 'Hitesh', 91, 8866165988, 356828, 1, '22.4705337000000000', '69.0721991000000000', 1, 0, 'evTOHmERR52HyZnoL1AXaP:APA91bFDPmwfYlceK-ut2ZYudTwltZ-juzgjHFkzIeabgEodeYOCI9wAntIPauXmBZa8PN6ObyGXLy6dWj8VLvdmqs93URSsDPtv6gEfZpoZLW9jlgBf3cE1q-Rfs3lUM5b8r05ZvEyU', 1),
-(3, 1, 4, 59, 'TE465TFG', 'Raj', 91, 7908024082, 579603, 1, '22.6273983000000000', '88.4036462000000000', 1, 2, 'eAaQrO0iSGO-nmZxrtATST:APA91bG2Dd0x6Chs54wy84vLHzoP-rruV8Dz1gF8KMH89n7g4yaLRvIwTkLi83fHo_jYzhmlgYknXDUisyytbPPJyGPdC9EG41bK69u3MQn3-H3VOaVXDZnZUU6zsfJX0sN31CQ_ep-b', 1),
-(4, 6, 3, 64, 'GJ 10 TV 6566', 'Anwar', 91, 8488888822, 792026, 1, '22.4233558000000000', '69.0266046000000000', 1, 2, 'c3jrBpUqTtm5sIyDQ42H_e:APA91bHxpNFVYejtwmtF1JYHtfMqsVrv1e_B5XWdL_AxbTmw5jWiSaicJM_AcD0ebgjBsdrVkwoSQirBCXZGLfllfN7h_gZ2heITOYBrDTQWrQ_QP8DccglOEQT420uvtg4BvR2w3Xyq', 1),
-(5, 1, 2, 22, 'Geyy6367e', 'teyey', 91, 9647513678, 0, 1, '22.4705670000000000', '69.0756230000000000', 1, 1, '', 1),
-(6, 4, 4, 57, 'Jh04as1234', 'Happy Diwali', 91, 7033584816, 477231, 1, '22.7740920000000000', '86.1592917000000000', 1, 0, 'eiPjZKqF5OxwrDW-PfwooS:APA91bFHIRY71XRE2vUIYY4okRnTDKg12EeoiHeWhYtT5R7DzEZBTFFw9ZNgo6zY0mJY-fCzeXn2QbH02eXeElx910_yNSCLGF2YUV8MPEkOfr7OORBThazpWvn9-774U6AcaM5xiIbc', 1);
+INSERT INTO `trucks` (`trk_id`, `trk_owner`, `trk_cat`, `trk_cat_type`, `trk_num`, `trk_dr_name`, `trk_dr_phone_code`, `trk_dr_phone`, `trk_otp`, `trk_verified`, `trk_lat`, `trk_lng`, `trk_active`, `trk_on_trip`, `trk_dr_token`, `trk_on`, `trk_last_updated_at`) VALUES
+(1, 1, 3, 38, 'WB324', 'Rohit Singh', 91, 9647513679, 635263, 1, '22.6273964000000000', '88.4036331000000000', 1, 0, 'cHYxhQD7REGDo4DERIOb2c:APA91bFxgLtCehW4s4boEDniIOY0lIvzZdBrjR2FYoBZnpjrO_KYsW8c0vLU5JrjO-WIsS78JLphHV3sCtYrpF4FU2QFsgwdtDWdciaHdzQMbcs4SOAf2s687MIX3ch3DAfrUq94Vnoj', 1, '0000-00-00 00:00:00'),
+(2, 3, 3, 64, 'GJ10TV5657', 'Hitesh', 91, 8866165988, 356828, 1, '22.4705337000000000', '69.0721991000000000', 1, 0, 'evTOHmERR52HyZnoL1AXaP:APA91bFDPmwfYlceK-ut2ZYudTwltZ-juzgjHFkzIeabgEodeYOCI9wAntIPauXmBZa8PN6ObyGXLy6dWj8VLvdmqs93URSsDPtv6gEfZpoZLW9jlgBf3cE1q-Rfs3lUM5b8r05ZvEyU', 1, '0000-00-00 00:00:00'),
+(3, 1, 4, 59, 'TE465TFG', 'Raj', 91, 7908024082, 579603, 1, '22.6273983000000000', '88.4036462000000000', 1, 2, 'eAaQrO0iSGO-nmZxrtATST:APA91bG2Dd0x6Chs54wy84vLHzoP-rruV8Dz1gF8KMH89n7g4yaLRvIwTkLi83fHo_jYzhmlgYknXDUisyytbPPJyGPdC9EG41bK69u3MQn3-H3VOaVXDZnZUU6zsfJX0sN31CQ_ep-b', 1, '0000-00-00 00:00:00'),
+(4, 6, 3, 64, 'GJ 10 TV 6566', 'Anwar', 91, 8488888822, 792026, 1, '22.4233558000000000', '69.0266046000000000', 1, 2, 'c3jrBpUqTtm5sIyDQ42H_e:APA91bHxpNFVYejtwmtF1JYHtfMqsVrv1e_B5XWdL_AxbTmw5jWiSaicJM_AcD0ebgjBsdrVkwoSQirBCXZGLfllfN7h_gZ2heITOYBrDTQWrQ_QP8DccglOEQT420uvtg4BvR2w3Xyq', 1, '0000-00-00 00:00:00'),
+(5, 1, 2, 22, 'Geyy6367e', 'teyey', 91, 9647513678, 0, 1, '22.4705670000000000', '69.0756230000000000', 1, 1, '', 1, '0000-00-00 00:00:00'),
+(6, 4, 4, 57, 'Jh04as1234', 'Happy Diwali', 91, 7033584816, 477231, 1, '22.7740920000000000', '86.1592917000000000', 1, 0, 'eiPjZKqF5OxwrDW-PfwooS:APA91bFHIRY71XRE2vUIYY4okRnTDKg12EeoiHeWhYtT5R7DzEZBTFFw9ZNgo6zY0mJY-fCzeXn2QbH02eXeElx910_yNSCLGF2YUV8MPEkOfr7OORBThazpWvn9-774U6AcaM5xiIbc', 1, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -752,7 +746,7 @@ INSERT INTO `truck_owners` (`to_id`, `to_phone_code`, `to_phone`, `to_otp`, `to_
 (3, 91, 8488888822, 289624, 'Jay Barai', 32759453231, 'SBIN0000457', 1, 0, '2020-11-07 15:21:05', '2020-11-22 15:21:05', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '2020-11-07 15:15:52', 1, 'edVPakIuQYW0QFln3m4N-D:APA91bEKSiBCkRmDZLof2EgAxF3I5QPt5aQVsQhMPlfes9g7l6lZFPgWwEpnLsIBZisuCsz_ALwIdEM6IUcxPXDVkLz-3tbz6vxSVqAzb9-OjRuK8Wxsl26f5ftEq1UMMUmKzSGrwUEI', 0, 1),
 (4, 91, 7033584816, 694223, 'Nitish Kumar', 1234567890, 'SBIN12345', 1, 2, '2020-11-07 21:57:59', '2020-11-22 21:57:59', '2020-11-11 00:51:40', 'order_FzZxNozdDIC8ZK', '2021-05-13 00:51:40', '2020-11-07 21:54:55', 1, 'dEv2g81HTtqy01SNB73jBu:APA91bGvNHVd1hnHIE2psNLDXZWYzyk7wacLK4tmvwSPKgzNDt572cPlHEnTDO5D7UDR3NMDKC9CEfS4Gf1028Sb4xUAQLaEnd5gYPjjzYMgIukSWKBu_JnmjtNo271hBYg5UIp5m2qQ', 1, 1),
 (5, 91, 9558552786, 907501, '', 0, '0', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '2020-11-08 11:59:55', 1, 'fDzKIGBeQpePkKBZP0oXNC:APA91bEifEU-Rkp1bYwwlatbTDN-OddG_7rYgalijTlKlWDuN7XpDRmpwTF2SysiljXbbdYyMOCGdi6sdDu1rREaul5NbCK_Mzuls8TzVgn5lm-zvAbOaq3FddmADguw_P3VMBYYdSNh', 1, 1),
-(6, 91, 9867435788, 208329, 'Jay Barai', 32759153231, 'SBIN0000457', 1, 1, '2020-11-10 16:22:04', '2020-11-25 16:22:04', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '2020-11-10 16:18:54', 1, 'fIQ5caIIReaPO--CvKGtkY:APA91bFrWRMITiJ0fXZWNF1uaJ-rVeKtvMemRVG-yHi4T9arZcWyFA_l2m6QoZvNwqlPOUql7a-gMevUZTplKTJMfXnxCpYSLjZ-U6WHpQRm7eCdYNibuTcprbwg98fwOqS3-fu4rkY2', 1, 1),
+(6, 91, 9867435788, 208329, 'Jay Barai', 32759153231, 'SBIN0000457', 1, 0, '2020-11-10 16:22:04', '2020-11-25 16:22:04', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '2020-11-10 16:18:54', 1, 'fIQ5caIIReaPO--CvKGtkY:APA91bFrWRMITiJ0fXZWNF1uaJ-rVeKtvMemRVG-yHi4T9arZcWyFA_l2m6QoZvNwqlPOUql7a-gMevUZTplKTJMfXnxCpYSLjZ-U6WHpQRm7eCdYNibuTcprbwg98fwOqS3-fu4rkY2', 1, 1),
 (7, 91, 9879610848, 839703, '', 0, '0', 0, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '2020-11-12 12:45:23', 1, 'e09QLhOkSgGrm8rlLD9ofK:APA91bEpx3YLqFK2mtNBG7SaqFWdxkrhPUkt30d7egiKwl0Dy9INqHNDRUxTnRKTfulDdzEFbGtor9FnJrjU38twkth4x-UvaShmNS0NXWKbZldCyeqt_F6uuoNw3UsfnRTyQxT6s9We', 1, 1);
 
 -- --------------------------------------------------------
