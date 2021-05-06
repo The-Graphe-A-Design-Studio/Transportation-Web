@@ -347,6 +347,7 @@ $hold = '
 </head>
 <body>
     <main>
+        <div style="width: 100%; text-align: center;"><img src="assets/img/truck-logo-sm.png" style="width: 100px; height: 100px; margin-bottom: 50px;" alt=""></div>
     <svg xmlns="http://www.w3.org/2000/svg" width="100" height="70" viewBox="0 0 100 68">
         <g id="large">
         <path fill="none" stroke="#0a0a0a" d="M55.8 38.5l6.2-1.2c0-1.8-.1-3.5-.4-5.3l-6.3-.2c-.5-2-1.2-4-2.1-6l4.8-4c-.9-1.6-1.9-3-3-4.4l-5.6 3c-1.3-1.6-3-3-4.7-4.1l2-6A30 30 0 0 0 42 8l-3.3 5.4c-2-.7-4.2-1-6.2-1.2L31.3 6c-1.8 0-3.5.1-5.3.4l-.2 6.3c-2 .5-4 1.2-6 2.1l-4-4.8c-1.6.9-3 1.9-4.4 3l3 5.6c-1.6 1.3-3 3-4.1 4.7l-6-2A32.5 32.5 0 0 0 2 26l5.4 3.3c-.7 2-1 4.2-1.2 6.2L0 36.7c0 1.8.1 3.5.4 5.3l6.3.2c.5 2 1.2 4 2.1 6l-4.8 4c.9 1.6 1.9 3 3 4.4l5.6-3c1.4 1.6 3 3 4.7 4.1l-2 6A30.5 30.5 0 0 0 20 66l3.4-5.4c2 .7 4 1 6.1 1.2l1.2 6.2c1.8 0 3.5-.1 5.3-.4l.2-6.3c2-.5 4-1.2 6-2.1l4 4.8c1.6-.9 3-1.9 4.4-3l-3-5.6c1.6-1.3 3-3 4.1-4.7l6 2A32 32 0 0 0 60 48l-5.4-3.3c.7-2 1-4.2 1.2-6.2zm-13.5 4a12.5 12.5 0 1 1-22.6-11 12.5 12.5 0 0 1 22.6 11z"/>
@@ -361,6 +362,8 @@ $hold = '
     <h2>Sorry for the inconvenience.</h2>
     <h3>To contact us in the meantime please email:</h3>
     <a href="mailto:contact@truckwale.co.in">contact@truckwale.co.in</a>
+    <br><br>
+    <a style="font-size: 14px; margin-top: 50px;" href="privacy-policy">Privacy Policy</a>
     </main>
 </body>
 </html>
