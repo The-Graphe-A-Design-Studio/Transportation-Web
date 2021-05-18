@@ -76,7 +76,6 @@
 
 
 
-          <p>Privacy Policy (TruckWale India)</p>
 <p>Your privacy matters to DWARKADHISH INTERNET SERVICES PRIVATE LIMITED (the &ldquo;Company&rdquo;, &ldquo;we&rdquo;, &ldquo;TruckWale&rdquo;, or &ldquo;us&rdquo;).</p>
 <p>&nbsp;</p>
 <p>This Privacy Policy explains how we collect, process, use, share and protect information about you. It also tells you how you can access and update your information and make certain choices about how your information is used.</p>

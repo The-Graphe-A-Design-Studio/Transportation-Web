@@ -363,7 +363,11 @@ $hold = '
     <h3>To contact us in the meantime please email:</h3>
     <a href="mailto:contact@truckwale.co.in">contact@truckwale.co.in</a>
     <br><br>
-    <a style="font-size: 14px; margin-top: 50px;" href="privacy-policy">Privacy Policy</a>
+    <div style="display: flex">
+        <a style="font-size: 14px; margin-top: 50px;" href="terms-conditions">Terms & Conditions</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a style="font-size: 14px; margin-top: 50px;" href="privacy-policy-driver">Privacy Policy</a>
+    </div>
     </main>
 </body>
 </html>
