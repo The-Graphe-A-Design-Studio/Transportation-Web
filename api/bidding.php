@@ -29,7 +29,7 @@
         }
         else
         {
-            $owner = "select * from truck_owners where to_id = '".$_POST['user_type']."' and to_verified = 1";
+            $owner = "select * from truck_owners where to_id = '".$_POST['user_id']."' and to_verified = 1";
             $run_owner = mysqli_query($link, $owner);
             $count_owner = mysqli_num_rows($run_owner);
             if($count_owner == 0)
